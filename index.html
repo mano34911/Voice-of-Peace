@@ -4,8 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#06152d" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
   <title>Voice of Peace</title>
-  <link rel="stylesheet" href="styles.css" />
+
+  <link rel="stylesheet" href="./styles.css?v=20260903-0917" />
 
   <style>
     .globe {
@@ -20,13 +25,13 @@
       border: 4px solid #f2cf64;
       background: radial-gradient(
         circle,
-        rgba(255,255,255,.15) 0%,
-        rgba(19,78,138,.35) 45%,
-        rgba(5,24,53,.9) 100%
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(19, 78, 138, 0.35) 45%,
+        rgba(5, 24, 53, 0.9) 100%
       );
       box-shadow:
-        0 0 14px rgba(242,207,100,.45),
-        0 0 28px rgba(76,170,255,.20);
+        0 0 14px rgba(242, 207, 100, 0.45),
+        0 0 28px rgba(76, 170, 255, 0.20);
     }
 
     .globe img {
@@ -61,15 +66,22 @@
       <div>
         <div class="eyebrow">THIS IS THE</div>
         <h1>VOICE OF PEACE</h1>
-        <p class="byline">by Emmanuel Hileah</p>
+        <p class="byline">by Emmanuel &amp; Camili Hileah</p>
       </div>
-      <div class="live-badge" id="liveBadge" aria-label="Live broadcast status">LIVE</div>
+
+      <div
+        class="live-badge"
+        id="liveBadge"
+        aria-label="Live broadcast status"
+      >
+        CONNECTING
+      </div>
     </header>
 
     <section class="hero">
       <div class="globe">
         <img
-          src="./a7b675c3-20f7-4dd2-9c46-0a555032bddb.jpeg"
+          src="./a7b675c3-20f7-4dd2-9c46-0a555032bddb.jpeg?v=20260903-0917"
           alt="Voice of Peace"
           id="voiceOfPeacePhoto"
           loading="eager"
@@ -79,21 +91,29 @@
       </div>
 
       <div class="hero-copy">
-        <p class="kicker" id="category">WORLD</p>
-        <h2 id="headline">Loading today's broadcast…</h2>
-        <p id="summary">Preparing the latest Voice of Peace story.</p>
+        <p class="kicker" id="category">VOICE OF PEACE</p>
+        <h2 id="headline">Connecting to live news…</h2>
+        <p id="summary">
+          Voice of Peace is checking the latest live news feed.
+        </p>
       </div>
     </section>
 
     <section class="source-panel">
       <span class="label">REPORTING</span>
-      <p id="sourceLine">Based on information from reliable news sources.</p>
+      <p id="sourceLine">Voice of Peace • Connecting to live news</p>
     </section>
 
     <section class="reflection-panel">
       <span class="label">VOICE OF PEACE REFLECTION</span>
-      <blockquote id="verse">“Love your neighbor as yourself.” — Leviticus 19:18</blockquote>
-      <p id="reflection"></p>
+
+      <blockquote id="verse">
+        “Love your neighbor as yourself.” — Leviticus 19:18
+      </blockquote>
+
+      <p id="reflection">
+        Peace begins with the way we speak, listen, and respond to one another.
+      </p>
     </section>
 
     <section class="ticker-wrap">
@@ -109,18 +129,25 @@
       <button id="soundBtn" type="button">Read Aloud</button>
     </footer>
 
-    <div class="progress"><div id="progressBar"></div></div>
+    <div class="progress">
+      <div id="progressBar"></div>
+    </div>
   </main>
 
   <div class="ad-overlay hidden" id="adOverlay">
     <div class="ad-card">
       <div class="ad-label">COMMERCIAL BREAK</div>
       <h3 id="adTitle">Your advertisement here</h3>
-      <p id="adText">10–30 second sponsored messages can appear between stories.</p>
-      <div class="ad-countdown"><span id="adCountdown">10</span>s</div>
+      <p id="adText">
+        10–30 second sponsored messages can appear between stories.
+      </p>
+      <div class="ad-countdown">
+        <span id="adCountdown">10</span>s
+      </div>
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <!-- Version number forces iPhone/GitHub Pages to load the NEW app.js -->
+  <script src="./app.js?v=20260903-0917"></script>
 </body>
 </html>

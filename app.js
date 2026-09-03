@@ -3,17 +3,31 @@ const AD_EVERY = 3;
 const AD_SECONDS = 10;
 const LIVE_REFRESH_MINUTES = 15;
 const LIVE_RETRY_SECONDS = 45;
-const LIVE_TIMEOUT_MS = 10000;
-const JSONP_TIMEOUT_MS = 12000;
+const LIVE_TIMEOUT_MS = 12000;
 const FALLBACK_TIMEOUT_MS = 5000;
 
-const LIVE_NEWS_BASE_URL =
-  'https://api.gdeltproject.org/api/v2/doc/doc';
+const RSS2JSON_BASE_URL =
+  'https://api.rss2json.com/v1/api.json';
 
-const LIVE_QUERIES = [
-  '(peace OR diplomacy OR community)',
-  '("New York" OR community)',
-  '(world OR international)'
+const LIVE_FEEDS = [
+  {
+    name: 'Peace & Diplomacy',
+    category: 'Peace',
+    url:
+      'https://news.google.com/rss/search?q=peace+OR+diplomacy+OR+ceasefire&hl=en-US&gl=US&ceid=US:en'
+  },
+  {
+    name: 'World News',
+    category: 'World News',
+    url:
+      'https://news.google.com/rss/headlines/section/topic/WORLD?hl=en-US&gl=US&ceid=US:en'
+  },
+  {
+    name: 'New York',
+    category: 'New York',
+    url:
+      'https://news.google.com/rss/search?q=%22New+York%22&hl=en-US&gl=US&ceid=US:en'
+  }
 ];
 
 let stories = [];
@@ -30,7 +44,8 @@ let speechBusy = false;
 let usingLiveNews = false;
 let storyCounter = 0;
 
-const el = id => document.getElementById(id);
+const el = id =>
+  document.getElementById(id);
 
 const EMERGENCY_STORY = {
   id: 'emergency-001',
@@ -40,23 +55,31 @@ const EMERGENCY_STORY = {
     'The broadcast is ready. Live news is being checked now. If the live service is temporarily unavailable, Voice of Peace will continue automatically and try again.',
   source_line: 'Voice of Peace',
   reflection: {
-    verse_text: 'Love your neighbor as yourself.',
-    verse_reference: 'Leviticus 19:18',
+    verse_text:
+      'Love your neighbor as yourself.',
+    verse_reference:
+      'Leviticus 19:18',
     message:
       'Peace begins with the way we speak, listen, and treat one another.'
   }
 };
 
-function setText(id, value) {
+function setText(
+  id,
+  value
+) {
   const node = el(id);
 
   if (node) {
-    node.textContent = value || '';
+    node.textContent =
+      value || '';
   }
 }
 
-function setLiveStatus(state, detail = '') {
-
+function setLiveStatus(
+  state,
+  detail = ''
+) {
   const badge =
     el('liveStatus') ||
     el('statusBadge') ||
@@ -68,37 +91,52 @@ function setLiveStatus(state, detail = '') {
     el('reporting');
 
   const normalized =
-    String(state || '').toLowerCase();
+    String(
+      state || ''
+    ).toLowerCase();
 
   if (badge) {
-
     badge.classList.remove(
       'live',
       'connecting',
       'offline'
     );
 
-    if (normalized === 'live') {
-
-      badge.textContent = 'LIVE';
-      badge.classList.add('live');
-
-    } else if (
-      normalized === 'connecting'
+    if (
+      normalized === 'live'
     ) {
+      badge.textContent =
+        'LIVE';
 
-      badge.textContent = 'CONNECTING';
-      badge.classList.add('connecting');
+      badge.classList.add(
+        'live'
+      );
+    } else if (
+      normalized ===
+      'connecting'
+    ) {
+      badge.textContent =
+        'CONNECTING';
 
+      badge.classList.add(
+        'connecting'
+      );
     } else {
+      badge.textContent =
+        'RETRYING';
 
-      badge.textContent = 'RETRYING';
-      badge.classList.add('offline');
+      badge.classList.add(
+        'offline'
+      );
     }
   }
 
-  if (reporting && detail) {
-    reporting.textContent = detail;
+  if (
+    reporting &&
+    detail
+  ) {
+    reporting.textContent =
+      detail;
   }
 }
 
@@ -107,19 +145,21 @@ function withTimeout(
   ms,
   label = 'Request'
 ) {
-
   return Promise.race([
     promise,
 
     new Promise(
-      (_, reject) => {
-
+      (
+        _,
+        reject
+      ) => {
         setTimeout(
-          () => reject(
-            new Error(
-              `${label} timed out`
-            )
-          ),
+          () =>
+            reject(
+              new Error(
+                `${label} timed out`
+              )
+            ),
           ms
         );
       }
@@ -127,144 +167,153 @@ function withTimeout(
   ]);
 }
 
-function safeUrl(url) {
-
+function safeUrl(
+  url
+) {
   try {
-
     const parsed =
       new URL(url);
 
     return (
-      parsed.protocol === 'https:'
+      parsed.protocol ===
+      'https:'
         ? parsed.href
         : ''
     );
-
   } catch {
-
     return '';
   }
 }
 
-function cleanText(text) {
-
-  return String(text || '')
-    .replace(/<[^>]*>/g, ' ')
-    .replace(/\s+/g, ' ')
+function cleanText(
+  text
+) {
+  return String(
+    text || ''
+  )
+    .replace(
+      /<[^>]*>/g,
+      ' '
+    )
+    .replace(
+      /\s+/g,
+      ' '
+    )
     .trim();
 }
 
-function titleCase(value) {
-
-  return String(value || '')
-    .replace(/[_-]+/g, ' ')
+function titleCase(
+  value
+) {
+  return String(
+    value || ''
+  )
+    .replace(
+      /[_-]+/g,
+      ' '
+    )
     .replace(
       /\b\w/g,
-      c => c.toUpperCase()
+      c =>
+        c.toUpperCase()
     );
 }
 
-function normalizeLiveArticle(
-  article,
-  index
+function normalizeRSSItem(
+  item,
+  index,
+  feedInfo
 ) {
-
   const headline =
-    cleanText(article?.title);
+    cleanText(
+      item?.title
+    );
 
   if (!headline) {
     return null;
   }
 
-  const source =
+  const description =
     cleanText(
-      article?.domain ||
-      article?.sourcecountry ||
-      'Live source'
+      item?.description ||
+      item?.content ||
+      ''
     );
 
-  const country =
+  const author =
     cleanText(
-      article?.sourcecountry || ''
+      item?.author ||
+      feedInfo?.name ||
+      'Live news'
     );
 
-  const language =
+  const pubDate =
     cleanText(
-      article?.language || ''
-    );
-
-  const seen =
-    cleanText(
-      article?.seendate || ''
+      item?.pubDate ||
+      ''
     );
 
   const url =
     safeUrl(
-      article?.url || ''
+      item?.link ||
+      ''
     );
 
-  let category =
-    country
-      ? titleCase(country)
-      : 'World News';
-
-  if (
-    /new york/i.test(headline)
-  ) {
-    category = 'New York';
-  }
-
-  const bits = [];
-
-  if (source) {
-    bits.push(
-      `Latest report from ${source}.`
+  const thumbnail =
+    safeUrl(
+      item?.thumbnail ||
+      item?.enclosure
+        ?.link ||
+      ''
     );
-  }
 
-  if (country) {
-    bits.push(
-      `Reported from ${country}.`
-    );
+  let summary =
+    description;
+
+  if (!summary) {
+    summary =
+      `Latest report from ${author}.`;
   }
 
   if (
-    language &&
-    !/^english$/i.test(language)
+    summary.length >
+    420
   ) {
-
-    bits.push(
-      `Source language: ${language}.`
-    );
+    summary =
+      summary
+        .slice(
+          0,
+          417
+        )
+        .trim() +
+      '...';
   }
 
   return {
-
     id:
-      `live-${Date.now()}-${index}`,
+      `rss-${Date.now()}-${index}`,
 
-    category,
+    category:
+      feedInfo?.category ||
+      'World News',
 
     headline,
 
-    summary:
-      bits.join(' ') ||
-      'A new live-news report has been received by Voice of Peace.',
+    summary,
 
     source_line:
-      `LIVE • ${source}${
-        seen ? ` • ${seen}` : ''
+      `LIVE • ${author}${
+        pubDate
+          ? ` • ${pubDate}`
+          : ''
       }`,
 
     url,
 
     image:
-      safeUrl(
-        article?.socialimage || ''
-      ),
+      thumbnail,
 
     reflection: {
-
       verse_text:
         'Seek peace and pursue it.',
 
@@ -277,455 +326,326 @@ function normalizeLiveArticle(
   };
 }
 
-function extractArticles(payload) {
-
-  const raw =
-    Array.isArray(
-      payload?.articles
+function extractRSSStories(
+  payload,
+  feedInfo
+) {
+  if (
+    payload?.status !==
+      'ok' ||
+    !Array.isArray(
+      payload?.items
     )
-      ? payload.articles
-      : [];
+  ) {
+    throw new Error(
+      payload?.message ||
+      'RSS service returned an invalid response'
+    );
+  }
 
   const seen =
     new Set();
 
-  return raw
-
-    .map(normalizeLiveArticle)
-
+  return payload.items
+    .map(
+      (
+        item,
+        index
+      ) =>
+        normalizeRSSItem(
+          item,
+          index,
+          feedInfo
+        )
+    )
     .filter(Boolean)
+    .filter(
+      story => {
+        const key =
+          story.url ||
+          story.headline.toLowerCase();
 
-    .filter(story => {
+        if (
+          seen.has(key)
+        ) {
+          return false;
+        }
 
-      const key =
-        story.url ||
-        story.headline.toLowerCase();
+        seen.add(key);
 
-      if (seen.has(key)) {
-        return false;
+        return true;
       }
-
-      seen.add(key);
-
-      return true;
-    });
+    );
 }
 
-function buildLiveUrl(
-  query,
-  format = 'json',
-  callbackName = ''
+function buildRSS2JSONUrl(
+  feedUrl
 ) {
-
   const params =
     new URLSearchParams({
-
-      query,
-
-      mode: 'artlist',
-
-      maxrecords: '25',
-
-      format,
-
-      timespan: '24h',
-
-      sort: 'datedesc',
-
-      _: String(Date.now())
+      rss_url:
+        feedUrl,
+      _:
+        String(
+          Date.now()
+        )
     });
 
-  if (callbackName) {
-
-    params.set(
-      'callback',
-      callbackName
-    );
-  }
-
   return (
-    `${LIVE_NEWS_BASE_URL}?` +
+    `${RSS2JSON_BASE_URL}?` +
     params.toString()
   );
 }
 
-async function fetchLiveJSON(query) {
-
+async function fetchRSSFeed(
+  feedInfo
+) {
   const url =
-    buildLiveUrl(
-      query,
-      'json'
+    buildRSS2JSONUrl(
+      feedInfo.url
     );
 
   console.log(
-    'Connecting to GDELT:',
+    'Voice of Peace loading:',
+    feedInfo.name,
     url
   );
 
   const response =
     await withTimeout(
-
       fetch(
         url,
         {
-          method: 'GET',
-          mode: 'cors',
-          cache: 'no-store',
+          method:
+            'GET',
+
+          mode:
+            'cors',
+
+          cache:
+            'no-store',
 
           headers: {
-            Accept: 'application/json'
+            Accept:
+              'application/json'
           }
         }
       ),
 
       LIVE_TIMEOUT_MS,
 
-      'Live news'
+      `${feedInfo.name} feed`
     );
 
-  if (!response.ok) {
-
+  if (
+    !response.ok
+  ) {
     throw new Error(
-      `Live news HTTP ${response.status}`
+      `${feedInfo.name} HTTP ${response.status}`
     );
   }
 
-  const rawText =
-    await response.text();
-
-  let payload;
-
-  try {
-
-    payload =
-      JSON.parse(rawText);
-
-  } catch {
-
-    throw new Error(
-      `Live news returned invalid JSON: ${rawText.slice(
-        0,
-        160
-      )}`
-    );
-  }
+  const payload =
+    await response.json();
 
   const result =
-    extractArticles(payload);
+    extractRSSStories(
+      payload,
+      feedInfo
+    );
 
-  if (!result.length) {
-
+  if (
+    !result.length
+  ) {
     throw new Error(
-      'Live news returned no articles'
+      `${feedInfo.name} returned no stories`
     );
   }
 
   return result;
 }
 
-function fetchLiveJSONP(query) {
+function mergeUniqueStories(
+  groups
+) {
+  const seen =
+    new Set();
 
-  return new Promise(
-    (resolve, reject) => {
+  const merged =
+    [];
 
-      const callbackName =
-        `voiceOfPeaceGdelt_${Date.now()}_${Math.random()
-          .toString(36)
-          .slice(2)}`;
+  for (
+    const group of groups
+  ) {
+    for (
+      const story of group
+    ) {
+      const key =
+        story.url ||
+        story.headline.toLowerCase();
 
-      const script =
-        document.createElement(
-          'script'
-        );
+      if (
+        seen.has(key)
+      ) {
+        continue;
+      }
 
-      let settled = false;
+      seen.add(key);
 
-      const cleanup = () => {
-
-        if (script.parentNode) {
-
-          script.parentNode.removeChild(
-            script
-          );
-        }
-
-        try {
-
-          delete window[
-            callbackName
-          ];
-
-        } catch {
-
-          window[
-            callbackName
-          ] = undefined;
-        }
-      };
-
-      const timeout =
-        setTimeout(() => {
-
-          if (settled) return;
-
-          settled = true;
-
-          cleanup();
-
-          reject(
-            new Error(
-              'JSONP live news timed out'
-            )
-          );
-
-        }, JSONP_TIMEOUT_MS);
-
-      window[
-        callbackName
-      ] = payload => {
-
-        if (settled) return;
-
-        settled = true;
-
-        clearTimeout(timeout);
-
-        cleanup();
-
-        const result =
-          extractArticles(
-            payload
-          );
-
-        if (!result.length) {
-
-          reject(
-            new Error(
-              'JSONP live news returned no articles'
-            )
-          );
-
-          return;
-        }
-
-        resolve(result);
-      };
-
-      script.onerror = () => {
-
-        if (settled) return;
-
-        settled = true;
-
-        clearTimeout(timeout);
-
-        cleanup();
-
-        reject(
-          new Error(
-            'JSONP live news failed'
-          )
-        );
-      };
-
-      script.async = true;
-
-      script.src =
-        buildLiveUrl(
-          query,
-          'jsonp',
-          callbackName
-        );
-
-      document.head.appendChild(
-        script
+      merged.push(
+        story
       );
     }
-  );
+  }
+
+  return merged;
 }
 
 async function loadLiveNews() {
-
   setLiveStatus(
     'connecting',
     'Voice of Peace • Connecting to live news'
   );
 
-  let lastError = null;
+  const successfulGroups =
+    [];
 
-  for (
-    const query of LIVE_QUERIES
-  ) {
+  const errors =
+    [];
 
-    /*
-      FIRST METHOD:
-      NORMAL JSON / CORS
-    */
+  const results =
+    await Promise.allSettled(
+      LIVE_FEEDS.map(
+        feedInfo =>
+          fetchRSSFeed(
+            feedInfo
+          )
+      )
+    );
 
-    try {
+  results.forEach(
+    (
+      result,
+      index
+    ) => {
+      const feedInfo =
+        LIVE_FEEDS[
+          index
+        ];
 
-      const liveStories =
-        await fetchLiveJSON(
-          query
+      if (
+        result.status ===
+        'fulfilled'
+      ) {
+        successfulGroups.push(
+          result.value
         );
-
-      if (liveStories.length) {
-
-        stories =
-          liveStories;
-
-        usingLiveNews =
-          true;
-
-        current =
-          Math.min(
-            current,
-            Math.max(
-              0,
-              stories.length - 1
-            )
-          );
-
-        setLiveStatus(
-          'live',
-          `Voice of Peace • LIVE • ${stories.length} current reports`
-        );
-
-        renderStory();
-
-        scheduleLiveRefresh();
-
-        clearRetryTimer();
 
         console.log(
-          'Voice of Peace connected using JSON:',
-          query
+          `LIVE feed connected: ${feedInfo.name} (${result.value.length} stories)`
         );
-
-        return true;
-      }
-
-    } catch (err) {
-
-      lastError = err;
-
-      console.warn(
-        'GDELT JSON failed:',
-        query,
-        err
-      );
-    }
-
-    /*
-      SECOND METHOD:
-      JSONP BACKUP
-    */
-
-    try {
-
-      const liveStories =
-        await fetchLiveJSONP(
-          query
-        );
-
-      if (liveStories.length) {
-
-        stories =
-          liveStories;
-
-        usingLiveNews =
-          true;
-
-        current =
-          Math.min(
-            current,
-            Math.max(
-              0,
-              stories.length - 1
-            )
+      } else {
+        const message =
+          result.reason
+            ?.message ||
+          String(
+            result.reason
           );
 
-        setLiveStatus(
-          'live',
-          `Voice of Peace • LIVE • ${stories.length} current reports`
+        errors.push(
+          `${feedInfo.name}: ${message}`
         );
 
-        renderStory();
-
-        scheduleLiveRefresh();
-
-        clearRetryTimer();
-
-        console.log(
-          'Voice of Peace connected using JSONP:',
-          query
+        console.warn(
+          `Feed failed: ${feedInfo.name}`,
+          result.reason
         );
-
-        return true;
       }
-
-    } catch (err) {
-
-      lastError = err;
-
-      console.warn(
-        'GDELT JSONP failed:',
-        query,
-        err
-      );
     }
-  }
-
-  console.error(
-    'All live-news attempts failed:',
-    lastError
   );
 
-  usingLiveNews =
-    false;
-
-  const errorDetail =
-    lastError?.message
-      ? ` • ${lastError.message}`
-      : '';
+  const liveStories =
+    mergeUniqueStories(
+      successfulGroups
+    );
 
   if (
-    fallbackStories.length
+    liveStories.length
   ) {
-
     stories =
-      [...fallbackStories];
+      liveStories;
+
+    usingLiveNews =
+      true;
 
     current =
       Math.min(
         current,
         Math.max(
           0,
-          stories.length - 1
+          stories.length -
+            1
         )
       );
 
+    const feedCount =
+      successfulGroups.length;
+
     setLiveStatus(
-      'retrying',
-      `Voice of Peace • Broadcast active • Retrying live news automatically${errorDetail}`
+      'live',
+      `Voice of Peace • LIVE • ${stories.length} current reports • ${feedCount}/${LIVE_FEEDS.length} feeds connected`
     );
 
     renderStory();
 
-  } else {
+    scheduleLiveRefresh();
 
-    stories =
-      [EMERGENCY_STORY];
+    clearRetryTimer();
 
-    current = 0;
-
-    setLiveStatus(
-      'retrying',
-      `Voice of Peace • Broadcast active • Retrying live news automatically${errorDetail}`
-    );
-
-    renderStory();
+    return true;
   }
+
+  usingLiveNews =
+    false;
+
+  console.error(
+    'All live RSS feeds failed:',
+    errors
+  );
+
+  if (
+    fallbackStories.length
+  ) {
+    stories =
+      [
+        ...fallbackStories
+      ];
+
+    current =
+      Math.min(
+        current,
+        Math.max(
+          0,
+          stories.length -
+            1
+        )
+      );
+  } else {
+    stories =
+      [
+        EMERGENCY_STORY
+      ];
+
+    current =
+      0;
+  }
+
+  setLiveStatus(
+    'retrying',
+    'Voice of Peace • Broadcast active • Live feeds unavailable • Retrying automatically'
+  );
+
+  renderStory();
 
   scheduleRetry();
 
@@ -733,16 +653,14 @@ async function loadLiveNews() {
 }
 
 async function loadFallbackData() {
-
   try {
-
     const response =
       await withTimeout(
-
         fetch(
           `data/sample-news.json?v=${Date.now()}`,
           {
-            cache: 'no-store'
+            cache:
+              'no-store'
           }
         ),
 
@@ -751,8 +669,9 @@ async function loadFallbackData() {
         'Fallback news'
       );
 
-    if (!response.ok) {
-
+    if (
+      !response.ok
+    ) {
       throw new Error(
         `Fallback news HTTP ${response.status}`
       );
@@ -779,33 +698,39 @@ async function loadFallbackData() {
       !stories.length &&
       fallbackStories.length
     ) {
-
       stories =
-        [...fallbackStories];
+        [
+          ...fallbackStories
+        ];
     }
-
-  } catch (err) {
-
+  } catch (
+    err
+  ) {
     console.warn(
       'Fallback data failed:',
       err
     );
 
     fallbackStories =
-      [EMERGENCY_STORY];
+      [
+        EMERGENCY_STORY
+      ];
 
-    if (!stories.length) {
-
+    if (
+      !stories.length
+    ) {
       stories =
-        [EMERGENCY_STORY];
+        [
+          EMERGENCY_STORY
+        ];
     }
   }
 }
 
 function scheduleLiveRefresh() {
-
-  if (liveRefreshTimer) {
-
+  if (
+    liveRefreshTimer
+  ) {
     clearInterval(
       liveRefreshTimer
     );
@@ -813,7 +738,6 @@ function scheduleLiveRefresh() {
 
   liveRefreshTimer =
     setInterval(
-
       () =>
         loadLiveNews(),
 
@@ -824,24 +748,23 @@ function scheduleLiveRefresh() {
 }
 
 function clearRetryTimer() {
-
-  if (retryTimer) {
-
+  if (
+    retryTimer
+  ) {
     clearTimeout(
       retryTimer
     );
 
-    retryTimer = null;
+    retryTimer =
+      null;
   }
 }
 
 function scheduleRetry() {
-
   clearRetryTimer();
 
   retryTimer =
     setTimeout(
-
       () =>
         loadLiveNews(),
 
@@ -851,15 +774,15 @@ function scheduleRetry() {
 }
 
 function currentStory() {
-
   return (
-    stories[current] ||
+    stories[
+      current
+    ] ||
     EMERGENCY_STORY
   );
 }
 
 function renderStory() {
-
   const story =
     currentStory();
 
@@ -871,28 +794,34 @@ function renderStory() {
 
   setText(
     'headline',
-    story.headline || ''
+    story.headline ||
+      ''
   );
 
   setText(
     'summary',
-    story.summary || ''
+    story.summary ||
+      ''
   );
 
   setText(
     'sourceLine',
-    story.source_line || ''
+    story.source_line ||
+      ''
   );
 
   const reflection =
-    story.reflection || {};
+    story.reflection ||
+    {};
 
   const verseText =
-    reflection.verse_text ||
+    reflection
+      .verse_text ||
     'Seek peace and pursue it.';
 
   const verseRef =
-    reflection.verse_reference ||
+    reflection
+      .verse_reference ||
     'Psalm 34:14';
 
   setText(
@@ -904,19 +833,21 @@ function renderStory() {
     'reflection',
 
     reflection.message ||
-
       'May knowledge lead us toward compassion, responsibility, and peace.'
   );
 
   const image =
-    el('storyImage') ||
-    el('newsImage');
+    el(
+      'storyImage'
+    ) ||
+    el(
+      'newsImage'
+    );
 
   if (
     image &&
     story.image
   ) {
-
     image.src =
       story.image;
 
@@ -925,25 +856,28 @@ function renderStory() {
 
     image.onerror =
       () => {
-
         image.style.display =
           'none';
       };
-
-  } else if (image) {
-
+  } else if (
+    image
+  ) {
     image.style.display =
       'none';
   }
 
   const link =
-    el('storyLink') ||
-    el('readMore');
+    el(
+      'storyLink'
+    ) ||
+    el(
+      'readMore'
+    );
 
   if (link) {
-
-    if (story.url) {
-
+    if (
+      story.url
+    ) {
       link.href =
         story.url;
 
@@ -955,9 +889,7 @@ function renderStory() {
 
       link.style.display =
         '';
-
     } else {
-
       link.removeAttribute(
         'href'
       );
@@ -967,7 +899,8 @@ function renderStory() {
     }
   }
 
-  elapsed = 0;
+  elapsed =
+    0;
 
   updateProgress();
 
@@ -975,7 +908,6 @@ function renderStory() {
     !adRunning &&
     playing
   ) {
-
     speakStory(
       story
     );
@@ -985,27 +917,27 @@ function renderStory() {
 function nextStory(
   manual = false
 ) {
-
   if (
     !stories.length ||
     adRunning
   ) {
-
     return;
   }
 
-  if (!manual) {
-
-    storyCounter += 1;
+  if (
+    !manual
+  ) {
+    storyCounter +=
+      1;
 
     if (
       ads.length &&
-      AD_EVERY > 0 &&
+      AD_EVERY >
+        0 &&
       storyCounter %
         AD_EVERY ===
         0
     ) {
-
       runAd();
 
       return;
@@ -1013,19 +945,20 @@ function nextStory(
   }
 
   current =
-    (current + 1) %
+    (
+      current +
+      1
+    ) %
     stories.length;
 
   renderStory();
 }
 
 function previousStory() {
-
   if (
     !stories.length ||
     adRunning
   ) {
-
     return;
   }
 
@@ -1041,11 +974,14 @@ function previousStory() {
 }
 
 function updateProgress() {
-
   const bar =
-    el('progressBar');
+    el(
+      'progressBar'
+    );
 
-  if (!bar) return;
+  if (!bar) {
+    return;
+  }
 
   const percentage =
     Math.max(
@@ -1057,7 +993,8 @@ function updateProgress() {
         (
           elapsed /
           STORY_SECONDS
-        ) * 100
+        ) *
+          100
       )
     );
 
@@ -1066,52 +1003,55 @@ function updateProgress() {
 }
 
 function startTimer() {
-
-  if (timer) {
-
+  if (
+    timer
+  ) {
     clearInterval(
       timer
     );
   }
 
   timer =
-    setInterval(() => {
+    setInterval(
+      () => {
+        if (
+          !playing ||
+          adRunning
+        ) {
+          return;
+        }
 
-      if (
-        !playing ||
-        adRunning
-      ) {
+        elapsed +=
+          0.25;
 
-        return;
-      }
+        updateProgress();
 
-      elapsed += 0.25;
+        if (
+          elapsed >=
+          STORY_SECONDS
+        ) {
+          elapsed =
+            0;
 
-      updateProgress();
-
-      if (
-        elapsed >=
-        STORY_SECONDS
-      ) {
-
-        elapsed = 0;
-
-        nextStory(false);
-      }
-
-    }, 250);
+          nextStory(
+            false
+          );
+        }
+      },
+      250
+    );
 }
 
 function togglePlay() {
-
   playing =
     !playing;
 
   const button =
-    el('playBtn');
+    el(
+      'playBtn'
+    );
 
   if (button) {
-
     button.textContent =
       playing
         ? 'Pause'
@@ -1128,15 +1068,16 @@ function togglePlay() {
 
   if (
     !playing &&
-    'speechSynthesis' in window
+    'speechSynthesis'
+      in window
   ) {
-
     window.speechSynthesis.cancel();
 
-    speechBusy = false;
-
-  } else if (playing) {
-
+    speechBusy =
+      false;
+  } else if (
+    playing
+  ) {
     speakStory(
       currentStory()
     );
@@ -1144,12 +1085,14 @@ function togglePlay() {
 }
 
 function getSpeechEnabled() {
-
   const button =
-    el('soundBtn');
+    el(
+      'soundBtn'
+    );
 
-  if (!button) {
-
+  if (
+    !button
+  ) {
     return true;
   }
 
@@ -1160,11 +1103,16 @@ function getSpeechEnabled() {
 }
 
 function toggleSound() {
-
   const button =
-    el('soundBtn');
+    el(
+      'soundBtn'
+    );
 
-  if (!button) return;
+  if (
+    !button
+  ) {
+    return;
+  }
 
   const isOff =
     button.dataset.sound ===
@@ -1182,23 +1130,23 @@ function toggleSound() {
 
   if (
     !isOff &&
-    'speechSynthesis' in window
+    'speechSynthesis'
+      in window
   ) {
-
     window.speechSynthesis.cancel();
 
-    speechBusy = false;
-
+    speechBusy =
+      false;
   } else {
-
     speakStory(
       currentStory()
     );
   }
 }
 
-function speakStory(story) {
-
+function speakStory(
+  story
+) {
   if (
     !playing ||
     adRunning ||
@@ -1209,12 +1157,10 @@ function speakStory(story) {
       in window
     )
   ) {
-
     return;
   }
 
   const text = [
-
     story?.category,
 
     story?.headline,
@@ -1223,12 +1169,15 @@ function speakStory(story) {
 
     story?.reflection
       ?.message
-
   ]
     .filter(Boolean)
     .join('. ');
 
-  if (!text) return;
+  if (
+    !text
+  ) {
+    return;
+  }
 
   window.speechSynthesis.cancel();
 
@@ -1248,21 +1197,18 @@ function speakStory(story) {
 
   utterance.onstart =
     () => {
-
       speechBusy =
         true;
     };
 
   utterance.onend =
     () => {
-
       speechBusy =
         false;
     };
 
   utterance.onerror =
     () => {
-
       speechBusy =
         false;
     };
@@ -1273,14 +1219,15 @@ function speakStory(story) {
 }
 
 function runAd() {
-
   if (
     !ads.length ||
     adRunning
   ) {
-
     current =
-      (current + 1) %
+      (
+        current +
+        1
+      ) %
       stories.length;
 
     renderStory();
@@ -1288,16 +1235,17 @@ function runAd() {
     return;
   }
 
-  adRunning = true;
+  adRunning =
+    true;
 
   if (
     'speechSynthesis'
-    in window
+      in window
   ) {
-
     window.speechSynthesis.cancel();
 
-    speechBusy = false;
+    speechBusy =
+      false;
   }
 
   const ad =
@@ -1309,7 +1257,9 @@ function runAd() {
     ] || {};
 
   const overlay =
-    el('adOverlay');
+    el(
+      'adOverlay'
+    );
 
   setText(
     'adTitle',
@@ -1326,8 +1276,9 @@ function runAd() {
       'We will return after this short message.'
   );
 
-  if (overlay) {
-
+  if (
+    overlay
+  ) {
     overlay.hidden =
       false;
 
@@ -1341,98 +1292,119 @@ function runAd() {
 
   setText(
     'adCountdown',
-    String(remaining)
+    String(
+      remaining
+    )
   );
 
   const adTimer =
-    setInterval(() => {
+    setInterval(
+      () => {
+        remaining -=
+          1;
 
-      remaining -= 1;
+        setText(
+          'adCountdown',
 
-      setText(
-        'adCountdown',
-
-        String(
-          Math.max(
-            0,
-            remaining
+          String(
+            Math.max(
+              0,
+              remaining
+            )
           )
-        )
-      );
-
-      if (
-        remaining <= 0
-      ) {
-
-        clearInterval(
-          adTimer
         );
 
-        if (overlay) {
-
-          overlay.classList.remove(
-            'show'
+        if (
+          remaining <=
+          0
+        ) {
+          clearInterval(
+            adTimer
           );
 
-          overlay.hidden =
-            true;
+          if (
+            overlay
+          ) {
+            overlay.classList.remove(
+              'show'
+            );
+
+            overlay.hidden =
+              true;
+          }
+
+          adRunning =
+            false;
+
+          current =
+            (
+              current +
+              1
+            ) %
+            stories.length;
+
+          renderStory();
         }
-
-        adRunning =
-          false;
-
-        current =
-          (current + 1) %
-          stories.length;
-
-        renderStory();
-      }
-
-    }, 1000);
+      },
+      1000
+    );
 }
 
 function bindControls() {
-
   const prev =
-    el('prevBtn');
+    el(
+      'prevBtn'
+    );
 
   const next =
-    el('nextBtn');
+    el(
+      'nextBtn'
+    );
 
   const play =
-    el('playBtn');
+    el(
+      'playBtn'
+    );
 
   const sound =
-    el('soundBtn');
+    el(
+      'soundBtn'
+    );
 
-  if (prev) {
-
+  if (
+    prev
+  ) {
     prev.addEventListener(
       'click',
       previousStory
     );
   }
 
-  if (next) {
-
+  if (
+    next
+  ) {
     next.addEventListener(
       'click',
 
       () =>
-        nextStory(true)
+        nextStory(
+          true
+        )
     );
   }
 
-  if (play) {
-
+  if (
+    play
+  ) {
     play.addEventListener(
       'click',
       togglePlay
     );
   }
 
-  if (sound) {
-
+  if (
+    sound
+  ) {
     sound.addEventListener(
       'click',
       toggleSound
@@ -1442,26 +1414,21 @@ function bindControls() {
   document.addEventListener(
     'visibilitychange',
     () => {
-
       if (
         document.hidden
       ) {
-
         if (
           'speechSynthesis'
-          in window
+            in window
         ) {
-
           window.speechSynthesis.cancel();
 
           speechBusy =
             false;
         }
-
       } else if (
         playing
       ) {
-
         speakStory(
           currentStory()
         );
@@ -1471,14 +1438,15 @@ function bindControls() {
 }
 
 async function init() {
-
   setLiveStatus(
     'connecting',
     'Voice of Peace • Connecting to live news'
   );
 
   stories =
-    [EMERGENCY_STORY];
+    [
+      EMERGENCY_STORY
+    ];
 
   renderStory();
 
@@ -1488,84 +1456,71 @@ async function init() {
 
   await loadFallbackData();
 
-  /*
-    Do not freeze the broadcast
-    while live news is loading.
-  */
-
   loadLiveNews();
 }
-
-
-/*
-  Manual live-news reload.
-
-  Open browser console and run:
-
-  voiceOfPeaceReloadLive()
-*/
 
 window.voiceOfPeaceReloadLive =
   loadLiveNews;
 
-
-/*
-  LIVE CONNECTION TEST
-
-  Open browser:
-  F12
-  Console
-
-  Then type:
-
-  voiceOfPeaceTestLive()
-
-  This will show the actual
-  GDELT connection result/error.
-*/
-
 window.voiceOfPeaceTestLive =
   async function () {
+    const report =
+      [];
 
-    const query =
-      LIVE_QUERIES[0];
+    for (
+      const feedInfo of
+        LIVE_FEEDS
+    ) {
+      try {
+        const result =
+          await fetchRSSFeed(
+            feedInfo
+          );
 
-    const url =
-      buildLiveUrl(
-        query,
-        'json'
-      );
+        report.push({
+          feed:
+            feedInfo.name,
 
-    console.log(
-      'Testing Voice of Peace live URL:',
-      url
+          status:
+            'LIVE',
+
+          stories:
+            result.length
+        });
+      } catch (
+        err
+      ) {
+        report.push({
+          feed:
+            feedInfo.name,
+
+          status:
+            'FAILED',
+
+          error:
+            err?.message ||
+            String(
+              err
+            )
+        });
+      }
+    }
+
+    console.table(
+      report
     );
 
-    const result =
-      await fetchLiveJSON(
-        query
-      );
-
-    console.log(
-      `Voice of Peace received ${result.length} live stories.`,
-      result
-    );
-
-    return result;
+    return report;
   };
-
 
 if (
   document.readyState ===
   'loading'
 ) {
-
   document.addEventListener(
     'DOMContentLoaded',
     init
   );
-
 } else {
-
   init();
 }

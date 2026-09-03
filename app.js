@@ -1,46 +1,73 @@
+/* =========================================================
+   VOICE OF PEACE — app.js
+   by Emmanuel & Camili Hileah
+   ========================================================= */
+
+'use strict';
+
 const STORY_SECONDS = 22;
 const AD_EVERY = 3;
 const AD_SECONDS = 10;
-const LIVE_REFRESH_MINUTES = 15;
 
-const PRIMARY_TIMEOUT_MS = 12000;
-const GDELT_TIMEOUT_MS = 10000;
+const LIVE_REFRESH_MINUTES = 15;
+const LIVE_RETRY_SECONDS = 45;
+
+const LIVE_TIMEOUT_MS = 10000;
 const JSONP_TIMEOUT_MS = 15000;
 const FALLBACK_TIMEOUT_MS = 5000;
 
-const GOOGLE_NEWS_RSS =
-  'https://news.google.com/rss/search?' +
-  new URLSearchParams({
-    q: 'peace OR community OR world OR "New York"',
-    hl: 'en-US',
-    gl: 'US',
-    ceid: 'US:en'
-  }).toString();
-
-const RSS2JSON_URL =
-  'https://api.rss2json.com/v1/api.json?rss_url=' +
-  encodeURIComponent(GOOGLE_NEWS_RSS);
-
-const GDELT_BASE_URL =
+const LIVE_NEWS_BASE_URL =
   'https://api.gdeltproject.org/api/v2/doc/doc';
 
-const GDELT_QUERY =
-  '(peace OR community OR world OR "New York")';
+const LIVE_QUERIES = [
+  'peace OR community OR diplomacy',
+  '"New York" OR community',
+  'world OR international'
+];
 
 let stories = [];
+let fallbackStories = [];
 let ads = [];
+
 let current = 0;
 let playing = true;
 let elapsed = 0;
 let timer = null;
-let fallbackStories = [];
+
 let adRunning = false;
+let storiesSinceAd = 0;
+
 let liveRefreshTimer = null;
-let speechBusy = false;
+let liveRetryTimer = null;
+let liveRequestInProgress = false;
+
 let usingLiveNews = false;
-let currentLiveSource = '';
+let speechBusy = false;
 
 const el = id => document.getElementById(id);
+
+function firstElement(...selectors) {
+  for (const selector of selectors) {
+    try {
+      const node = document.querySelector(selector);
+      if (node) return node;
+    } catch (_) {}
+  }
+  return null;
+}
+
+function setText(value, ...selectors) {
+  const node = firstElement(...selectors);
+  if (node) node.textContent = value == null ? '' : String(value);
+}
+
+function setWidth(percent, ...selectors) {
+  const node = firstElement(...selectors);
+  if (node) {
+    node.style.width =
+      `${Math.max(0, Math.min(100, percent))}%`;
+  }
+}
 
 const EMERGENCY_STORY = {
   id: 'emergency-001',
@@ -48,543 +75,265 @@ const EMERGENCY_STORY = {
   headline: 'Voice of Peace is ready',
   summary:
     'The broadcast is ready. Live news is being checked now. If the live service is temporarily unavailable, Voice of Peace will continue automatically and try again.',
-  source_line: 'Voice of Peace • Connecting to live news',
+  source_line:
+    'Voice of Peace • Connecting to live news',
   source_url: '',
+  image: '',
   reflection: {
-    verse_text: 'Love your neighbor as yourself',
-    verse_reference: 'Leviticus 19:18',
+    verse_text:
+      'Love your neighbor as yourself',
+    verse_reference:
+      'Leviticus 19:18',
     message:
-      'Peace begins with the way we speak, listen, and respond to one another. Kindness, truth, compassion, and respect remain important in every headline.'
-  },
-  ticker:
-    'Peace • Love • Truth • Compassion • Respect • Help one another'
+      'Peace begins with the way we speak, listen, and care for one another.'
+  }
 };
 
-function setLiveBadge(state, text) {
-  const badge = el('liveBadge');
+function setStatus(mode, message) {
 
-  if (!badge) return;
-
-  badge.textContent = text;
-
-  badge.classList.remove(
-    'is-live',
-    'is-connecting',
-    'is-backup',
-    'is-error'
+  const badge = firstElement(
+    '#statusBadge',
+    '#liveStatus',
+    '#status',
+    '.status-badge',
+    '[data-live-status]'
   );
 
-  badge.classList.add(state);
+  const reporting = firstElement(
+    '#reporting',
+    '#reportingText',
+    '#sourceStatus',
+    '[data-reporting]'
+  );
+
+  const normalized =
+    String(mode || '').toUpperCase();
+
+  if (badge) {
+
+    badge.textContent = normalized;
+
+    badge.classList.remove(
+      'live',
+      'retrying',
+      'offline',
+      'connecting',
+      'backup'
+    );
+
+    if (normalized === 'LIVE') {
+      badge.classList.add('live');
+    } else if (normalized === 'RETRYING') {
+      badge.classList.add('retrying');
+    } else {
+      badge.classList.add('connecting');
+    }
+  }
+
+  if (reporting && message) {
+    reporting.textContent = message;
+  }
+
+  console.log(
+    `[Voice of Peace] ${normalized}: ${message || ''}`
+  );
 }
 
-function fetchWithTimeout(url, options = {}, timeoutMs = 10000) {
-  if (typeof AbortController === 'undefined') {
-    return fetch(url, options);
-  }
+async function fetchWithTimeout(
+  url,
+  options = {},
+  timeoutMs = 10000
+) {
 
-  const controller = new AbortController();
+  const controller =
+    new AbortController();
 
-  const timeoutId = setTimeout(
-    () => controller.abort(),
-    timeoutMs
-  );
-
-  return fetch(url, {
-    ...options,
-    signal: controller.signal
-  }).finally(() => clearTimeout(timeoutId));
-}
-
-function cleanText(value = '') {
-  return String(value)
-    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<[^>]*>/g, ' ')
-    .replace(/&nbsp;/gi, ' ')
-    .replace(/&amp;/gi, '&')
-    .replace(/&quot;/gi, '"')
-    .replace(/&#39;/gi, "'")
-    .replace(/&apos;/gi, "'")
-    .replace(/&lt;/gi, '<')
-    .replace(/&gt;/gi, '>')
-    .replace(/&#8216;|&#8217;/gi, "'")
-    .replace(/&#8220;|&#8221;/gi, '"')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-function readableDate(value = '') {
-  if (!value) return '';
-
-  const directDate = new Date(value);
-
-  if (!Number.isNaN(directDate.getTime())) {
-    try {
-      return directDate.toLocaleString([], {
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit'
-      });
-    } catch {}
-  }
-
-  const text = String(value);
-
-  const match = text.match(
-    /^(\d{4})(\d{2})(\d{2})T?(\d{2})?(\d{2})?(\d{2})?Z?$/
-  );
-
-  if (!match) {
-    return cleanText(text);
-  }
-
-  const [
-    ,
-    year,
-    month,
-    day,
-    hour = '00',
-    minute = '00',
-    second = '00'
-  ] = match;
-
-  const date = new Date(
-    `${year}-${month}-${day}T${hour}:${minute}:${second}Z`
-  );
-
-  if (Number.isNaN(date.getTime())) {
-    return cleanText(text);
-  }
+  const timeout =
+    setTimeout(
+      () => controller.abort(),
+      timeoutMs
+    );
 
   try {
-    return date.toLocaleString([], {
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit'
-    });
-  } catch {
-    return cleanText(text);
+
+    const response =
+      await fetch(url, {
+        ...options,
+        signal: controller.signal
+      });
+
+    return response;
+
+  } finally {
+
+    clearTimeout(timeout);
   }
 }
 
-function makeReflection(article) {
-  const text = [
-    article.title || '',
-    article.summary || '',
-    article.description || '',
-    article.content || '',
-    article.sentence || '',
-    article.excerpt || ''
-  ]
-    .join(' ')
-    .toLowerCase();
+async function loadFallbackData() {
 
-  if (
-    /(war|attack|violence|killed|shoot|bomb|conflict|assault|missile|hostage|airstrike|strike|dead|death)/.test(
-      text
-    )
-  ) {
-    return {
-      verse_text: 'Seek peace and pursue it',
-      verse_reference: 'Psalms 34:15',
-      message:
-        'Behind every headline are human lives. Voice of Peace calls for truth, restraint, protection of innocent people, and the courage to seek a path away from hatred and toward peace.'
-    };
-  }
+  try {
 
-  if (
-    /(help|rescue|charity|volunteer|community|donat|kindness|aid|support|relief)/.test(
-      text
-    )
-  ) {
-    return {
-      verse_text: 'The world is built on kindness',
-      verse_reference: 'Psalms 89:3',
-      message:
-        'Acts of kindness deserve attention too. When people help one another without seeking reward, they strengthen their communities and remind us that goodness can be contagious.'
-    };
-  }
+    const response =
+      await fetchWithTimeout(
+        `data/sample-news.json?v=${Date.now()}`,
+        { cache: 'no-store' },
+        FALLBACK_TIMEOUT_MS
+      );
 
-  return {
-    verse_text: 'Love your neighbor as yourself',
-    verse_reference: 'Leviticus 19:18',
-    message:
-      'The news can inform us without teaching us to hate. We can face difficult facts while still treating every person with dignity, compassion, and respect.'
-  };
-}
+    if (!response.ok) {
+      throw new Error(
+        `Backup news HTTP ${response.status}`
+      );
+    }
 
-function splitGoogleNewsTitle(title = '') {
-  const clean = cleanText(title);
+    const data =
+      await response.json();
 
-  const lastDash = clean.lastIndexOf(' - ');
+    fallbackStories =
+      Array.isArray(data.stories) &&
+      data.stories.length
+        ? data.stories.map(normalizeStory)
+        : [EMERGENCY_STORY];
 
-  if (lastDash <= 0) {
-    return {
-      headline: clean,
-      publisher: ''
-    };
-  }
-
-  return {
-    headline: clean.slice(0, lastDash).trim(),
-    publisher: clean.slice(lastDash + 3).trim()
-  };
-}
-
-function rssItemToStory(item, index) {
-  const parsedTitle =
-    splitGoogleNewsTitle(item.title || '');
-
-  const headline =
-    parsedTitle.headline ||
-    cleanText(item.title) ||
-    'Latest news update';
-
-  const publisher =
-    parsedTitle.publisher ||
-    cleanText(item.author) ||
-    'Google News';
-
-  let summary = cleanText(
-    item.description ||
-    item.content ||
-    ''
-  );
-
-  if (
-    !summary ||
-    summary.length < 35 ||
-    summary === cleanText(item.title)
-  ) {
-    summary =
-      `Current report from ${publisher}. ` +
-      'Open the reporting source for the complete article.';
-  }
-
-  if (summary.length > 520) {
-    summary =
-      summary.slice(0, 517).trimEnd() + '...';
-  }
-
-  const displayDate =
-    readableDate(item.pubDate || '');
-
-  const sourceBits = [
-    'LIVE',
-    `Source: ${publisher}`
-  ];
-
-  if (displayDate) {
-    sourceBits.push(displayDate);
-  }
-
-  return {
-    id:
-      `rss-${index}-${item.guid || item.link || Date.now()}`,
-
-    category:
-      /new york/i.test(headline + ' ' + summary)
-        ? 'New York'
-        : 'Live News',
-
-    headline,
-
-    summary,
-
-    source_line:
-      sourceBits.join(' • '),
-
-    source_url:
-      item.link || '',
-
-    reflection:
-      makeReflection({
-        title: headline,
-        summary
-      }),
-
-    ticker:
-      'LIVE NEWS • Truth before rumors • Peace • Love • Compassion • Respect'
-  };
-}
-
-function normalizeRss2Json(data) {
-  if (
-    !data ||
-    typeof data !== 'object' ||
-    data.status !== 'ok' ||
-    !Array.isArray(data.items)
-  ) {
-    return [];
-  }
-
-  return data.items
-    .filter(item => item && item.title && item.link)
-    .map(rssItemToStory)
-    .slice(0, 20);
-}
-
-async function loadLiveNewsFromRss() {
-  const url =
-    RSS2JSON_URL +
-    '&_=' +
-    Date.now();
-
-  const res = await fetchWithTimeout(
-    url,
-    {
-      cache: 'no-store',
-      credentials: 'omit',
-      headers: {
-        Accept: 'application/json'
-      }
-    },
-    PRIMARY_TIMEOUT_MS
-  );
-
-  if (!res.ok) {
-    throw new Error(
-      `RSS live feed HTTP ${res.status}`
-    );
-  }
-
-  const data = await res.json();
-
-  if (
-    data &&
-    data.status === 'error'
-  ) {
-    throw new Error(
-      data.message ||
-      'RSS service returned an error.'
-    );
-  }
-
-  const liveStories =
-    normalizeRss2Json(data);
-
-  if (!liveStories.length) {
-    throw new Error(
-      'RSS live feed returned no usable stories.'
-    );
-  }
-
-  return liveStories;
-}
-
-function buildGdeltUrl(format = 'json') {
-  const params =
-    new URLSearchParams();
-
-  params.set(
-    'query',
-    GDELT_QUERY
-  );
-
-  params.set(
-    'mode',
-    'artlist'
-  );
-
-  params.set(
-    'maxrecords',
-    '25'
-  );
-
-  params.set(
-    'format',
-    format
-  );
-
-  params.set(
-    'timespan',
-    '24h'
-  );
-
-  params.set(
-    'sort',
-    'datedesc'
-  );
-
-  return `${GDELT_BASE_URL}?${params.toString()}`;
-}
-
-function gdeltArticleToStory(article, index) {
-  const title =
-    cleanText(article.title) ||
-    'Latest world news update';
-
-  const domain =
-    cleanText(article.domain || '');
-
-  const sourceCountry =
-    cleanText(article.sourcecountry || '');
-
-  const language =
-    cleanText(article.language || '');
-
-  const seenDate =
-    cleanText(article.seendate || '');
-
-  const displayDate =
-    readableDate(seenDate);
-
-  const summary =
-    cleanText(
-      article.sentence ||
-      article.description ||
-      article.excerpt ||
-      article.summary ||
-      ''
-    ) ||
-    (
-      domain
-        ? `Current report published by ${domain}. Open the reporting source for the complete article.`
-        : 'Current report from the live news feed. Open the reporting source for the complete article.'
-    );
-
-  const sourceBits = ['LIVE'];
-
-  if (domain) {
-    sourceBits.push(
-      `Source: ${domain}`
-    );
-  }
-
-  if (displayDate) {
-    sourceBits.push(
-      displayDate
-    );
-  }
-
-  if (language) {
-    sourceBits.push(
-      language
-    );
-  }
-
-  return {
-    id:
-      `gdelt-${index}-${seenDate || Date.now()}`,
-
-    category:
-      sourceCountry || 'Live News',
-
-    headline:
-      title,
-
-    summary,
-
-    source_line:
-      sourceBits.join(' • '),
-
-    source_url:
-      article.url || '',
-
-    reflection:
-      makeReflection(article),
-
-    ticker:
-      'LIVE NEWS • Truth before rumors • Peace • Love • Compassion • Respect'
-  };
-}
-
-function normalizeGdeltArticles(data) {
-  if (
-    !data ||
-    typeof data !== 'object'
-  ) {
-    return [];
-  }
-
-  const articles =
-    Array.isArray(data.articles)
-      ? data.articles
-      : Array.isArray(data.items)
-        ? data.items
+    ads =
+      Array.isArray(data.ads)
+        ? data.ads
         : [];
 
-  return articles
-    .filter(
-      article =>
-        article &&
-        article.title &&
-        article.url
-    )
-    .map(gdeltArticleToStory)
-    .slice(0, 20);
+    if (!stories.length || !usingLiveNews) {
+
+      stories =
+        [...fallbackStories];
+
+      current =
+        Math.min(
+          current,
+          stories.length - 1
+        );
+
+      renderCurrentStory();
+    }
+
+    return true;
+
+  } catch (error) {
+
+    console.warn(
+      '[Voice of Peace] Backup file could not load:',
+      error
+    );
+
+    fallbackStories =
+      [EMERGENCY_STORY];
+
+    if (!stories.length) {
+
+      stories =
+        [EMERGENCY_STORY];
+
+      current = 0;
+
+      renderCurrentStory();
+    }
+
+    return false;
+  }
 }
 
-async function loadLiveNewsFromGdeltFetch() {
-  const url =
-    buildGdeltUrl('json') +
-    '&_=' +
-    Date.now();
+function makeGdeltUrl(
+  query,
+  format = 'json',
+  callbackName = ''
+) {
 
-  const res =
+  const params =
+    new URLSearchParams({
+      query,
+      mode: 'artlist',
+      maxrecords: '25',
+      format,
+      timespan: '24h',
+      sort: 'datedesc'
+    });
+
+  if (
+    format === 'jsonp' &&
+    callbackName
+  ) {
+
+    params.set(
+      'callback',
+      callbackName
+    );
+  }
+
+  return (
+    `${LIVE_NEWS_BASE_URL}?` +
+    params.toString()
+  );
+}
+
+async function fetchGdeltJson(query) {
+
+  const url =
+    makeGdeltUrl(
+      query,
+      'json'
+    );
+
+  const response =
     await fetchWithTimeout(
       url,
       {
         cache: 'no-store',
         mode: 'cors',
-        credentials: 'omit',
         headers: {
-          Accept: 'application/json'
+          Accept:
+            'application/json,text/plain,*/*'
         }
       },
-      GDELT_TIMEOUT_MS
+      LIVE_TIMEOUT_MS
     );
 
-  if (!res.ok) {
+  if (!response.ok) {
+
     throw new Error(
-      `GDELT JSON HTTP ${res.status}`
+      `GDELT HTTP ${response.status}`
     );
   }
 
-  const raw =
-    await res.text();
+  const text =
+    await response.text();
 
-  if (!raw.trim()) {
+  if (!text || !text.trim()) {
+
     throw new Error(
-      'GDELT JSON returned an empty response.'
+      'GDELT returned an empty response'
     );
   }
-
-  let data;
 
   try {
-    data =
-      JSON.parse(raw);
-  } catch {
+
+    return JSON.parse(text);
+
+  } catch (_) {
+
     throw new Error(
-      'GDELT JSON response was not valid JSON.'
+      'GDELT did not return valid JSON'
     );
   }
-
-  const liveStories =
-    normalizeGdeltArticles(data);
-
-  if (!liveStories.length) {
-    throw new Error(
-      'GDELT JSON returned no usable stories.'
-    );
-  }
-
-  return liveStories;
 }
 
-function loadLiveNewsFromGdeltJsonp() {
+function fetchGdeltJsonp(query) {
+
   return new Promise(
     (resolve, reject) => {
 
       const callbackName =
-        'voiceOfPeaceGdelt' +
-        Date.now() +
-        Math.random()
+        `voiceOfPeaceGdelt_${Date.now()}_${Math.random()
           .toString(36)
-          .slice(2);
+          .slice(2)}`;
 
       const script =
         document.createElement('script');
@@ -592,18 +341,22 @@ function loadLiveNewsFromGdeltJsonp() {
       let finished = false;
 
       const cleanup = () => {
+
         if (script.parentNode) {
-          script.parentNode.removeChild(script);
+          script.parentNode.removeChild(
+            script
+          );
         }
 
         try {
           delete window[callbackName];
-        } catch {
-          window[callbackName] = undefined;
+        } catch (_) {
+          window[callbackName] =
+            undefined;
         }
       };
 
-      const timeoutId =
+      const timeout =
         setTimeout(() => {
 
           if (finished) return;
@@ -614,7 +367,7 @@ function loadLiveNewsFromGdeltJsonp() {
 
           reject(
             new Error(
-              'GDELT JSONP timed out.'
+              'GDELT JSONP timed out'
             )
           );
 
@@ -627,29 +380,11 @@ function loadLiveNewsFromGdeltJsonp() {
 
           finished = true;
 
-          clearTimeout(
-            timeoutId
-          );
-
-          const liveStories =
-            normalizeGdeltArticles(data);
+          clearTimeout(timeout);
 
           cleanup();
 
-          if (!liveStories.length) {
-
-            reject(
-              new Error(
-                'GDELT JSONP returned no usable stories.'
-              )
-            );
-
-            return;
-          }
-
-          resolve(
-            liveStories
-          );
+          resolve(data);
         };
 
       script.onerror =
@@ -659,239 +394,959 @@ function loadLiveNewsFromGdeltJsonp() {
 
           finished = true;
 
-          clearTimeout(
-            timeoutId
-          );
+          clearTimeout(timeout);
 
           cleanup();
 
           reject(
             new Error(
-              'GDELT JSONP script failed to load.'
+              'GDELT JSONP script failed'
             )
           );
         };
 
-      const params =
-        new URLSearchParams();
-
-      params.set(
-        'query',
-        GDELT_QUERY
-      );
-
-      params.set(
-        'mode',
-        'artlist'
-      );
-
-      params.set(
-        'maxrecords',
-        '25'
-      );
-
-      params.set(
-        'format',
-        'jsonp'
-      );
-
-      params.set(
-        'timespan',
-        '24h'
-      );
-
-      params.set(
-        'sort',
-        'datedesc'
-      );
-
-      params.set(
-        'callback',
-        callbackName
-      );
-
-      params.set(
-        '_',
-        Date.now().toString()
-      );
-
-      script.src =
-        `${GDELT_BASE_URL}?${params.toString()}`;
-
       script.async = true;
 
-      document.head.appendChild(script);
+      script.referrerPolicy =
+        'no-referrer';
+
+      script.src =
+        makeGdeltUrl(
+          query,
+          'jsonp',
+          callbackName
+        );
+
+      document.head.appendChild(
+        script
+      );
     }
   );
 }
 
+function cleanText(value) {
+
+  if (value == null) return '';
+
+  const temp =
+    document.createElement(
+      'textarea'
+    );
+
+  temp.innerHTML =
+    String(value);
+
+  return temp.value
+    .replace(/\s+/g, ' ')
+    .replace(/\u0000/g, '')
+    .trim();
+}
+
+function safeHost(url) {
+
+  try {
+
+    return new URL(url)
+      .hostname
+      .replace(/^www\./i, '');
+
+  } catch (_) {
+
+    return '';
+  }
+}
+
+function titleToSummary(
+  title,
+  source
+) {
+
+  const cleanedTitle =
+    cleanText(title);
+
+  const cleanedSource =
+    cleanText(source);
+
+  if (!cleanedTitle) {
+
+    return (
+      'A new report has been published and is being followed by Voice of Peace.'
+    );
+  }
+
+  return cleanedSource
+    ? `${cleanedTitle}. Reported by ${cleanedSource}.`
+    : `${cleanedTitle}.`;
+}
+
+function buildReflection(article) {
+
+  const title =
+    `${article.title || ''} ${article.domain || ''}`
+      .toLowerCase();
+
+  if (
+    title.includes('war') ||
+    title.includes('attack') ||
+    title.includes('conflict') ||
+    title.includes('violence')
+  ) {
+
+    return {
+      verse_text:
+        'Seek peace and pursue it',
+      verse_reference:
+        'Psalm 34:15',
+      message:
+        'Even during conflict, every effort toward protecting life, truth, and reconciliation matters.'
+    };
+  }
+
+  if (
+    title.includes('community') ||
+    title.includes('neighbor') ||
+    title.includes('charity') ||
+    title.includes('help')
+  ) {
+
+    return {
+      verse_text:
+        'Love your neighbor as yourself',
+      verse_reference:
+        'Leviticus 19:18',
+      message:
+        'Strong communities are built when people treat one another with dignity, compassion, and responsibility.'
+    };
+  }
+
+  return {
+    verse_text:
+      'Depart from evil and do good; seek peace and pursue it',
+    verse_reference:
+      'Psalm 34:15',
+    message:
+      'News tells us what is happening. Our responsibility is to respond with wisdom, compassion, and a commitment to peace.'
+  };
+}
+
+function normalizeLiveArticle(
+  article,
+  index
+) {
+
+  const url =
+    cleanText(
+      article.url ||
+      article.url_mobile ||
+      ''
+    );
+
+  const domain =
+    cleanText(
+      article.domain || ''
+    ) ||
+    safeHost(url) ||
+    'News source';
+
+  const title =
+    cleanText(
+      article.title ||
+      article.name ||
+      article.headline ||
+      'Latest world report'
+    );
+
+  const language =
+    cleanText(
+      article.language || ''
+    );
+
+  return {
+
+    id:
+      cleanText(
+        article.seendate ||
+        article.date ||
+        ''
+      ) +
+      '-' +
+      index +
+      '-' +
+      Math.random()
+        .toString(36)
+        .slice(2, 8),
+
+    category:
+      language &&
+      language.toLowerCase() !==
+        'english'
+        ? 'World News'
+        : 'Latest News',
+
+    headline:
+      title,
+
+    summary:
+      titleToSummary(
+        title,
+        domain
+      ),
+
+    source_line:
+      `Source: ${domain} • Live via GDELT`,
+
+    source_url:
+      url,
+
+    image:
+      cleanText(
+        article.socialimage ||
+        article.image ||
+        article.imageurl ||
+        ''
+      ),
+
+    date:
+      cleanText(
+        article.seendate ||
+        article.date ||
+        article.datetime ||
+        ''
+      ),
+
+    reflection:
+      buildReflection(article)
+  };
+}
+
+function normalizeStory(story) {
+
+  if (
+    !story ||
+    typeof story !== 'object'
+  ) {
+
+    return {
+      ...EMERGENCY_STORY
+    };
+  }
+
+  return {
+
+    id:
+      story.id ||
+      `story-${Date.now()}-${Math.random()}`,
+
+    category:
+      cleanText(
+        story.category ||
+        'Voice of Peace'
+      ),
+
+    headline:
+      cleanText(
+        story.headline ||
+        story.title ||
+        'Voice of Peace'
+      ),
+
+    summary:
+      cleanText(
+        story.summary ||
+        story.description ||
+        'Voice of Peace continues its broadcast.'
+      ),
+
+    source_line:
+      cleanText(
+        story.source_line ||
+        story.source ||
+        'Voice of Peace'
+      ),
+
+    source_url:
+      cleanText(
+        story.source_url ||
+        story.url ||
+        ''
+      ),
+
+    image:
+      cleanText(
+        story.image ||
+        story.socialimage ||
+        ''
+      ),
+
+    reflection: {
+
+      verse_text:
+        cleanText(
+          story.reflection?.verse_text ||
+          'Love your neighbor as yourself'
+        ),
+
+      verse_reference:
+        cleanText(
+          story.reflection?.verse_reference ||
+          'Leviticus 19:18'
+        ),
+
+      message:
+        cleanText(
+          story.reflection?.message ||
+          'Peace begins with the way we treat one another.'
+        )
+    }
+  };
+}
+
+function parseLiveStories(data) {
+
+  if (
+    !data ||
+    typeof data !== 'object'
+  ) {
+    return [];
+  }
+
+  let articles = [];
+
+  if (
+    Array.isArray(data.articles)
+  ) {
+
+    articles =
+      data.articles;
+
+  } else if (
+    Array.isArray(data.results)
+  ) {
+
+    articles =
+      data.results;
+
+  } else if (
+    Array.isArray(data.items)
+  ) {
+
+    articles =
+      data.items;
+  }
+
+  return articles
+
+    .filter(article => {
+
+      const title =
+        cleanText(
+          article?.title ||
+          article?.headline ||
+          ''
+        );
+
+      const url =
+        cleanText(
+          article?.url ||
+          article?.url_mobile ||
+          ''
+        );
+
+      return title && url;
+    })
+
+    .map(normalizeLiveArticle)
+
+    .filter(
+      story =>
+        story.headline.length > 4
+    );
+}
+
+async function tryOneLiveQuery(
+  query
+) {
+
+  try {
+
+    console.log(
+      '[Voice of Peace] Trying GDELT JSON:',
+      query
+    );
+
+    const data =
+      await fetchGdeltJson(query);
+
+    const parsed =
+      parseLiveStories(data);
+
+    if (parsed.length) {
+      return parsed;
+    }
+
+  } catch (error) {
+
+    console.warn(
+      '[Voice of Peace] GDELT JSON failed:',
+      error
+    );
+  }
+
+  try {
+
+    console.log(
+      '[Voice of Peace] Trying GDELT JSONP:',
+      query
+    );
+
+    const data =
+      await fetchGdeltJsonp(query);
+
+    const parsed =
+      parseLiveStories(data);
+
+    if (parsed.length) {
+      return parsed;
+    }
+
+  } catch (error) {
+
+    console.warn(
+      '[Voice of Peace] GDELT JSONP failed:',
+      error
+    );
+  }
+
+  return [];
+}
+
 async function loadLiveNews() {
-  try {
-    const result =
-      await loadLiveNewsFromRss();
 
-    currentLiveSource =
-      'Google News RSS';
-
-    console.log(
-      'Voice of Peace connected using Google News RSS.'
-    );
-
-    return result;
-
-  } catch (rssError) {
-
-    console.warn(
-      'Primary RSS live feed failed. Trying GDELT JSON...',
-      rssError
-    );
+  if (liveRequestInProgress) {
+    return false;
   }
 
-  try {
-    const result =
-      await loadLiveNewsFromGdeltFetch();
+  liveRequestInProgress = true;
 
-    currentLiveSource =
-      'GDELT JSON';
-
-    console.log(
-      'Voice of Peace connected using GDELT JSON.'
-    );
-
-    return result;
-
-  } catch (gdeltFetchError) {
-
-    console.warn(
-      'GDELT JSON failed. Trying GDELT JSONP...',
-      gdeltFetchError
-    );
-  }
-
-  const result =
-    await loadLiveNewsFromGdeltJsonp();
-
-  currentLiveSource =
-    'GDELT JSONP';
-
-  console.log(
-    'Voice of Peace connected using GDELT JSONP.'
+  clearTimeout(
+    liveRetryTimer
   );
 
-  return result;
-}
+  liveRetryTimer = null;
 
-async function loadFallbackData() {
-  const url =
-    './data/sample-news.json?v=' +
-    Date.now();
+  if (!usingLiveNews) {
 
-  const res =
-    await fetchWithTimeout(
-      url,
-      {
-        cache: 'no-store'
-      },
-      FALLBACK_TIMEOUT_MS
+    setStatus(
+      'RETRYING',
+      'Voice of Peace • Connecting to live news'
     );
+  }
 
-  if (!res.ok) {
+  try {
+
+    for (
+      const query of LIVE_QUERIES
+    ) {
+
+      const liveStories =
+        await tryOneLiveQuery(
+          query
+        );
+
+      if (liveStories.length) {
+
+        stories =
+          liveStories;
+
+        usingLiveNews =
+          true;
+
+        current = 0;
+        elapsed = 0;
+        storiesSinceAd = 0;
+        adRunning = false;
+
+        setStatus(
+          'LIVE',
+          `Voice of Peace • Live news • ${liveStories.length} reports loaded`
+        );
+
+        renderCurrentStory();
+
+        return true;
+      }
+    }
+
     throw new Error(
-      `Fallback news HTTP ${res.status}`
+      'All live-news queries returned no usable stories'
     );
+
+  } catch (error) {
+
+    console.warn(
+      '[Voice of Peace] Live news unavailable:',
+      error
+    );
+
+    usingLiveNews =
+      false;
+
+    if (
+      fallbackStories.length
+    ) {
+
+      stories =
+        [...fallbackStories];
+
+    } else if (
+      !stories.length
+    ) {
+
+      stories =
+        [EMERGENCY_STORY];
+    }
+
+    if (
+      current >= stories.length
+    ) {
+      current = 0;
+    }
+
+    setStatus(
+      'RETRYING',
+      `Voice of Peace • Live service unavailable • Retrying in ${LIVE_RETRY_SECONDS} seconds`
+    );
+
+    renderCurrentStory();
+
+    liveRetryTimer =
+      setTimeout(
+        loadLiveNews,
+        LIVE_RETRY_SECONDS *
+          1000
+      );
+
+    return false;
+
+  } finally {
+
+    liveRequestInProgress =
+      false;
   }
-
-  const data =
-    await res.json();
-
-  fallbackStories =
-    Array.isArray(data.stories)
-      ? data.stories
-      : [];
-
-  ads =
-    Array.isArray(data.ads)
-      ? data.ads
-      : [];
-
-  return data;
 }
 
-function beginBroadcast(initialStories) {
-  stories =
-    Array.isArray(initialStories) &&
-    initialStories.length
-      ? initialStories
-      : [EMERGENCY_STORY];
+function renderCurrentStory() {
 
-  current = 0;
-
-  showStory(0);
-
-  startTimer();
-}
-
-function setStoriesWithoutRestart(
-  newStories,
-  resetToFirst = false
-) {
-  if (
-    !Array.isArray(newStories) ||
-    !newStories.length
-  ) {
-    return;
+  if (!stories.length) {
+    stories =
+      [EMERGENCY_STORY];
   }
 
-  stories =
-    newStories;
-
   if (
-    resetToFirst ||
+    current < 0 ||
     current >= stories.length
   ) {
     current = 0;
   }
 
-  showStory(current);
-}
-
-async function loadData() {
-  setLiveBadge(
-    'is-connecting',
-    'CONNECTING'
-  );
-
-  beginBroadcast(
-    [EMERGENCY_STORY]
-  );
-
-  try {
-    await loadFallbackData();
-
-    if (
-      fallbackStories.length &&
-      !usingLiveNews
-    ) {
-      setStoriesWithoutRestart(
-        fallbackStories,
-        true
-      );
-
-      setLiveBadge(
-        'is-backup',
-        'BACKUP'
-      );
-    }
-
-  } catch (err) {
-
-    console.warn(
-      'Fallback news unavailable:',
-      err
+  const story =
+    normalizeStory(
+      stories[current]
     );
+
+  setText(
+    story.category,
+    '#category',
+    '#storyCategory',
+    '[data-story-category]'
+  );
+
+  setText(
+    story.headline,
+    '#headline',
+    '#storyHeadline',
+    '[data-story-headline]'
+  );
+
+  setText(
+    story.summary,
+    '#summary',
+    '#storySummary',
+    '[data-story-summary]'
+  );
+
+  setText(
+    story.source_line,
+    '#sourceLine',
+    '#source',
+    '#storySource',
+    '[data-story-source]'
+  );
+
+  setText(
+    story.reflection.verse_text,
+    '#verseText',
+    '[data-verse-text]'
+  );
+
+  setText(
+    story.reflection.verse_reference,
+    '#verseReference',
+    '[data-verse-reference]'
+  );
+
+  setText(
+    story.reflection.message,
+    '#reflectionMessage',
+    '#reflection',
+    '[data-reflection-message]'
+  );
+
+  const counter =
+    firstElement(
+      '#storyCounter',
+      '#counter',
+      '[data-story-counter]'
+    );
+
+  if (counter) {
+
+    counter.textContent =
+      `${current + 1} / ${Math.max(
+        stories.length,
+        1
+      )}`;
   }
 
-  await refreshLiveNews(true);
+  updateProgress();
+}
+
+function renderAd(ad) {
+
+  if (!ad) return false;
+
+  const headline =
+    cleanText(
+      ad.headline ||
+      ad.title ||
+      ad.name ||
+      'Voice of Peace'
+    );
+
+  const summary =
+    cleanText(
+      ad.summary ||
+      ad.message ||
+      ad.description ||
+      'A short message from Voice of Peace.'
+    );
+
+  setText(
+    'ADVERTISEMENT',
+    '#category',
+    '#storyCategory',
+    '[data-story-category]'
+  );
+
+  setText(
+    headline,
+    '#headline',
+    '#storyHeadline',
+    '[data-story-headline]'
+  );
+
+  setText(
+    summary,
+    '#summary',
+    '#storySummary',
+    '[data-story-summary]'
+  );
+
+  setText(
+    cleanText(
+      ad.source_line ||
+      ad.sponsor ||
+      'Voice of Peace'
+    ),
+    '#sourceLine',
+    '#source',
+    '#storySource',
+    '[data-story-source]'
+  );
+
+  updateProgress();
+
+  return true;
+}
+
+function shouldRunAd() {
+
+  return (
+    ads.length > 0 &&
+    !adRunning &&
+    storiesSinceAd >=
+      AD_EVERY
+  );
+}
+
+function startAd() {
+
+  if (!shouldRunAd()) {
+    return false;
+  }
+
+  const ad =
+    ads[
+      Math.floor(
+        Math.random() *
+        ads.length
+      )
+    ];
+
+  adRunning = true;
+  elapsed = 0;
+  storiesSinceAd = 0;
+
+  renderAd(ad);
+
+  return true;
+}
+
+function nextStory() {
+
+  if (!stories.length) {
+    return;
+  }
+
+  if (adRunning) {
+
+    adRunning = false;
+    elapsed = 0;
+
+    current =
+      (current + 1) %
+      stories.length;
+
+    renderCurrentStory();
+
+    return;
+  }
+
+  storiesSinceAd++;
+
+  if (startAd()) {
+    return;
+  }
+
+  current =
+    (current + 1) %
+    stories.length;
+
+  elapsed = 0;
+
+  renderCurrentStory();
+}
+
+function previousStory() {
+
+  if (!stories.length) {
+    return;
+  }
+
+  adRunning = false;
+  elapsed = 0;
+
+  current =
+    (
+      current -
+      1 +
+      stories.length
+    ) %
+    stories.length;
+
+  renderCurrentStory();
+}
+
+function currentDurationSeconds() {
+
+  return adRunning
+    ? AD_SECONDS
+    : STORY_SECONDS;
+}
+
+function updateProgress() {
+
+  const duration =
+    currentDurationSeconds();
+
+  const percent =
+    duration > 0
+      ? (elapsed / duration) *
+        100
+      : 0;
+
+  setWidth(
+    percent,
+    '#progressFill',
+    '.progress-fill',
+    '[data-progress-fill]'
+  );
+
+  setText(
+    `${Math.max(
+      0,
+      Math.ceil(
+        duration - elapsed
+      )
+    )}s`,
+    '#timeRemaining',
+    '[data-time-remaining]'
+  );
+}
+
+function tick() {
+
+  if (!playing) {
+    return;
+  }
+
+  elapsed += 1;
+
+  if (
+    elapsed >=
+    currentDurationSeconds()
+  ) {
+
+    nextStory();
+
+  } else {
+
+    updateProgress();
+  }
+}
+
+function startTimer() {
+
+  clearInterval(timer);
+
+  timer =
+    setInterval(
+      tick,
+      1000
+    );
+}
+
+function stopSpeech() {
+
+  if (
+    'speechSynthesis'
+    in window
+  ) {
+
+    window
+      .speechSynthesis
+      .cancel();
+  }
+
+  speechBusy = false;
+}
+
+function speakCurrentStory() {
+
+  if (
+    speechBusy ||
+    !(
+      'speechSynthesis'
+      in window
+    ) ||
+    adRunning ||
+    !stories.length
+  ) {
+
+    return;
+  }
+
+  const story =
+    normalizeStory(
+      stories[current]
+    );
+
+  const text =
+    `${story.headline}. ` +
+    `${story.summary}. ` +
+    `${story.reflection.verse_text}. ` +
+    `${story.reflection.verse_reference}. ` +
+    `${story.reflection.message}`;
+
+  const utterance =
+    new SpeechSynthesisUtterance(
+      text
+    );
+
+  utterance.rate = 0.95;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+
+  utterance.onstart =
+    () => {
+      speechBusy = true;
+    };
+
+  utterance.onend =
+    () => {
+      speechBusy = false;
+    };
+
+  utterance.onerror =
+    () => {
+      speechBusy = false;
+    };
+
+  window
+    .speechSynthesis
+    .speak(utterance);
+}
+
+window.addEventListener(
+  'online',
+  () => {
+
+    clearTimeout(
+      liveRetryTimer
+    );
+
+    liveRetryTimer = null;
+
+    loadLiveNews();
+  }
+);
+
+window.addEventListener(
+  'offline',
+  () => {
+
+    usingLiveNews = false;
+
+    setStatus(
+      'RETRYING',
+      'Voice of Peace • Internet connection unavailable • Waiting to reconnect'
+    );
+
+    if (
+      fallbackStories.length
+    ) {
+
+      stories =
+        [...fallbackStories];
+
+      current = 0;
+
+      renderCurrentStory();
+    }
+  }
+);
+
+function startLiveRefresh() {
 
   clearInterval(
     liveRefreshTimer
@@ -899,865 +1354,40 @@ async function loadData() {
 
   liveRefreshTimer =
     setInterval(
-      () =>
-        refreshLiveNews(false),
-
+      () => {
+        loadLiveNews();
+      },
       LIVE_REFRESH_MINUTES *
         60 *
         1000
     );
 }
 
-async function refreshLiveNews(
-  resetToFirstStory = false
-) {
-  setLiveBadge(
-    usingLiveNews
-      ? 'is-live'
-      : 'is-connecting',
+async function initVoiceOfPeace() {
 
-    usingLiveNews
-      ? 'LIVE'
-      : 'CONNECTING'
+  console.log(
+    '[Voice of Peace] Starting broadcast'
   );
 
-  try {
-    const refreshed =
-      await loadLiveNews();
+  stories =
+    [EMERGENCY_STORY];
 
-    if (!refreshed.length) {
-      throw new Error(
-        'Live feed returned no usable stories.'
-      );
-    }
+  current = 0;
 
-    usingLiveNews =
-      true;
+  renderCurrentStory();
 
-    setStoriesWithoutRestart(
-      refreshed,
-      resetToFirstStory ||
-        stories.length <= 1
-    );
-
-    setLiveBadge(
-      'is-live',
-      'LIVE'
-    );
-
-    console.log(
-      `Voice of Peace loaded ${stories.length} live stories from ${currentLiveSource}.`
-    );
-
-  } catch (err) {
-
-    console.warn(
-      'All external live-news sources failed.',
-      err
-    );
-
-    usingLiveNews =
-      false;
-
-    currentLiveSource =
-      '';
-
-    if (fallbackStories.length) {
-
-      setStoriesWithoutRestart(
-        fallbackStories,
-        true
-      );
-
-      setLiveBadge(
-        'is-backup',
-        'BACKUP'
-      );
-
-    } else {
-
-      setStoriesWithoutRestart(
-        [EMERGENCY_STORY],
-        true
-      );
-
-      setLiveBadge(
-        'is-error',
-        'RETRYING'
-      );
-    }
-  }
-}
-
-function showStory(index) {
-  if (!stories.length) {
-    stories =
-      [EMERGENCY_STORY];
-  }
-
-  current =
-    (index + stories.length) %
-    stories.length;
-
-  const s =
-    stories[current] ||
-    EMERGENCY_STORY;
-
-  const category =
-    el('category');
-
-  const headline =
-    el('headline');
-
-  const summary =
-    el('summary');
-
-  const sourceLine =
-    el('sourceLine');
-
-  const verse =
-    el('verse');
-
-  const reflection =
-    el('reflection');
-
-  const ticker =
-    el('ticker');
-
-  if (category) {
-    category.textContent =
-      (
-        s.category ||
-        'News'
-      ).toUpperCase();
-  }
-
-  if (headline) {
-    headline.textContent =
-      s.headline || '';
-  }
-
-  if (summary) {
-    summary.textContent =
-      s.summary || '';
-  }
-
-  if (sourceLine) {
-
-    sourceLine.textContent =
-      s.source_line || '';
-
-    if (s.source_url) {
-
-      sourceLine.style.cursor =
-        'pointer';
-
-      sourceLine.title =
-        'Open original news source';
-
-      sourceLine.setAttribute(
-        'role',
-        'link'
-      );
-
-      sourceLine.tabIndex =
-        0;
-
-      sourceLine.onclick =
-        () => {
-
-          window.open(
-            s.source_url,
-            '_blank',
-            'noopener,noreferrer'
-          );
-        };
-
-      sourceLine.onkeydown =
-        event => {
-
-          if (
-            event.key ===
-              'Enter' ||
-            event.key ===
-              ' '
-          ) {
-            event.preventDefault();
-
-            window.open(
-              s.source_url,
-              '_blank',
-              'noopener,noreferrer'
-            );
-          }
-        };
-
-    } else {
-
-      sourceLine.style.cursor =
-        '';
-
-      sourceLine.title =
-        '';
-
-      sourceLine.removeAttribute(
-        'role'
-      );
-
-      sourceLine.removeAttribute(
-        'tabindex'
-      );
-
-      sourceLine.onclick =
-        null;
-
-      sourceLine.onkeydown =
-        null;
-    }
-  }
-
-  if (s.reflection) {
-
-    if (verse) {
-
-      verse.textContent =
-        `"${s.reflection.verse_text || ''}" — ` +
-        `${s.reflection.verse_reference || ''}`;
-    }
-
-    if (reflection) {
-
-      reflection.textContent =
-        s.reflection.message ||
-        '';
-    }
-
-  } else {
-
-    if (verse) {
-      verse.textContent =
-        '';
-    }
-
-    if (reflection) {
-      reflection.textContent =
-        '';
-    }
-  }
-
-  if (ticker) {
-
-    ticker.textContent =
-      s.ticker ||
-      'Peace • Love • Truth • Compassion • Respect • Help one another';
-  }
-
-  elapsed = 0;
-
-  updateProgress();
-}
-
-function startTimer() {
-  clearInterval(timer);
-
-  timer =
-    setInterval(() => {
-
-      if (
-        !playing ||
-        adRunning
-      ) {
-        return;
-      }
-
-      elapsed += 1;
-
-      updateProgress();
-
-      if (
-        elapsed >=
-        STORY_SECONDS
-      ) {
-
-        const completedStoryNumber =
-          current + 1;
-
-        if (
-          completedStoryNumber %
-            AD_EVERY ===
-          0
-        ) {
-
-          runAd(() =>
-            showStory(
-              current + 1
-            )
-          );
-
-        } else {
-
-          showStory(
-            current + 1
-          );
-        }
-      }
-
-    }, 1000);
-}
-
-function updateProgress() {
-  const progressBar =
-    el('progressBar');
-
-  if (!progressBar) {
-    return;
-  }
-
-  const pct =
-    Math.min(
-      100,
-      (
-        elapsed /
-        STORY_SECONDS
-      ) * 100
-    );
-
-  progressBar.style.width =
-    pct + '%';
-}
-
-function runAd(done) {
-  if (adRunning) {
-    return;
-  }
-
-  const adOverlay =
-    el('adOverlay');
-
-  const adTitle =
-    el('adTitle');
-
-  const adText =
-    el('adText');
-
-  const adCountdown =
-    el('adCountdown');
-
-  if (
-    !adOverlay ||
-    !adTitle ||
-    !adText ||
-    !adCountdown
-  ) {
-    done();
-    return;
-  }
-
-  adRunning =
-    true;
-
-  const wasPlaying =
-    playing;
-
-  const ad =
-    ads.length
-      ? ads[
-          Math.floor(
-            Math.random() *
-              ads.length
-          )
-        ]
-      : {
-          title:
-            'Advertise on Voice of Peace',
-
-          text:
-            'Sponsored messages can appear between Voice of Peace stories.'
-        };
-
-  adTitle.textContent =
-    ad.title ||
-    'Voice of Peace';
-
-  adText.textContent =
-    ad.text || '';
-
-  adOverlay.classList.remove(
-    'hidden'
+  setStatus(
+    'RETRYING',
+    'Voice of Peace • Connecting to live news'
   );
 
-  let remaining =
-    AD_SECONDS;
+  startTimer();
 
-  adCountdown.textContent =
-    remaining;
+  await loadFallbackData();
 
-  const adTimer =
-    setInterval(() => {
+  await loadLiveNews();
 
-      remaining -=
-        1;
-
-      adCountdown.textContent =
-        Math.max(
-          0,
-          remaining
-        );
-
-      if (
-        remaining <= 0
-      ) {
-
-        clearInterval(
-          adTimer
-        );
-
-        adOverlay.classList.add(
-          'hidden'
-        );
-
-        adRunning =
-          false;
-
-        playing =
-          wasPlaying;
-
-        const playBtn =
-          el('playBtn');
-
-        if (playBtn) {
-
-          playBtn.textContent =
-            playing
-              ? 'Pause'
-              : 'Play';
-        }
-
-        done();
-      }
-
-    }, 1000);
-}
-
-function speechSupported() {
-  return (
-    typeof window !==
-      'undefined' &&
-    'speechSynthesis' in
-      window &&
-    typeof window
-      .SpeechSynthesisUtterance !==
-      'undefined'
-  );
-}
-
-function setSoundButtonMessage(
-  message,
-  restoreAfterMs = 2200
-) {
-  const soundBtn =
-    el('soundBtn');
-
-  if (!soundBtn) {
-    return;
-  }
-
-  const original =
-    soundBtn.dataset
-      .originalLabel ||
-    soundBtn.textContent ||
-    'Read Aloud';
-
-  soundBtn.dataset
-    .originalLabel =
-    original;
-
-  soundBtn.textContent =
-    message;
-
-  if (
-    restoreAfterMs > 0
-  ) {
-
-    setTimeout(() => {
-
-      if (!speechBusy) {
-
-        soundBtn.textContent =
-          original;
-      }
-
-    }, restoreAfterMs);
-  }
-}
-
-function chooseEnglishVoice() {
-  if (!speechSupported()) {
-    return null;
-  }
-
-  const voices =
-    window.speechSynthesis
-      .getVoices();
-
-  if (
-    !voices ||
-    !voices.length
-  ) {
-    return null;
-  }
-
-  return (
-    voices.find(
-      voice =>
-        /^en-US/i.test(
-          voice.lang
-        ) &&
-        /Samantha|Ava|Alex|Google US English|Microsoft/i.test(
-          voice.name
-        )
-    ) ||
-
-    voices.find(
-      voice =>
-        /^en-US/i.test(
-          voice.lang
-        )
-    ) ||
-
-    voices.find(
-      voice =>
-        /^en/i.test(
-          voice.lang
-        )
-    ) ||
-
-    voices[0]
-  );
-}
-
-function stopSpeech() {
-  if (!speechSupported()) {
-    return;
-  }
-
-  try {
-    window.speechSynthesis
-      .cancel();
-  } catch {}
-
-  speechBusy =
-    false;
-
-  const soundBtn =
-    el('soundBtn');
-
-  if (soundBtn) {
-
-    soundBtn.textContent =
-      soundBtn.dataset
-        .originalLabel ||
-      'Read Aloud';
-  }
-}
-
-function readCurrentStory() {
-  if (!stories.length) {
-    return;
-  }
-
-  if (!speechSupported()) {
-
-    setSoundButtonMessage(
-      'Audio unavailable'
-    );
-
-    return;
-  }
-
-  const s =
-    stories[current] ||
-    EMERGENCY_STORY;
-
-  const r =
-    s.reflection || {};
-
-  const script = [
-    'Good morning. This is the Voice of Peace by Emmanuel and Camili Hileah.',
-
-    s.headline || '',
-
-    s.summary || '',
-
-    s.source_line
-      ? `Source. ${s.source_line}`
-      : '',
-
-    'Now, here is the Voice of Peace reflection.',
-
-    r.verse_text
-      ? `${r.verse_text}. ${r.verse_reference || ''}.`
-      : '',
-
-    r.message || '',
-
-    'This is the Voice of Peace by Emmanuel and Camili Hileah. Peace begins with me. Peace begins with you.'
-  ]
-    .filter(Boolean)
-    .join(' ');
-
-  try {
-
-    window.speechSynthesis
-      .cancel();
-
-    const utter =
-      new SpeechSynthesisUtterance(
-        script
-      );
-
-    const voice =
-      chooseEnglishVoice();
-
-    if (voice) {
-
-      utter.voice =
-        voice;
-
-      utter.lang =
-        voice.lang ||
-        'en-US';
-
-    } else {
-
-      utter.lang =
-        'en-US';
-    }
-
-    utter.rate =
-      0.94;
-
-    utter.pitch =
-      1.0;
-
-    utter.volume =
-      1.0;
-
-    utter.onstart =
-      () => {
-
-        speechBusy =
-          true;
-
-        setSoundButtonMessage(
-          'Speaking…',
-          0
-        );
-      };
-
-    utter.onend =
-      () => {
-
-        speechBusy =
-          false;
-
-        const soundBtn =
-          el('soundBtn');
-
-        if (soundBtn) {
-
-          soundBtn.textContent =
-            soundBtn.dataset
-              .originalLabel ||
-            'Read Aloud';
-        }
-      };
-
-    utter.onerror =
-      event => {
-
-        console.warn(
-          'Speech playback failed:',
-          event
-        );
-
-        speechBusy =
-          false;
-
-        setSoundButtonMessage(
-          'Audio unavailable'
-        );
-      };
-
-    try {
-
-      window.speechSynthesis
-        .resume();
-
-    } catch {}
-
-    window.speechSynthesis
-      .speak(utter);
-
-  } catch (err) {
-
-    console.warn(
-      'Speech playback unavailable:',
-      err
-    );
-
-    speechBusy =
-      false;
-
-    setSoundButtonMessage(
-      'Audio unavailable'
-    );
-  }
-}
-
-function setupButtons() {
-  const prevBtn =
-    el('prevBtn');
-
-  const nextBtn =
-    el('nextBtn');
-
-  const playBtn =
-    el('playBtn');
-
-  const soundBtn =
-    el('soundBtn');
-
-  if (prevBtn) {
-
-    prevBtn.addEventListener(
-      'click',
-      () => {
-
-        stopSpeech();
-
-        showStory(
-          current - 1
-        );
-      }
-    );
-  }
-
-  if (nextBtn) {
-
-    nextBtn.addEventListener(
-      'click',
-      () => {
-
-        stopSpeech();
-
-        showStory(
-          current + 1
-        );
-      }
-    );
-  }
-
-  if (playBtn) {
-
-    playBtn.addEventListener(
-      'click',
-      () => {
-
-        playing =
-          !playing;
-
-        playBtn.textContent =
-          playing
-            ? 'Pause'
-            : 'Play';
-
-        if (
-          speechSupported()
-        ) {
-
-          try {
-
-            if (!playing) {
-
-              window
-                .speechSynthesis
-                .pause();
-
-            } else {
-
-              window
-                .speechSynthesis
-                .resume();
-            }
-
-          } catch {}
-        }
-      }
-    );
-  }
-
-  if (soundBtn) {
-
-    soundBtn.dataset
-      .originalLabel =
-      soundBtn.textContent ||
-      'Read Aloud';
-
-    soundBtn.addEventListener(
-      'click',
-      () => {
-
-        if (
-          speechBusy &&
-          speechSupported()
-        ) {
-
-          stopSpeech();
-
-          return;
-        }
-
-        readCurrentStory();
-      }
-    );
-  }
-}
-
-function prepareSpeechVoices() {
-  if (!speechSupported()) {
-    return;
-  }
-
-  try {
-
-    window.speechSynthesis
-      .getVoices();
-
-    if (
-      'onvoiceschanged' in
-      window.speechSynthesis
-    ) {
-
-      window.speechSynthesis
-        .onvoiceschanged =
-        () => {
-
-          window
-            .speechSynthesis
-            .getVoices();
-        };
-    }
-
-  } catch {}
-}
-
-function startApp() {
-  setupButtons();
-
-  prepareSpeechVoices();
-
-  loadData();
+  startLiveRefresh();
 }
 
 if (
@@ -1767,13 +1397,51 @@ if (
 
   document.addEventListener(
     'DOMContentLoaded',
-    startApp,
-    {
-      once: true
-    }
+    initVoiceOfPeace,
+    { once: true }
   );
 
 } else {
 
-  startApp();
+  initVoiceOfPeace();
 }
+
+window.VoiceOfPeace = {
+
+  retry:
+    loadLiveNews,
+
+  next:
+    nextStory,
+
+  previous:
+    previousStory,
+
+  speak:
+    speakCurrentStory,
+
+  stopSpeech,
+
+  status() {
+
+    return {
+
+      usingLiveNews,
+
+      liveRequestInProgress,
+
+      storyCount:
+        stories.length,
+
+      backupStoryCount:
+        fallbackStories.length,
+
+      adCount:
+        ads.length,
+
+      current,
+
+      playing
+    };
+  }
+};

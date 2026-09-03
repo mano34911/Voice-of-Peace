@@ -1,1 +1,29 @@
-
+{
+  "stories": [
+    {
+      "id": "fallback-001",
+      "category": "Voice of Peace",
+      "headline": "Voice of Peace is standing by",
+      "summary": "Live news is temporarily unavailable. The station will keep trying automatically.",
+      "source_line": "Voice of Peace",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Peace begins with patience, truth, compassion, and respect for one another."
+      }
+    },
+    {
+      "id": "fallback-002",
+      "category": "Community",
+      "headline": "A message of peace",
+      "summary": "While live feeds reconnect, Voice of Peace continues with messages that encourage understanding and cooperation.",
+      "source_line": "Voice of Peace",
+      "reflection": {
+        "verse_text": "Love your neighbor as yourself.",
+        "verse_reference": "Leviticus 19:18",
+        "message": "Every respectful conversation can become a small act of peace."
+      }
+    }
+  ],
+  "ads": []
+}

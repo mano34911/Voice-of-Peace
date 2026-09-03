@@ -6,7 +6,55 @@
   <meta name="theme-color" content="#06152d" />
   <title>Voice of Peace</title>
   <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .globe {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 4px solid #f2cf64;
+      background: radial-gradient(
+        circle,
+        rgba(255,255,255,.15) 0%,
+        rgba(19,78,138,.35) 45%,
+        rgba(5,24,53,.9) 100%
+      );
+      box-shadow:
+        0 0 14px rgba(242,207,100,.45),
+        0 0 28px rgba(76,170,255,.20);
+    }
+
+    .globe img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      border-radius: 50%;
+    }
+
+    @media (min-width: 700px) {
+      .globe {
+        width: 160px;
+        height: 160px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .globe {
+        width: 115px;
+        height: 115px;
+        border-width: 3px;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <main class="app-shell">
     <header class="topbar">
@@ -15,11 +63,21 @@
         <h1>VOICE OF PEACE</h1>
         <p class="byline">by Emmanuel Hileah</p>
       </div>
-      <div class="live-badge" id="liveBadge">LIVE</div>
+      <div class="live-badge" id="liveBadge" aria-label="Live broadcast status">LIVE</div>
     </header>
 
     <section class="hero">
-      <div class="globe">☮</div>
+      <div class="globe">
+        <img
+          src="./a7b675c3-20f7-4dd2-9c46-0a555032bddb.jpeg"
+          alt="Voice of Peace"
+          id="voiceOfPeacePhoto"
+          loading="eager"
+          decoding="async"
+          onerror="this.style.display='none'; this.parentElement.innerHTML='☮';"
+        />
+      </div>
+
       <div class="hero-copy">
         <p class="kicker" id="category">WORLD</p>
         <h2 id="headline">Loading today's broadcast…</h2>
@@ -39,14 +97,16 @@
     </section>
 
     <section class="ticker-wrap">
-      <div class="ticker" id="ticker">Peace • Love • Truth • Compassion • Respect • Help one another</div>
+      <div class="ticker" id="ticker">
+        Peace • Love • Truth • Compassion • Respect • Help one another
+      </div>
     </section>
 
     <footer class="controls">
-      <button id="prevBtn" aria-label="Previous story">◀</button>
-      <button id="playBtn" class="primary">Pause</button>
-      <button id="nextBtn" aria-label="Next story">▶</button>
-      <button id="soundBtn">Read Aloud</button>
+      <button id="prevBtn" type="button" aria-label="Previous story">◀</button>
+      <button id="playBtn" type="button" class="primary">Pause</button>
+      <button id="nextBtn" type="button" aria-label="Next story">▶</button>
+      <button id="soundBtn" type="button">Read Aloud</button>
     </footer>
 
     <div class="progress"><div id="progressBar"></div></div>

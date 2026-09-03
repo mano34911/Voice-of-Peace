@@ -1,26 +1,19 @@
 name: Update Voice of Peace YouTube News
 
 on:
-
   workflow_dispatch:
 
   schedule:
-
-    # Every 30 minutes
     - cron: "*/30 * * * *"
 
-
 permissions:
-
   contents: write
-
 
 jobs:
 
   update-youtube-news:
 
     runs-on: ubuntu-latest
-
 
     steps:
 
@@ -32,21 +25,16 @@ jobs:
         uses: actions/setup-python@v5
 
         with:
-
           python-version: "3.12"
 
 
-      - name: Install YouTube reader
-
+      - name: Install yt-dlp
         run: |
-
           python -m pip install --upgrade pip
+          python -m pip install --upgrade yt-dlp
 
-          pip install yt-dlp
 
-
-      - name: Collect latest conservative news videos
-
+      - name: Collect latest YouTube news videos
         run: |
 
           python <<'PY'
@@ -62,41 +50,36 @@ jobs:
 
               {
                   "source": "Fox News",
-                  "url":
-                      "https://www.youtube.com/@FoxNews/videos"
+                  "url": "https://www.youtube.com/@FoxNews/videos"
               },
 
               {
                   "source": "Newsmax",
-                  "url":
-                      "https://www.youtube.com/@NewsmaxTV/videos"
+                  "url": "https://www.youtube.com/@NewsmaxTV/videos"
               },
 
               {
                   "source": "OAN",
-                  "url":
-                      "https://www.youtube.com/@oann/videos"
+                  "url": "https://www.youtube.com/@oann/videos"
               },
 
               {
                   "source": "Breitbart",
-                  "url":
-                      "https://www.youtube.com/@breitbartnews92/videos"
+                  "url": "https://www.youtube.com/@breitbartnews92/videos"
               },
 
               {
                   "source": "Daily Wire",
-                  "url":
-                      "https://www.youtube.com/@DailyWire/videos"
+                  "url": "https://www.youtube.com/@DailyWire/videos"
               }
 
           ]
 
 
-          videos = []
+          all_videos = []
 
 
-          options = {
+          ydl_options = {
 
               "quiet": True,
 
@@ -106,17 +89,19 @@ jobs:
 
               "skip_download": True,
 
-              "playlistend": 5
+              "playlistend": 8,
+
+              "ignoreerrors": True
 
           }
 
 
-          with YoutubeDL(options) as ydl:
+          with YoutubeDL(ydl_options) as ydl:
 
               for source in SOURCES:
 
                   print(
-                      "Checking:",
+                      "\nChecking:",
                       source["source"]
                   )
 
@@ -129,25 +114,74 @@ jobs:
                       )
 
 
+                      if not info:
+
+                          print(
+                              "No information returned for",
+                              source["source"]
+                          )
+
+                          continue
+
+
                       entries = (
                           info.get("entries")
                           or []
                       )
 
 
-                      for entry in entries[:5]:
+                      saved_count = 0
+
+
+                      for entry in entries:
+
+                          if not entry:
+                              continue
+
 
                           video_id = (
                               entry.get("id")
                               or ""
-                          )
+                          ).strip()
+
+
+                          title = (
+                              entry.get("title")
+                              or
+                              "Latest video report"
+                          ).strip()
 
 
                           if not video_id:
                               continue
 
 
-                          videos.append({
+                          video_url = (
+                              "https://www.youtube.com/watch?v="
+                              +
+                              video_id
+                          )
+
+
+                          embed_url = (
+                              "https://www.youtube.com/embed/"
+                              +
+                              video_id
+                              +
+                              "?rel=0"
+                          )
+
+
+                          thumbnail = (
+                              "https://i.ytimg.com/vi/"
+                              +
+                              video_id
+                              +
+                              "/hqdefault.jpg"
+                          )
+
+
+                          all_videos.append({
 
                               "source":
                                   source["source"],
@@ -156,29 +190,38 @@ jobs:
                                   video_id,
 
                               "title":
-                                  entry.get("title")
-                                  or
-                                  "Latest video report",
+                                  title,
 
                               "url":
-                                  "https://www.youtube.com/watch?v="
-                                  +
-                                  video_id,
+                                  video_url,
+
+                              "embed_url":
+                                  embed_url,
 
                               "thumbnail":
-                                  "https://i.ytimg.com/vi/"
-                                  +
-                                  video_id
-                                  +
-                                  "/hqdefault.jpg"
+                                  thumbnail
 
                           })
+
+
+                          saved_count += 1
+
+
+                          if saved_count >= 5:
+                              break
+
+
+                      print(
+                          source["source"],
+                          "videos saved:",
+                          saved_count
+                      )
 
 
                   except Exception as error:
 
                       print(
-                          "Could not update",
+                          "ERROR checking",
                           source["source"],
                           ":",
                           error
@@ -193,7 +236,7 @@ jobs:
                   ).isoformat(),
 
               "videos":
-                  videos
+                  all_videos
 
           }
 
@@ -204,8 +247,13 @@ jobs:
           )
 
 
+          output_file = (
+              "data/youtube-news.json"
+          )
+
+
           with open(
-              "data/youtube-news.json",
+              output_file,
               "w",
               encoding="utf-8"
           ) as file:
@@ -219,16 +267,52 @@ jobs:
 
 
           print(
-              "Saved",
-              len(videos),
-              "videos."
+              "\n================================"
           )
+
+          print(
+              "TOTAL VIDEOS SAVED:",
+              len(all_videos)
+          )
+
+          print(
+              "FILE:",
+              output_file
+          )
+
+          print(
+              "================================"
+          )
+
+
+          for source in SOURCES:
+
+              count = len([
+                  video
+                  for video
+                  in all_videos
+                  if video["source"]
+                  ==
+                  source["source"]
+              ])
+
+              print(
+                  source["source"],
+                  ":",
+                  count
+              )
 
           PY
 
 
-      - name: Commit updated YouTube news
+      - name: Show generated YouTube file
+        run: |
+          echo "===== youtube-news.json ====="
+          cat data/youtube-news.json
+          echo "============================="
 
+
+      - name: Commit updated YouTube news
         run: |
 
           git config user.name \
@@ -245,8 +329,7 @@ jobs:
             --quiet
           then
 
-            echo \
-              "No YouTube changes"
+            echo "No YouTube changes"
 
           else
 

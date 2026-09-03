@@ -1,1 +1,19 @@
-
+{
+  "updated": "2026-09-03T20:30:00Z",
+  "stories": [
+    {
+      "id": "starter-001",
+      "category": "Voice of Peace",
+      "headline": "Voice of Peace live news system is ready",
+      "summary": "The live news system is ready and waiting for the automatic news update.",
+      "source_line": "LIVE • Voice of Peace",
+      "url": "",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Peace begins with truth, compassion and understanding."
+      }
+    }
+  ]
+}

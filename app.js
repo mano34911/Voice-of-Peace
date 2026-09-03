@@ -14,6 +14,9 @@ const LIVE_NEWS_FILE =
 const FALLBACK_FILE =
   'data/sample-news.json';
 
+const DEFAULT_STORY_IMAGE =
+  'many.jpeg';
+
 
 let stories = [];
 let ads = [];
@@ -34,6 +37,9 @@ let liveRefreshTimer = null;
 let retryTimer = null;
 
 let speechBusy = false;
+
+/* Speak the Voice of Peace reflection only once per page load. */
+let reflectionSpoken = false;
 
 let usingLiveNews = false;
 
@@ -806,32 +812,49 @@ function renderStory() {
     el('newsImage');
 
 
-  if (
-    image &&
-    story.image
-  ) {
+  if (image) {
 
-    image.src =
-      story.image;
-
-
-    image.style.display =
-      '';
-
+    const storyImage =
+      story.image ||
+      DEFAULT_STORY_IMAGE;
 
     image.onerror =
       () => {
 
-        image.style.display =
-          'none';
+        if (
+          image.dataset.fallbackApplied !==
+          'yes'
+        ) {
+
+          image.dataset.fallbackApplied =
+            'yes';
+
+          image.src =
+            DEFAULT_STORY_IMAGE;
+
+          image.style.display =
+            '';
+
+        } else {
+
+          image.style.display =
+            'none';
+        }
       };
 
-  } else if (
-    image
-  ) {
+
+    image.dataset.fallbackApplied =
+      story.image
+        ? 'no'
+        : 'yes';
+
+
+    image.src =
+      storyImage;
+
 
     image.style.display =
-      'none';
+      '';
   }
 
 
@@ -1212,26 +1235,54 @@ function speakStory(
   }
 
 
-  const text = [
+  const speechParts = [
 
     story?.category,
 
     story?.headline,
 
-    story?.summary,
+    story?.summary
 
+  ];
+
+
+  /*
+    Read the Voice of Peace reflection only once,
+    on the first real/fallback news story.
+    Do not use the temporary emergency story for this.
+  */
+  if (
+    !reflectionSpoken &&
+    story?.id !== EMERGENCY_STORY.id &&
     story?.reflection
-      ?.message
+  ) {
 
-  ]
+    const verseText =
+      story.reflection.verse_text ||
+      'Seek peace and pursue it.';
 
-    .filter(
-      Boolean
-    )
+    const verseReference =
+      story.reflection.verse_reference ||
+      'Psalm 34:14';
 
-    .join(
-      '. '
+    const reflectionMessage =
+      story.reflection.message ||
+      'Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace.';
+
+    speechParts.push(
+      'Voice of Peace Reflection',
+      `${verseText}. ${verseReference}`,
+      reflectionMessage
     );
+
+    reflectionSpoken = true;
+  }
+
+
+  const text =
+    speechParts
+      .filter(Boolean)
+      .join('. ');
 
 
   if (

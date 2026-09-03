@@ -16,24 +16,15 @@
 
   <title>Voice of Peace</title>
 
-  <!-- YOUR EXISTING CSS FILE -->
   <link
     rel="stylesheet"
-    href="style.css?v=20260903-1400"
+    href="style.css?v=20260903-1700"
   >
 </head>
 
 <body>
 
-  <!-- =========================
-       MAIN APP
-       ========================= -->
-
   <div class="app">
-
-    <!-- =========================
-         HEADER
-         ========================= -->
 
     <header class="header">
 
@@ -53,8 +44,6 @@
 
       </div>
 
-
-      <!-- LIVE STATUS -->
       <div
         id="liveStatus"
         class="status-badge connecting"
@@ -65,29 +54,23 @@
     </header>
 
 
-    <!-- =========================
-         MAIN CONTENT
-         ========================= -->
-
     <main class="main-content">
 
-
-      <!-- OPTIONAL IMAGE -->
       <section class="photo-section">
+
+        <div class="logo-circle">
+          ☮
+        </div>
 
         <img
           id="storyImage"
           class="story-image"
-          alt="Voice of Peace"
+          alt="News story"
           style="display:none;"
         >
 
       </section>
 
-
-      <!-- =========================
-           STORY
-           ========================= -->
 
       <section class="story-card">
 
@@ -98,7 +81,6 @@
           Voice of Peace
         </div>
 
-
         <h2
           id="headline"
           class="headline"
@@ -106,14 +88,12 @@
           Voice of Peace is ready
         </h2>
 
-
         <p
           id="summary"
           class="summary"
         >
           Connecting to live news...
         </p>
-
 
         <a
           id="storyLink"
@@ -128,10 +108,6 @@
 
       </section>
 
-
-      <!-- =========================
-           REPORTING / SOURCE
-           ========================= -->
 
       <section class="reporting-card">
 
@@ -149,25 +125,18 @@
       </section>
 
 
-      <!-- =========================
-           REFLECTION
-           ========================= -->
-
       <section class="reflection-card">
 
         <div class="section-label">
           VOICE OF PEACE REFLECTION
         </div>
 
-
         <div
           id="verse"
           class="verse"
         >
-          “Love your neighbor as yourself.”
-          — Leviticus 19:18
+          “Love your neighbor as yourself.” — Leviticus 19:18
         </div>
-
 
         <p
           id="reflection"
@@ -180,23 +149,12 @@
       </section>
 
 
-      <!-- =========================
-           MESSAGE
-           ========================= -->
-
       <section class="peace-message">
-
-        Respect • Help one another
-
+        Respect • Help one another • Choose peace
       </section>
 
 
-      <!-- =========================
-           PLAYER CONTROLS
-           ========================= -->
-
       <section class="player-controls">
-
 
         <button
           id="prevBtn"
@@ -206,7 +164,6 @@
           ◀
         </button>
 
-
         <button
           id="playBtn"
           type="button"
@@ -215,7 +172,6 @@
           Pause
         </button>
 
-
         <button
           id="nextBtn"
           type="button"
@@ -223,7 +179,6 @@
         >
           ▶
         </button>
-
 
         <button
           id="soundBtn"
@@ -236,10 +191,6 @@
 
       </section>
 
-
-      <!-- =========================
-           PROGRESS BAR
-           ========================= -->
 
       <div class="progress-container">
 
@@ -255,10 +206,6 @@
   </div>
 
 
-  <!-- =========================
-       ADVERTISEMENT OVERLAY
-       ========================= -->
-
   <div
     id="adOverlay"
     class="ad-overlay"
@@ -271,16 +218,13 @@
         SPONSORED MESSAGE
       </div>
 
-
       <h2 id="adTitle">
         Voice of Peace
       </h2>
 
-
       <p id="adText">
         We will return after this short message.
       </p>
-
 
       <div class="ad-countdown-text">
 
@@ -299,17 +243,8 @@
   </div>
 
 
-  <!-- =========================
-       JAVASCRIPT
-
-       IMPORTANT:
-       NEW VERSION NUMBER
-       FORCES GITHUB/BROWSER
-       TO LOAD THE NEW APP.JS
-       ========================= -->
-
   <script
-    src="app.js?v=20260903-1400"
+    src="app.js?v=20260903-1700"
   ></script>
 
 </body>

@@ -1,1 +1,259 @@
+name: Update Voice of Peace YouTube News
 
+on:
+
+  workflow_dispatch:
+
+  schedule:
+
+    # Every 30 minutes
+    - cron: "*/30 * * * *"
+
+
+permissions:
+
+  contents: write
+
+
+jobs:
+
+  update-youtube-news:
+
+    runs-on: ubuntu-latest
+
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+
+        with:
+
+          python-version: "3.12"
+
+
+      - name: Install YouTube reader
+
+        run: |
+
+          python -m pip install --upgrade pip
+
+          pip install yt-dlp
+
+
+      - name: Collect latest conservative news videos
+
+        run: |
+
+          python <<'PY'
+
+          import json
+          import os
+          from datetime import datetime, timezone
+
+          from yt_dlp import YoutubeDL
+
+
+          SOURCES = [
+
+              {
+                  "source": "Fox News",
+                  "url":
+                      "https://www.youtube.com/@FoxNews/videos"
+              },
+
+              {
+                  "source": "Newsmax",
+                  "url":
+                      "https://www.youtube.com/@NewsmaxTV/videos"
+              },
+
+              {
+                  "source": "OAN",
+                  "url":
+                      "https://www.youtube.com/@oann/videos"
+              },
+
+              {
+                  "source": "Breitbart",
+                  "url":
+                      "https://www.youtube.com/@breitbartnews92/videos"
+              },
+
+              {
+                  "source": "Daily Wire",
+                  "url":
+                      "https://www.youtube.com/@DailyWire/videos"
+              }
+
+          ]
+
+
+          videos = []
+
+
+          options = {
+
+              "quiet": True,
+
+              "no_warnings": True,
+
+              "extract_flat": True,
+
+              "skip_download": True,
+
+              "playlistend": 5
+
+          }
+
+
+          with YoutubeDL(options) as ydl:
+
+              for source in SOURCES:
+
+                  print(
+                      "Checking:",
+                      source["source"]
+                  )
+
+
+                  try:
+
+                      info = ydl.extract_info(
+                          source["url"],
+                          download=False
+                      )
+
+
+                      entries = (
+                          info.get("entries")
+                          or []
+                      )
+
+
+                      for entry in entries[:5]:
+
+                          video_id = (
+                              entry.get("id")
+                              or ""
+                          )
+
+
+                          if not video_id:
+                              continue
+
+
+                          videos.append({
+
+                              "source":
+                                  source["source"],
+
+                              "video_id":
+                                  video_id,
+
+                              "title":
+                                  entry.get("title")
+                                  or
+                                  "Latest video report",
+
+                              "url":
+                                  "https://www.youtube.com/watch?v="
+                                  +
+                                  video_id,
+
+                              "thumbnail":
+                                  "https://i.ytimg.com/vi/"
+                                  +
+                                  video_id
+                                  +
+                                  "/hqdefault.jpg"
+
+                          })
+
+
+                  except Exception as error:
+
+                      print(
+                          "Could not update",
+                          source["source"],
+                          ":",
+                          error
+                      )
+
+
+          result = {
+
+              "updated":
+                  datetime.now(
+                      timezone.utc
+                  ).isoformat(),
+
+              "videos":
+                  videos
+
+          }
+
+
+          os.makedirs(
+              "data",
+              exist_ok=True
+          )
+
+
+          with open(
+              "data/youtube-news.json",
+              "w",
+              encoding="utf-8"
+          ) as file:
+
+              json.dump(
+                  result,
+                  file,
+                  indent=2,
+                  ensure_ascii=False
+              )
+
+
+          print(
+              "Saved",
+              len(videos),
+              "videos."
+          )
+
+          PY
+
+
+      - name: Commit updated YouTube news
+
+        run: |
+
+          git config user.name \
+            "Voice of Peace News Bot"
+
+          git config user.email \
+            "actions@github.com"
+
+          git add \
+            data/youtube-news.json
+
+          if git diff \
+            --cached \
+            --quiet
+          then
+
+            echo \
+              "No YouTube changes"
+
+          else
+
+            git commit \
+              -m \
+              "Update Voice of Peace YouTube news"
+
+            git push
+
+          fi

@@ -1,153 +1,317 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#06152d" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="Voice of Peace - Live news, messages of peace, community and understanding."
+  >
 
   <title>Voice of Peace</title>
 
-  <link rel="stylesheet" href="./styles.css?v=20260903-0917" />
-
-  <style>
-    .globe {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      border: 4px solid #f2cf64;
-      background: radial-gradient(
-        circle,
-        rgba(255, 255, 255, 0.15) 0%,
-        rgba(19, 78, 138, 0.35) 45%,
-        rgba(5, 24, 53, 0.9) 100%
-      );
-      box-shadow:
-        0 0 14px rgba(242, 207, 100, 0.45),
-        0 0 28px rgba(76, 170, 255, 0.20);
-    }
-
-    .globe img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      display: block;
-      border-radius: 50%;
-    }
-
-    @media (min-width: 700px) {
-      .globe {
-        width: 160px;
-        height: 160px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .globe {
-        width: 115px;
-        height: 115px;
-        border-width: 3px;
-      }
-    }
-  </style>
+  <!-- YOUR EXISTING CSS FILE -->
+  <link
+    rel="stylesheet"
+    href="style.css?v=20260903-1400"
+  >
 </head>
 
 <body>
-  <main class="app-shell">
-    <header class="topbar">
-      <div>
-        <div class="eyebrow">THIS IS THE</div>
-        <h1>VOICE OF PEACE</h1>
-        <p class="byline">by Emmanuel &amp; Camili Hileah</p>
+
+  <!-- =========================
+       MAIN APP
+       ========================= -->
+
+  <div class="app">
+
+    <!-- =========================
+         HEADER
+         ========================= -->
+
+    <header class="header">
+
+      <div class="brand">
+
+        <div class="small-title">
+          THIS IS THE
+        </div>
+
+        <h1>
+          VOICE OF PEACE
+        </h1>
+
+        <div class="byline">
+          By Emmanuel &amp; Camili Hileah
+        </div>
+
       </div>
 
+
+      <!-- LIVE STATUS -->
       <div
-        class="live-badge"
-        id="liveBadge"
-        aria-label="Live broadcast status"
+        id="liveStatus"
+        class="status-badge connecting"
       >
         CONNECTING
       </div>
+
     </header>
 
-    <section class="hero">
-      <div class="globe">
+
+    <!-- =========================
+         MAIN CONTENT
+         ========================= -->
+
+    <main class="main-content">
+
+
+      <!-- OPTIONAL IMAGE -->
+      <section class="photo-section">
+
         <img
-          src="./a7b675c3-20f7-4dd2-9c46-0a555032bddb.jpeg?v=20260903-0917"
+          id="storyImage"
+          class="story-image"
           alt="Voice of Peace"
-          id="voiceOfPeacePhoto"
-          loading="eager"
-          decoding="async"
-          onerror="this.style.display='none'; this.parentElement.innerHTML='☮';"
-        />
-      </div>
+          style="display:none;"
+        >
 
-      <div class="hero-copy">
-        <p class="kicker" id="category">VOICE OF PEACE</p>
-        <h2 id="headline">Connecting to live news…</h2>
-        <p id="summary">
-          Voice of Peace is checking the latest live news feed.
+      </section>
+
+
+      <!-- =========================
+           STORY
+           ========================= -->
+
+      <section class="story-card">
+
+        <div
+          id="category"
+          class="category"
+        >
+          Voice of Peace
+        </div>
+
+
+        <h2
+          id="headline"
+          class="headline"
+        >
+          Voice of Peace is ready
+        </h2>
+
+
+        <p
+          id="summary"
+          class="summary"
+        >
+          Connecting to live news...
         </p>
+
+
+        <a
+          id="storyLink"
+          class="read-more"
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          style="display:none;"
+        >
+          Read Full Story
+        </a>
+
+      </section>
+
+
+      <!-- =========================
+           REPORTING / SOURCE
+           ========================= -->
+
+      <section class="reporting-card">
+
+        <div class="section-label">
+          REPORTING
+        </div>
+
+        <div
+          id="sourceLine"
+          class="source-line"
+        >
+          Voice of Peace • Connecting to live news
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           REFLECTION
+           ========================= -->
+
+      <section class="reflection-card">
+
+        <div class="section-label">
+          VOICE OF PEACE REFLECTION
+        </div>
+
+
+        <div
+          id="verse"
+          class="verse"
+        >
+          “Love your neighbor as yourself.”
+          — Leviticus 19:18
+        </div>
+
+
+        <p
+          id="reflection"
+          class="reflection"
+        >
+          Peace begins with the way we speak,
+          listen, and treat one another.
+        </p>
+
+      </section>
+
+
+      <!-- =========================
+           MESSAGE
+           ========================= -->
+
+      <section class="peace-message">
+
+        Respect • Help one another
+
+      </section>
+
+
+      <!-- =========================
+           PLAYER CONTROLS
+           ========================= -->
+
+      <section class="player-controls">
+
+
+        <button
+          id="prevBtn"
+          type="button"
+          aria-label="Previous story"
+        >
+          ◀
+        </button>
+
+
+        <button
+          id="playBtn"
+          type="button"
+          aria-label="Pause"
+        >
+          Pause
+        </button>
+
+
+        <button
+          id="nextBtn"
+          type="button"
+          aria-label="Next story"
+        >
+          ▶
+        </button>
+
+
+        <button
+          id="soundBtn"
+          type="button"
+          data-sound="on"
+          aria-label="Sound"
+        >
+          Sound On
+        </button>
+
+      </section>
+
+
+      <!-- =========================
+           PROGRESS BAR
+           ========================= -->
+
+      <div class="progress-container">
+
+        <div
+          id="progressBar"
+          class="progress-bar"
+        ></div>
+
       </div>
-    </section>
 
-    <section class="source-panel">
-      <span class="label">REPORTING</span>
-      <p id="sourceLine">Voice of Peace • Connecting to live news</p>
-    </section>
+    </main>
 
-    <section class="reflection-panel">
-      <span class="label">VOICE OF PEACE REFLECTION</span>
-
-      <blockquote id="verse">
-        “Love your neighbor as yourself.” — Leviticus 19:18
-      </blockquote>
-
-      <p id="reflection">
-        Peace begins with the way we speak, listen, and respond to one another.
-      </p>
-    </section>
-
-    <section class="ticker-wrap">
-      <div class="ticker" id="ticker">
-        Peace • Love • Truth • Compassion • Respect • Help one another
-      </div>
-    </section>
-
-    <footer class="controls">
-      <button id="prevBtn" type="button" aria-label="Previous story">◀</button>
-      <button id="playBtn" type="button" class="primary">Pause</button>
-      <button id="nextBtn" type="button" aria-label="Next story">▶</button>
-      <button id="soundBtn" type="button">Read Aloud</button>
-    </footer>
-
-    <div class="progress">
-      <div id="progressBar"></div>
-    </div>
-  </main>
-
-  <div class="ad-overlay hidden" id="adOverlay">
-    <div class="ad-card">
-      <div class="ad-label">COMMERCIAL BREAK</div>
-      <h3 id="adTitle">Your advertisement here</h3>
-      <p id="adText">
-        10–30 second sponsored messages can appear between stories.
-      </p>
-      <div class="ad-countdown">
-        <span id="adCountdown">10</span>s
-      </div>
-    </div>
   </div>
 
-  <!-- Version number forces iPhone/GitHub Pages to load the NEW app.js -->
-  <script src="./app.js?v=20260903-0917"></script>
+
+  <!-- =========================
+       ADVERTISEMENT OVERLAY
+       ========================= -->
+
+  <div
+    id="adOverlay"
+    class="ad-overlay"
+    hidden
+  >
+
+    <div class="ad-box">
+
+      <div class="ad-label">
+        SPONSORED MESSAGE
+      </div>
+
+
+      <h2 id="adTitle">
+        Voice of Peace
+      </h2>
+
+
+      <p id="adText">
+        We will return after this short message.
+      </p>
+
+
+      <div class="ad-countdown-text">
+
+        Returning in
+
+        <span id="adCountdown">
+          10
+        </span>
+
+        seconds
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       JAVASCRIPT
+
+       IMPORTANT:
+       NEW VERSION NUMBER
+       FORCES GITHUB/BROWSER
+       TO LOAD THE NEW APP.JS
+       ========================= -->
+
+  <script
+    src="app.js?v=20260903-1400"
+  ></script>
+
 </body>
+
 </html>

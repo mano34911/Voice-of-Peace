@@ -1,0 +1,20 @@
+{
+  "station": {
+    "name": "Voice of Peace",
+    "byline": "by Emmanuel Hileah"
+  },
+  "stories": [
+    {
+      "id": "test-001",
+      "category": "WORLD",
+      "headline": "Voice of Peace live news connection test",
+      "summary": "The Voice of Peace news system is connected successfully. Automatic live news stories will appear here.",
+      "source_line": "Voice of Peace system test",
+      "reflection": {
+        "verse_text": "Love your neighbor as yourself.",
+        "verse_reference": "Leviticus 19:18",
+        "message": "Peace begins when we treat every person with dignity, compassion and respect."
+      }
+    }
+  ]
+}

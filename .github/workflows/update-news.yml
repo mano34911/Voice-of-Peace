@@ -1,8 +1,7 @@
 name: Update Voice of Peace News
 
-on:
-  workflow_dispatch:
-
+"on":
+  workflow_dispatch: {}
   schedule:
     - cron: "*/15 * * * *"
 
@@ -14,7 +13,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -24,6 +22,7 @@ jobs:
           python-version: "3.12"
 
       - name: Download latest news
+        shell: bash
         run: |
           python <<'PY'
           import json
@@ -60,7 +59,7 @@ jobs:
                   "category": "New York",
                   "url": "https://news.google.com/rss/search?"
                   + urllib.parse.urlencode({
-                      "q": "\"New York\"",
+                      "q": '"New York"',
                       "hl": "en-US",
                       "gl": "US",
                       "ceid": "US:en"
@@ -83,14 +82,14 @@ jobs:
           seen = set()
 
           for feed in FEEDS:
+
               print("Downloading:", feed["name"])
 
               try:
                   request = urllib.request.Request(
                       feed["url"],
                       headers={
-                          "User-Agent":
-                              "Mozilla/5.0 VoiceOfPeace/1.0"
+                          "User-Agent": "Mozilla/5.0 VoiceOfPeace/1.0"
                       }
                   )
 
@@ -104,6 +103,7 @@ jobs:
                   items = root.findall(".//item")
 
                   for item in items[:20]:
+
                       title = clean(item.findtext("title"))
                       link = clean(item.findtext("link"))
                       pub_date = clean(item.findtext("pubDate"))
@@ -125,7 +125,7 @@ jobs:
                       seen.add(key)
 
                       stories.append({
-                          "id": f"live-{len(stories)+1}",
+                          "id": f"live-{len(stories) + 1}",
                           "category": feed["category"],
                           "headline": title,
                           "summary":
@@ -168,10 +168,9 @@ jobs:
               )
 
           output = {
-              "updated":
-                  datetime.now(
-                      timezone.utc
-                  ).isoformat(),
+              "updated": datetime.now(
+                  timezone.utc
+              ).isoformat(),
               "stories": stories
           }
 
@@ -198,14 +197,14 @@ jobs:
           PY
 
       - name: Commit updated news
+        shell: bash
         run: |
           git config user.name "Voice of Peace News Bot"
           git config user.email "actions@github.com"
 
           git add data/live-news.json
 
-          if git diff --cached --quiet
-          then
+          if git diff --cached --quiet; then
             echo "No changes."
           else
             git commit -m "Update Voice of Peace live news"

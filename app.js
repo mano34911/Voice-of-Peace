@@ -2,14 +2,29 @@ const STORY_SECONDS = 22;
 const AD_EVERY = 3;
 const AD_SECONDS = 10;
 const LIVE_REFRESH_MINUTES = 15;
-const LIVE_TIMEOUT_MS = 10000;
+
+const PRIMARY_TIMEOUT_MS = 12000;
+const GDELT_TIMEOUT_MS = 10000;
 const JSONP_TIMEOUT_MS = 15000;
 const FALLBACK_TIMEOUT_MS = 5000;
 
-const LIVE_NEWS_BASE_URL =
+const GOOGLE_NEWS_RSS =
+  'https://news.google.com/rss/search?' +
+  new URLSearchParams({
+    q: 'peace OR community OR world OR "New York"',
+    hl: 'en-US',
+    gl: 'US',
+    ceid: 'US:en'
+  }).toString();
+
+const RSS2JSON_URL =
+  'https://api.rss2json.com/v1/api.json?rss_url=' +
+  encodeURIComponent(GOOGLE_NEWS_RSS);
+
+const GDELT_BASE_URL =
   'https://api.gdeltproject.org/api/v2/doc/doc';
 
-const LIVE_QUERY =
+const GDELT_QUERY =
   '(peace OR community OR world OR "New York")';
 
 let stories = [];
@@ -23,6 +38,7 @@ let adRunning = false;
 let liveRefreshTimer = null;
 let speechBusy = false;
 let usingLiveNews = false;
+let currentLiveSource = '';
 
 const el = id => document.getElementById(id);
 
@@ -61,11 +77,7 @@ function setLiveBadge(state, text) {
   badge.classList.add(state);
 }
 
-function fetchWithTimeout(
-  url,
-  options = {},
-  timeoutMs = LIVE_TIMEOUT_MS
-) {
+function fetchWithTimeout(url, options = {}, timeoutMs = 10000) {
   if (typeof AbortController === 'undefined') {
     return fetch(url, options);
   }
@@ -83,54 +95,10 @@ function fetchWithTimeout(
   }).finally(() => clearTimeout(timeoutId));
 }
 
-function buildGdeltUrl(format = 'json') {
-  const params = new URLSearchParams();
-
-  params.set('query', LIVE_QUERY);
-  params.set('mode', 'artlist');
-  params.set('maxrecords', '25');
-  params.set('format', format);
-  params.set('timespan', '24h');
-  params.set('sort', 'datedesc');
-
-  return `${LIVE_NEWS_BASE_URL}?${params.toString()}`;
-}
-
-async function loadFallbackData() {
-  const url =
-    './data/sample-news.json?v=' + Date.now();
-
-  const res = await fetchWithTimeout(
-    url,
-    {
-      cache: 'no-store'
-    },
-    FALLBACK_TIMEOUT_MS
-  );
-
-  if (!res.ok) {
-    throw new Error(
-      `Fallback news HTTP ${res.status}`
-    );
-  }
-
-  const data = await res.json();
-
-  fallbackStories =
-    Array.isArray(data.stories)
-      ? data.stories
-      : [];
-
-  ads =
-    Array.isArray(data.ads)
-      ? data.ads
-      : [];
-
-  return data;
-}
-
 function cleanText(value = '') {
   return String(value)
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<[^>]*>/g, ' ')
     .replace(/&nbsp;/gi, ' ')
     .replace(/&amp;/gi, '&')
@@ -139,12 +107,27 @@ function cleanText(value = '') {
     .replace(/&apos;/gi, "'")
     .replace(/&lt;/gi, '<')
     .replace(/&gt;/gi, '>')
+    .replace(/&#8216;|&#8217;/gi, "'")
+    .replace(/&#8220;|&#8221;/gi, '"')
     .replace(/\s+/g, ' ')
     .trim();
 }
 
 function readableDate(value = '') {
   if (!value) return '';
+
+  const directDate = new Date(value);
+
+  if (!Number.isNaN(directDate.getTime())) {
+    try {
+      return directDate.toLocaleString([], {
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit'
+      });
+    } catch {}
+  }
 
   const text = String(value);
 
@@ -162,11 +145,12 @@ function readableDate(value = '') {
     month,
     day,
     hour = '00',
-    minute = '00'
+    minute = '00',
+    second = '00'
   ] = match;
 
   const date = new Date(
-    `${year}-${month}-${day}T${hour}:${minute}:00Z`
+    `${year}-${month}-${day}T${hour}:${minute}:${second}Z`
   );
 
   if (Number.isNaN(date.getTime())) {
@@ -188,25 +172,23 @@ function readableDate(value = '') {
 function makeReflection(article) {
   const text = [
     article.title || '',
-    article.sentence || '',
+    article.summary || '',
     article.description || '',
+    article.content || '',
+    article.sentence || '',
     article.excerpt || ''
   ]
     .join(' ')
     .toLowerCase();
 
   if (
-    /(war|attack|violence|killed|shoot|bomb|conflict|assault|missile|hostage|airstrike|strike)/.test(
+    /(war|attack|violence|killed|shoot|bomb|conflict|assault|missile|hostage|airstrike|strike|dead|death)/.test(
       text
     )
   ) {
     return {
-      verse_text:
-        'Seek peace and pursue it',
-
-      verse_reference:
-        'Psalms 34:15',
-
+      verse_text: 'Seek peace and pursue it',
+      verse_reference: 'Psalms 34:15',
       message:
         'Behind every headline are human lives. Voice of Peace calls for truth, restraint, protection of innocent people, and the courage to seek a path away from hatred and toward peace.'
     };
@@ -218,41 +200,221 @@ function makeReflection(article) {
     )
   ) {
     return {
-      verse_text:
-        'The world is built on kindness',
-
-      verse_reference:
-        'Psalms 89:3',
-
+      verse_text: 'The world is built on kindness',
+      verse_reference: 'Psalms 89:3',
       message:
         'Acts of kindness deserve attention too. When people help one another without seeking reward, they strengthen their communities and remind us that goodness can be contagious.'
     };
   }
 
   return {
-    verse_text:
-      'Love your neighbor as yourself',
-
-    verse_reference:
-      'Leviticus 19:18',
-
+    verse_text: 'Love your neighbor as yourself',
+    verse_reference: 'Leviticus 19:18',
     message:
       'The news can inform us without teaching us to hate. We can face difficult facts while still treating every person with dignity, compassion, and respect.'
   };
 }
 
-function articleToStory(article, index) {
+function splitGoogleNewsTitle(title = '') {
+  const clean = cleanText(title);
+
+  const lastDash = clean.lastIndexOf(' - ');
+
+  if (lastDash <= 0) {
+    return {
+      headline: clean,
+      publisher: ''
+    };
+  }
+
+  return {
+    headline: clean.slice(0, lastDash).trim(),
+    publisher: clean.slice(lastDash + 3).trim()
+  };
+}
+
+function rssItemToStory(item, index) {
+  const parsedTitle =
+    splitGoogleNewsTitle(item.title || '');
+
+  const headline =
+    parsedTitle.headline ||
+    cleanText(item.title) ||
+    'Latest news update';
+
+  const publisher =
+    parsedTitle.publisher ||
+    cleanText(item.author) ||
+    'Google News';
+
+  let summary = cleanText(
+    item.description ||
+    item.content ||
+    ''
+  );
+
+  if (
+    !summary ||
+    summary.length < 35 ||
+    summary === cleanText(item.title)
+  ) {
+    summary =
+      `Current report from ${publisher}. ` +
+      'Open the reporting source for the complete article.';
+  }
+
+  if (summary.length > 520) {
+    summary =
+      summary.slice(0, 517).trimEnd() + '...';
+  }
+
+  const displayDate =
+    readableDate(item.pubDate || '');
+
+  const sourceBits = [
+    'LIVE',
+    `Source: ${publisher}`
+  ];
+
+  if (displayDate) {
+    sourceBits.push(displayDate);
+  }
+
+  return {
+    id:
+      `rss-${index}-${item.guid || item.link || Date.now()}`,
+
+    category:
+      /new york/i.test(headline + ' ' + summary)
+        ? 'New York'
+        : 'Live News',
+
+    headline,
+
+    summary,
+
+    source_line:
+      sourceBits.join(' • '),
+
+    source_url:
+      item.link || '',
+
+    reflection:
+      makeReflection({
+        title: headline,
+        summary
+      }),
+
+    ticker:
+      'LIVE NEWS • Truth before rumors • Peace • Love • Compassion • Respect'
+  };
+}
+
+function normalizeRss2Json(data) {
+  if (
+    !data ||
+    typeof data !== 'object' ||
+    data.status !== 'ok' ||
+    !Array.isArray(data.items)
+  ) {
+    return [];
+  }
+
+  return data.items
+    .filter(item => item && item.title && item.link)
+    .map(rssItemToStory)
+    .slice(0, 20);
+}
+
+async function loadLiveNewsFromRss() {
+  const url =
+    RSS2JSON_URL +
+    '&_=' +
+    Date.now();
+
+  const res = await fetchWithTimeout(
+    url,
+    {
+      cache: 'no-store',
+      credentials: 'omit',
+      headers: {
+        Accept: 'application/json'
+      }
+    },
+    PRIMARY_TIMEOUT_MS
+  );
+
+  if (!res.ok) {
+    throw new Error(
+      `RSS live feed HTTP ${res.status}`
+    );
+  }
+
+  const data = await res.json();
+
+  if (
+    data &&
+    data.status === 'error'
+  ) {
+    throw new Error(
+      data.message ||
+      'RSS service returned an error.'
+    );
+  }
+
+  const liveStories =
+    normalizeRss2Json(data);
+
+  if (!liveStories.length) {
+    throw new Error(
+      'RSS live feed returned no usable stories.'
+    );
+  }
+
+  return liveStories;
+}
+
+function buildGdeltUrl(format = 'json') {
+  const params =
+    new URLSearchParams();
+
+  params.set(
+    'query',
+    GDELT_QUERY
+  );
+
+  params.set(
+    'mode',
+    'artlist'
+  );
+
+  params.set(
+    'maxrecords',
+    '25'
+  );
+
+  params.set(
+    'format',
+    format
+  );
+
+  params.set(
+    'timespan',
+    '24h'
+  );
+
+  params.set(
+    'sort',
+    'datedesc'
+  );
+
+  return `${GDELT_BASE_URL}?${params.toString()}`;
+}
+
+function gdeltArticleToStory(article, index) {
   const title =
     cleanText(article.title) ||
     'Latest world news update';
-
-  const sentence = cleanText(
-    article.sentence ||
-    article.description ||
-    article.excerpt ||
-    article.summary ||
-    ''
-  );
 
   const domain =
     cleanText(article.domain || '');
@@ -269,19 +431,19 @@ function articleToStory(article, index) {
   const displayDate =
     readableDate(seenDate);
 
-  let summary = sentence;
-
-  if (!summary) {
-    if (domain) {
-      summary =
-        `This is a current report published by ${domain}. ` +
-        'Open the reporting source for the complete article.';
-    } else {
-      summary =
-        'This is a current report from the live news feed. ' +
-        'Open the reporting source for the complete article.';
-    }
-  }
+  const summary =
+    cleanText(
+      article.sentence ||
+      article.description ||
+      article.excerpt ||
+      article.summary ||
+      ''
+    ) ||
+    (
+      domain
+        ? `Current report published by ${domain}. Open the reporting source for the complete article.`
+        : 'Current report from the live news feed. Open the reporting source for the complete article.'
+    );
 
   const sourceBits = ['LIVE'];
 
@@ -305,7 +467,7 @@ function articleToStory(article, index) {
 
   return {
     id:
-      `live-${index}-${seenDate || Date.now()}`,
+      `gdelt-${index}-${seenDate || Date.now()}`,
 
     category:
       sourceCountry || 'Live News',
@@ -313,8 +475,7 @@ function articleToStory(article, index) {
     headline:
       title,
 
-    summary:
-      summary,
+    summary,
 
     source_line:
       sourceBits.join(' • '),
@@ -330,7 +491,7 @@ function articleToStory(article, index) {
   };
 }
 
-function normalizeArticles(data) {
+function normalizeGdeltArticles(data) {
   if (
     !data ||
     typeof data !== 'object'
@@ -352,16 +513,11 @@ function normalizeArticles(data) {
         article.title &&
         article.url
     )
-    .map(articleToStory)
+    .map(gdeltArticleToStory)
     .slice(0, 20);
 }
 
-/* ==========================================
-   LIVE NEWS METHOD 1
-   NORMAL JSON
-   ========================================== */
-
-async function loadLiveNewsWithFetch() {
+async function loadLiveNewsFromGdeltFetch() {
   const url =
     buildGdeltUrl('json') +
     '&_=' +
@@ -378,7 +534,7 @@ async function loadLiveNewsWithFetch() {
           Accept: 'application/json'
         }
       },
-      LIVE_TIMEOUT_MS
+      GDELT_TIMEOUT_MS
     );
 
   if (!res.ok) {
@@ -408,7 +564,7 @@ async function loadLiveNewsWithFetch() {
   }
 
   const liveStories =
-    normalizeArticles(data);
+    normalizeGdeltArticles(data);
 
   if (!liveStories.length) {
     throw new Error(
@@ -419,19 +575,13 @@ async function loadLiveNewsWithFetch() {
   return liveStories;
 }
 
-/* ==========================================
-   LIVE NEWS METHOD 2
-   JSONP BACKUP
-   ========================================== */
-
-function loadLiveNewsWithJsonp() {
+function loadLiveNewsFromGdeltJsonp() {
   return new Promise(
     (resolve, reject) => {
 
       const callbackName =
-        '__voiceOfPeaceGdelt_' +
+        'voiceOfPeaceGdelt' +
         Date.now() +
-        '_' +
         Math.random()
           .toString(36)
           .slice(2);
@@ -443,15 +593,13 @@ function loadLiveNewsWithJsonp() {
 
       const cleanup = () => {
         if (script.parentNode) {
-          script.parentNode
-            .removeChild(script);
+          script.parentNode.removeChild(script);
         }
 
         try {
           delete window[callbackName];
         } catch {
-          window[callbackName] =
-            undefined;
+          window[callbackName] = undefined;
         }
       };
 
@@ -484,11 +632,12 @@ function loadLiveNewsWithJsonp() {
           );
 
           const liveStories =
-            normalizeArticles(data);
+            normalizeGdeltArticles(data);
 
           cleanup();
 
           if (!liveStories.length) {
+
             reject(
               new Error(
                 'GDELT JSONP returned no usable stories.'
@@ -503,31 +652,32 @@ function loadLiveNewsWithJsonp() {
           );
         };
 
-      script.onerror = () => {
+      script.onerror =
+        () => {
 
-        if (finished) return;
+          if (finished) return;
 
-        finished = true;
+          finished = true;
 
-        clearTimeout(
-          timeoutId
-        );
+          clearTimeout(
+            timeoutId
+          );
 
-        cleanup();
+          cleanup();
 
-        reject(
-          new Error(
-            'GDELT JSONP script failed to load.'
-          )
-        );
-      };
+          reject(
+            new Error(
+              'GDELT JSONP script failed to load.'
+            )
+          );
+        };
 
       const params =
         new URLSearchParams();
 
       params.set(
         'query',
-        LIVE_QUERY
+        GDELT_QUERY
       );
 
       params.set(
@@ -566,52 +716,106 @@ function loadLiveNewsWithJsonp() {
       );
 
       script.src =
-        `${LIVE_NEWS_BASE_URL}?${params.toString()}`;
+        `${GDELT_BASE_URL}?${params.toString()}`;
 
       script.async = true;
 
-      document.head
-        .appendChild(script);
+      document.head.appendChild(script);
     }
   );
 }
 
-/* ==========================================
-   TRY BOTH LIVE METHODS
-   ========================================== */
-
 async function loadLiveNews() {
   try {
     const result =
-      await loadLiveNewsWithFetch();
+      await loadLiveNewsFromRss();
+
+    currentLiveSource =
+      'Google News RSS';
 
     console.log(
-      'Voice of Peace live feed connected using JSON.'
+      'Voice of Peace connected using Google News RSS.'
     );
 
     return result;
 
-  } catch (fetchError) {
+  } catch (rssError) {
 
     console.warn(
-      'Normal live-news fetch failed. Trying GDELT JSONP...',
-      fetchError
+      'Primary RSS live feed failed. Trying GDELT JSON...',
+      rssError
+    );
+  }
+
+  try {
+    const result =
+      await loadLiveNewsFromGdeltFetch();
+
+    currentLiveSource =
+      'GDELT JSON';
+
+    console.log(
+      'Voice of Peace connected using GDELT JSON.'
+    );
+
+    return result;
+
+  } catch (gdeltFetchError) {
+
+    console.warn(
+      'GDELT JSON failed. Trying GDELT JSONP...',
+      gdeltFetchError
     );
   }
 
   const result =
-    await loadLiveNewsWithJsonp();
+    await loadLiveNewsFromGdeltJsonp();
+
+  currentLiveSource =
+    'GDELT JSONP';
 
   console.log(
-    'Voice of Peace live feed connected using JSONP.'
+    'Voice of Peace connected using GDELT JSONP.'
   );
 
   return result;
 }
 
-/* ==========================================
-   BROADCAST
-   ========================================== */
+async function loadFallbackData() {
+  const url =
+    './data/sample-news.json?v=' +
+    Date.now();
+
+  const res =
+    await fetchWithTimeout(
+      url,
+      {
+        cache: 'no-store'
+      },
+      FALLBACK_TIMEOUT_MS
+    );
+
+  if (!res.ok) {
+    throw new Error(
+      `Fallback news HTTP ${res.status}`
+    );
+  }
+
+  const data =
+    await res.json();
+
+  fallbackStories =
+    Array.isArray(data.stories)
+      ? data.stories
+      : [];
+
+  ads =
+    Array.isArray(data.ads)
+      ? data.ads
+      : [];
+
+  return data;
+}
 
 function beginBroadcast(initialStories) {
   stories =
@@ -727,7 +931,8 @@ async function refreshLiveNews(
       );
     }
 
-    usingLiveNews = true;
+    usingLiveNews =
+      true;
 
     setStoriesWithoutRestart(
       refreshed,
@@ -741,31 +946,28 @@ async function refreshLiveNews(
     );
 
     console.log(
-      `Voice of Peace loaded ${stories.length} live stories successfully.`
+      `Voice of Peace loaded ${stories.length} live stories from ${currentLiveSource}.`
     );
 
   } catch (err) {
 
     console.warn(
-      'Live news unavailable; Voice of Peace will continue with backup stories.',
+      'All external live-news sources failed.',
       err
     );
 
-    usingLiveNews = false;
+    usingLiveNews =
+      false;
+
+    currentLiveSource =
+      '';
 
     if (fallbackStories.length) {
 
-      if (
-        stories.length === 1 &&
-        stories[0] &&
-        stories[0].id ===
-          EMERGENCY_STORY.id
-      ) {
-        setStoriesWithoutRestart(
-          fallbackStories,
-          true
-        );
-      }
+      setStoriesWithoutRestart(
+        fallbackStories,
+        true
+      );
 
       setLiveBadge(
         'is-backup',
@@ -786,10 +988,6 @@ async function refreshLiveNews(
     }
   }
 }
-
-/* ==========================================
-   DISPLAY STORY
-   ========================================== */
 
 function showStory(index) {
   if (!stories.length) {
@@ -862,16 +1060,18 @@ function showStory(index) {
         'link'
       );
 
-      sourceLine.tabIndex = 0;
+      sourceLine.tabIndex =
+        0;
 
-      sourceLine.onclick = () => {
+      sourceLine.onclick =
+        () => {
 
-        window.open(
-          s.source_url,
-          '_blank',
-          'noopener,noreferrer'
-        );
-      };
+          window.open(
+            s.source_url,
+            '_blank',
+            'noopener,noreferrer'
+          );
+        };
 
       sourceLine.onkeydown =
         event => {
@@ -957,10 +1157,6 @@ function showStory(index) {
   updateProgress();
 }
 
-/* ==========================================
-   TIMER
-   ========================================== */
-
 function startTimer() {
   clearInterval(timer);
 
@@ -1030,10 +1226,6 @@ function updateProgress() {
     pct + '%';
 }
 
-/* ==========================================
-   ADVERTISEMENT
-   ========================================== */
-
 function runAd(done) {
   if (adRunning) {
     return;
@@ -1061,7 +1253,8 @@ function runAd(done) {
     return;
   }
 
-  adRunning = true;
+  adRunning =
+    true;
 
   const wasPlaying =
     playing;
@@ -1102,7 +1295,8 @@ function runAd(done) {
   const adTimer =
     setInterval(() => {
 
-      remaining -= 1;
+      remaining -=
+        1;
 
       adCountdown.textContent =
         Math.max(
@@ -1122,7 +1316,8 @@ function runAd(done) {
           'hidden'
         );
 
-        adRunning = false;
+        adRunning =
+          false;
 
         playing =
           wasPlaying;
@@ -1143,10 +1338,6 @@ function runAd(done) {
 
     }, 1000);
 }
-
-/* ==========================================
-   SPEECH
-   ========================================== */
 
 function speechSupported() {
   return (
@@ -1255,7 +1446,8 @@ function stopSpeech() {
       .cancel();
   } catch {}
 
-  speechBusy = false;
+  speechBusy =
+    false;
 
   const soundBtn =
     el('soundBtn');
@@ -1291,7 +1483,7 @@ function readCurrentStory() {
     s.reflection || {};
 
   const script = [
-    'Good morning. This is the Voice of Peace by Emmanuel Hileah.',
+    'Good morning. This is the Voice of Peace by Emmanuel and Camili Hileah.',
 
     s.headline || '',
 
@@ -1309,7 +1501,7 @@ function readCurrentStory() {
 
     r.message || '',
 
-    'This is the Voice of Peace by Emmanuel Hileah. Peace begins with me. Peace begins with you.'
+    'This is the Voice of Peace by Emmanuel and Camili Hileah. Peace begins with me. Peace begins with you.'
   ]
     .filter(Boolean)
     .join(' ');
@@ -1422,10 +1614,6 @@ function readCurrentStory() {
     );
   }
 }
-
-/* ==========================================
-   BUTTONS
-   ========================================== */
 
 function setupButtons() {
   const prevBtn =
@@ -1563,10 +1751,6 @@ function prepareSpeechVoices() {
 
   } catch {}
 }
-
-/* ==========================================
-   START APPLICATION
-   ========================================== */
 
 function startApp() {
   setupButtons();

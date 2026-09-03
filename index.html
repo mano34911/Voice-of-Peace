@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#06152d" />
+  <title>Voice of Peace</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <div class="eyebrow">THIS IS THE</div>
+        <h1>VOICE OF PEACE</h1>
+        <p class="byline">by Emmanuel Hileah</p>
+      </div>
+      <div class="live-badge" id="liveBadge">LIVE</div>
+    </header>
+
+    <section class="hero">
+      <div class="globe">☮</div>
+      <div class="hero-copy">
+        <p class="kicker" id="category">WORLD</p>
+        <h2 id="headline">Loading today's broadcast…</h2>
+        <p id="summary">Preparing the latest Voice of Peace story.</p>
+      </div>
+    </section>
+
+    <section class="source-panel">
+      <span class="label">REPORTING</span>
+      <p id="sourceLine">Based on information from reliable news sources.</p>
+    </section>
+
+    <section class="reflection-panel">
+      <span class="label">VOICE OF PEACE REFLECTION</span>
+      <blockquote id="verse">“Love your neighbor as yourself.” — Leviticus 19:18</blockquote>
+      <p id="reflection"></p>
+    </section>
+
+    <section class="ticker-wrap">
+      <div class="ticker" id="ticker">Peace • Love • Truth • Compassion • Respect • Help one another</div>
+    </section>
+
+    <footer class="controls">
+      <button id="prevBtn" aria-label="Previous story">◀</button>
+      <button id="playBtn" class="primary">Pause</button>
+      <button id="nextBtn" aria-label="Next story">▶</button>
+      <button id="soundBtn">Read Aloud</button>
+    </footer>
+
+    <div class="progress"><div id="progressBar"></div></div>
+  </main>
+
+  <div class="ad-overlay hidden" id="adOverlay">
+    <div class="ad-card">
+      <div class="ad-label">COMMERCIAL BREAK</div>
+      <h3 id="adTitle">Your advertisement here</h3>
+      <p id="adText">10–30 second sponsored messages can appear between stories.</p>
+      <div class="ad-countdown"><span id="adCountdown">10</span>s</div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

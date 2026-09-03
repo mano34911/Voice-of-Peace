@@ -11,9 +11,9 @@ const LIVE_NEWS_BASE_URL =
   'https://api.gdeltproject.org/api/v2/doc/doc';
 
 const LIVE_QUERIES = [
-  'peace OR diplomacy OR community',
-  '"New York" OR community',
-  'world OR international'
+  '(peace OR diplomacy OR community)',
+  '("New York" OR community)',
+  '(world OR international)'
 ];
 
 let stories = [];
@@ -49,10 +49,14 @@ const EMERGENCY_STORY = {
 
 function setText(id, value) {
   const node = el(id);
-  if (node) node.textContent = value || '';
+
+  if (node) {
+    node.textContent = value || '';
+  }
 }
 
 function setLiveStatus(state, detail = '') {
+
   const badge =
     el('liveStatus') ||
     el('statusBadge') ||
@@ -63,18 +67,31 @@ function setLiveStatus(state, detail = '') {
     el('reportingText') ||
     el('reporting');
 
-  const normalized = String(state || '').toLowerCase();
+  const normalized =
+    String(state || '').toLowerCase();
 
   if (badge) {
-    badge.classList.remove('live', 'connecting', 'offline');
+
+    badge.classList.remove(
+      'live',
+      'connecting',
+      'offline'
+    );
 
     if (normalized === 'live') {
+
       badge.textContent = 'LIVE';
       badge.classList.add('live');
-    } else if (normalized === 'connecting') {
+
+    } else if (
+      normalized === 'connecting'
+    ) {
+
       badge.textContent = 'CONNECTING';
       badge.classList.add('connecting');
+
     } else {
+
       badge.textContent = 'RETRYING';
       badge.classList.add('offline');
     }
@@ -85,25 +102,52 @@ function setLiveStatus(state, detail = '') {
   }
 }
 
-function withTimeout(promise, ms, label = 'Request') {
+function withTimeout(
+  promise,
+  ms,
+  label = 'Request'
+) {
+
   return Promise.race([
     promise,
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error(`${label} timed out`)), ms)
+
+    new Promise(
+      (_, reject) => {
+
+        setTimeout(
+          () => reject(
+            new Error(
+              `${label} timed out`
+            )
+          ),
+          ms
+        );
+      }
     )
   ]);
 }
 
 function safeUrl(url) {
+
   try {
-    const parsed = new URL(url);
-    return parsed.protocol === 'https:' ? parsed.href : '';
+
+    const parsed =
+      new URL(url);
+
+    return (
+      parsed.protocol === 'https:'
+        ? parsed.href
+        : ''
+    );
+
   } catch {
+
     return '';
   }
 }
 
 function cleanText(text) {
+
   return String(text || '')
     .replace(/<[^>]*>/g, ' ')
     .replace(/\s+/g, ' ')
@@ -111,55 +155,93 @@ function cleanText(text) {
 }
 
 function titleCase(value) {
+
   return String(value || '')
     .replace(/[_-]+/g, ' ')
-    .replace(/\b\w/g, c => c.toUpperCase());
+    .replace(
+      /\b\w/g,
+      c => c.toUpperCase()
+    );
 }
 
-function normalizeLiveArticle(article, index) {
-  const headline = cleanText(article?.title);
+function normalizeLiveArticle(
+  article,
+  index
+) {
 
-  if (!headline) return null;
+  const headline =
+    cleanText(article?.title);
 
-  const source = cleanText(
-    article?.domain ||
-    article?.sourcecountry ||
-    'Live source'
-  );
+  if (!headline) {
+    return null;
+  }
 
-  const country = cleanText(article?.sourcecountry || '');
-  const language = cleanText(article?.language || '');
-  const seen = cleanText(article?.seendate || '');
+  const source =
+    cleanText(
+      article?.domain ||
+      article?.sourcecountry ||
+      'Live source'
+    );
 
-  const url = safeUrl(article?.url || '');
+  const country =
+    cleanText(
+      article?.sourcecountry || ''
+    );
 
-  let category = country
-    ? titleCase(country)
-    : 'World News';
+  const language =
+    cleanText(
+      article?.language || ''
+    );
 
-  if (/new york/i.test(headline)) {
+  const seen =
+    cleanText(
+      article?.seendate || ''
+    );
+
+  const url =
+    safeUrl(
+      article?.url || ''
+    );
+
+  let category =
+    country
+      ? titleCase(country)
+      : 'World News';
+
+  if (
+    /new york/i.test(headline)
+  ) {
     category = 'New York';
   }
 
   const bits = [];
 
   if (source) {
-    bits.push(`Latest report from ${source}.`);
+    bits.push(
+      `Latest report from ${source}.`
+    );
   }
 
   if (country) {
-    bits.push(`Reported from ${country}.`);
+    bits.push(
+      `Reported from ${country}.`
+    );
   }
 
   if (
     language &&
     !/^english$/i.test(language)
   ) {
-    bits.push(`Source language: ${language}.`);
+
+    bits.push(
+      `Source language: ${language}.`
+    );
   }
 
   return {
-    id: `live-${Date.now()}-${index}`,
+
+    id:
+      `live-${Date.now()}-${index}`,
 
     category,
 
@@ -170,13 +252,19 @@ function normalizeLiveArticle(article, index) {
       'A new live-news report has been received by Voice of Peace.',
 
     source_line:
-      `LIVE • ${source}${seen ? ` • ${seen}` : ''}`,
+      `LIVE • ${source}${
+        seen ? ` • ${seen}` : ''
+      }`,
 
     url,
 
-    image: safeUrl(article?.socialimage || ''),
+    image:
+      safeUrl(
+        article?.socialimage || ''
+      ),
 
     reflection: {
+
       verse_text:
         'Seek peace and pursue it.',
 
@@ -190,16 +278,23 @@ function normalizeLiveArticle(article, index) {
 }
 
 function extractArticles(payload) {
+
   const raw =
-    Array.isArray(payload?.articles)
+    Array.isArray(
+      payload?.articles
+    )
       ? payload.articles
       : [];
 
-  const seen = new Set();
+  const seen =
+    new Set();
 
   return raw
+
     .map(normalizeLiveArticle)
+
     .filter(Boolean)
+
     .filter(story => {
 
       const key =
@@ -224,15 +319,24 @@ function buildLiveUrl(
 
   const params =
     new URLSearchParams({
+
       query,
+
       mode: 'artlist',
+
       maxrecords: '25',
+
       format,
+
       timespan: '24h',
-      sort: 'datedesc'
+
+      sort: 'datedesc',
+
+      _: String(Date.now())
     });
 
   if (callbackName) {
+
     params.set(
       'callback',
       callbackName
@@ -253,18 +357,26 @@ async function fetchLiveJSON(query) {
       'json'
     );
 
+  console.log(
+    'Connecting to GDELT:',
+    url
+  );
+
   const response =
     await withTimeout(
 
-      fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        cache: 'no-store',
+      fetch(
+        url,
+        {
+          method: 'GET',
+          mode: 'cors',
+          cache: 'no-store',
 
-        headers: {
-          Accept: 'application/json'
+          headers: {
+            Accept: 'application/json'
+          }
         }
-      }),
+      ),
 
       LIVE_TIMEOUT_MS,
 
@@ -278,8 +390,25 @@ async function fetchLiveJSON(query) {
     );
   }
 
-  const payload =
-    await response.json();
+  const rawText =
+    await response.text();
+
+  let payload;
+
+  try {
+
+    payload =
+      JSON.parse(rawText);
+
+  } catch {
+
+    throw new Error(
+      `Live news returned invalid JSON: ${rawText.slice(
+        0,
+        160
+      )}`
+    );
+  }
 
   const result =
     extractArticles(payload);
@@ -314,6 +443,7 @@ function fetchLiveJSONP(query) {
       const cleanup = () => {
 
         if (script.parentNode) {
+
           script.parentNode.removeChild(
             script
           );
@@ -363,7 +493,9 @@ function fetchLiveJSONP(query) {
         cleanup();
 
         const result =
-          extractArticles(payload);
+          extractArticles(
+            payload
+          );
 
         if (!result.length) {
 
@@ -427,63 +559,7 @@ async function loadLiveNews() {
 
     /*
       FIRST METHOD:
-      JSONP.
-
-      This is useful for
-      GitHub Pages and Safari.
-    */
-
-    try {
-
-      const liveStories =
-        await fetchLiveJSONP(
-          query
-        );
-
-      if (liveStories.length) {
-
-        stories =
-          liveStories;
-
-        usingLiveNews = true;
-
-        current =
-          Math.min(
-            current,
-            Math.max(
-              0,
-              stories.length - 1
-            )
-          );
-
-        setLiveStatus(
-          'live',
-          `Voice of Peace • LIVE • ${stories.length} current reports`
-        );
-
-        renderStory();
-
-        scheduleLiveRefresh();
-
-        clearRetryTimer();
-
-        return true;
-      }
-
-    } catch (err) {
-
-      lastError = err;
-
-      console.warn(
-        'GDELT JSONP attempt failed:',
-        query,
-        err
-      );
-    }
-
-    /*
-      SECOND METHOD:
-      normal JSON fetch.
+      NORMAL JSON / CORS
     */
 
     try {
@@ -498,7 +574,8 @@ async function loadLiveNews() {
         stories =
           liveStories;
 
-        usingLiveNews = true;
+        usingLiveNews =
+          true;
 
         current =
           Math.min(
@@ -520,6 +597,11 @@ async function loadLiveNews() {
 
         clearRetryTimer();
 
+        console.log(
+          'Voice of Peace connected using JSON:',
+          query
+        );
+
         return true;
       }
 
@@ -528,7 +610,66 @@ async function loadLiveNews() {
       lastError = err;
 
       console.warn(
-        'GDELT fetch attempt failed:',
+        'GDELT JSON failed:',
+        query,
+        err
+      );
+    }
+
+    /*
+      SECOND METHOD:
+      JSONP BACKUP
+    */
+
+    try {
+
+      const liveStories =
+        await fetchLiveJSONP(
+          query
+        );
+
+      if (liveStories.length) {
+
+        stories =
+          liveStories;
+
+        usingLiveNews =
+          true;
+
+        current =
+          Math.min(
+            current,
+            Math.max(
+              0,
+              stories.length - 1
+            )
+          );
+
+        setLiveStatus(
+          'live',
+          `Voice of Peace • LIVE • ${stories.length} current reports`
+        );
+
+        renderStory();
+
+        scheduleLiveRefresh();
+
+        clearRetryTimer();
+
+        console.log(
+          'Voice of Peace connected using JSONP:',
+          query
+        );
+
+        return true;
+      }
+
+    } catch (err) {
+
+      lastError = err;
+
+      console.warn(
+        'GDELT JSONP failed:',
         query,
         err
       );
@@ -540,9 +681,17 @@ async function loadLiveNews() {
     lastError
   );
 
-  usingLiveNews = false;
+  usingLiveNews =
+    false;
 
-  if (fallbackStories.length) {
+  const errorDetail =
+    lastError?.message
+      ? ` • ${lastError.message}`
+      : '';
+
+  if (
+    fallbackStories.length
+  ) {
 
     stories =
       [...fallbackStories];
@@ -558,7 +707,7 @@ async function loadLiveNews() {
 
     setLiveStatus(
       'retrying',
-      'Voice of Peace • Broadcast active • Retrying live news automatically'
+      `Voice of Peace • Broadcast active • Retrying live news automatically${errorDetail}`
     );
 
     renderStory();
@@ -572,7 +721,7 @@ async function loadLiveNews() {
 
     setLiveStatus(
       'retrying',
-      'Voice of Peace • Broadcast active • Retrying live news automatically'
+      `Voice of Peace • Broadcast active • Retrying live news automatically${errorDetail}`
     );
 
     renderStory();
@@ -664,7 +813,9 @@ function scheduleLiveRefresh() {
 
   liveRefreshTimer =
     setInterval(
-      () => loadLiveNews(),
+
+      () =>
+        loadLiveNews(),
 
       LIVE_REFRESH_MINUTES *
         60 *
@@ -690,7 +841,9 @@ function scheduleRetry() {
 
   retryTimer =
     setTimeout(
-      () => loadLiveNews(),
+
+      () =>
+        loadLiveNews(),
 
       LIVE_RETRY_SECONDS *
         1000
@@ -776,6 +929,11 @@ function renderStory() {
         image.style.display =
           'none';
       };
+
+  } else if (image) {
+
+    image.style.display =
+      'none';
   }
 
   const link =
@@ -788,6 +946,12 @@ function renderStory() {
 
       link.href =
         story.url;
+
+      link.target =
+        '_blank';
+
+      link.rel =
+        'noopener noreferrer';
 
       link.style.display =
         '';
@@ -812,7 +976,9 @@ function renderStory() {
     playing
   ) {
 
-    speakStory(story);
+    speakStory(
+      story
+    );
   }
 }
 
@@ -824,6 +990,7 @@ function nextStory(
     !stories.length ||
     adRunning
   ) {
+
     return;
   }
 
@@ -858,6 +1025,7 @@ function previousStory() {
     !stories.length ||
     adRunning
   ) {
+
     return;
   }
 
@@ -901,7 +1069,9 @@ function startTimer() {
 
   if (timer) {
 
-    clearInterval(timer);
+    clearInterval(
+      timer
+    );
   }
 
   timer =
@@ -911,6 +1081,7 @@ function startTimer() {
         !playing ||
         adRunning
       ) {
+
         return;
       }
 
@@ -978,6 +1149,7 @@ function getSpeechEnabled() {
     el('soundBtn');
 
   if (!button) {
+
     return true;
   }
 
@@ -1065,28 +1237,34 @@ function speakStory(story) {
       text
     );
 
-  utterance.rate = 0.92;
+  utterance.rate =
+    0.92;
 
-  utterance.pitch = 1;
+  utterance.pitch =
+    1;
 
-  utterance.volume = 1;
+  utterance.volume =
+    1;
 
   utterance.onstart =
     () => {
 
-      speechBusy = true;
+      speechBusy =
+        true;
     };
 
   utterance.onend =
     () => {
 
-      speechBusy = false;
+      speechBusy =
+        false;
     };
 
   utterance.onerror =
     () => {
 
-      speechBusy = false;
+      speechBusy =
+        false;
     };
 
   window.speechSynthesis.speak(
@@ -1322,12 +1500,59 @@ async function init() {
 /*
   Manual live-news reload.
 
-  You can call:
+  Open browser console and run:
+
   voiceOfPeaceReloadLive()
 */
 
 window.voiceOfPeaceReloadLive =
   loadLiveNews;
+
+
+/*
+  LIVE CONNECTION TEST
+
+  Open browser:
+  F12
+  Console
+
+  Then type:
+
+  voiceOfPeaceTestLive()
+
+  This will show the actual
+  GDELT connection result/error.
+*/
+
+window.voiceOfPeaceTestLive =
+  async function () {
+
+    const query =
+      LIVE_QUERIES[0];
+
+    const url =
+      buildLiveUrl(
+        query,
+        'json'
+      );
+
+    console.log(
+      'Testing Voice of Peace live URL:',
+      url
+    );
+
+    const result =
+      await fetchLiveJSON(
+        query
+      );
+
+    console.log(
+      `Voice of Peace received ${result.length} live stories.`,
+      result
+    );
+
+    return result;
+  };
 
 
 if (

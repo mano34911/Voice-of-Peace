@@ -1,6 +1,8 @@
 const STORY_SECONDS = 22;
 const AD_EVERY = 3;
 const AD_SECONDS = 10;
+const LIVE_REFRESH_MINUTES = 15;
+const LIVE_TIMEOUT_MS = 10000;
 
 const LIVE_NEWS_URL =
   'https://api.gdeltproject.org/api/v2/doc/doc' +
@@ -18,27 +20,87 @@ let playing = true;
 let elapsed = 0;
 let timer = null;
 let fallbackStories = [];
+let adRunning = false;
 
 const el = id => document.getElementById(id);
 
+const EMERGENCY_STORY = {
+  id: 'emergency-001',
+  category: 'Voice of Peace',
+  headline: 'Voice of Peace is ready',
+  summary:
+    'The live news service is temporarily unavailable. Voice of Peace will keep trying automatically while the broadcast remains available.',
+  source_line:
+    'Voice of Peace • Waiting for live news connection',
+  source_url: '',
+  reflection: {
+    verse_text:
+      'Love your neighbor as yourself',
+    verse_reference:
+      'Leviticus 19:18',
+    message:
+      'Peace begins with the way we speak, listen, and respond to one another. Even while we wait for the latest headlines, kindness and respect remain timeless.'
+  },
+  ticker:
+    'Peace • Love • Truth • Compassion • Respect • Help one another'
+};
+
+async function fetchWithTimeout(
+  url,
+  options = {},
+  timeoutMs = LIVE_TIMEOUT_MS
+) {
+  const controller =
+    new AbortController();
+
+  const timeoutId =
+    setTimeout(
+      () => controller.abort(),
+      timeoutMs
+    );
+
+  try {
+    return await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 async function loadFallbackData() {
-  const res = await fetch('data/sample-news.json', {
-    cache: 'no-store'
-  });
+  const url =
+    'data/sample-news.json?v=' +
+    Date.now();
+
+  const res =
+    await fetchWithTimeout(
+      url,
+      {
+        cache: 'no-store'
+      },
+      6000
+    );
 
   if (!res.ok) {
-    throw new Error(`Fallback news HTTP ${res.status}`);
+    throw new Error(
+      `Fallback news HTTP ${res.status}`
+    );
   }
 
-  const data = await res.json();
+  const data =
+    await res.json();
 
-  fallbackStories = Array.isArray(data.stories)
-    ? data.stories
-    : [];
+  fallbackStories =
+    Array.isArray(data.stories)
+      ? data.stories
+      : [];
 
-  ads = Array.isArray(data.ads)
-    ? data.ads
-    : [];
+  ads =
+    Array.isArray(data.ads)
+      ? data.ads
+      : [];
 
   return data;
 }
@@ -65,64 +127,89 @@ function makeReflection(article) {
     .toLowerCase();
 
   if (
-    /(war|attack|violence|killed|shoot|bomb|conflict|assault)/.test(text)
+    /(war|attack|violence|killed|shoot|bomb|conflict|assault)/.test(
+      text
+    )
   ) {
     return {
-      verse_text: 'Seek peace and pursue it',
-      verse_reference: 'Psalms 34:15',
+      verse_text:
+        'Seek peace and pursue it',
+
+      verse_reference:
+        'Psalms 34:15',
+
       message:
         'Behind every headline are human lives. Voice of Peace calls for truth, restraint, protection of innocent people, and the courage to seek a path away from hatred and toward peace.'
     };
   }
 
   if (
-    /(help|rescue|charity|volunteer|community|donat|kindness)/.test(text)
+    /(help|rescue|charity|volunteer|community|donat|kindness)/.test(
+      text
+    )
   ) {
     return {
-      verse_text: 'The world is built on kindness',
-      verse_reference: 'Psalms 89:3',
+      verse_text:
+        'The world is built on kindness',
+
+      verse_reference:
+        'Psalms 89:3',
+
       message:
         'Acts of kindness deserve attention too. When people help one another without seeking reward, they strengthen their communities and remind us that goodness can be contagious.'
     };
   }
 
   return {
-    verse_text: 'Love your neighbor as yourself',
-    verse_reference: 'Leviticus 19:18',
+    verse_text:
+      'Love your neighbor as yourself',
+
+    verse_reference:
+      'Leviticus 19:18',
+
     message:
       'The news can inform us without teaching us to hate. We can face difficult facts while still treating every person with dignity, compassion, and respect.'
   };
 }
 
-function articleToStory(article, index) {
+function articleToStory(
+  article,
+  index
+) {
   const title =
     cleanText(article.title) ||
     'Latest world news update';
 
-  const sentence = cleanText(
-    article.sentence ||
-    article.description ||
-    article.excerpt ||
-    ''
-  );
+  const sentence =
+    cleanText(
+      article.sentence ||
+      article.description ||
+      article.excerpt ||
+      ''
+    );
 
-  const domain = cleanText(
-    article.domain || ''
-  );
+  const domain =
+    cleanText(
+      article.domain || ''
+    );
 
-  const sourceCountry = cleanText(
-    article.sourcecountry || ''
-  );
+  const sourceCountry =
+    cleanText(
+      article.sourcecountry || ''
+    );
 
-  const seenDate = cleanText(
-    article.seendate || ''
-  );
+  const seenDate =
+    cleanText(
+      article.seendate || ''
+    );
 
   return {
-    id: `live-${index}-${seenDate || Date.now()}`,
+    id:
+      `live-${index}-${seenDate || Date.now()}`,
 
     category:
-      sourceCountry || 'Live News',
+      sourceCountry ||
+      'Live News',
 
     headline:
       title,
@@ -130,16 +217,20 @@ function articleToStory(article, index) {
     summary:
       sentence ||
       `Latest report from ${
-        domain || 'a news source'
+        domain ||
+        'a news source'
       }. Tap the source below to read the complete report.`,
 
     source_line:
       `LIVE • Source: ${
-        domain || 'news source'
+        domain ||
+        'news source'
       }` +
-      (seenDate
-        ? ` • ${seenDate}`
-        : ''),
+      (
+        seenDate
+          ? ` • ${seenDate}`
+          : ''
+      ),
 
     source_url:
       article.url || '',
@@ -153,15 +244,30 @@ function articleToStory(article, index) {
 }
 
 async function loadLiveNews() {
-  const res = await fetch(
-    LIVE_NEWS_URL,
-    {
-      cache: 'no-store',
-      headers: {
-        Accept: 'application/json'
-      }
-    }
-  );
+  const separator =
+    LIVE_NEWS_URL.includes('?')
+      ? '&'
+      : '?';
+
+  const url =
+    LIVE_NEWS_URL +
+    separator +
+    '_=' +
+    Date.now();
+
+  const res =
+    await fetchWithTimeout(
+      url,
+      {
+        cache: 'no-store',
+        mode: 'cors',
+        headers: {
+          Accept:
+            'application/json'
+        }
+      },
+      LIVE_TIMEOUT_MS
+    );
 
   if (!res.ok) {
     throw new Error(
@@ -169,10 +275,35 @@ async function loadLiveNews() {
     );
   }
 
-  const data = await res.json();
+  const contentType =
+    res.headers.get(
+      'content-type'
+    ) || '';
+
+  const raw =
+    await res.text();
+
+  if (!raw.trim()) {
+    throw new Error(
+      'Live feed returned an empty response.'
+    );
+  }
+
+  let data;
+
+  try {
+    data =
+      JSON.parse(raw);
+  } catch (err) {
+    throw new Error(
+      `Live feed did not return valid JSON (${contentType || 'unknown content type'}).`
+    );
+  }
 
   const articles =
-    Array.isArray(data.articles)
+    Array.isArray(
+      data.articles
+    )
       ? data.articles
       : [];
 
@@ -187,9 +318,48 @@ async function loadLiveNews() {
     .slice(0, 20);
 }
 
+function beginBroadcast(
+  initialStories
+) {
+  stories =
+    Array.isArray(
+      initialStories
+    ) &&
+    initialStories.length
+      ? initialStories
+      : [EMERGENCY_STORY];
+
+  current = 0;
+
+  showStory(0);
+
+  startTimer();
+}
+
 async function loadData() {
+  /*
+    Show backup news FIRST.
+
+    This means the page does not
+    sit on "Loading today's broadcast"
+    while waiting for the external
+    live-news service.
+  */
+
   try {
     await loadFallbackData();
+
+    if (
+      fallbackStories.length
+    ) {
+      beginBroadcast(
+        fallbackStories
+      );
+    } else {
+      beginBroadcast([
+        EMERGENCY_STORY
+      ]);
+    }
   } catch (err) {
     console.warn(
       'Could not load fallback file:',
@@ -198,69 +368,66 @@ async function loadData() {
 
     fallbackStories = [];
     ads = [];
+
+    beginBroadcast([
+      EMERGENCY_STORY
+    ]);
   }
 
-  try {
-    const liveStories =
-      await loadLiveNews();
+  /*
+    Try live news AFTER the
+    broadcast is already visible.
+  */
 
-    if (liveStories.length) {
-      stories = liveStories;
+  refreshLiveNews(true);
 
-      console.log(
-        `Voice of Peace loaded ${stories.length} live stories.`
-      );
-    } else {
-      throw new Error(
-        'Live feed returned no usable stories.'
-      );
-    }
-  } catch (err) {
-    console.warn(
-      'Live feed unavailable. Using demo fallback.',
-      err
-    );
-
-    stories = fallbackStories;
-  }
-
-  if (!stories.length) {
-    throw new Error(
-      'No live or fallback stories are available.'
-    );
-  }
-
-  showStory(0);
-  startTimer();
-
-  // Refresh live news every 15 minutes
   setInterval(
-    refreshLiveNews,
-    15 * 60 * 1000
+    () =>
+      refreshLiveNews(false),
+
+    LIVE_REFRESH_MINUTES *
+      60 *
+      1000
   );
 }
 
-async function refreshLiveNews() {
+async function refreshLiveNews(
+  resetToFirstStory = false
+) {
   try {
     const refreshed =
       await loadLiveNews();
 
-    if (refreshed.length) {
-      stories = refreshed;
-
-      if (
-        current >= stories.length
-      ) {
-        current = 0;
-      }
-
-      console.log(
-        `Voice of Peace refreshed ${stories.length} live stories.`
+    if (
+      !refreshed.length
+    ) {
+      throw new Error(
+        'Live feed returned no usable stories.'
       );
     }
+
+    stories =
+      refreshed;
+
+    if (
+      resetToFirstStory ||
+      current >= stories.length
+    ) {
+      current = 0;
+
+      showStory(0);
+    } else {
+      showStory(
+        current
+      );
+    }
+
+    console.log(
+      `Voice of Peace loaded ${stories.length} live stories.`
+    );
   } catch (err) {
     console.warn(
-      'Live news refresh failed; keeping current stories.',
+      'Live news unavailable; continuing with the current broadcast.',
       err
     );
   }
@@ -272,10 +439,14 @@ function showStory(index) {
   }
 
   current =
-    (index + stories.length) %
+    (
+      index +
+      stories.length
+    ) %
     stories.length;
 
-  const s = stories[current];
+  const s =
+    stories[current];
 
   const category =
     el('category');
@@ -327,12 +498,13 @@ function showStory(index) {
       sourceLine.title =
         'Open original news source';
 
-      sourceLine.onclick = () =>
-        window.open(
-          s.source_url,
-          '_blank',
-          'noopener,noreferrer'
-        );
+      sourceLine.onclick =
+        () =>
+          window.open(
+            s.source_url,
+            '_blank',
+            'noopener,noreferrer'
+          );
     } else {
       sourceLine.style.cursor =
         '';
@@ -357,6 +529,16 @@ function showStory(index) {
         s.reflection.message ||
         '';
     }
+  } else {
+    if (verse) {
+      verse.textContent =
+        '';
+    }
+
+    if (reflection) {
+      reflection.textContent =
+        '';
+    }
   }
 
   if (ticker) {
@@ -373,41 +555,47 @@ function showStory(index) {
 function startTimer() {
   clearInterval(timer);
 
-  timer = setInterval(
-    () => {
-      if (!playing) {
-        return;
-      }
+  timer =
+    setInterval(
+      () => {
+        if (
+          !playing ||
+          adRunning
+        ) {
+          return;
+        }
 
-      elapsed += 1;
+        elapsed += 1;
 
-      updateProgress();
-
-      if (
-        elapsed >= STORY_SECONDS
-      ) {
-        const completedStoryNumber =
-          current + 1;
+        updateProgress();
 
         if (
-          completedStoryNumber %
-            AD_EVERY ===
-          0
+          elapsed >=
+          STORY_SECONDS
         ) {
-          runAd(() =>
+          const completedStoryNumber =
+            current + 1;
+
+          if (
+            completedStoryNumber %
+              AD_EVERY ===
+            0
+          ) {
+            runAd(
+              () =>
+                showStory(
+                  current + 1
+                )
+            );
+          } else {
             showStory(
               current + 1
-            )
-          );
-        } else {
-          showStory(
-            current + 1
-          );
+            );
+          }
         }
-      }
-    },
-    1000
-  );
+      },
+      1000
+    );
 }
 
 function updateProgress() {
@@ -421,9 +609,10 @@ function updateProgress() {
   const pct =
     Math.min(
       100,
-      (elapsed /
-        STORY_SECONDS) *
-        100
+      (
+        elapsed /
+        STORY_SECONDS
+      ) * 100
     );
 
   progressBar.style.width =
@@ -431,6 +620,10 @@ function updateProgress() {
 }
 
 function runAd(done) {
+  if (adRunning) {
+    return;
+  }
+
   const adOverlay =
     el('adOverlay');
 
@@ -453,14 +646,17 @@ function runAd(done) {
     return;
   }
 
-  playing = false;
+  adRunning = true;
+
+  const wasPlaying =
+    playing;
 
   const ad =
     ads.length
       ? ads[
           Math.floor(
             Math.random() *
-              ads.length
+            ads.length
           )
         ]
       : {
@@ -510,7 +706,20 @@ function runAd(done) {
             'hidden'
           );
 
-          playing = true;
+          adRunning = false;
+
+          playing =
+            wasPlaying;
+
+          const playBtn =
+            el('playBtn');
+
+          if (playBtn) {
+            playBtn.textContent =
+              playing
+                ? 'Pause'
+                : 'Play';
+          }
 
           done();
         }
@@ -534,7 +743,7 @@ function readCurrentStory() {
     return;
   }
 
-  speechSynthesis.cancel();
+  window.speechSynthesis.cancel();
 
   const s =
     stories[current];
@@ -570,7 +779,7 @@ function readCurrentStory() {
   utter.rate = 0.94;
   utter.pitch = 1.0;
 
-  speechSynthesis.speak(
+  window.speechSynthesis.speak(
     utter
   );
 }
@@ -625,9 +834,13 @@ function setupButtons() {
           in window
         ) {
           if (!playing) {
-            speechSynthesis.pause();
+            window
+              .speechSynthesis
+              .pause();
           } else {
-            speechSynthesis.resume();
+            window
+              .speechSynthesis
+              .resume();
           }
         }
       }
@@ -642,41 +855,10 @@ function setupButtons() {
   }
 }
 
-function showFatalError(err) {
-  console.error(err);
-
-  const headline =
-    el('headline');
-
-  const summary =
-    el('summary');
-
-  const sourceLine =
-    el('sourceLine');
-
-  if (headline) {
-    headline.textContent =
-      'Unable to load the broadcast';
-  }
-
-  if (summary) {
-    summary.textContent =
-      'The live feed and the backup news file could not be loaded. Please check the GitHub files and try again.';
-  }
-
-  if (sourceLine) {
-    sourceLine.textContent =
-      'Voice of Peace • News connection error';
-  }
-}
-
 document.addEventListener(
   'DOMContentLoaded',
   () => {
     setupButtons();
-
-    loadData().catch(
-      showFatalError
-    );
+    loadData();
   }
 );

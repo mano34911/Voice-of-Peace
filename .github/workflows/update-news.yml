@@ -1,1 +1,213 @@
+name: Update Voice of Peace News
 
+on:
+  workflow_dispatch:
+
+  schedule:
+    - cron: "*/15 * * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download latest news
+        run: |
+          python <<'PY'
+          import json
+          import urllib.parse
+          import urllib.request
+          import xml.etree.ElementTree as ET
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          FEEDS = [
+              {
+                  "name": "Peace & Diplomacy",
+                  "category": "Peace",
+                  "url": "https://news.google.com/rss/search?"
+                  + urllib.parse.urlencode({
+                      "q": "peace OR diplomacy OR ceasefire",
+                      "hl": "en-US",
+                      "gl": "US",
+                      "ceid": "US:en"
+                  })
+              },
+              {
+                  "name": "World News",
+                  "category": "World News",
+                  "url": "https://news.google.com/rss/headlines/section/topic/WORLD?"
+                  + urllib.parse.urlencode({
+                      "hl": "en-US",
+                      "gl": "US",
+                      "ceid": "US:en"
+                  })
+              },
+              {
+                  "name": "New York",
+                  "category": "New York",
+                  "url": "https://news.google.com/rss/search?"
+                  + urllib.parse.urlencode({
+                      "q": "\"New York\"",
+                      "hl": "en-US",
+                      "gl": "US",
+                      "ceid": "US:en"
+                  })
+              }
+          ]
+
+          def clean(value):
+              if not value:
+                  return ""
+
+              return (
+                  str(value)
+                  .replace("<![CDATA[", "")
+                  .replace("]]>", "")
+                  .strip()
+              )
+
+          stories = []
+          seen = set()
+
+          for feed in FEEDS:
+              print("Downloading:", feed["name"])
+
+              try:
+                  request = urllib.request.Request(
+                      feed["url"],
+                      headers={
+                          "User-Agent":
+                              "Mozilla/5.0 VoiceOfPeace/1.0"
+                      }
+                  )
+
+                  with urllib.request.urlopen(
+                      request,
+                      timeout=30
+                  ) as response:
+                      xml_data = response.read()
+
+                  root = ET.fromstring(xml_data)
+                  items = root.findall(".//item")
+
+                  for item in items[:20]:
+                      title = clean(item.findtext("title"))
+                      link = clean(item.findtext("link"))
+                      pub_date = clean(item.findtext("pubDate"))
+
+                      source_node = item.find("source")
+                      source = ""
+
+                      if source_node is not None:
+                          source = clean(source_node.text)
+
+                      if not title:
+                          continue
+
+                      key = link or title.lower()
+
+                      if key in seen:
+                          continue
+
+                      seen.add(key)
+
+                      stories.append({
+                          "id": f"live-{len(stories)+1}",
+                          "category": feed["category"],
+                          "headline": title,
+                          "summary":
+                              "Latest report from "
+                              + (source or feed["name"])
+                              + ".",
+                          "source_line":
+                              "LIVE • "
+                              + (source or feed["name"])
+                              + (
+                                  f" • {pub_date}"
+                                  if pub_date
+                                  else ""
+                              ),
+                          "url": link,
+                          "image": "",
+                          "reflection": {
+                              "verse_text":
+                                  "Seek peace and pursue it.",
+                              "verse_reference":
+                                  "Psalm 34:14",
+                              "message":
+                                  "Even when the news is difficult, "
+                                  "we can answer the world with truth, "
+                                  "compassion, responsibility, "
+                                  "and a commitment to peace."
+                          }
+                      })
+
+              except Exception as error:
+                  print(
+                      "Feed failed:",
+                      feed["name"],
+                      error
+                  )
+
+          if not stories:
+              raise RuntimeError(
+                  "No news stories were downloaded."
+              )
+
+          output = {
+              "updated":
+                  datetime.now(
+                      timezone.utc
+                  ).isoformat(),
+              "stories": stories
+          }
+
+          Path("data").mkdir(
+              exist_ok=True
+          )
+
+          Path(
+              "data/live-news.json"
+          ).write_text(
+              json.dumps(
+                  output,
+                  indent=2,
+                  ensure_ascii=False
+              ),
+              encoding="utf-8"
+          )
+
+          print(
+              "Saved",
+              len(stories),
+              "stories."
+          )
+          PY
+
+      - name: Commit updated news
+        run: |
+          git config user.name "Voice of Peace News Bot"
+          git config user.email "actions@github.com"
+
+          git add data/live-news.json
+
+          if git diff --cached --quiet
+          then
+            echo "No changes."
+          else
+            git commit -m "Update Voice of Peace live news"
+            git push
+          fi

@@ -12,34 +12,31 @@
 
 <meta
   name="description"
-  content="Voice of Peace - Live world news, video reports, messages of peace, community and understanding."
+  content="Voice of Peace - Live news, video reports and messages of peace."
 >
 
 <title>Voice of Peace</title>
 
-
 <style>
-
-:root{
-  --navy:#031a35;
-  --navy2:#062a53;
-  --navy3:#0a3b70;
-  --blue:#118ee9;
-  --lightblue:#41c8ff;
-  --gold:#ffc72c;
-  --white:#ffffff;
-  --muted:#a9bfd5;
-  --card:#071f3c;
-  --border:#1e4c76;
-  --green:#16d66b;
-  --danger:#e43b4f;
-}
-
 
 *{
   box-sizing:border-box;
 }
 
+:root{
+  --bg:#01162b;
+  --bg2:#052d52;
+  --card:#062746;
+  --card2:#031a31;
+  --border:#225a83;
+  --blue:#159be6;
+  --cyan:#4bd0ff;
+  --gold:#ffd34f;
+  --red:#df3343;
+  --green:#11ba5d;
+  --white:#ffffff;
+  --muted:#b9cfdf;
+}
 
 html,
 body{
@@ -47,45 +44,18 @@ body{
   min-height:100%;
 }
 
-
 body{
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#fff;
 
   background:
     radial-gradient(
       circle at top,
-      #11487e 0%,
-      #062b53 30%,
-      #02152c 70%,
+      #135181 0%,
+      #062d52 30%,
+      #02182e 70%,
       #010b17 100%
     );
-
-  color:#fff;
-
-  min-height:100vh;
-}
-
-
-button,
-a{
-  font-family:inherit;
-}
-
-
-/* =========================================
-   APP
-========================================= */
-
-.app{
-
-  min-height:100vh;
-
-  display:flex;
-  flex-direction:column;
 }
 
 
@@ -95,75 +65,55 @@ a{
 
 .header{
 
+  position:sticky;
+  top:0;
+  z-index:1000;
+
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
 
-  gap:20px;
-
-  padding:
-    18px 5%;
+  padding:17px 4%;
 
   background:
     linear-gradient(
       90deg,
-      #02152e,
-      #06365f,
-      #02152e
+      #011529,
+      #063a64,
+      #011529
     );
 
   border-bottom:
-    2px solid #17578d;
+    2px solid #1c5a89;
 
   box-shadow:
-    0 4px 25px #0008;
-
-  position:sticky;
-  top:0;
-
-  z-index:100;
+    0 5px 25px #0008;
 }
-
-
-.brand{
-  line-height:1;
-}
-
 
 .small-title{
 
-  color:var(--lightblue);
+  color:var(--cyan);
 
-  font-size:11px;
+  font-size:10px;
 
-  letter-spacing:
-    5px;
+  letter-spacing:5px;
 
   font-weight:900;
 }
 
-
 .brand h1{
 
-  margin:
-    4px 0;
+  margin:4px 0;
 
   font-size:
     clamp(
-      24px,
+      25px,
       3vw,
       42px
     );
 
-  letter-spacing:
-    1px;
-
-  color:#fff;
-
-  text-shadow:
-    0 0 15px #3bcaff44;
+  line-height:1;
 }
-
 
 .byline{
 
@@ -174,112 +124,85 @@ a{
   font-weight:700;
 }
 
-
 .status-badge{
 
   padding:
-    9px 18px;
+    9px 17px;
 
-  border-radius:
-    999px;
+  border-radius:30px;
 
   font-size:12px;
 
   font-weight:900;
-
-  letter-spacing:
-    1px;
-
-  box-shadow:
-    0 0 14px #0006;
 }
-
 
 .status-badge.live{
-
-  background:
-    #0bb858;
-
-  color:#fff;
+  background:var(--green);
 }
-
 
 .status-badge.connecting{
-
-  background:
-    #d49b12;
-
-  color:#fff;
+  background:#c58e16;
 }
 
-
 .status-badge.offline{
-
-  background:
-    #c33;
-
-  color:#fff;
+  background:#b62d3b;
 }
 
 
 /* =========================================
-   BREAKING NEWS BAR
+   BREAKING NEWS
 ========================================= */
 
 .news-strip{
 
   display:flex;
 
-  align-items:center;
+  min-height:43px;
 
-  background:#061c35;
+  background:#031c35;
 
   border-bottom:
-    1px solid #234d72;
-
-  min-height:42px;
-
-  overflow:hidden;
+    1px solid #28577a;
 }
-
 
 .news-strip-label{
 
-  background:
-    var(--danger);
+  display:flex;
 
-  color:#fff;
+  align-items:center;
 
-  font-size:12px;
+  padding:
+    0 18px;
+
+  background:var(--red);
+
+  font-size:11px;
 
   font-weight:900;
 
-  padding:
-    14px 20px;
-
   white-space:nowrap;
-
-  letter-spacing:
-    1px;
 }
-
 
 .news-strip-text{
 
+  display:flex;
+
+  align-items:center;
+
   flex:1;
-
-  overflow:hidden;
-
-  white-space:nowrap;
 
   padding:
     0 15px;
 
-  color:#eaf5ff;
+  overflow:hidden;
 
-  font-weight:700;
+  white-space:nowrap;
 
-  font-size:14px;
+  text-overflow:ellipsis;
+
+  font-size:13px;
+
+  font-weight:800;
 }
 
 
@@ -291,21 +214,15 @@ a{
 
   width:
     min(
-      1380px,
+      1400px,
       96%
     );
 
-  margin:
-    0 auto;
+  margin:auto;
 
   padding:
-    26px 0 40px;
+    24px 0 40px;
 }
-
-
-/* =========================================
-   HERO GRID
-========================================= */
 
 .hero-grid{
 
@@ -314,252 +231,172 @@ a{
   grid-template-columns:
     1.15fr .85fr;
 
-  gap:22px;
-
-  align-items:stretch;
+  gap:20px;
 }
 
 
 /* =========================================
-   MEDIA PANEL
+   IMAGE
 ========================================= */
 
 .media-panel{
 
-  background:
-    linear-gradient(
-      145deg,
-      #03182e,
-      #082a4c
-    );
+  min-height:500px;
 
-  border:
-    1px solid #1c527e;
-
-  border-radius:
-    20px;
+  position:relative;
 
   overflow:hidden;
 
-  min-height:470px;
+  border:
+    1px solid var(--border);
+
+  border-radius:20px;
+
+  background:#000;
 
   box-shadow:
-    0 20px 50px #0007;
-
-  position:relative;
+    0 18px 50px #0008;
 }
-
 
 .photo-section{
 
-  width:100%;
+  position:absolute;
 
-  height:100%;
-
-  min-height:470px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  position:relative;
-
-  overflow:hidden;
-
-  background:#000;
+  inset:0;
 }
-
 
 .family-photo,
 .story-image{
 
   position:absolute;
 
+  inset:0;
+
   width:100%;
   height:100%;
 
   object-fit:cover;
-
-  object-position:center;
 }
-
 
 .family-photo{
 
-  opacity:.75;
-}
+  z-index:1;
 
+  opacity:.85;
+}
 
 .story-image{
 
   z-index:2;
-
-  display:none;
 }
 
-
-.media-overlay{
+.media-gradient{
 
   position:absolute;
 
-  inset:auto 0 0 0;
-
   z-index:3;
 
+  inset:auto 0 0;
+
   padding:
-    55px 22px 18px;
+    75px 18px 18px;
 
   background:
     linear-gradient(
       transparent,
-      rgba(
-        0,
-        8,
-        20,
-        .94
-      )
+      rgba(0,10,22,.95)
     );
 }
 
-
-.media-live-label{
+.live-label{
 
   display:inline-block;
-
-  background:
-    #e12636;
-
-  color:#fff;
 
   padding:
     6px 10px;
 
   border-radius:5px;
 
+  background:var(--red);
+
   font-size:11px;
 
   font-weight:900;
-
-  letter-spacing:
-    1px;
 }
 
 
 /* =========================================
-   STORY PANEL
+   STORY
 ========================================= */
 
-.story-panel{
+.story-side{
 
   display:flex;
 
   flex-direction:column;
 
-  gap:14px;
+  gap:13px;
 }
 
-
-.story-card,
-.reporting-card,
-.reflection-card,
-.video-card{
+.card{
 
   background:
     linear-gradient(
       145deg,
-      rgba(
-        6,
-        31,
-        59,
-        .98
-      ),
-      rgba(
-        3,
-        23,
-        45,
-        .98
-      )
+      #082e51,
+      #03182e
     );
 
   border:
     1px solid var(--border);
 
-  border-radius:
-    17px;
+  border-radius:17px;
 
   box-shadow:
     0 12px 35px #0005;
 }
 
-
 .story-card{
 
-  padding:
-    25px;
+  padding:25px;
 }
-
 
 .category{
 
-  color:
-    var(--lightblue);
+  color:var(--cyan);
 
   font-size:11px;
 
   font-weight:900;
 
-  letter-spacing:
-    2px;
+  letter-spacing:2px;
 
-  text-transform:
-    uppercase;
-
-  margin-bottom:10px;
+  text-transform:uppercase;
 }
-
 
 .headline{
 
+  margin:
+    10px 0 15px;
+
   font-size:
     clamp(
-      25px,
+      26px,
       3vw,
-      40px
+      41px
     );
 
-  line-height:1.13;
-
-  margin:
-    0 0 15px;
-
-  color:#fff;
+  line-height:1.12;
 }
-
 
 .summary{
 
-  margin:
-    0 0 20px;
-
-  color:#d7e7f5;
+  color:#d7e8f5;
 
   font-size:16px;
 
   line-height:1.6;
 }
-
-
-.story-actions{
-
-  display:flex;
-
-  gap:10px;
-
-  flex-wrap:wrap;
-}
-
 
 .read-more{
 
@@ -569,36 +406,32 @@ a{
 
   justify-content:center;
 
-  min-height:44px;
+  margin-top:8px;
+
+  padding:
+    11px 18px;
+
+  border:
+    1px solid #52c7ff;
+
+  border-radius:8px;
 
   background:
     linear-gradient(
-      #168de3,
-      #0867b3
+      #169de9,
+      #086cb5
     );
 
   color:#fff;
 
   text-decoration:none;
 
-  padding:
-    10px 18px;
-
-  border-radius:
-    8px;
-
   font-size:14px;
 
   font-weight:900;
 
-  border:
-    1px solid #43b4ff;
-
   cursor:pointer;
-
-  transition:.2s;
 }
-
 
 .read-more:hover{
 
@@ -606,78 +439,51 @@ a{
     translateY(-2px);
 
   box-shadow:
-    0 7px 18px #009dff44;
+    0 6px 18px #00aaff55;
 }
 
-
-/* =========================================
-   REPORTING
-========================================= */
-
-.reporting-card{
+.info-card{
 
   padding:
     17px 20px;
 }
 
-
 .section-label{
 
-  color:
-    var(--lightblue);
+  color:var(--cyan);
 
   font-size:10px;
 
-  letter-spacing:
-    2px;
-
   font-weight:900;
+
+  letter-spacing:2px;
 
   margin-bottom:8px;
 }
 
-
 .source-line{
 
-  color:#d7e7f4;
+  color:#d4e4ef;
 
   font-size:13px;
 
   line-height:1.5;
 }
 
-
-/* =========================================
-   REFLECTION
-========================================= */
-
-.reflection-card{
-
-  padding:
-    18px 20px;
-}
-
-
 .verse{
 
-  color:
-    var(--gold);
-
-  font-size:16px;
+  color:var(--gold);
 
   font-weight:900;
 
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
-
 
 .reflection{
 
   margin:0;
 
-  color:#d7e7f4;
-
-  font-size:14px;
+  color:#d4e4ef;
 
   line-height:1.6;
 }
@@ -689,70 +495,116 @@ a{
 
 .video-section{
 
-  margin-top:28px;
+  margin-top:30px;
 }
 
-
-.video-heading{
+.video-header{
 
   display:flex;
 
-  align-items:center;
-
   justify-content:space-between;
+
+  align-items:center;
 
   gap:15px;
 
-  margin-bottom:12px;
+  margin-bottom:14px;
 }
 
-
-.video-heading h2{
+.video-header h2{
 
   margin:0;
 
   font-size:
     clamp(
-      22px,
-      2.6vw,
-      32px
+      24px,
+      3vw,
+      35px
     );
-
-  color:#fff;
 }
 
+.video-subtitle{
 
-.video-heading span{
+  color:var(--cyan);
 
-  color:
-    var(--lightblue);
-
-  font-size:12px;
+  font-size:11px;
 
   font-weight:900;
+
+  letter-spacing:1px;
 }
 
 
-.video-grid{
+/* SOURCE BUTTONS */
+
+.source-buttons{
+
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:9px;
+
+  margin-bottom:15px;
+}
+
+.source-btn{
+
+  border:
+    1px solid #4281ac;
+
+  border-radius:8px;
+
+  background:#08365f;
+
+  color:#fff;
+
+  padding:
+    10px 15px;
+
+  font-weight:900;
+
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+.source-btn:hover{
+
+  background:#116da8;
+
+  transform:
+    translateY(-2px);
+}
+
+.source-btn.active{
+
+  background:var(--gold);
+
+  color:#061525;
+
+  border-color:var(--gold);
+}
+
+
+/* VIDEO */
+
+.video-layout{
 
   display:grid;
 
   grid-template-columns:
-    1.25fr .75fr;
+    1.35fr .65fr;
 
   gap:20px;
 }
 
-
 .video-card{
 
   padding:14px;
-
-  overflow:hidden;
 }
 
-
-.video-frame{
+.video-player{
 
   position:relative;
 
@@ -761,16 +613,14 @@ a{
   aspect-ratio:
     16 / 9;
 
+  overflow:hidden;
+
   background:#000;
 
-  border-radius:
-    12px;
-
-  overflow:hidden;
+  border-radius:13px;
 }
 
-
-.video-frame iframe{
+.video-player iframe{
 
   width:100%;
   height:100%;
@@ -778,11 +628,11 @@ a{
   border:0;
 }
 
-
 .video-placeholder{
 
-  width:100%;
-  height:100%;
+  position:absolute;
+
+  inset:0;
 
   display:flex;
 
@@ -794,169 +644,148 @@ a{
 
   text-align:center;
 
-  gap:10px;
-
-  color:#c9dbea;
+  gap:12px;
 
   background:
     radial-gradient(
       circle,
-      #153d64,
-      #031a32
+      #15517f,
+      #03172c
     );
+
+  color:#d9e8f4;
 }
 
+.play-symbol{
 
-.video-placeholder-icon{
+  font-size:65px;
 
-  font-size:55px;
-
-  color:#ff2d3e;
+  color:#ff3447;
 }
-
 
 .video-title{
 
-  font-weight:900;
+  margin:
+    14px 4px 5px;
 
-  font-size:18px;
+  font-size:19px;
+
+  font-weight:900;
+}
+
+.video-meta{
+
+  color:var(--muted);
 
   margin:
-    12px 3px 4px;
+    0 4px;
+
+  font-size:13px;
+}
+
+.video-controls{
+
+  display:flex;
+
+  gap:8px;
+
+  margin-top:12px;
+
+  flex-wrap:wrap;
+}
+
+.video-controls button{
+
+  border:
+    1px solid #3a79a3;
+
+  border-radius:7px;
+
+  background:#08365d;
 
   color:#fff;
+
+  padding:
+    9px 13px;
+
+  font-weight:900;
+
+  cursor:pointer;
 }
 
 
-.video-source{
-
-  color:
-    var(--muted);
-
-  font-size:12px;
-
-  margin:
-    0 3px;
-}
-
-
-/* =========================================
-   SIDEBAR INFORMATION
-========================================= */
+/* SOURCE PANEL */
 
 .network-card{
 
-  background:
-    linear-gradient(
-      145deg,
-      #071f3c,
-      #031628
-    );
-
-  border:
-    1px solid var(--border);
-
-  border-radius:
-    17px;
-
-  padding:
-    22px;
-
-  box-shadow:
-    0 12px 35px #0005;
+  padding:22px;
 }
 
+.network-card h3{
 
-.network-title{
+  color:var(--gold);
 
-  color:
-    var(--gold);
+  margin-top:0;
 
-  font-size:20px;
-
-  font-weight:900;
-
-  margin-bottom:14px;
+  font-size:22px;
 }
-
 
 .network-card p{
 
-  color:
-    #d2e0ec;
+  color:#d4e3ed;
 
   line-height:1.6;
-
-  font-size:14px;
 }
 
+.network-card ul{
 
-.network-list{
+  list-style:none;
 
   padding:0;
 
-  margin:
-    18px 0 0;
-
-  list-style:none;
+  margin:15px 0 0;
 }
 
-
-.network-list li{
+.network-card li{
 
   padding:
     10px 0;
 
   border-bottom:
-    1px solid #285073;
+    1px solid #28577a;
 
-  color:#cfe1ef;
-
-  font-size:13px;
+  color:#d1e0ea;
 }
 
 
 /* =========================================
-   PEACE MESSAGE
+   MESSAGE + CONTROLS
 ========================================= */
 
 .peace-message{
 
+  margin-top:28px;
+
+  padding:15px;
+
   text-align:center;
 
-  margin-top:26px;
-
-  padding:
-    15px;
+  color:var(--gold);
 
   border-top:
-    1px solid #725e25;
+    1px solid #806925;
 
   border-bottom:
-    1px solid #725e25;
-
-  color:
-    var(--gold);
-
-  font-size:15px;
+    1px solid #806925;
 
   font-weight:900;
-
-  letter-spacing:.4px;
 }
-
-
-/* =========================================
-   CONTROLS
-========================================= */
 
 .player-controls{
 
-  margin-top:22px;
+  margin-top:20px;
 
   display:flex;
-
-  align-items:center;
 
   justify-content:center;
 
@@ -965,67 +794,40 @@ a{
   flex-wrap:wrap;
 }
 
-
 .player-controls button{
 
   border:
-    1px solid #3877a8;
+    1px solid #417fa8;
 
-  background:
-    linear-gradient(
-      #0d416e,
-      #082e52
-    );
+  border-radius:8px;
+
+  background:#093b65;
 
   color:#fff;
 
-  min-height:42px;
-
   padding:
-    8px 17px;
-
-  border-radius:
-    8px;
+    10px 17px;
 
   font-weight:900;
 
   cursor:pointer;
-
-  transition:.2s;
 }
-
-
-.player-controls button:hover{
-
-  transform:
-    translateY(-2px);
-
-  background:
-    #1260a0;
-}
-
 
 .progress-container{
 
-  margin:
-    15px auto 0;
-
-  width:
-    min(
-      620px,
-      90%
-    );
+  max-width:650px;
 
   height:5px;
 
-  background:#173c5d;
+  margin:
+    15px auto;
 
-  border-radius:
-    99px;
+  background:#214a67;
+
+  border-radius:20px;
 
   overflow:hidden;
 }
-
 
 .progress-bar{
 
@@ -1036,17 +838,14 @@ a{
   background:
     linear-gradient(
       90deg,
-      #0ea5ff,
-      #ffd635
+      #17a7ff,
+      #ffda45
     );
-
-  transition:
-    width .2s linear;
 }
 
 
 /* =========================================
-   FULL STORY MODAL
+   FULL STORY INSIDE APP
 ========================================= */
 
 .story-modal{
@@ -1066,29 +865,22 @@ a{
   padding:20px;
 
   background:
-    rgba(
-      0,
-      8,
-      20,
-      .93
-    );
+    rgba(0,7,18,.95);
 
   backdrop-filter:
     blur(7px);
 }
-
 
 .story-modal.show{
 
   display:flex;
 }
 
-
 .story-modal-box{
 
   width:
     min(
-      1000px,
+      1050px,
       96vw
     );
 
@@ -1100,30 +892,26 @@ a{
   background:
     linear-gradient(
       145deg,
-      #08294c,
-      #03162c
+      #082d50,
+      #03182d
     );
 
   border:
-    2px solid #2270aa;
+    2px solid #287db7;
 
-  border-radius:
-    22px;
+  border-radius:22px;
 
   box-shadow:
-    0 30px 80px #000;
-
-  position:relative;
+    0 30px 90px #000;
 }
 
-
-.story-modal-header{
+.modal-header{
 
   position:sticky;
 
   top:0;
 
-  z-index:2;
+  z-index:5;
 
   display:flex;
 
@@ -1131,225 +919,116 @@ a{
 
   justify-content:space-between;
 
-  gap:10px;
-
   padding:
     15px 20px;
 
-  background:
-    #03162cee;
+  background:#03182df3;
 
   border-bottom:
-    1px solid #285b83;
+    1px solid #2b6289;
 }
 
+.modal-label{
 
-.story-modal-title-small{
+  color:var(--cyan);
 
-  color:
-    var(--lightblue);
+  font-size:11px;
 
   font-weight:900;
 
-  letter-spacing:
-    2px;
-
-  font-size:11px;
+  letter-spacing:2px;
 }
 
+.modal-close{
 
-.story-close{
+  width:43px;
+  height:43px;
 
-  width:42px;
-  height:42px;
-
-  border-radius:
-    50%;
+  border-radius:50%;
 
   border:
-    1px solid #ff6977;
+    1px solid #ff6a77;
 
-  background:
-    #aa2330;
+  background:#a72431;
 
   color:#fff;
 
-  font-size:24px;
+  font-size:25px;
 
   cursor:pointer;
 }
 
+.modal-body{
 
-.story-modal-content{
-
-  padding:
-    24px;
+  padding:25px;
 }
 
-
-.story-modal-image{
+.modal-image{
 
   width:100%;
 
-  max-height:480px;
+  max-height:490px;
 
   object-fit:cover;
 
-  border-radius:
-    15px;
+  border-radius:15px;
 
   margin-bottom:20px;
-
-  display:none;
 }
 
+.modal-headline{
 
-.story-modal-headline{
+  margin:
+    0 0 15px;
 
   font-size:
     clamp(
-      28px,
+      29px,
       4vw,
       48px
     );
 
-  line-height:1.14;
-
-  margin:
-    0 0 18px;
+  line-height:1.15;
 }
 
+.modal-source{
 
-.story-modal-source{
+  color:var(--cyan);
 
-  color:
-    var(--lightblue);
+  margin-bottom:22px;
 
-  font-size:13px;
-
-  font-weight:800;
-
-  margin-bottom:18px;
+  font-weight:900;
 }
 
+.modal-text{
 
-.story-modal-text{
-
-  color:
-    #e2edf6;
+  color:#e3edf5;
 
   font-size:18px;
 
-  line-height:1.75;
+  line-height:1.8;
 
   white-space:pre-wrap;
 }
 
+.modal-note{
 
-.original-source-btn{
+  margin-top:25px;
 
-  margin-top:24px;
+  padding:15px;
 
-  display:inline-block;
+  border-radius:10px;
 
-  background:
-    var(--gold);
-
-  color:#071628;
-
-  font-weight:900;
-
-  text-decoration:none;
-
-  padding:
-    12px 18px;
-
-  border-radius:
-    8px;
-}
-
-
-/* =========================================
-   AD OVERLAY
-========================================= */
-
-.ad-overlay{
-
-  position:fixed;
-
-  inset:0;
-
-  z-index:15000;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  background:
-    rgba(
-      0,
-      10,
-      25,
-      .94
-    );
-}
-
-
-.ad-overlay[hidden]{
-
-  display:none;
-}
-
-
-.ad-box{
-
-  width:
-    min(
-      600px,
-      90%
-    );
-
-  text-align:center;
-
-  padding:
-    45px;
-
-  border-radius:
-    20px;
-
-  background:
-    #061f3c;
+  background:#062541;
 
   border:
-    2px solid var(--gold);
+    1px solid #28597c;
 
-  box-shadow:
-    0 25px 70px #000;
-}
+  color:#afc7d9;
 
+  font-size:13px;
 
-.ad-label{
-
-  color:
-    var(--gold);
-
-  font-size:11px;
-
-  letter-spacing:
-    2px;
-
-  font-weight:900;
-}
-
-
-.ad-countdown-text{
-
-  margin-top:20px;
-
-  color:
-    var(--muted);
+  line-height:1.5;
 }
 
 
@@ -1357,22 +1036,15 @@ a{
    FOOTER
 ========================================= */
 
-.site-footer{
-
-  margin-top:auto;
+.footer{
 
   text-align:center;
 
-  padding:
-    24px;
+  padding:25px;
 
-  color:
-    #7f9ab1;
+  color:#7e9bb1;
 
   font-size:12px;
-
-  border-top:
-    1px solid #173a58;
 }
 
 
@@ -1380,93 +1052,46 @@ a{
    MOBILE
 ========================================= */
 
-@media(
-  max-width:900px
-){
+@media(max-width:900px){
 
   .hero-grid,
-  .video-grid{
+  .video-layout{
 
-    grid-template-columns:
-      1fr;
+    grid-template-columns:1fr;
   }
 
+  .media-panel{
 
-  .media-panel,
-  .photo-section{
-
-    min-height:
-      420px;
-  }
-
-
-  .header{
-
-    padding:
-      14px 18px;
-  }
-
-
-  .brand h1{
-
-    font-size:25px;
+    min-height:430px;
   }
 
 }
 
+@media(max-width:550px){
 
-@media(
-  max-width:550px
-){
-
-  .main-content{
-
-    width:94%;
-  }
-
-
-  .media-panel,
-  .photo-section{
-
-    min-height:
-      320px;
-  }
-
-
-  .headline{
-
-    font-size:27px;
-  }
-
-
-  .story-card{
-
-    padding:18px;
-  }
-
-
-  .news-strip-label{
+  .header{
 
     padding:
-      12px 10px;
-
-    font-size:10px;
+      13px 15px;
   }
 
+  .brand h1{
 
-  .news-strip-text{
-
-    font-size:12px;
+    font-size:23px;
   }
 
+  .media-panel{
 
-  .story-modal-content{
-
-    padding:17px;
+    min-height:320px;
   }
 
+  .source-btn{
 
-  .story-modal-text{
+    flex:
+      1 1 45%;
+  }
+
+  .modal-text{
 
     font-size:16px;
   }
@@ -1481,15 +1106,11 @@ a{
 <body>
 
 
-<div class="app">
-
-
 <!-- =========================================
      HEADER
 ========================================= -->
 
 <header class="header">
-
 
   <div class="brand">
 
@@ -1515,13 +1136,12 @@ a{
     CONNECTING
   </div>
 
-
 </header>
 
 
 
 <!-- =========================================
-     BREAKING NEWS STRIP
+     BREAKING NEWS
 ========================================= -->
 
 <div class="news-strip">
@@ -1534,7 +1154,7 @@ a{
     id="newsStripText"
     class="news-strip-text"
   >
-    Voice of Peace is connecting to live world news...
+    Voice of Peace is connecting to live news...
   </div>
 
 </div>
@@ -1551,23 +1171,20 @@ a{
 <div class="hero-grid">
 
 
-<!-- IMAGE -->
-
 <section class="media-panel">
 
   <div class="photo-section">
 
-
-    <!-- YOUR PERMANENT IMAGE -->
+    <!-- PERMANENT FALLBACK PHOTO -->
 
     <img
       src="many.jpeg"
-      alt="Voice of Peace"
       class="family-photo"
+      alt="Voice of Peace"
     >
 
 
-    <!-- LIVE NEWS IMAGE -->
+    <!-- NEWS PHOTO -->
 
     <img
       id="storyImage"
@@ -1576,14 +1193,13 @@ a{
     >
 
 
-    <div class="media-overlay">
+    <div class="media-gradient">
 
-      <span class="media-live-label">
+      <span class="live-label">
         ● LIVE WORLD NEWS
       </span>
 
     </div>
-
 
   </div>
 
@@ -1591,13 +1207,10 @@ a{
 
 
 
-<!-- STORY INFORMATION -->
-
-<div class="story-panel">
+<div class="story-side">
 
 
-<section class="story-card">
-
+<section class="card story-card">
 
   <div
     id="category"
@@ -1611,7 +1224,7 @@ a{
     id="headline"
     class="headline"
   >
-    Voice of Peace is ready
+    Connecting to live news...
   </h2>
 
 
@@ -1619,74 +1232,54 @@ a{
     id="summary"
     class="summary"
   >
-    Connecting to live news...
+    Loading current reports...
   </p>
 
 
-  <div class="story-actions">
-
-
-    <a
-      id="storyLink"
-      class="read-more"
-      href="#"
-      style="display:none;"
-    >
-      📖 Read Full Story
-    </a>
-
-
-  </div>
-
+  <a
+    id="storyLink"
+    class="read-more"
+    href="#"
+  >
+    📖 Read Full Story
+  </a>
 
 </section>
 
 
 
-<section class="reporting-card">
-
+<section class="card info-card">
 
   <div class="section-label">
     REPORTING
   </div>
 
-
   <div
     id="sourceLine"
     class="source-line"
   >
-    Voice of Peace • Connecting to live news
+    Connecting...
   </div>
-
 
 </section>
 
 
 
-<section class="reflection-card">
-
+<section class="card info-card">
 
   <div class="section-label">
     VOICE OF PEACE REFLECTION
   </div>
 
-
   <div
     id="verse"
     class="verse"
-  >
-    “Love your neighbor as yourself.” — Leviticus 19:18
-  </div>
-
+  ></div>
 
   <p
     id="reflection"
     class="reflection"
-  >
-    Peace begins with the way we speak,
-    listen, and treat one another.
-  </p>
-
+  ></p>
 
 </section>
 
@@ -1698,61 +1291,106 @@ a{
 
 
 <!-- =========================================
-     YOUTUBE VIDEO NEWS
+     NEWS FROM THE RIGHT
 ========================================= -->
 
 <section class="video-section">
 
 
-<div class="video-heading">
+<div class="video-header">
 
   <h2>
-    ▶ Latest Video News
+    ▶ News From the Right
   </h2>
 
-  <span>
-    VOICE OF PEACE VIDEO DESK
-  </span>
+  <div class="video-subtitle">
+    CONSERVATIVE VIDEO NEWS DESK
+  </div>
 
 </div>
 
 
 
-<div class="video-grid">
+<div class="source-buttons">
 
 
-<section class="video-card">
-
-
-  <div
-    id="youtubeFrameContainer"
-    class="video-frame"
+  <button
+    class="source-btn active"
+    data-source="Fox News"
+    type="button"
   >
+    FOX NEWS
+  </button>
+
+
+  <button
+    class="source-btn"
+    data-source="Newsmax"
+    type="button"
+  >
+    NEWSMAX
+  </button>
+
+
+  <button
+    class="source-btn"
+    data-source="OAN"
+    type="button"
+  >
+    OAN
+  </button>
+
+
+  <button
+    class="source-btn"
+    data-source="Breitbart"
+    type="button"
+  >
+    BREITBART
+  </button>
+
+
+  <button
+    class="source-btn"
+    data-source="Daily Wire"
+    type="button"
+  >
+    DAILY WIRE
+  </button>
+
+
+</div>
+
+
+
+<div class="video-layout">
+
+
+<section class="card video-card">
+
+
+  <div class="video-player">
 
 
     <div
-      id="youtubePlaceholder"
+      id="videoPlaceholder"
       class="video-placeholder"
     >
 
-      <div class="video-placeholder-icon">
+      <div class="play-symbol">
         ▶
       </div>
 
       <strong>
-        Latest YouTube News Reports
+        Loading latest conservative news video...
       </strong>
-
-      <span>
-        Video reports will appear here automatically.
-      </span>
 
     </div>
 
 
     <iframe
       id="youtubeFrame"
-      title="Voice of Peace video report"
+      title="Voice of Peace conservative video news"
       allow="
         accelerometer;
         autoplay;
@@ -1771,18 +1409,37 @@ a{
 
 
   <div
-    id="youtubeTitle"
+    id="videoTitle"
     class="video-title"
   >
-    Voice of Peace Video News
+    Latest Video Report
   </div>
 
 
   <div
-    id="youtubeSource"
-    class="video-source"
+    id="videoMeta"
+    class="video-meta"
   >
-    Latest selected world news video reports
+    Loading...
+  </div>
+
+
+  <div class="video-controls">
+
+    <button
+      id="videoPrev"
+      type="button"
+    >
+      ◀ Previous Video
+    </button>
+
+    <button
+      id="videoNext"
+      type="button"
+    >
+      Next Video ▶
+    </button>
+
   </div>
 
 
@@ -1790,42 +1447,41 @@ a{
 
 
 
-<section class="network-card">
+<section class="card network-card">
 
 
-  <div class="network-title">
-    🌍 News Sources
-  </div>
+  <h3>
+    Selected Sources
+  </h3>
 
 
   <p>
-    Voice of Peace brings together reports
-    from established international news
-    organizations while promoting truth,
-    understanding and peace.
+    This section intentionally focuses on
+    conservative and right-leaning news and
+    commentary selected for Voice of Peace.
   </p>
 
 
-  <ul class="network-list">
+  <ul>
 
     <li>
-      ✓ International breaking news
+      Fox News
     </li>
 
     <li>
-      ✓ Embedded video reports
+      Newsmax
     </li>
 
     <li>
-      ✓ Automatic live news updates
+      One America News — OAN
     </li>
 
     <li>
-      ✓ Voice narration
+      Breitbart
     </li>
 
     <li>
-      ✓ Voice of Peace reflection
+      Daily Wire
     </li>
 
   </ul>
@@ -1842,60 +1498,47 @@ a{
 
 
 <!-- =========================================
-     PEACE MESSAGE
+     BOTTOM
 ========================================= -->
 
-<section class="peace-message">
+<div class="peace-message">
 
-  Respect • Help one another • Seek truth • Choose peace
+  Respect • Truth • Understanding • Help one another
 
-</section>
+</div>
 
 
-
-<!-- =========================================
-     PLAYER
-========================================= -->
 
 <section class="player-controls">
 
+  <button
+    id="prevBtn"
+    type="button"
+  >
+    ◀ Previous
+  </button>
 
-<button
-  id="prevBtn"
-  type="button"
-  aria-label="Previous story"
->
-  ◀ Previous
-</button>
+  <button
+    id="playBtn"
+    type="button"
+  >
+    Pause
+  </button>
 
+  <button
+    id="nextBtn"
+    type="button"
+  >
+    Next ▶
+  </button>
 
-<button
-  id="playBtn"
-  type="button"
-  aria-label="Pause"
->
-  Pause
-</button>
-
-
-<button
-  id="nextBtn"
-  type="button"
-  aria-label="Next story"
->
-  Next ▶
-</button>
-
-
-<button
-  id="soundBtn"
-  type="button"
-  data-sound="on"
-  aria-label="Sound"
->
-  🔊 Sound On
-</button>
-
+  <button
+    id="soundBtn"
+    type="button"
+    data-sound="on"
+  >
+    🔊 Sound On
+  </button>
 
 </section>
 
@@ -1915,19 +1558,16 @@ a{
 
 
 
-<footer class="site-footer">
+<footer class="footer">
 
-  VOICE OF PEACE • WORLD NEWS • UNDERSTANDING • RESPONSIBILITY • PEACE
+  VOICE OF PEACE • NEWS • UNDERSTANDING • RESPONSIBILITY
 
 </footer>
 
 
-</div>
-
-
 
 <!-- =========================================
-     READ FULL STORY MODAL
+     FULL STORY MODAL
 ========================================= -->
 
 <div
@@ -1939,174 +1579,89 @@ a{
 <div class="story-modal-box">
 
 
-<div class="story-modal-header">
+<div class="modal-header">
 
-
-  <div class="story-modal-title-small">
+  <div class="modal-label">
     VOICE OF PEACE • FULL STORY
   </div>
 
-
   <button
-    id="storyModalClose"
-    class="story-close"
+    id="modalClose"
+    class="modal-close"
     type="button"
-    aria-label="Close"
   >
     ×
   </button>
 
-
 </div>
 
 
 
-<div class="story-modal-content">
+<div class="modal-body">
 
 
-<img
-  id="modalStoryImage"
-  class="story-modal-image"
-  alt="News story"
->
+  <img
+    id="modalImage"
+    class="modal-image"
+    src="many.jpeg"
+    alt="News story"
+  >
 
 
-<h2
-  id="modalHeadline"
-  class="story-modal-headline"
->
-</h2>
+  <h2
+    id="modalHeadline"
+    class="modal-headline"
+  ></h2>
 
 
-<div
-  id="modalSource"
-  class="story-modal-source"
->
-</div>
+  <div
+    id="modalSource"
+    class="modal-source"
+  ></div>
 
 
-<div
-  id="modalStoryText"
-  class="story-modal-text"
->
-</div>
+  <div
+    id="modalText"
+    class="modal-text"
+  ></div>
 
 
-<a
-  id="modalOriginalLink"
-  class="original-source-btn"
-  href="#"
-  target="_blank"
-  rel="noopener noreferrer"
->
-  Visit Original News Source ↗
-</a>
+  <!-- IMPORTANT:
+       NO EXTERNAL NEWS LINK HERE.
+       THE READER STAYS INSIDE VOICE OF PEACE.
+  -->
 
+  <div class="modal-note">
 
-</div>
-
-
-</div>
-
-</div>
-
-
-
-<!-- =========================================
-     AD
-========================================= -->
-
-<div
-  id="adOverlay"
-  class="ad-overlay"
-  hidden
->
-
-
-<div class="ad-box">
-
-
-  <div class="ad-label">
-    SPONSORED MESSAGE
-  </div>
-
-
-  <h2 id="adTitle">
-    Voice of Peace
-  </h2>
-
-
-  <p id="adText">
-    We will return after this short message.
-  </p>
-
-
-  <div class="ad-countdown-text">
-
-    Returning in
-
-    <span id="adCountdown">
-      10
-    </span>
-
-    seconds
+    This report is presented inside Voice of Peace
+    using the headline and available summary supplied
+    by the news feed.
 
   </div>
 
 
 </div>
 
+
+</div>
+
 </div>
 
 
 
 <!-- =========================================
-     EXISTING APP
+     EXISTING NEWS APP
 ========================================= -->
 
-<script src="app.js?v=20260903-2200"></script>
+<script src="app.js?v=20260903-2400"></script>
 
 
-
-<!-- =========================================
-     PROFESSIONAL PAGE EXTRAS
-========================================= -->
 
 <script>
 
-
 /* =========================================
-   BREAKING NEWS STRIP
+   BREAKING NEWS TEXT
 ========================================= */
-
-const headlineObserver =
-  new MutationObserver(
-    () => {
-
-      const headline =
-        document.getElementById(
-          "headline"
-        );
-
-      const strip =
-        document.getElementById(
-          "newsStripText"
-        );
-
-      if(
-        headline &&
-        strip
-      ){
-
-        strip.textContent =
-          headline.textContent ||
-          "Voice of Peace Live News";
-
-      }
-
-    }
-  );
-
 
 const headlineNode =
   document.getElementById(
@@ -2116,7 +1671,24 @@ const headlineNode =
 
 if(headlineNode){
 
-  headlineObserver.observe(
+  const observer =
+    new MutationObserver(
+      function(){
+
+        document
+          .getElementById(
+            "newsStripText"
+          )
+          .textContent =
+            headlineNode.textContent
+            ||
+            "Voice of Peace News";
+
+      }
+    );
+
+
+  observer.observe(
     headlineNode,
     {
       childList:true,
@@ -2130,7 +1702,7 @@ if(headlineNode){
 
 
 /* =========================================
-   READ FULL STORY INSIDE PAGE
+   FULL STORY — INTERNAL ONLY
 ========================================= */
 
 const storyLink =
@@ -2145,180 +1717,175 @@ const storyModal =
   );
 
 
-const storyModalClose =
+const modalClose =
   document.getElementById(
-    "storyModalClose"
+    "modalClose"
   );
 
 
-function openStoryModal(event){
 
-
-  if(event){
-
-    event.preventDefault();
-
-  }
-
-
-  const headline =
-    document
-      .getElementById(
-        "headline"
-      )
-      ?.textContent
-      ?.trim()
-      ||
-      "News Report";
-
-
-  const summary =
-    document
-      .getElementById(
-        "summary"
-      )
-      ?.textContent
-      ?.trim()
-      ||
-      "";
-
-
-  const source =
-    document
-      .getElementById(
-        "sourceLine"
-      )
-      ?.textContent
-      ?.trim()
-      ||
-      "";
-
-
-  const originalUrl =
-    storyLink
-      ?.getAttribute(
-        "href"
-      )
-      ||
-      "";
-
-
-  const storyImage =
-    document.getElementById(
-      "storyImage"
-    );
-
-
-  document
-    .getElementById(
-      "modalHeadline"
-    )
-    .textContent =
-      headline;
-
-
-  document
-    .getElementById(
-      "modalSource"
-    )
-    .textContent =
-      source;
+function getCurrentStory(){
 
 
   /*
-    Right now the live JSON contains the
-    headline and summary.
-
-    Later our GitHub Action can also provide
-    a larger article_text field.
+    Newer app.js versions expose this.
   */
 
-  document
-    .getElementById(
-      "modalStoryText"
-    )
-    .textContent =
-      summary;
-
-
-  const modalImage =
-    document.getElementById(
-      "modalStoryImage"
-    );
-
-
   if(
-    storyImage &&
-    storyImage.src &&
-    storyImage.style.display !==
-      "none"
+    window.voiceOfPeaceCurrentStory
   ){
 
-    modalImage.src =
-      storyImage.src;
-
-    modalImage.style.display =
-      "block";
+    return window.voiceOfPeaceCurrentStory;
 
   }
-  else{
+
+
+  /*
+    Fallback if an older app.js is still cached.
+  */
+
+  return{
+
+    headline:
+      document
+        .getElementById(
+          "headline"
+        )
+        ?.textContent
+        ?.trim()
+        ||
+        "",
+
+    summary:
+      document
+        .getElementById(
+          "summary"
+        )
+        ?.textContent
+        ?.trim()
+        ||
+        "",
+
+    source_line:
+      document
+        .getElementById(
+          "sourceLine"
+        )
+        ?.textContent
+        ?.trim()
+        ||
+        "",
+
+    image:
+      document
+        .getElementById(
+          "storyImage"
+        )
+        ?.src
+        ||
+        "many.jpeg"
+
+  };
+
+}
+
+
+
+storyLink.addEventListener(
+  "click",
+  function(event){
+
+    /*
+      VERY IMPORTANT:
+      STOP browser from following
+      Google News / CNBC / Reuters etc.
+    */
+
+    event.preventDefault();
+
+    event.stopPropagation();
+
+
+    const story =
+      getCurrentStory();
+
+
+    document
+      .getElementById(
+        "modalHeadline"
+      )
+      .textContent =
+        story.headline
+        ||
+        "News Report";
+
+
+    document
+      .getElementById(
+        "modalSource"
+      )
+      .textContent =
+        story.source_line
+        ||
+        "";
+
+
+    /*
+      Use article_text when we add it
+      to live-news.json later.
+
+      Otherwise use the available summary.
+    */
+
+    const fullText =
+      story.article_text
+      ||
+      story.full_summary
+      ||
+      story.summary
+      ||
+      "Additional details are not available in the current news feed.";
+
+
+    document
+      .getElementById(
+        "modalText"
+      )
+      .textContent =
+        fullText;
+
+
+    const modalImage =
+      document.getElementById(
+        "modalImage"
+      );
+
+
+    modalImage.onerror =
+      function(){
+
+        modalImage.src =
+          "many.jpeg";
+
+      };
+
 
     modalImage.src =
+      story.image
+      ||
       "many.jpeg";
 
-    modalImage.style.display =
-      "block";
 
-  }
-
-
-  const originalButton =
-    document.getElementById(
-      "modalOriginalLink"
+    storyModal.classList.add(
+      "show"
     );
 
 
-  if(
-    originalUrl &&
-    originalUrl !==
-      "#"
-  ){
-
-    originalButton.href =
-      originalUrl;
-
-    originalButton.style.display =
-      "inline-block";
+    document.body.style.overflow =
+      "hidden";
 
   }
-  else{
-
-    originalButton.style.display =
-      "none";
-
-  }
-
-
-  storyModal.classList.add(
-    "show"
-  );
-
-
-  document.body.style.overflow =
-    "hidden";
-
-}
-
-
-
-if(storyLink){
-
-  storyLink.addEventListener(
-    "click",
-    openStoryModal
-  );
-
-}
+);
 
 
 
@@ -2334,17 +1901,15 @@ function closeStoryModal(){
 }
 
 
-
-storyModalClose.addEventListener(
+modalClose.addEventListener(
   "click",
   closeStoryModal
 );
 
 
-
 storyModal.addEventListener(
   "click",
-  event => {
+  function(event){
 
     if(
       event.target ===
@@ -2359,10 +1924,9 @@ storyModal.addEventListener(
 );
 
 
-
 document.addEventListener(
   "keydown",
-  event => {
+  function(event){
 
     if(
       event.key ===
@@ -2379,26 +1943,17 @@ document.addEventListener(
 
 
 /* =========================================
-   YOUTUBE NEWS
+   YOUTUBE CONSERVATIVE VIDEO DESK
 ========================================= */
 
-/*
-  The page looks for:
+let youtubeVideos = [];
 
-  data/youtube-news.json
+let selectedSource =
+  "Fox News";
 
-  Example future format:
+let selectedVideoIndex =
+  0;
 
-  {
-    "videos":[
-      {
-        "video_id":"XXXXXXXXXXX",
-        "title":"Latest World News",
-        "source":"Reuters"
-      }
-    ]
-  }
-*/
 
 
 async function loadYouTubeNews(){
@@ -2422,7 +1977,9 @@ async function loadYouTubeNews(){
       !response.ok
     ){
 
-      return;
+      throw new Error(
+        "YouTube news file unavailable"
+      );
 
     }
 
@@ -2431,7 +1988,7 @@ async function loadYouTubeNews(){
       await response.json();
 
 
-    const videos =
+    youtubeVideos =
       Array.isArray(
         data.videos
       )
@@ -2441,102 +1998,335 @@ async function loadYouTubeNews(){
         [];
 
 
-    if(
-      !videos.length
-    ){
-
-      return;
-
-    }
-
-
-    const video =
-      videos[0];
-
-
-    const id =
-      video.video_id
-      ||
-      video.youtube_id
-      ||
-      "";
-
-
-    if(
-      !id
-    ){
-
-      return;
-
-    }
-
-
-    const iframe =
-      document.getElementById(
-        "youtubeFrame"
-      );
-
-
-    iframe.src =
-      "https://www.youtube.com/embed/"
-      +
-      encodeURIComponent(
-        id
-      )
-      +
-      "?rel=0";
-
-
-    iframe.style.display =
-      "block";
-
-
-    document
-      .getElementById(
-        "youtubePlaceholder"
-      )
-      .style.display =
-        "none";
-
-
-    document
-      .getElementById(
-        "youtubeTitle"
-      )
-      .textContent =
-        video.title
-        ||
-        "Latest Video Report";
-
-
-    document
-      .getElementById(
-        "youtubeSource"
-      )
-      .textContent =
-        video.source
-        ||
-        "YouTube News";
+    renderVideo();
 
 
   }
   catch(error){
 
 
-    console.log(
-      "YouTube news is not configured yet."
+    console.error(
+      "YouTube news:",
+      error
     );
 
 
-  }
+    renderVideo();
 
+  }
 
 }
 
 
 
-loadYouTubeNews();
+function getSourceVideos(){
 
+
+  return youtubeVideos.filter(
+    function(video){
+
+      return String(
+        video.source
+        ||
+        ""
+      )
+      .trim()
+      .toLowerCase()
+      ===
+      selectedSource
+        .toLowerCase();
+
+    }
+  );
+
+}
+
+
+
+function renderVideo(){
+
+
+  const videos =
+    getSourceVideos();
+
+
+  const iframe =
+    document.getElementById(
+      "youtubeFrame"
+    );
+
+
+  const placeholder =
+    document.getElementById(
+      "videoPlaceholder"
+    );
+
+
+  if(
+    !videos.length
+  ){
+
+
+    iframe.src =
+      "";
+
+    iframe.style.display =
+      "none";
+
+
+    placeholder.style.display =
+      "flex";
+
+
+    placeholder.innerHTML =
+      `
+        <div class="play-symbol">
+          ▶
+        </div>
+
+        <strong>
+          No ${selectedSource}
+          video has been collected yet.
+        </strong>
+
+        <span>
+          The automatic YouTube updater
+          will check again.
+        </span>
+      `;
+
+
+    document
+      .getElementById(
+        "videoTitle"
+      )
+      .textContent =
+        selectedSource;
+
+
+    document
+      .getElementById(
+        "videoMeta"
+      )
+      .textContent =
+        "Waiting for video";
+
+
+    return;
+
+  }
+
+
+  if(
+    selectedVideoIndex >=
+    videos.length
+  ){
+
+    selectedVideoIndex =
+      0;
+
+  }
+
+
+  const video =
+    videos[
+      selectedVideoIndex
+    ];
+
+
+  const videoID =
+    String(
+      video.video_id
+      ||
+      video.youtube_id
+      ||
+      ""
+    )
+    .trim();
+
+
+  if(
+    !videoID
+  ){
+
+    return;
+
+  }
+
+
+  placeholder.style.display =
+    "none";
+
+
+  iframe.style.display =
+    "block";
+
+
+  iframe.src =
+    "https://www.youtube.com/embed/"
+    +
+    encodeURIComponent(
+      videoID
+    )
+    +
+    "?rel=0";
+
+
+  document
+    .getElementById(
+      "videoTitle"
+    )
+    .textContent =
+      video.title
+      ||
+      "Latest Video Report";
+
+
+  document
+    .getElementById(
+      "videoMeta"
+    )
+    .textContent =
+      selectedSource;
+
+}
+
+
+
+/* SOURCE BUTTONS */
+
+document
+  .querySelectorAll(
+    ".source-btn"
+  )
+  .forEach(
+    function(button){
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          document
+            .querySelectorAll(
+              ".source-btn"
+            )
+            .forEach(
+              function(item){
+
+                item.classList.remove(
+                  "active"
+                );
+
+              }
+            );
+
+
+          button.classList.add(
+            "active"
+          );
+
+
+          selectedSource =
+            button.dataset.source;
+
+
+          selectedVideoIndex =
+            0;
+
+
+          renderVideo();
+
+        }
+      );
+
+    }
+  );
+
+
+
+/* NEXT VIDEO */
+
+document
+  .getElementById(
+    "videoNext"
+  )
+  .addEventListener(
+    "click",
+    function(){
+
+      const videos =
+        getSourceVideos();
+
+
+      if(
+        !videos.length
+      ){
+
+        return;
+
+      }
+
+
+      selectedVideoIndex =
+        (
+          selectedVideoIndex
+          +
+          1
+        )
+        %
+        videos.length;
+
+
+      renderVideo();
+
+    }
+  );
+
+
+
+/* PREVIOUS VIDEO */
+
+document
+  .getElementById(
+    "videoPrev"
+  )
+  .addEventListener(
+    "click",
+    function(){
+
+      const videos =
+        getSourceVideos();
+
+
+      if(
+        !videos.length
+      ){
+
+        return;
+
+      }
+
+
+      selectedVideoIndex =
+        (
+          selectedVideoIndex
+          -
+          1
+          +
+          videos.length
+        )
+        %
+        videos.length;
+
+
+      renderVideo();
+
+    }
+  );
+
+
+
+loadYouTubeNews();
 
 </script>
 

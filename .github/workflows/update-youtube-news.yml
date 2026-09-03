@@ -18,324 +18,1416 @@ jobs:
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
 
         with:
-          python-version: "3.12"
+          python-version: "3.13"
 
 
-      - name: Install yt-dlp
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install --upgrade yt-dlp
+      - name: Build YouTube news feed with official API
 
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
 
-      - name: Collect latest YouTube news videos
         run: |
 
           python <<'PY'
 
           import json
           import os
-          from datetime import datetime, timezone
+          import sys
+          import urllib.error
+          import urllib.parse
+          import urllib.request
 
-          from yt_dlp import YoutubeDL
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+
+          API_KEY = os.environ.get(
+              "YOUTUBE_API_KEY",
+              ""
+          ).strip()
+
+
+          if not API_KEY:
+
+              raise SystemExit(
+                  "ERROR: GitHub secret YOUTUBE_API_KEY is missing."
+              )
+
+
+          API_BASE = (
+              "https://www.googleapis.com/youtube/v3/"
+          )
 
 
           SOURCES = [
 
               {
                   "source": "Fox News",
-                  "url": "https://www.youtube.com/@FoxNews/videos"
+                  "handle": "@FoxNews"
               },
 
               {
                   "source": "Newsmax",
-                  "url": "https://www.youtube.com/@NewsmaxTV/videos"
+                  "handle": "@NewsmaxTV"
               },
 
               {
                   "source": "OAN",
-                  "url": "https://www.youtube.com/@oann/videos"
+                  "handle": "@oann"
               },
 
               {
                   "source": "Breitbart",
-                  "url": "https://www.youtube.com/@breitbartnews92/videos"
+                  "handle": "@breitbartnews92"
               },
 
               {
                   "source": "Daily Wire",
-                  "url": "https://www.youtube.com/@DailyWire/videos"
+                  "handle": "@DailyWire"
               }
 
           ]
 
 
-          all_videos = []
+          OUTPUT_PATH = Path(
+              "data/youtube-news.json"
+          )
 
 
-          ydl_options = {
+          MAX_CANDIDATES = 12
 
-              "quiet": True,
-
-              "no_warnings": True,
-
-              "extract_flat": True,
-
-              "skip_download": True,
-
-              "playlistend": 8,
-
-              "ignoreerrors": True
-
-          }
+          MAX_SAVED_PER_SOURCE = 5
 
 
-          with YoutubeDL(ydl_options) as ydl:
 
-              for source in SOURCES:
+          # ========================================
+          # YOUTUBE API REQUEST
+          # ========================================
 
-                  print(
-                      "\nChecking:",
-                      source["source"]
+          def api_get(
+              resource,
+              params
+          ):
+
+
+              request_params = dict(
+                  params
+              )
+
+
+              request_params[
+                  "key"
+              ] = API_KEY
+
+
+              url = (
+
+                  API_BASE
+
+                  +
+
+                  resource
+
+                  +
+
+                  "?"
+
+                  +
+
+                  urllib.parse.urlencode(
+                      request_params
                   )
 
+              )
 
-                  try:
 
-                      info = ydl.extract_info(
-                          source["url"],
-                          download=False
+              request = urllib.request.Request(
+
+                  url,
+
+                  headers={
+
+                      "User-Agent":
+                          "Voice-of-Peace-GitHub-Action/1.0"
+
+                  }
+
+              )
+
+
+              try:
+
+
+                  with urllib.request.urlopen(
+
+                      request,
+
+                      timeout=30
+
+                  ) as response:
+
+
+                      payload = json.loads(
+
+                          response
+                          .read()
+                          .decode(
+                              "utf-8"
+                          )
+
                       )
 
 
-                      if not info:
+              except urllib.error.HTTPError as error:
+
+
+                  body = error.read().decode(
+
+                      "utf-8",
+
+                      errors="replace"
+
+                  )
+
+
+                  raise RuntimeError(
+
+                      f"YouTube API HTTP {error.code}: {body}"
+
+                  ) from error
+
+
+              except urllib.error.URLError as error:
+
+
+                  raise RuntimeError(
+
+                      f"YouTube API connection error: {error}"
+
+                  ) from error
+
+
+
+              if "error" in payload:
+
+
+                  raise RuntimeError(
+
+                      "YouTube API returned an error: "
+
+                      +
+
+                      json.dumps(
+                          payload["error"]
+                      )
+
+                  )
+
+
+              return payload
+
+
+
+          # ========================================
+          # KEEP PREVIOUS WORKING VIDEOS
+          # ========================================
+
+          def load_previous():
+
+
+              if not OUTPUT_PATH.exists():
+
+                  return {}
+
+
+              try:
+
+
+                  data = json.loads(
+
+                      OUTPUT_PATH.read_text(
+                          encoding="utf-8"
+                      )
+
+                  )
+
+
+              except Exception:
+
+                  return {}
+
+
+              grouped = {}
+
+
+              for video in data.get(
+                  "videos",
+                  []
+              ):
+
+
+                  source = str(
+
+                      video.get(
+                          "source",
+                          ""
+                      )
+
+                  ).strip()
+
+
+                  if source:
+
+
+                      grouped.setdefault(
+
+                          source,
+
+                          []
+
+                      ).append(
+                          video
+                      )
+
+
+              return grouped
+
+
+
+          # ========================================
+          # BEST THUMBNAIL
+          # ========================================
+
+          def best_thumbnail(
+              snippet,
+              video_id
+          ):
+
+
+              thumbnails = (
+
+                  snippet.get(
+                      "thumbnails"
+                  )
+
+                  or
+
+                  {}
+
+              )
+
+
+              for key in (
+
+                  "maxres",
+
+                  "standard",
+
+                  "high",
+
+                  "medium",
+
+                  "default"
+
+              ):
+
+
+                  url = (
+
+                      thumbnails
+                      .get(
+                          key,
+                          {}
+                      )
+                      .get(
+                          "url",
+                          ""
+                      )
+
+                  )
+
+
+                  if url:
+
+                      return url
+
+
+              return (
+
+                  "https://i.ytimg.com/vi/"
+
+                  +
+
+                  video_id
+
+                  +
+
+                  "/hqdefault.jpg"
+
+              )
+
+
+
+          previous_by_source = (
+              load_previous()
+          )
+
+
+          all_videos = []
+
+          diagnostics = []
+
+
+
+          # ========================================
+          # PROCESS EVERY CHANNEL
+          # ========================================
+
+          for source_config in SOURCES:
+
+
+              source_name = (
+                  source_config[
+                      "source"
+                  ]
+              )
+
+
+              handle = (
+                  source_config[
+                      "handle"
+                  ]
+              )
+
+
+              print(
+                  "\n======================================"
+              )
+
+              print(
+                  f"Checking {source_name} ({handle})"
+              )
+
+              print(
+                  "======================================"
+              )
+
+
+
+              try:
+
+
+                  # --------------------------------
+                  # FIND CHANNEL FROM HANDLE
+                  # --------------------------------
+
+                  channel_response = api_get(
+
+                      "channels",
+
+                      {
+
+                          "part":
+                              "snippet,contentDetails",
+
+                          "forHandle":
+                              handle,
+
+                          "maxResults":
+                              1
+
+                      }
+
+                  )
+
+
+                  channel_items = (
+                      channel_response.get(
+                          "items",
+                          []
+                      )
+                  )
+
+
+                  if not channel_items:
+
+
+                      raise RuntimeError(
+
+                          f"No YouTube channel found for {handle}"
+
+                      )
+
+
+                  channel = (
+                      channel_items[0]
+                  )
+
+
+                  channel_id = (
+                      channel.get(
+                          "id",
+                          ""
+                      )
+                  )
+
+
+                  channel_title = (
+
+                      channel
+                      .get(
+                          "snippet",
+                          {}
+                      )
+                      .get(
+                          "title",
+                          source_name
+                      )
+
+                  )
+
+
+                  uploads_playlist = (
+
+                      channel
+                      .get(
+                          "contentDetails",
+                          {}
+                      )
+                      .get(
+                          "relatedPlaylists",
+                          {}
+                      )
+                      .get(
+                          "uploads",
+                          ""
+                      )
+
+                  )
+
+
+                  if not uploads_playlist:
+
+
+                      raise RuntimeError(
+
+                          f"Uploads playlist missing for {handle}"
+
+                      )
+
+
+                  print(
+                      f"Resolved channel: {channel_title}"
+                  )
+
+                  print(
+                      f"Channel ID: {channel_id}"
+                  )
+
+                  print(
+                      f"Uploads playlist: {uploads_playlist}"
+                  )
+
+
+
+                  # --------------------------------
+                  # GET RECENT UPLOADS
+                  # --------------------------------
+
+                  playlist_response = api_get(
+
+                      "playlistItems",
+
+                      {
+
+                          "part":
+                              "snippet,contentDetails",
+
+                          "playlistId":
+                              uploads_playlist,
+
+                          "maxResults":
+                              MAX_CANDIDATES
+
+                      }
+
+                  )
+
+
+                  candidates = []
+
+
+                  for item in playlist_response.get(
+                      "items",
+                      []
+                  ):
+
+
+                      snippet = item.get(
+                          "snippet",
+                          {}
+                      )
+
+
+                      content = item.get(
+                          "contentDetails",
+                          {}
+                      )
+
+
+                      video_id = (
+
+                          content.get(
+                              "videoId"
+                          )
+
+                          or
+
+                          snippet
+                          .get(
+                              "resourceId",
+                              {}
+                          )
+                          .get(
+                              "videoId",
+                              ""
+                          )
+
+                      )
+
+
+                      if not video_id:
+
+                          continue
+
+
+                      candidates.append({
+
+                          "video_id":
+                              video_id,
+
+                          "playlist_snippet":
+                              snippet,
+
+                          "published":
+                              (
+                                  content.get(
+                                      "videoPublishedAt"
+                                  )
+
+                                  or
+
+                                  snippet.get(
+                                      "publishedAt"
+                                  )
+
+                                  or
+
+                                  ""
+                              )
+
+                      })
+
+
+                  if not candidates:
+
+
+                      raise RuntimeError(
+
+                          f"No recent uploads found for {source_name}"
+
+                      )
+
+
+
+                  candidate_ids = [
+
+                      item[
+                          "video_id"
+                      ]
+
+                      for item in candidates
+
+                  ]
+
+
+
+                  # --------------------------------
+                  # VERIFY VIDEOS CAN BE EMBEDDED
+                  # --------------------------------
+
+                  videos_response = api_get(
+
+                      "videos",
+
+                      {
+
+                          "part":
+                              "snippet,status,contentDetails",
+
+                          "id":
+                              ",".join(
+                                  candidate_ids
+                              )
+
+                      }
+
+                  )
+
+
+                  details_by_id = {
+
+                      item.get(
+                          "id"
+                      ):
+                          item
+
+                      for item
+                      in videos_response.get(
+                          "items",
+                          []
+                      )
+
+                      if item.get(
+                          "id"
+                      )
+
+                  }
+
+
+                  saved = []
+
+
+
+                  for candidate in candidates:
+
+
+                      video_id = (
+                          candidate[
+                              "video_id"
+                          ]
+                      )
+
+
+                      video = (
+                          details_by_id.get(
+                              video_id
+                          )
+                      )
+
+
+                      if not video:
+
 
                           print(
-                              "No information returned for",
-                              source["source"]
+
+                              f"Skip {video_id}: "
+                              "no video details returned"
+
                           )
 
                           continue
 
 
-                      entries = (
-                          info.get("entries")
-                          or []
+
+                      status = video.get(
+                          "status",
+                          {}
                       )
 
 
-                      saved_count = 0
-
-
-                      for entry in entries:
-
-                          if not entry:
-                              continue
-
-
-                          video_id = (
-                              entry.get("id")
-                              or ""
-                          ).strip()
-
-
-                          title = (
-                              entry.get("title")
-                              or
-                              "Latest video report"
-                          ).strip()
-
-
-                          if not video_id:
-                              continue
-
-
-                          video_url = (
-                              "https://www.youtube.com/watch?v="
-                              +
-                              video_id
-                          )
-
-
-                          embed_url = (
-                              "https://www.youtube.com/embed/"
-                              +
-                              video_id
-                              +
-                              "?rel=0"
-                          )
-
-
-                          thumbnail = (
-                              "https://i.ytimg.com/vi/"
-                              +
-                              video_id
-                              +
-                              "/hqdefault.jpg"
-                          )
-
-
-                          all_videos.append({
-
-                              "source":
-                                  source["source"],
-
-                              "video_id":
-                                  video_id,
-
-                              "title":
-                                  title,
-
-                              "url":
-                                  video_url,
-
-                              "embed_url":
-                                  embed_url,
-
-                              "thumbnail":
-                                  thumbnail
-
-                          })
-
-
-                          saved_count += 1
-
-
-                          if saved_count >= 5:
-                              break
-
-
-                      print(
-                          source["source"],
-                          "videos saved:",
-                          saved_count
+                      snippet = video.get(
+                          "snippet",
+                          {}
                       )
 
 
-                  except Exception as error:
 
-                      print(
-                          "ERROR checking",
-                          source["source"],
-                          ":",
-                          error
+                      # ONLY PUBLIC VIDEOS
+
+                      if status.get(
+                          "privacyStatus"
+                      ) != "public":
+
+
+                          print(
+
+                              f"Skip {video_id}: "
+                              "not public"
+
+                          )
+
+                          continue
+
+
+
+                      # ONLY VIDEOS YOUTUBE SAYS CAN EMBED
+
+                      if status.get(
+                          "embeddable"
+                      ) is not True:
+
+
+                          print(
+
+                              f"Skip {video_id}: "
+                              "embedding disabled"
+
+                          )
+
+                          continue
+
+
+
+                      # SKIP UNPROCESSED VIDEOS
+
+                      if status.get(
+                          "uploadStatus"
+                      ) not in (
+
+                          None,
+
+                          "processed"
+
+                      ):
+
+
+                          print(
+
+                              f"Skip {video_id}: "
+                              "upload not processed"
+
+                          )
+
+                          continue
+
+
+
+                      # SKIP FUTURE PREMIERES
+
+                      if snippet.get(
+                          "liveBroadcastContent"
+                      ) == "upcoming":
+
+
+                          print(
+
+                              f"Skip {video_id}: "
+                              "upcoming video"
+
+                          )
+
+                          continue
+
+
+
+                      title = str(
+
+                          snippet.get(
+                              "title"
+                          )
+
+                          or
+
+                          candidate[
+                              "playlist_snippet"
+                          ].get(
+                              "title"
+                          )
+
+                          or
+
+                          "Latest video report"
+
+                      ).strip()
+
+
+
+                      description = str(
+
+                          snippet.get(
+                              "description"
+                          )
+
+                          or
+
+                          ""
+
+                      ).strip()
+
+
+
+                      published = (
+
+                          snippet.get(
+                              "publishedAt"
+                          )
+
+                          or
+
+                          candidate[
+                              "published"
+                          ]
+
+                          or
+
+                          ""
+
                       )
 
+
+
+                      saved.append({
+
+
+                          "source":
+                              source_name,
+
+
+                          "handle":
+                              handle,
+
+
+                          "channel_title":
+                              channel_title,
+
+
+                          "channel_id":
+                              channel_id,
+
+
+                          "video_id":
+                              video_id,
+
+
+                          "title":
+                              title,
+
+
+                          "description":
+                              description,
+
+
+                          "published":
+                              published,
+
+
+                          "url":
+                              (
+                                  "https://www.youtube.com/watch?v="
+
+                                  +
+
+                                  video_id
+                              ),
+
+
+                          "embed_url":
+                              (
+                                  "https://www.youtube.com/embed/"
+
+                                  +
+
+                                  video_id
+
+                                  +
+
+                                  "?rel=0"
+                              ),
+
+
+                          "thumbnail":
+                              best_thumbnail(
+                                  snippet,
+                                  video_id
+                              ),
+
+
+                          "embeddable":
+                              True
+
+                      })
+
+
+
+                      if len(
+                          saved
+                      ) >= MAX_SAVED_PER_SOURCE:
+
+                          break
+
+
+
+                  # --------------------------------
+                  # PRESERVE OLD WORKING VIDEOS
+                  # IF A CHANNEL RETURNS NOTHING
+                  # --------------------------------
+
+                  if not saved:
+
+
+                      previous = (
+                          previous_by_source.get(
+                              source_name,
+                              []
+                          )
+                      )
+
+
+                      if previous:
+
+
+                          print(
+
+                              "No new embeddable videos for "
+
+                              +
+
+                              source_name
+
+                              +
+
+                              "; keeping previous videos."
+
+                          )
+
+
+                          saved = previous[
+                              :MAX_SAVED_PER_SOURCE
+                          ]
+
+
+                          result_state = (
+                              "kept_previous"
+                          )
+
+
+                      else:
+
+
+                          result_state = (
+                              "no_embeddable_videos"
+                          )
+
+
+                  else:
+
+
+                      result_state = (
+                          "updated"
+                      )
+
+
+
+                  all_videos.extend(
+                      saved
+                  )
+
+
+
+                  diagnostics.append({
+
+
+                      "source":
+                          source_name,
+
+
+                      "handle":
+                          handle,
+
+
+                      "status":
+                          result_state,
+
+
+                      "videos_saved":
+                          len(
+                              saved
+                          )
+
+                  })
+
+
+                  print(
+
+                      source_name,
+
+                      ":",
+
+                      len(
+                          saved
+                      ),
+
+                      "playable video(s) saved"
+
+                  )
+
+
+
+              # ====================================
+              # ERROR ON ONE CHANNEL
+              # DO NOT DESTROY THE OTHER CHANNELS
+              # ====================================
+
+              except Exception as error:
+
+
+                  print(
+
+                      f"ERROR for {source_name}: {error}",
+
+                      file=sys.stderr
+
+                  )
+
+
+                  previous = (
+                      previous_by_source.get(
+                          source_name,
+                          []
+                      )
+                  )
+
+
+                  if previous:
+
+
+                      all_videos.extend(
+
+                          previous[
+                              :MAX_SAVED_PER_SOURCE
+                          ]
+
+                      )
+
+
+                  diagnostics.append({
+
+
+                      "source":
+                          source_name,
+
+
+                      "handle":
+                          handle,
+
+
+                      "status":
+                          (
+                              "error_kept_previous"
+
+                              if previous
+
+                              else
+
+                              "error"
+                          ),
+
+
+                      "videos_saved":
+                          min(
+                              len(
+                                  previous
+                              ),
+                              MAX_SAVED_PER_SOURCE
+                          ),
+
+
+                      "error":
+                          str(
+                              error
+                          )
+
+                  })
+
+
+
+          # ========================================
+          # NEVER REPLACE THE FEED WITH EMPTY DATA
+          # ========================================
+
+          if not all_videos:
+
+
+              print(
+
+                  "\nERROR: No playable YouTube videos "
+                  "were collected.",
+
+                  file=sys.stderr
+
+              )
+
+
+              print(
+
+                  json.dumps(
+                      diagnostics,
+                      indent=2
+                  ),
+
+                  file=sys.stderr
+
+              )
+
+
+              raise SystemExit(
+                  1
+              )
+
+
+
+          # ========================================
+          # WRITE FINAL JSON
+          # ========================================
 
           result = {
+
 
               "updated":
                   datetime.now(
                       timezone.utc
                   ).isoformat(),
 
+
               "videos":
-                  all_videos
+                  all_videos,
+
+
+              "diagnostics":
+                  diagnostics
 
           }
 
 
-          os.makedirs(
-              "data",
+
+          OUTPUT_PATH.parent.mkdir(
+
+              parents=True,
+
               exist_ok=True
+
           )
 
 
-          output_file = (
-              "data/youtube-news.json"
-          )
+          OUTPUT_PATH.write_text(
 
+              json.dumps(
 
-          with open(
-              output_file,
-              "w",
-              encoding="utf-8"
-          ) as file:
-
-              json.dump(
                   result,
-                  file,
-                  indent=2,
-                  ensure_ascii=False
+
+                  ensure_ascii=False,
+
+                  indent=2
+
               )
 
+              +
 
-          print(
-              "\n================================"
-          )
+              "\n",
 
-          print(
-              "TOTAL VIDEOS SAVED:",
-              len(all_videos)
-          )
+              encoding="utf-8"
 
-          print(
-              "FILE:",
-              output_file
-          )
-
-          print(
-              "================================"
           )
 
 
-          for source in SOURCES:
 
-              count = len([
-                  video
-                  for video
-                  in all_videos
-                  if video["source"]
-                  ==
-                  source["source"]
-              ])
+          print(
+              "\n======================================"
+          )
+
+          print(
+              "VOICE OF PEACE YOUTUBE UPDATE COMPLETE"
+          )
+
+          print(
+              "======================================"
+          )
+
+
+          print(
+
+              "Total playable videos:",
+
+              len(
+                  all_videos
+              )
+
+          )
+
+
+
+          for diagnostic in diagnostics:
+
 
               print(
-                  source["source"],
-                  ":",
-                  count
+
+                  diagnostic[
+                      "source"
+                  ],
+
+                  "=>",
+
+                  diagnostic[
+                      "status"
+                  ],
+
+                  "=>",
+
+                  diagnostic[
+                      "videos_saved"
+                  ],
+
+                  "video(s)"
+
               )
+
 
           PY
 
 
-      - name: Show generated YouTube file
-        run: |
-          echo "===== youtube-news.json ====="
-          cat data/youtube-news.json
-          echo "============================="
 
+      - name: Validate generated JSON
 
-      - name: Commit updated YouTube news
         run: |
 
-          git config user.name \
+          python -m json.tool \
+            data/youtube-news.json \
+            > /dev/null
+
+          echo \
+            "youtube-news.json is valid JSON"
+
+
+
+      - name: Show feed summary
+
+        run: |
+
+          python <<'PY'
+
+          import json
+
+
+          with open(
+
+              "data/youtube-news.json",
+
+              "r",
+
+              encoding="utf-8"
+
+          ) as file:
+
+
+              data = json.load(
+                  file
+              )
+
+
+          print(
+
+              "Updated:",
+
+              data.get(
+                  "updated"
+              )
+
+          )
+
+
+          print(
+
+              "Total videos:",
+
+              len(
+                  data.get(
+                      "videos",
+                      []
+                  )
+              )
+
+          )
+
+
+          print(
+              ""
+          )
+
+
+          for diagnostic in data.get(
+              "diagnostics",
+              []
+          ):
+
+
+              print(
+
+                  diagnostic.get(
+                      "source"
+                  ),
+
+                  "-",
+
+                  diagnostic.get(
+                      "status"
+                  ),
+
+                  "-",
+
+                  diagnostic.get(
+                      "videos_saved"
+                  ),
+
+                  "videos"
+
+              )
+
+
+          PY
+
+
+
+      - name: Commit updated YouTube feed
+
+        run: |
+
+          git config \
+            user.name \
             "Voice of Peace News Bot"
 
-          git config user.email \
+
+          git config \
+            user.email \
             "actions@github.com"
+
 
           git add \
             data/youtube-news.json
 
+
           if git diff \
             --cached \
             --quiet
+
           then
 
-            echo "No YouTube changes"
+            echo \
+              "No YouTube feed changes to commit."
 
           else
 
             git commit \
               -m \
               "Update Voice of Peace YouTube news"
+
 
             git push
 

@@ -182,8 +182,7 @@ body{
       <section class="card network-card">
         <h3>Selected Sources</h3>
         <p>
-          The player now uses one simple iframe and a user tap. It does not use the
-          YouTube JavaScript API, so there is no API-loading race or player-ID mismatch.
+          The player now loads each official channel directly from YouTube's own uploads playlist. No manually maintained video-ID file is required.
         </p>
         <ul>
           <li>Fox News</li>
@@ -233,60 +232,18 @@ body{
 <script src="app.js?v=20260903-youtube-final-1"></script>
 
 <script>
-/* BREAKING NEWS */
-const headlineNode = document.getElementById("headline");
-if (headlineNode) {
-  new MutationObserver(function () {
-    document.getElementById("newsStripText").textContent =
-      headlineNode.textContent || "Voice of Peace News";
-  }).observe(headlineNode,{childList:true,subtree:true,characterData:true});
-}
-
-/* FULL STORY MODAL */
-const storyLink = document.getElementById("storyLink");
-const storyModal = document.getElementById("storyModal");
-const modalClose = document.getElementById("modalClose");
-
-function getCurrentStory() {
-  return window.voiceOfPeaceCurrentStory || {
-    headline: document.getElementById("headline")?.textContent?.trim() || "",
-    summary: document.getElementById("summary")?.textContent?.trim() || "",
-    source_line: document.getElementById("sourceLine")?.textContent?.trim() || "",
-    image: document.getElementById("storyImage")?.src || "many.jpeg"
-  };
-}
-
-storyLink.addEventListener("click",function(event){
-  event.preventDefault();
-  const story = getCurrentStory();
-  document.getElementById("modalHeadline").textContent = story.headline || "News Report";
-  document.getElementById("modalSource").textContent = story.source_line || "";
-  document.getElementById("modalText").textContent =
-    story.article_text || story.full_summary || story.summary ||
-    "Additional details are not available in the current news feed.";
-  const modalImage=document.getElementById("modalImage");
-  modalImage.onerror=()=>modalImage.src="many.jpeg";
-  modalImage.src=story.image||"many.jpeg";
-  storyModal.classList.add("show");
-  document.body.style.overflow="hidden";
-});
-
-function closeStoryModal(){
-  storyModal.classList.remove("show");
-  document.body.style.overflow="";
-}
-modalClose.addEventListener("click",closeStoryModal);
-storyModal.addEventListener("click",e=>{if(e.target===storyModal)closeStoryModal();});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeStoryModal();});
-
 /* =====================================================
-   YOUTUBE FIX
-   - NO YouTube IFrame API
-   - ONE REAL iframe: #youtubeFrame
-   - user taps before loading
-   - valid ID extraction
-   - PLAYER TEST uses YouTube's own API-demo video
-   ===================================================== */
+   VOICE OF PEACE YOUTUBE — PLAYLIST EMBED VERSION
+
+   IMPORTANT:
+   We no longer depend on data/youtube-news.json for
+   FOX / NEWSMAX / OAN / BREITBART / DAILY WIRE.
+
+   Each source uses the official channel's Uploads playlist.
+   YouTube itself chooses and serves the videos.
+
+   This is much more reliable on a static GitHub Pages site.
+===================================================== */
 
 const youtubeFrame = document.getElementById("youtubeFrame");
 const videoPlaceholder = document.getElementById("videoPlaceholder");
@@ -294,230 +251,509 @@ const videoTitle = document.getElementById("videoTitle");
 const videoMeta = document.getElementById("videoMeta");
 const videoStatus = document.getElementById("videoStatus");
 
-let youtubeVideos = [];
-let selectedSource = "Fox News";
-let selectedVideoIndex = 0;
-let preparedVideo = null;
+const YOUTUBE_CHANNELS = {
+  "Fox News": {
+    channelId: "UCXIJgqnII2ZOINSWNOGFThA",
+    label: "Fox News"
+  },
 
-function setVideoStatus(text){
+  "Newsmax": {
+    channelId: "UCx6h-dWzJ5NpAlja1YsApdg",
+    label: "Newsmax"
+  },
+
+  "OAN": {
+    channelId: "UCNbIDJNNgaRrXOD7VllIMRQ",
+    label: "One America News"
+  },
+
+  "Breitbart": {
+    channelId: "UCmgnsaQIK1IR808Ebde-ssA",
+    label: "Breitbart News"
+  },
+
+  "Daily Wire": {
+    channelId: "UCaeO5vkdj5xOQHp4UmIN6dw",
+    label: "DailyWire+"
+  }
+};
+
+let selectedSource = "Fox News";
+let preparedUrl = "";
+let preparedOpenUrl = "";
+
+function uploadsPlaylistId(channelId) {
+  /*
+    Every YouTube channel has an Uploads playlist.
+    Replace the channel-ID prefix UC with UU.
+  */
+  return "UU" + channelId.slice(2);
+}
+
+function setVideoStatus(text) {
   videoStatus.textContent = text;
 }
 
-function extractYouTubeId(value){
+function resetFrame() {
+  youtubeFrame.src = "about:blank";
+}
+
+function showPlayOverlay(title, message) {
+  videoPlaceholder.style.display = "flex";
+  videoPlaceholder.innerHTML =
+    '<div class="play-symbol">▶</div>' +
+    '<strong>' + title + '</strong>' +
+    '<span>' + message + '</span>';
+}
+
+function prepareOfficialChannel(source) {
+  const info = YOUTUBE_CHANNELS[source];
+
+  if (!info) {
+    return false;
+  }
+
+  const playlistId = uploadsPlaylistId(info.channelId);
+
+  /*
+    Embed a playlist instead of individual video IDs.
+    YouTube serves the channel's uploaded videos itself.
+  */
+  preparedUrl =
+    "https://www.youtube-nocookie.com/embed/videoseries" +
+    "?list=" + encodeURIComponent(playlistId) +
+    "&playsinline=1" +
+    "&rel=0";
+
+  preparedOpenUrl =
+    "https://www.youtube.com/channel/" +
+    encodeURIComponent(info.channelId) +
+    "/videos";
+
+  resetFrame();
+
+  videoTitle.textContent = info.label;
+  videoMeta.textContent = "Official YouTube uploads";
+  setVideoStatus("Ready — tap the video area to load " + info.label + ".");
+
+  showPlayOverlay(
+    "Tap to play " + info.label,
+    "Latest videos are loaded directly from the official YouTube channel."
+  );
+
+  videoPlaceholder.onclick = function () {
+    playPrepared();
+  };
+
+  return true;
+}
+
+function extractYouTubeVideoId(value) {
   const raw = String(value || "").trim();
 
-  if (/^[A-Za-z0-9_-]{11}$/.test(raw)) return raw;
+  if (/^[A-Za-z0-9_-]{11}$/.test(raw)) {
+    return raw;
+  }
 
-  try{
+  try {
     const url = new URL(raw);
 
-    if(url.hostname === "youtu.be"){
+    if (url.hostname === "youtu.be") {
       const id = url.pathname.split("/").filter(Boolean)[0] || "";
       return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : "";
     }
 
-    if(url.hostname.includes("youtube.com") || url.hostname.includes("youtube-nocookie.com")){
+    if (
+      url.hostname.includes("youtube.com") ||
+      url.hostname.includes("youtube-nocookie.com")
+    ) {
       const v = url.searchParams.get("v");
-      if(v && /^[A-Za-z0-9_-]{11}$/.test(v)) return v;
+
+      if (v && /^[A-Za-z0-9_-]{11}$/.test(v)) {
+        return v;
+      }
 
       const parts = url.pathname.split("/").filter(Boolean);
-      for(const marker of ["live","embed","shorts"]){
+
+      for (const marker of ["live", "embed", "shorts"]) {
         const i = parts.indexOf(marker);
-        if(i >= 0 && parts[i+1] && /^[A-Za-z0-9_-]{11}$/.test(parts[i+1])){
-          return parts[i+1];
+
+        if (
+          i >= 0 &&
+          parts[i + 1] &&
+          /^[A-Za-z0-9_-]{11}$/.test(parts[i + 1])
+        ) {
+          return parts[i + 1];
         }
       }
     }
-  }catch(error){}
+  } catch (error) {}
 
   return "";
 }
 
-function blankPlayer(){
-  youtubeFrame.src = "about:blank";
+function extractYouTubeChannelId(value) {
+  const raw = String(value || "").trim();
+
+  if (/^UC[A-Za-z0-9_-]{22}$/.test(raw)) {
+    return raw;
+  }
+
+  try {
+    const url = new URL(raw);
+    const parts = url.pathname.split("/").filter(Boolean);
+
+    const i = parts.indexOf("channel");
+
+    if (
+      i >= 0 &&
+      parts[i + 1] &&
+      /^UC[A-Za-z0-9_-]{22}$/.test(parts[i + 1])
+    ) {
+      return parts[i + 1];
+    }
+  } catch (error) {}
+
+  return "";
 }
 
-function sourceVideos(){
-  if(selectedSource === "PLAYER TEST"){
-    return [{
-      source:"PLAYER TEST",
-      title:"YouTube Player Test",
-      video_id:"M7lc1UVf-VE",
-      url:"https://www.youtube.com/watch?v=M7lc1UVf-VE"
-    }];
+function prepareMyLive() {
+  resetFrame();
+
+  const saved =
+    localStorage.getItem("vop_my_live_url") || "";
+
+  const videoId =
+    extractYouTubeVideoId(saved);
+
+  const channelId =
+    extractYouTubeChannelId(saved);
+
+  if (videoId) {
+    preparedUrl =
+      "https://www.youtube-nocookie.com/embed/" +
+      encodeURIComponent(videoId) +
+      "?playsinline=1&rel=0";
+
+    preparedOpenUrl =
+      "https://www.youtube.com/watch?v=" +
+      encodeURIComponent(videoId);
+
+    videoTitle.textContent =
+      "Emmanuel & Camili LIVE";
+
+    videoMeta.textContent =
+      "Your saved YouTube broadcast";
+
+    setVideoStatus(
+      "Ready — tap the video area to load your broadcast."
+    );
+
+    showPlayOverlay(
+      "🔴 Tap to play Emmanuel & Camili LIVE",
+      "Your saved YouTube broadcast is ready."
+    );
+
+    videoPlaceholder.onclick =
+      playPrepared;
+
+    return;
   }
 
-  if(selectedSource === "Emmanuel & Camili LIVE"){
-    const saved = localStorage.getItem("vop_my_live_url") || "";
-    const id = extractYouTubeId(saved);
-    return id ? [{
-      source:selectedSource,
-      title:"Emmanuel & Camili LIVE",
-      video_id:id,
-      url:saved
-    }] : [];
+  if (channelId) {
+    /*
+      YouTube's channel live-stream embed.
+      When this channel is currently live,
+      the live broadcast will appear.
+    */
+    preparedUrl =
+      "https://www.youtube-nocookie.com/embed/live_stream" +
+      "?channel=" + encodeURIComponent(channelId) +
+      "&playsinline=1&rel=0";
+
+    preparedOpenUrl =
+      "https://www.youtube.com/channel/" +
+      encodeURIComponent(channelId) +
+      "/live";
+
+    videoTitle.textContent =
+      "Emmanuel & Camili LIVE";
+
+    videoMeta.textContent =
+      "Your YouTube live channel";
+
+    setVideoStatus(
+      "Ready — tap the video area. If the channel is live, YouTube will play it."
+    );
+
+    showPlayOverlay(
+      "🔴 Tap to open Emmanuel & Camili LIVE",
+      "This checks your saved YouTube channel for a live broadcast."
+    );
+
+    videoPlaceholder.onclick =
+      playPrepared;
+
+    return;
   }
 
-  return youtubeVideos.filter(video =>
-    String(video.source || "").trim().toLowerCase() === selectedSource.toLowerCase()
+  preparedUrl = "";
+  preparedOpenUrl = "";
+
+  videoTitle.textContent =
+    "Emmanuel & Camili LIVE";
+
+  videoMeta.textContent =
+    "Live channel not set";
+
+  setVideoStatus(
+    "Tap Set My LIVE and paste a YouTube video/live URL or a /channel/UC... URL."
   );
-}
 
-function prepareSelectedVideo(){
-  blankPlayer();
-  preparedVideo = null;
-  videoPlaceholder.style.display = "flex";
   videoPlaceholder.onclick = null;
 
-  const videos = sourceVideos();
-
-  if(!videos.length){
-    videoTitle.textContent = selectedSource;
-    videoMeta.textContent = "No playable video saved";
-    setVideoStatus("No YouTube video is saved for this channel.");
-
-    if(selectedSource === "Emmanuel & Camili LIVE"){
-      videoPlaceholder.innerHTML =
-        '<div class="play-symbol">🔴</div>' +
-        '<strong>Set your live link first.</strong>' +
-        '<span>Tap “Set My LIVE” and paste the exact YouTube LIVE/video URL.</span>';
-    }else{
-      videoPlaceholder.innerHTML =
-        '<div class="play-symbol">▶</div>' +
-        '<strong>No playable '+selectedSource+' video is in data/youtube-news.json.</strong>' +
-        '<span>Use PLAYER TEST to confirm YouTube itself is working.</span>';
-    }
-    return;
-  }
-
-  if(selectedVideoIndex >= videos.length) selectedVideoIndex = 0;
-  const v = videos[selectedVideoIndex];
-
-  const id = extractYouTubeId(v.video_id || v.youtube_id || v.url || "");
-
-  if(!id){
-    videoTitle.textContent = selectedSource;
-    videoMeta.textContent = "Invalid video ID";
-    setVideoStatus("Saved YouTube ID is invalid.");
-    videoPlaceholder.innerHTML =
-      '<div class="play-symbol">▶</div><strong>Invalid YouTube video ID.</strong>';
-    return;
-  }
-
-  preparedVideo = {
-    id:id,
-    title:v.title || "YouTube Video",
-    source:v.source || selectedSource,
-    url:v.url || ("https://www.youtube.com/watch?v="+id)
-  };
-
-  videoTitle.textContent = preparedVideo.title;
-  videoMeta.textContent =
-    selectedSource + (videos.length > 1 ? " • "+(selectedVideoIndex+1)+" of "+videos.length : "");
-  setVideoStatus("Ready — tap the video area to play.");
+  videoPlaceholder.style.display =
+    "flex";
 
   videoPlaceholder.innerHTML =
-    '<div class="play-symbol">▶</div>' +
-    '<strong>Tap to play '+selectedSource+'</strong>' +
-    '<span>This direct tap works better on iPhone/Safari.</span>';
-
-  videoPlaceholder.onclick = playPreparedVideo;
+    '<div class="play-symbol">🔴</div>' +
+    '<strong>Set your YouTube LIVE source.</strong>' +
+    '<span>Tap “Set My LIVE” below and paste your YouTube live/video link.</span>';
 }
 
-function playPreparedVideo(){
-  if(!preparedVideo) return;
+function preparePlayerTest() {
+  resetFrame();
 
-  videoPlaceholder.style.display = "none";
-  setVideoStatus("Loading YouTube...");
+  /*
+    This is the video used in Google's YouTube IFrame API example.
+    It gives us a known-good test target.
+  */
+  const id = "M7lc1UVf-VE";
 
-  const origin =
-    (location.protocol === "http:" || location.protocol === "https:")
-      ? "&origin="+encodeURIComponent(location.origin)
-      : "";
-
-  youtubeFrame.src =
+  preparedUrl =
     "https://www.youtube-nocookie.com/embed/" +
-    encodeURIComponent(preparedVideo.id) +
-    "?autoplay=1&playsinline=1&rel=0&enablejsapi=0" +
-    origin;
+    id +
+    "?playsinline=1&rel=0";
 
-  /* If YouTube itself blocks embedding, the Open on YouTube button remains available. */
-  setTimeout(()=>{
-    setVideoStatus("If you see a YouTube restriction message, tap “Open on YouTube”.");
-  },3500);
+  preparedOpenUrl =
+    "https://www.youtube.com/watch?v=" +
+    id;
+
+  videoTitle.textContent =
+    "YouTube Player Test";
+
+  videoMeta.textContent =
+    "Known test video";
+
+  setVideoStatus(
+    "Ready — tap the video area. If this plays, YouTube embedding works on this device."
+  );
+
+  showPlayOverlay(
+    "▶ Tap to run PLAYER TEST",
+    "This uses a known YouTube test video."
+  );
+
+  videoPlaceholder.onclick =
+    playPrepared;
 }
 
-async function loadYouTubeNews(){
-  try{
-    const response = await fetch("data/youtube-news.json?v="+Date.now(),{cache:"no-store"});
-    if(!response.ok) throw new Error("youtube-news.json HTTP "+response.status);
-    const data = await response.json();
-    youtubeVideos = Array.isArray(data.videos) ? data.videos : [];
-  }catch(error){
-    console.error("YouTube list:",error);
-    youtubeVideos = [];
-    setVideoStatus("Could not load data/youtube-news.json.");
-  }
+function prepareSelectedSource() {
+  preparedUrl = "";
+  preparedOpenUrl = "";
 
-  prepareSelectedVideo();
-}
-
-document.querySelectorAll(".source-btn").forEach(button=>{
-  button.addEventListener("click",function(){
-    document.querySelectorAll(".source-btn").forEach(x=>x.classList.remove("active"));
-    button.classList.add("active");
-    selectedSource = button.dataset.source;
-    selectedVideoIndex = 0;
-    prepareSelectedVideo();
-  });
-});
-
-document.getElementById("videoNext").addEventListener("click",function(){
-  const videos = sourceVideos();
-  if(!videos.length) return;
-  selectedVideoIndex=(selectedVideoIndex+1)%videos.length;
-  prepareSelectedVideo();
-});
-
-document.getElementById("videoPrev").addEventListener("click",function(){
-  const videos=sourceVideos();
-  if(!videos.length) return;
-  selectedVideoIndex=(selectedVideoIndex-1+videos.length)%videos.length;
-  prepareSelectedVideo();
-});
-
-document.getElementById("reloadVideo").addEventListener("click",prepareSelectedVideo);
-
-document.getElementById("setMyLive").addEventListener("click",function(){
-  const old = localStorage.getItem("vop_my_live_url") || "";
-  const value = prompt("Paste your exact YouTube LIVE or video URL:",old);
-  if(value === null) return;
-
-  const id = extractYouTubeId(value);
-  if(!id){
-    alert("I could not find a valid 11-character YouTube video ID in that link.");
+  if (selectedSource === "PLAYER TEST") {
+    preparePlayerTest();
     return;
   }
 
-  localStorage.setItem("vop_my_live_url",value.trim());
-
-  selectedSource="Emmanuel & Camili LIVE";
-  selectedVideoIndex=0;
-  document.querySelectorAll(".source-btn").forEach(x=>
-    x.classList.toggle("active",x.dataset.source===selectedSource)
-  );
-  prepareSelectedVideo();
-});
-
-document.getElementById("openOnYouTube").addEventListener("click",function(){
-  if(preparedVideo?.url){
-    window.open(preparedVideo.url,"_blank","noopener,noreferrer");
-  }else{
-    setVideoStatus("Choose a video first.");
+  if (selectedSource === "Emmanuel & Camili LIVE") {
+    prepareMyLive();
+    return;
   }
-});
 
-loadYouTubeNews();
+  if (!prepareOfficialChannel(selectedSource)) {
+    resetFrame();
+    setVideoStatus("Unknown video source.");
+  }
+}
+
+function playPrepared() {
+  if (!preparedUrl) {
+    setVideoStatus("No YouTube source is prepared.");
+    return;
+  }
+
+  videoPlaceholder.style.display =
+    "none";
+
+  setVideoStatus(
+    "Loading YouTube..."
+  );
+
+  /*
+    Add autoplay only after a user tap.
+    This is important for iPhone / Safari.
+  */
+  const separator =
+    preparedUrl.includes("?")
+      ? "&"
+      : "?";
+
+  youtubeFrame.src =
+    preparedUrl +
+    separator +
+    "autoplay=1";
+
+  setTimeout(function () {
+    setVideoStatus(
+      "YouTube loaded. If a particular publisher blocks embedding, use “Open on YouTube”."
+    );
+  }, 3000);
+}
+
+document
+  .querySelectorAll(".source-btn")
+  .forEach(function (button) {
+
+    button.addEventListener(
+      "click",
+      function () {
+
+        document
+          .querySelectorAll(".source-btn")
+          .forEach(function (item) {
+            item.classList.remove("active");
+          });
+
+        button.classList.add("active");
+
+        selectedSource =
+          button.dataset.source;
+
+        prepareSelectedSource();
+      }
+    );
+  });
+
+document
+  .getElementById("videoNext")
+  .addEventListener(
+    "click",
+    function () {
+      /*
+        The official-channel player itself contains
+        the playlist controls, so Next/Previous are
+        handled by YouTube inside the iframe.
+      */
+      setVideoStatus(
+        "Use YouTube's playlist controls inside the video for the next upload."
+      );
+    }
+  );
+
+document
+  .getElementById("videoPrev")
+  .addEventListener(
+    "click",
+    function () {
+      setVideoStatus(
+        "Use YouTube's playlist controls inside the video for the previous upload."
+      );
+    }
+  );
+
+document
+  .getElementById("reloadVideo")
+  .addEventListener(
+    "click",
+    function () {
+      prepareSelectedSource();
+    }
+  );
+
+document
+  .getElementById("setMyLive")
+  .addEventListener(
+    "click",
+    function () {
+
+      const old =
+        localStorage.getItem(
+          "vop_my_live_url"
+        ) || "";
+
+      const value =
+        prompt(
+          "Paste your YouTube LIVE/video link or a YouTube /channel/UC... link:",
+          old
+        );
+
+      if (value === null) {
+        return;
+      }
+
+      const videoId =
+        extractYouTubeVideoId(value);
+
+      const channelId =
+        extractYouTubeChannelId(value);
+
+      if (!videoId && !channelId) {
+        alert(
+          "Please paste either a YouTube video/live URL or a YouTube channel URL containing /channel/UC..."
+        );
+        return;
+      }
+
+      localStorage.setItem(
+        "vop_my_live_url",
+        value.trim()
+      );
+
+      selectedSource =
+        "Emmanuel & Camili LIVE";
+
+      document
+        .querySelectorAll(".source-btn")
+        .forEach(function (item) {
+          item.classList.toggle(
+            "active",
+            item.dataset.source ===
+              selectedSource
+          );
+        });
+
+      prepareMyLive();
+    }
+  );
+
+document
+  .getElementById("openOnYouTube")
+  .addEventListener(
+    "click",
+    function () {
+
+      if (!preparedOpenUrl) {
+        setVideoStatus(
+          "Choose a YouTube source first."
+        );
+        return;
+      }
+
+      window.open(
+        preparedOpenUrl,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    }
+  );
+
+/*
+  Start with Fox News prepared.
+  No JSON download is required.
+*/
+prepareSelectedSource();
 </script>
 
 </body>

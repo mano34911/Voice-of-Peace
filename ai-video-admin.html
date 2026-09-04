@@ -1,429 +1,614 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Voice of Peace - AI Video Admin</title>
+<meta charset="UTF-8">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
 
-    body {
-      margin: 0;
-      background: #07182b;
-      color: white;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+<title>
+  Voice of Peace - AI Video Admin
+</title>
 
-    .header {
-      background: #0c2541;
-      border-bottom: 3px solid #d7b64a;
-      padding: 24px;
-      text-align: center;
-    }
 
-    .header h1 {
-      margin: 0;
-      font-size: 32px;
-    }
+<style>
 
-    .header p {
-      margin: 8px 0 0;
-      color: #b9cadc;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    .container {
-      width: min(950px, 94%);
-      margin: 30px auto;
-    }
+body {
+  margin: 0;
+  background: #07182b;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-    .card {
-      background: #0e2947;
-      border: 1px solid #234b70;
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 22px;
-      box-shadow: 0 10px 35px rgba(0,0,0,.25);
-    }
+.header {
+  background: #0c2541;
+  border-bottom: 3px solid #d7b64a;
+  padding: 24px;
+  text-align: center;
+}
 
-    h2 {
-      margin-top: 0;
-      color: #f0d36b;
-    }
+.header h1 {
+  margin: 0;
+  font-size: 32px;
+}
 
-    label {
-      display: block;
-      font-weight: bold;
-      margin: 18px 0 7px;
-    }
+.header p {
+  margin: 8px 0 0;
+  color: #b9cadc;
+}
 
-    input,
-    textarea,
-    select {
-      width: 100%;
-      border: 1px solid #3e6385;
-      border-radius: 9px;
-      background: #061727;
-      color: white;
-      padding: 12px;
-      font-size: 15px;
-    }
+.container {
+  width: min(950px, 94%);
+  margin: 30px auto;
+}
 
-    textarea {
-      min-height: 220px;
-      resize: vertical;
-      line-height: 1.5;
-    }
+.card {
+  background: #0e2947;
+  border: 1px solid #234b70;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 22px;
+  box-shadow: 0 10px 35px rgba(0,0,0,.25);
+}
 
-    button {
-      border: 0;
-      border-radius: 9px;
-      padding: 13px 20px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 5px;
-    }
+h2 {
+  margin-top: 0;
+  color: #f0d36b;
+}
 
-    .primary {
-      background: #d7b64a;
-      color: #07182b;
-    }
+label {
+  display: block;
+  font-weight: bold;
+  margin: 18px 0 7px;
+}
 
-    .secondary {
-      background: #1a4770;
-      color: white;
-    }
+input,
+textarea,
+select {
+  width: 100%;
+  border: 1px solid #3e6385;
+  border-radius: 9px;
+  background: #061727;
+  color: white;
+  padding: 12px;
+  font-size: 15px;
+}
 
-    .danger {
-      background: #9f3131;
-      color: white;
-    }
+textarea {
+  min-height: 220px;
+  resize: vertical;
+  line-height: 1.5;
+}
 
-    .controls {
-      text-align: center;
-      margin-top: 18px;
-    }
+button {
+  border: 0;
+  border-radius: 9px;
+  padding: 13px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 5px;
+}
 
-    .story-title {
-      font-size: 25px;
-      font-weight: bold;
-      line-height: 1.25;
-      margin-bottom: 12px;
-    }
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
 
-    .story-summary {
-      color: #c7d5e4;
-      font-size: 17px;
-      line-height: 1.55;
-    }
+.primary {
+  background: #d7b64a;
+  color: #07182b;
+}
 
-    .source {
-      color: #91b8d9;
-      margin-top: 12px;
-    }
+.secondary {
+  background: #1a4770;
+  color: white;
+}
 
-    .status {
-      border-radius: 10px;
-      background: #061727;
-      padding: 16px;
-      margin-top: 18px;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-    }
+.danger {
+  background: #9f3131;
+  color: white;
+}
 
-    .success {
-      border-left: 5px solid #49cb78;
-    }
+.controls {
+  text-align: center;
+  margin-top: 18px;
+}
 
-    .error {
-      border-left: 5px solid #e75c5c;
-    }
+.story-title {
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
 
-    .waiting {
-      border-left: 5px solid #e0b54f;
-    }
+.story-summary {
+  color: #c7d5e4;
+  font-size: 17px;
+  line-height: 1.55;
+}
 
-    .warning {
-      color: #ffd977;
-      font-size: 14px;
-      line-height: 1.5;
-    }
+.source {
+  color: #91b8d9;
+  margin-top: 12px;
+}
 
-    .video-wrap {
-      margin-top: 20px;
-      display: none;
-    }
+.status {
+  border-radius: 10px;
+  background: #061727;
+  padding: 16px;
+  margin-top: 18px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
 
-    video {
-      width: 100%;
-      max-height: 600px;
-      background: black;
-      border-radius: 12px;
-    }
+.success {
+  border-left: 5px solid #49cb78;
+}
 
-    .small {
-      color: #9eb4c8;
-      font-size: 13px;
-    }
-  </style>
+.error {
+  border-left: 5px solid #e75c5c;
+}
+
+.waiting {
+  border-left: 5px solid #e0b54f;
+}
+
+.warning {
+  color: #ffd977;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.small {
+  color: #9eb4c8;
+  font-size: 13px;
+}
+
+.remember-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.remember-row input {
+  width: auto;
+  margin: 0;
+}
+
+.remember-row label {
+  margin: 0;
+  font-weight: normal;
+}
+
+.saved-note {
+  margin-top: 10px;
+  color: #7ee6a1;
+  font-size: 13px;
+  display: none;
+}
+
+.video-wrap {
+  margin-top: 20px;
+  display: none;
+}
+
+video {
+  width: 100%;
+  max-height: 600px;
+  background: black;
+  border-radius: 12px;
+}
+
+</style>
+
 </head>
+
 
 <body>
 
+
 <header class="header">
-  <h1>VOICE OF PEACE</h1>
-  <p>AI News Presenter Admin</p>
+
+  <h1>
+    VOICE OF PEACE
+  </h1>
+
+  <p>
+    AI News Presenter Admin
+  </p>
+
 </header>
+
 
 <div class="container">
 
-  <!-- SECURITY -->
-  <section class="card">
-    <h2>🔐 Private Access</h2>
 
-    <p class="warning">
-      Enter your private HEYGEN_FUNCTION_TOKEN.
-      The token is NOT stored in this HTML file and is NOT sent to GitHub.
-    </p>
+<!-- =============================================
+     PRIVATE ACCESS
+============================================= -->
 
-    <label for="functionToken">
-      Private Function Token
-    </label>
+<section class="card">
 
-    <input
-      id="functionToken"
-      type="password"
-      placeholder="Paste your 64-character private token"
-      autocomplete="off"
-    >
+  <h2>
+    🔐 Private Access
+  </h2>
 
-    <div class="controls">
-      <button
-        class="secondary"
-        onclick="testConnection()"
-      >
-        Test Connection
-      </button>
-    </div>
+  <p class="warning">
+    Your HeyGen API key is NOT stored on this website.
+    It remains protected inside Supabase.
+  </p>
 
-    <div
-      id="connectionStatus"
-      class="status"
-    >
-      Not connected yet.
-    </div>
-  </section>
+  <p class="small">
+    This page only uses your private
+    HEYGEN_FUNCTION_TOKEN to communicate with
+    the protected Supabase Edge Function.
+  </p>
 
 
-  <!-- NEWS STORY -->
-  <section class="card">
-    <h2>📰 Current Voice of Peace Story</h2>
+  <label for="functionToken">
+    Private Function Token
+  </label>
 
-    <div
-      id="storyTitle"
-      class="story-title"
-    >
-      Loading news...
-    </div>
-
-    <div
-      id="storySummary"
-      class="story-summary"
-    >
-    </div>
-
-    <div
-      id="storySource"
-      class="source"
-    >
-    </div>
-
-    <div class="controls">
-
-      <button
-        class="secondary"
-        onclick="previousStory()"
-      >
-        ◀ Previous
-      </button>
-
-      <button
-        class="secondary"
-        onclick="nextStory()"
-      >
-        Next ▶
-      </button>
-
-      <button
-        class="secondary"
-        onclick="reloadNews()"
-      >
-        ↻ Reload News
-      </button>
-
-    </div>
-  </section>
+  <input
+    id="functionToken"
+    type="password"
+    placeholder="Paste your 64-character private token"
+    autocomplete="off"
+  >
 
 
-  <!-- SCRIPT -->
-  <section class="card">
-    <h2>🎙 Emmanuel AI Presenter Script</h2>
-
-    <label for="videoTitle">
-      Video Title
-    </label>
+  <div class="remember-row">
 
     <input
-      id="videoTitle"
-      value="Voice of Peace News Report"
+      id="rememberToken"
+      type="checkbox"
+      checked
     >
 
-    <label for="scriptText">
-      Script
+    <label for="rememberToken">
+      Remember this token on this computer
     </label>
 
-    <textarea id="scriptText"></textarea>
-
-    <div class="controls">
-
-      <button
-        class="secondary"
-        onclick="buildScript()"
-      >
-        Build Script From Story
-      </button>
-
-    </div>
-  </section>
+  </div>
 
 
-  <!-- AVATAR -->
-  <section class="card">
-    <h2>👤 Presenter</h2>
+  <div
+    id="savedTokenNote"
+    class="saved-note"
+  >
+    ✓ Saved private token loaded from this browser.
+  </div>
 
-    <label>
-      Avatar Look
-    </label>
 
-    <select id="avatarId">
+  <div class="controls">
 
-      <option value="59219bcd09c24be0a4804f8740aba433">
-        Professional in City Office
-      </option>
-
-      <option value="48b91f4cfa1a492fa6d02de816a7f170">
-        Executive in City Office
-      </option>
-
-      <option value="2bb9d59aebd44c99b644f448c6eaf89f">
-        Professional in Blue Suit
-      </option>
-
-      <option value="d84bd5e0017444a0b13a444a56901a62">
-        Professional in Library
-      </option>
-
-      <option value="b6431d1994354455b4534d7d302afed9">
-        Professional in a Suit
-      </option>
-
-      <option value="b1df723c9fcf4a50b66a56158bfeb400">
-        Professional in City Office 2
-      </option>
-
-      <option value="4470a07541cb43eb92957ab4eb4a2836">
-        Professional in White Shirt
-      </option>
-
-      <option value="36379196e183456e80c21ab03df07c9e">
-        Professional in Blue Blazer
-      </option>
-
-      <option value="9a7ccc96725b41c7a923e528fe3079b1">
-        Original Emmanuel
-      </option>
-
-    </select>
-
-    <label>
-      Voice
-    </label>
-
-    <input
-      id="voiceId"
-      value="4e7e014e26cc4b138eda8b1915652b58"
-      readonly
+    <button
+      class="secondary"
+      onclick="testConnection()"
     >
+      Test Connection
+    </button>
 
-    <p class="small">
-      Default Emmanuel HeyGen voice.
-    </p>
-  </section>
-
-
-  <!-- GENERATION -->
-  <section class="card">
-    <h2>🎬 Generate AI News Video</h2>
-
-    <p class="warning">
-      Generating a video uses HeyGen credits.
-      Nothing will be generated until you click the button below.
-    </p>
-
-    <div class="controls">
-
-      <button
-        id="generateButton"
-        class="primary"
-        onclick="generateVideo()"
-      >
-        🎥 CREATE AI VIDEO
-      </button>
-
-      <button
-        class="secondary"
-        onclick="checkVideoStatus()"
-      >
-        Check Video Status
-      </button>
-
-    </div>
-
-    <div
-      id="generationStatus"
-      class="status"
+    <button
+      class="danger"
+      onclick="forgetSavedToken()"
     >
-      No video generated yet.
-    </div>
+      Forget Saved Token
+    </button>
 
-    <div
-      id="videoWrap"
-      class="video-wrap"
+  </div>
+
+
+  <div
+    id="connectionStatus"
+    class="status"
+  >
+    Not connected yet.
+  </div>
+
+</section>
+
+
+
+<!-- =============================================
+     CURRENT STORY
+============================================= -->
+
+<section class="card">
+
+  <h2>
+    📰 Current Voice of Peace Story
+  </h2>
+
+
+  <div
+    id="storyTitle"
+    class="story-title"
+  >
+    Loading news...
+  </div>
+
+
+  <div
+    id="storySummary"
+    class="story-summary"
+  >
+  </div>
+
+
+  <div
+    id="storySource"
+    class="source"
+  >
+  </div>
+
+
+  <div class="controls">
+
+    <button
+      class="secondary"
+      onclick="previousStory()"
     >
+      ◀ Previous
+    </button>
 
-      <video
-        id="resultVideo"
-        controls
-      ></video>
 
-    </div>
+    <button
+      class="secondary"
+      onclick="nextStory()"
+    >
+      Next ▶
+    </button>
 
-  </section>
+
+    <button
+      class="secondary"
+      onclick="reloadNews()"
+    >
+      ↻ Reload News
+    </button>
+
+  </div>
+
+</section>
+
+
+
+<!-- =============================================
+     SCRIPT
+============================================= -->
+
+<section class="card">
+
+  <h2>
+    🎙 Emmanuel AI Presenter Script
+  </h2>
+
+
+  <label for="videoTitle">
+    Video Title
+  </label>
+
+
+  <input
+    id="videoTitle"
+    value="Voice of Peace News Report"
+  >
+
+
+  <label for="scriptText">
+    Script
+  </label>
+
+
+  <textarea
+    id="scriptText"
+  ></textarea>
+
+
+  <div class="controls">
+
+    <button
+      class="secondary"
+      onclick="buildScript()"
+    >
+      Build Script From Story
+    </button>
+
+  </div>
+
+</section>
+
+
+
+<!-- =============================================
+     PRESENTER
+============================================= -->
+
+<section class="card">
+
+  <h2>
+    👤 Presenter
+  </h2>
+
+
+  <label for="avatarId">
+    Avatar Look
+  </label>
+
+
+  <select id="avatarId">
+
+    <option
+      value="59219bcd09c24be0a4804f8740aba433"
+    >
+      Professional in City Office
+    </option>
+
+    <option
+      value="48b91f4cfa1a492fa6d02de816a7f170"
+    >
+      Executive in City Office
+    </option>
+
+    <option
+      value="2bb9d59aebd44c99b644f448c6eaf89f"
+    >
+      Professional in Blue Suit
+    </option>
+
+    <option
+      value="d84bd5e0017444a0b13a444a56901a62"
+    >
+      Professional in Library
+    </option>
+
+    <option
+      value="b6431d1994354455b4534d7d302afed9"
+    >
+      Professional in a Suit
+    </option>
+
+    <option
+      value="b1df723c9fcf4a50b66a56158bfeb400"
+    >
+      Professional in City Office 2
+    </option>
+
+    <option
+      value="4470a07541cb43eb92957ab4eb4a2836"
+    >
+      Professional in White Shirt
+    </option>
+
+    <option
+      value="36379196e183456e80c21ab03df07c9e"
+    >
+      Professional in Blue Blazer
+    </option>
+
+    <option
+      value="9a7ccc96725b41c7a923e528fe3079b1"
+    >
+      Original Emmanuel
+    </option>
+
+  </select>
+
+
+  <label for="voiceId">
+    Voice
+  </label>
+
+
+  <input
+    id="voiceId"
+    value="4e7e014e26cc4b138eda8b1915652b58"
+    readonly
+  >
+
+
+  <p class="small">
+    Default Emmanuel HeyGen voice.
+  </p>
+
+</section>
+
+
+
+<!-- =============================================
+     VIDEO GENERATION
+============================================= -->
+
+<section class="card">
+
+  <h2>
+    🎬 Generate AI News Video
+  </h2>
+
+
+  <p class="warning">
+    Generating a video uses HeyGen credits.
+    Nothing is generated until you approve it.
+  </p>
+
+
+  <div class="controls">
+
+    <button
+      id="generateButton"
+      class="primary"
+      onclick="generateVideo()"
+    >
+      🎥 CREATE AI VIDEO
+    </button>
+
+
+    <button
+      class="secondary"
+      onclick="checkVideoStatus()"
+    >
+      Check Video Status
+    </button>
+
+  </div>
+
+
+  <div
+    id="generationStatus"
+    class="status"
+  >
+    No video generated yet.
+  </div>
+
+
+  <div
+    id="videoWrap"
+    class="video-wrap"
+  >
+
+    <video
+      id="resultVideo"
+      controls
+    ></video>
+
+  </div>
+
+</section>
+
 
 </div>
 
 
+
 <script>
+
+
+/* =============================================
+   SETTINGS
+============================================= */
 
 const FUNCTION_URL =
   "https://pqaqbpxrygveahwhoobt.supabase.co/functions/v1/heygen-video";
 
+
 const DEFAULT_VOICE =
   "4e7e014e26cc4b138eda8b1915652b58";
+
+
+const TOKEN_STORAGE_KEY =
+  "voiceOfPeaceHeygenFunctionToken";
+
 
 let stories = [];
 
@@ -434,59 +619,261 @@ let currentVideoId = "";
 let statusTimer = null;
 
 
-/* ==========================================
-   SECURITY
-========================================== */
+
+/* =============================================
+   SAVED TOKEN
+============================================= */
+
+function loadSavedToken() {
+
+  try {
+
+    const saved =
+      localStorage.getItem(
+        TOKEN_STORAGE_KEY
+      );
+
+    if (!saved) {
+      return;
+    }
+
+
+    document
+      .getElementById(
+        "functionToken"
+      )
+      .value =
+        saved;
+
+
+    document
+      .getElementById(
+        "savedTokenNote"
+      )
+      .style
+      .display =
+        "block";
+
+
+    document
+      .getElementById(
+        "connectionStatus"
+      )
+      .textContent =
+        "Saved private token loaded. Click Test Connection.";
+
+  }
+  catch (error) {
+
+    console.warn(
+      "Could not load saved token:",
+      error
+    );
+
+  }
+
+}
+
+
+
+function saveTokenLocally() {
+
+  const remember =
+    document
+      .getElementById(
+        "rememberToken"
+      )
+      .checked;
+
+
+  if (!remember) {
+    return;
+  }
+
+
+  const token =
+    document
+      .getElementById(
+        "functionToken"
+      )
+      .value
+      .trim();
+
+
+  if (!token) {
+    return;
+  }
+
+
+  try {
+
+    localStorage.setItem(
+      TOKEN_STORAGE_KEY,
+      token
+    );
+
+
+    document
+      .getElementById(
+        "savedTokenNote"
+      )
+      .style
+      .display =
+        "block";
+
+  }
+  catch (error) {
+
+    console.warn(
+      "Could not save token:",
+      error
+    );
+
+  }
+
+}
+
+
+
+function forgetSavedToken() {
+
+  const confirmed =
+    confirm(
+      "Remove the saved private token from this browser?"
+    );
+
+
+  if (!confirmed) {
+    return;
+  }
+
+
+  localStorage.removeItem(
+    TOKEN_STORAGE_KEY
+  );
+
+
+  document
+    .getElementById(
+      "functionToken"
+    )
+    .value =
+      "";
+
+
+  document
+    .getElementById(
+      "savedTokenNote"
+    )
+    .style
+    .display =
+      "none";
+
+
+  document
+    .getElementById(
+      "connectionStatus"
+    )
+    .className =
+      "status";
+
+
+  document
+    .getElementById(
+      "connectionStatus"
+    )
+    .textContent =
+      "Saved token removed from this browser.";
+
+}
+
+
+
+/* =============================================
+   GET TOKEN
+============================================= */
 
 function getToken() {
 
   const token =
     document
-      .getElementById("functionToken")
+      .getElementById(
+        "functionToken"
+      )
       .value
       .trim();
+
 
   if (!token) {
 
     throw new Error(
-      "Please paste your private HEYGEN_FUNCTION_TOKEN first."
+      "Please enter your private HEYGEN_FUNCTION_TOKEN."
     );
 
   }
 
+
+  if (
+    token.length !==
+    64
+  ) {
+
+    throw new Error(
+      "Private token should contain 64 characters."
+    );
+
+  }
+
+
   return token;
+
 }
 
 
-/* ==========================================
-   SUPABASE CALL
-========================================== */
 
-async function callHeyGen(body) {
+/* =============================================
+   SUPABASE REQUEST
+============================================= */
+
+async function callHeyGen(
+  body
+) {
 
   const token =
     getToken();
+
 
   const response =
     await fetch(
       FUNCTION_URL,
       {
-        method: "POST",
+
+        method:
+          "POST",
+
 
         headers: {
+
           "Content-Type":
             "application/json",
 
           "x-function-token":
             token
+
         },
 
+
         body:
-          JSON.stringify(body)
+          JSON.stringify(
+            body
+          )
+
       }
     );
 
+
   let data;
+
 
   try {
 
@@ -503,56 +890,72 @@ async function callHeyGen(body) {
 
   }
 
+
   if (!response.ok) {
 
     throw new Error(
       data?.heygen_response?.message ||
+      data?.heygen_response?.error?.message ||
       data?.error ||
       `HTTP ${response.status}`
     );
 
   }
 
+
   return data;
+
 }
 
 
-/* ==========================================
+
+/* =============================================
    TEST CONNECTION
-========================================== */
+============================================= */
 
 async function testConnection() {
 
   const box =
-    document.getElementById(
-      "connectionStatus"
-    );
+    document
+      .getElementById(
+        "connectionStatus"
+      );
+
 
   box.className =
     "status waiting";
 
+
   box.textContent =
-    "Testing Supabase → HeyGen connection...";
+    "Testing secure Voice of Peace connection...";
+
 
   try {
 
     const result =
       await callHeyGen({
-        action: "test"
+        action:
+          "test"
       });
+
+
+    saveTokenLocally();
+
 
     box.className =
       "status success";
 
+
     box.textContent =
       result.message ||
-      "HeyGen connection successful.";
+      "Secure Voice of Peace connection successful.";
 
   }
   catch (error) {
 
     box.className =
       "status error";
+
 
     box.textContent =
       "Connection failed:\n" +
@@ -563,9 +966,10 @@ async function testConnection() {
 }
 
 
-/* ==========================================
-   LIVE NEWS
-========================================== */
+
+/* =============================================
+   NEWS
+============================================= */
 
 async function reloadNews() {
 
@@ -576,9 +980,11 @@ async function reloadNews() {
         "data/live-news.json?v=" +
         Date.now(),
         {
-          cache: "no-store"
+          cache:
+            "no-store"
         }
       );
+
 
     if (!response.ok) {
 
@@ -588,13 +994,18 @@ async function reloadNews() {
 
     }
 
+
     const data =
       await response.json();
 
+
     stories =
-      Array.isArray(data.stories)
+      Array.isArray(
+        data.stories
+      )
         ? data.stories
         : [];
+
 
     if (!stories.length) {
 
@@ -604,7 +1015,10 @@ async function reloadNews() {
 
     }
 
-    currentStoryIndex = 0;
+
+    currentStoryIndex =
+      0;
+
 
     showStory();
 
@@ -618,6 +1032,7 @@ async function reloadNews() {
       .textContent =
         "News loading error";
 
+
     document
       .getElementById(
         "storySummary"
@@ -629,6 +1044,11 @@ async function reloadNews() {
 
 }
 
+
+
+/* =============================================
+   CURRENT STORY
+============================================= */
 
 function getCurrentStory() {
 
@@ -642,14 +1062,21 @@ function getCurrentStory() {
 }
 
 
+
+/* =============================================
+   DISPLAY STORY
+============================================= */
+
 function showStory() {
 
   const story =
     getCurrentStory();
 
+
   if (!story) {
     return;
   }
+
 
   document
     .getElementById(
@@ -660,6 +1087,7 @@ function showStory() {
       story.title ||
       "Voice of Peace News";
 
+
   document
     .getElementById(
       "storySummary"
@@ -668,6 +1096,7 @@ function showStory() {
       story.summary ||
       story.description ||
       "";
+
 
   document
     .getElementById(
@@ -678,10 +1107,16 @@ function showStory() {
       story.source ||
       "";
 
+
   buildScript();
 
 }
 
+
+
+/* =============================================
+   PREVIOUS STORY
+============================================= */
 
 function previousStory() {
 
@@ -689,7 +1124,9 @@ function previousStory() {
     return;
   }
 
+
   currentStoryIndex--;
+
 
   if (
     currentStoryIndex < 0
@@ -700,10 +1137,16 @@ function previousStory() {
 
   }
 
+
   showStory();
 
 }
 
+
+
+/* =============================================
+   NEXT STORY
+============================================= */
 
 function nextStory() {
 
@@ -711,39 +1154,47 @@ function nextStory() {
     return;
   }
 
+
   currentStoryIndex =
     (
-      currentStoryIndex + 1
+      currentStoryIndex +
+      1
     ) %
     stories.length;
+
 
   showStory();
 
 }
 
 
-/* ==========================================
-   BUILD NEWS SCRIPT
-========================================== */
+
+/* =============================================
+   BUILD PRESENTER SCRIPT
+============================================= */
 
 function buildScript() {
 
   const story =
     getCurrentStory();
 
+
   if (!story) {
     return;
   }
+
 
   const headline =
     story.headline ||
     story.title ||
     "";
 
+
   const summary =
     story.summary ||
     story.description ||
     "";
+
 
   const script =
 `Hello, I'm Emmanuel Hileah, and this is Voice of Peace.
@@ -754,9 +1205,12 @@ ${headline}.
 
 ${summary}
 
-At Voice of Peace, we believe that understanding the facts is the first step toward understanding one another.
+At Voice of Peace, we believe understanding the facts is the first step toward understanding one another.
 
-Thank you for joining us. Seek truth, choose understanding, and pursue peace.`;
+Thank you for joining us.
+
+Seek truth, choose understanding, and pursue peace.`;
+
 
   document
     .getElementById(
@@ -764,6 +1218,7 @@ Thank you for joining us. Seek truth, choose understanding, and pursue peace.`;
     )
     .value =
       script;
+
 
   document
     .getElementById(
@@ -777,21 +1232,26 @@ Thank you for joining us. Seek truth, choose understanding, and pursue peace.`;
 }
 
 
-/* ==========================================
+
+/* =============================================
    GENERATE VIDEO
-========================================== */
+============================================= */
 
 async function generateVideo() {
 
   const statusBox =
-    document.getElementById(
-      "generationStatus"
-    );
+    document
+      .getElementById(
+        "generationStatus"
+      );
+
 
   const button =
-    document.getElementById(
-      "generateButton"
-    );
+    document
+      .getElementById(
+        "generateButton"
+      );
+
 
   const script =
     document
@@ -801,6 +1261,7 @@ async function generateVideo() {
       .value
       .trim();
 
+
   if (!script) {
 
     alert(
@@ -808,24 +1269,32 @@ async function generateVideo() {
     );
 
     return;
+
   }
+
 
   const confirmed =
     confirm(
       "This will use HeyGen credits.\n\nCreate this AI video?"
     );
 
+
   if (!confirmed) {
     return;
   }
 
-  button.disabled = true;
+
+  button.disabled =
+    true;
+
 
   statusBox.className =
     "status waiting";
 
+
   statusBox.textContent =
     "Sending video to HeyGen...";
+
 
   try {
 
@@ -835,6 +1304,7 @@ async function generateVideo() {
         action:
           "generate",
 
+
         avatar_id:
           document
             .getElementById(
@@ -842,11 +1312,14 @@ async function generateVideo() {
             )
             .value,
 
+
         voice_id:
           DEFAULT_VOICE,
 
+
         engine:
           "avatar_v",
+
 
         title:
           document
@@ -856,20 +1329,25 @@ async function generateVideo() {
             .value
             .trim(),
 
+
         resolution:
           "1080p",
 
+
         aspect_ratio:
           "16:9",
+
 
         script:
           script
 
       });
 
+
     currentVideoId =
       result.video_id ||
       "";
+
 
     if (!currentVideoId) {
 
@@ -879,8 +1357,10 @@ async function generateVideo() {
 
     }
 
+
     statusBox.className =
       "status waiting";
+
 
     statusBox.textContent =
 `Video accepted by HeyGen.
@@ -893,6 +1373,7 @@ ${result.status || "waiting"}
 
 Rendering has started.`;
 
+
     startStatusPolling();
 
   }
@@ -901,6 +1382,7 @@ Rendering has started.`;
     statusBox.className =
       "status error";
 
+
     statusBox.textContent =
       "Video generation failed:\n" +
       error.message;
@@ -908,23 +1390,27 @@ Rendering has started.`;
   }
   finally {
 
-    button.disabled = false;
+    button.disabled =
+      false;
 
   }
 
 }
 
 
-/* ==========================================
+
+/* =============================================
    STATUS
-========================================== */
+============================================= */
 
 async function checkVideoStatus() {
 
   const statusBox =
-    document.getElementById(
-      "generationStatus"
-    );
+    document
+      .getElementById(
+        "generationStatus"
+      );
+
 
   if (!currentVideoId) {
 
@@ -933,14 +1419,17 @@ async function checkVideoStatus() {
         "Enter HeyGen video ID:"
       );
 
+
     if (!entered) {
       return;
     }
+
 
     currentVideoId =
       entered.trim();
 
   }
+
 
   try {
 
@@ -955,16 +1444,21 @@ async function checkVideoStatus() {
 
       });
 
+
     const status =
       result.status ||
       "unknown";
 
+
     statusBox.className =
-      status === "completed"
+      status ===
+        "completed"
         ? "status success"
-        : status === "failed"
+        : status ===
+            "failed"
           ? "status error"
           : "status waiting";
+
 
     statusBox.textContent =
 `Video ID:
@@ -973,16 +1467,20 @@ ${currentVideoId}
 Status:
 ${status}`;
 
+
     if (
-      status === "completed" &&
+      status ===
+        "completed" &&
       result.video_url
     ) {
 
       stopStatusPolling();
 
+
       statusBox.textContent +=
 `\n\nVideo ready:
 ${result.video_url}`;
+
 
       showVideo(
         result.video_url
@@ -990,11 +1488,14 @@ ${result.video_url}`;
 
     }
 
+
     if (
-      status === "failed"
+      status ===
+      "failed"
     ) {
 
       stopStatusPolling();
+
 
       statusBox.textContent +=
 `\n\n${result.failure_message || "HeyGen video failed."}`;
@@ -1007,6 +1508,7 @@ ${result.video_url}`;
     statusBox.className =
       "status error";
 
+
     statusBox.textContent =
       "Status check error:\n" +
       error.message;
@@ -1016,13 +1518,15 @@ ${result.video_url}`;
 }
 
 
-/* ==========================================
-   AUTO STATUS CHECKER
-========================================== */
+
+/* =============================================
+   AUTO STATUS POLLING
+============================================= */
 
 function startStatusPolling() {
 
   stopStatusPolling();
+
 
   statusTimer =
     setInterval(
@@ -1033,6 +1537,11 @@ function startStatusPolling() {
 }
 
 
+
+/* =============================================
+   STOP POLLING
+============================================= */
+
 function stopStatusPolling() {
 
   if (statusTimer) {
@@ -1041,47 +1550,64 @@ function stopStatusPolling() {
       statusTimer
     );
 
-    statusTimer = null;
+
+    statusTimer =
+      null;
 
   }
 
 }
 
 
-/* ==========================================
-   SHOW VIDEO
-========================================== */
 
-function showVideo(url) {
+/* =============================================
+   SHOW FINISHED VIDEO
+============================================= */
+
+function showVideo(
+  url
+) {
 
   const wrap =
-    document.getElementById(
-      "videoWrap"
-    );
+    document
+      .getElementById(
+        "videoWrap"
+      );
+
 
   const video =
-    document.getElementById(
-      "resultVideo"
-    );
+    document
+      .getElementById(
+        "resultVideo"
+      );
+
 
   video.src =
     url;
 
+
   wrap.style.display =
     "block";
+
 
   video.load();
 
 }
 
 
-/* ==========================================
-   START
-========================================== */
+
+/* =============================================
+   START PAGE
+============================================= */
+
+loadSavedToken();
 
 reloadNews();
 
+
 </script>
 
+
 </body>
+
 </html>

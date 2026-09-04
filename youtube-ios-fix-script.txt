@@ -1,0 +1,569 @@
+<!-- REPLACE ONLY THE EXISTING YOUTUBE SECTION SCRIPT WITH THIS VERSION -->
+<script>
+/* =========================================
+   YOUTUBE — IOS/SAFARI RELIABLE VERSION
+   Uses a normal iframe after a USER CLICK.
+   This avoids autoplay/user-gesture problems.
+========================================= */
+
+let youtubeVideos = [];
+let selectedSource = "Fox News";
+let selectedVideoIndex = 0;
+let currentVideoUrl = "";
+
+const youtubeFrame = document.getElementById("youtubeFrame");
+const videoPlaceholder = document.getElementById("videoPlaceholder");
+const videoTitle = document.getElementById("videoTitle");
+const videoMeta = document.getElementById("videoMeta");
+
+function extractYouTubeId(value){
+  const text = String(value || "").trim();
+
+  if(/^[A-Za-z0-9_-]{11}$/.test(text)){
+    return text;
+  }
+
+  try{
+    const url = new URL(text);
+
+    if(url.hostname === "youtu.be"){
+      return url.pathname.split("/").filter(Boolean)[0] || "";
+    }
+
+    if(
+      url.hostname.includes("youtube.com") ||
+      url.hostname.includes("youtube-nocookie.com")
+    ){
+      const v = url.searchParams.get("v");
+
+      if(v){
+        return v;
+      }
+
+      const pieces =
+        url.pathname
+          .split("/")
+          .filter(Boolean);
+
+      for(const key of ["live","embed","shorts"]){
+        const i = pieces.indexOf(key);
+
+        if(i >= 0 && pieces[i + 1]){
+          return pieces[i + 1];
+        }
+      }
+    }
+  }
+  catch(error){}
+
+  return "";
+}
+
+async function loadYouTubeNews(){
+
+  try{
+
+    const response =
+      await fetch(
+        "data/youtube-news.json?v=" +
+        Date.now(),
+        {
+          cache:"no-store"
+        }
+      );
+
+    if(!response.ok){
+      throw new Error(
+        "youtube-news.json unavailable"
+      );
+    }
+
+    const data =
+      await response.json();
+
+    youtubeVideos =
+      Array.isArray(data.videos)
+        ? data.videos
+        : [];
+
+  }
+  catch(error){
+
+    console.error(
+      "YouTube list error:",
+      error
+    );
+
+    youtubeVideos = [];
+
+  }
+
+  prepareVideo();
+
+}
+
+function getSourceVideos(){
+
+  if(
+    selectedSource ===
+    "Emmanuel & Camili LIVE"
+  ){
+
+    const saved =
+      localStorage.getItem(
+        "vop_my_live_url"
+      )
+      || "";
+
+    const videoID =
+      extractYouTubeId(saved);
+
+    if(!videoID){
+      return [];
+    }
+
+    return [
+      {
+        source:
+          "Emmanuel & Camili LIVE",
+
+        title:
+          "Emmanuel & Camili LIVE",
+
+        video_id:
+          videoID,
+
+        url:
+          saved
+      }
+    ];
+
+  }
+
+  return youtubeVideos.filter(
+    function(video){
+
+      return String(
+        video.source || ""
+      )
+      .trim()
+      .toLowerCase()
+      ===
+      selectedSource
+        .toLowerCase();
+
+    }
+  );
+
+}
+
+function stopYouTube(){
+
+  youtubeFrame.src = "";
+
+  youtubeFrame.style.display =
+    "none";
+
+}
+
+function prepareVideo(){
+
+  stopYouTube();
+
+  const videos =
+    getSourceVideos();
+
+  if(!videos.length){
+
+    videoPlaceholder.style.display =
+      "flex";
+
+    if(
+      selectedSource ===
+      "Emmanuel & Camili LIVE"
+    ){
+
+      videoPlaceholder.innerHTML =
+        `
+        <div class="play-symbol">
+          🔴
+        </div>
+
+        <strong>
+          Emmanuel & Camili LIVE
+        </strong>
+
+        <span>
+          Tap Set My LIVE below,
+          paste your YouTube LIVE link,
+          then tap Play.
+        </span>
+        `;
+
+      videoTitle.textContent =
+        "Emmanuel & Camili LIVE";
+
+      videoMeta.textContent =
+        "Waiting for your YouTube link";
+
+    }
+    else{
+
+      videoPlaceholder.innerHTML =
+        `
+        <div class="play-symbol">
+          ▶
+        </div>
+
+        <strong>
+          No working ${selectedSource}
+          video is saved yet.
+        </strong>
+        `;
+
+      videoTitle.textContent =
+        selectedSource;
+
+      videoMeta.textContent =
+        "No video ID";
+
+    }
+
+    return;
+
+  }
+
+  if(
+    selectedVideoIndex >=
+    videos.length
+  ){
+    selectedVideoIndex = 0;
+  }
+
+  const video =
+    videos[selectedVideoIndex];
+
+  const id =
+    extractYouTubeId(
+      video.video_id ||
+      video.youtube_id ||
+      video.url ||
+      ""
+    );
+
+  if(!id){
+    videoPlaceholder.style.display =
+      "flex";
+
+    videoPlaceholder.innerHTML =
+      `
+      <div class="play-symbol">
+        ▶
+      </div>
+
+      <strong>
+        Invalid YouTube video ID.
+      </strong>
+      `;
+
+    return;
+  }
+
+  currentVideoUrl =
+    video.url ||
+    (
+      "https://www.youtube.com/watch?v=" +
+      id
+    );
+
+  videoTitle.textContent =
+    video.title ||
+    "Latest Video Report";
+
+  videoMeta.textContent =
+    selectedSource;
+
+  videoPlaceholder.style.display =
+    "flex";
+
+  videoPlaceholder.innerHTML =
+    `
+    <div class="play-symbol">
+      ▶
+    </div>
+
+    <strong>
+      Tap here to play
+      ${selectedSource}
+    </strong>
+
+    <span>
+      Tap-to-play is used for
+      iPhone / Safari compatibility.
+    </span>
+    `;
+
+  videoPlaceholder.onclick =
+    function(){
+
+      playSelectedVideo();
+
+    };
+
+}
+
+function playSelectedVideo(){
+
+  const videos =
+    getSourceVideos();
+
+  if(!videos.length){
+    return;
+  }
+
+  const video =
+    videos[selectedVideoIndex] ||
+    videos[0];
+
+  const id =
+    extractYouTubeId(
+      video.video_id ||
+      video.youtube_id ||
+      video.url ||
+      ""
+    );
+
+  if(!id){
+    return;
+  }
+
+  currentVideoUrl =
+    video.url ||
+    (
+      "https://www.youtube.com/watch?v=" +
+      id
+    );
+
+  videoPlaceholder.style.display =
+    "none";
+
+  youtubeFrame.style.display =
+    "block";
+
+  /*
+    IMPORTANT:
+    We assign the iframe URL only
+    after the person taps Play.
+  */
+
+  youtubeFrame.referrerPolicy =
+    "strict-origin-when-cross-origin";
+
+  youtubeFrame.src =
+    "https://www.youtube.com/embed/" +
+    encodeURIComponent(id) +
+    "?autoplay=1" +
+    "&playsinline=1" +
+    "&rel=0" +
+    "&modestbranding=1";
+
+}
+
+document
+  .querySelectorAll(
+    ".source-btn"
+  )
+  .forEach(
+    function(button){
+
+      button.addEventListener(
+        "click",
+        function(){
+
+          document
+            .querySelectorAll(
+              ".source-btn"
+            )
+            .forEach(
+              function(item){
+
+                item.classList.remove(
+                  "active"
+                );
+
+              }
+            );
+
+          button.classList.add(
+            "active"
+          );
+
+          selectedSource =
+            button.dataset.source;
+
+          selectedVideoIndex = 0;
+
+          prepareVideo();
+
+        }
+      );
+
+    }
+  );
+
+document
+  .getElementById(
+    "videoNext"
+  )
+  .addEventListener(
+    "click",
+    function(){
+
+      const videos =
+        getSourceVideos();
+
+      if(!videos.length){
+        return;
+      }
+
+      selectedVideoIndex =
+        (
+          selectedVideoIndex + 1
+        )
+        %
+        videos.length;
+
+      prepareVideo();
+
+    }
+  );
+
+document
+  .getElementById(
+    "videoPrev"
+  )
+  .addEventListener(
+    "click",
+    function(){
+
+      const videos =
+        getSourceVideos();
+
+      if(!videos.length){
+        return;
+      }
+
+      selectedVideoIndex =
+        (
+          selectedVideoIndex -
+          1 +
+          videos.length
+        )
+        %
+        videos.length;
+
+      prepareVideo();
+
+    }
+  );
+
+const setMyLiveButton =
+  document.getElementById(
+    "setMyLive"
+  );
+
+if(setMyLiveButton){
+
+  setMyLiveButton.addEventListener(
+    "click",
+    function(){
+
+      const current =
+        localStorage.getItem(
+          "vop_my_live_url"
+        )
+        || "";
+
+      const value =
+        prompt(
+          "Paste your YouTube LIVE or video link:",
+          current
+        );
+
+      if(value === null){
+        return;
+      }
+
+      const id =
+        extractYouTubeId(value);
+
+      if(!id){
+
+        alert(
+          "That does not look like a valid YouTube video/live link."
+        );
+
+        return;
+      }
+
+      localStorage.setItem(
+        "vop_my_live_url",
+        value.trim()
+      );
+
+      selectedSource =
+        "Emmanuel & Camili LIVE";
+
+      selectedVideoIndex = 0;
+
+      document
+        .querySelectorAll(
+          ".source-btn"
+        )
+        .forEach(
+          function(item){
+
+            item.classList.toggle(
+              "active",
+              item.dataset.source ===
+                selectedSource
+            );
+
+          }
+        );
+
+      prepareVideo();
+
+    }
+  );
+
+}
+
+const openOnYouTube =
+  document.getElementById(
+    "openOnYouTube"
+  );
+
+if(openOnYouTube){
+
+  openOnYouTube.addEventListener(
+    "click",
+    function(){
+
+      if(currentVideoUrl){
+
+        window.open(
+          currentVideoUrl,
+          "_blank",
+          "noopener,noreferrer"
+        );
+
+      }
+
+    }
+  );
+
+}
+
+loadYouTubeNews();
+</script>

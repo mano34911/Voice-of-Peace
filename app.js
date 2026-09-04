@@ -37,7 +37,7 @@ const EMERGENCY_STORY = {
   category:"Voice of Peace",
   headline:"Voice of Peace is ready",
   summary:"The broadcast is ready. Live news is being checked now. If the live service is temporarily unavailable, Voice of Peace will continue automatically and try again.",
-  source_line:"Voice of Peace â¢ Connecting to live news",
+  source_line:"Voice of Peace • Connecting to live news",
   source_url:"",
   image:"",
   reflection:{
@@ -112,7 +112,7 @@ function rssItemToStory(item,index){
     category:/new york/i.test(headline+" "+summary) ? "New York" : "Live News",
     headline:headline || "Latest news update",
     summary,
-    source_line:`LIVE â¢ Source: ${publisher}`,
+    source_line:`LIVE • Source: ${publisher}`,
     source_url:item.link||"",
     image:item.thumbnail||item.enclosure?.link||"",
     reflection:makeReflection(headline+" "+summary)
@@ -156,7 +156,7 @@ function showStory(index){
   el("sourceLine").textContent=s.source_line||"";
 
   if(s.reflection){
-    el("verse").textContent=`"${s.reflection.verse_text||""}" â ${s.reflection.verse_reference||""}`;
+    el("verse").textContent=`"${s.reflection.verse_text||""}" — ${s.reflection.verse_reference||""}`;
     el("reflection").textContent=s.reflection.message||"";
   }
 
@@ -229,7 +229,7 @@ function stopSpeech(){
   if(!speechSupported())return;
   speechSynthesis.cancel();
   speechBusy=false;
-  if(el("soundBtn")) el("soundBtn").textContent="ð Sound On";
+  if(el("soundBtn")) el("soundBtn").textContent="🔊 Sound On";
 }
 
 function readCurrentStory(){
@@ -249,9 +249,9 @@ function readCurrentStory(){
   speechSynthesis.cancel();
   const u=new SpeechSynthesisUtterance(script);
   u.rate=.94;u.pitch=1;u.volume=1;
-  u.onstart=()=>{speechBusy=true;el("soundBtn").textContent="â  Stop Sound";};
-  u.onend=()=>{speechBusy=false;el("soundBtn").textContent="ð Sound On";};
-  u.onerror=()=>{speechBusy=false;el("soundBtn").textContent="ð Sound On";};
+  u.onstart=()=>{speechBusy=true;el("soundBtn").textContent="■ Stop Sound";};
+  u.onend=()=>{speechBusy=false;el("soundBtn").textContent="🔊 Sound On";};
+  u.onerror=()=>{speechBusy=false;el("soundBtn").textContent="🔊 Sound On";};
   speechSynthesis.speak(u);
 }
 

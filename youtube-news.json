@@ -1,0 +1,29 @@
+{
+  "videos": [
+    {
+      "source": "Fox News",
+      "title": "Add a current Fox News YouTube video ID here",
+      "video_id": ""
+    },
+    {
+      "source": "Newsmax",
+      "title": "Add a current Newsmax YouTube video ID here",
+      "video_id": ""
+    },
+    {
+      "source": "OAN",
+      "title": "Add a current OAN YouTube video ID here",
+      "video_id": ""
+    },
+    {
+      "source": "Breitbart",
+      "title": "Add a current Breitbart YouTube video ID here",
+      "video_id": ""
+    },
+    {
+      "source": "Daily Wire",
+      "title": "Add a current Daily Wire YouTube video ID here",
+      "video_id": ""
+    }
+  ]
+}

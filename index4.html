@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Voice of Peace - Live news, video reports and messages of peace.">
+<title>Voice of Peace</title>
+
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#01162b;--bg2:#052d52;--card:#062746;--card2:#031a31;
+  --border:#225a83;--blue:#159be6;--cyan:#4bd0ff;--gold:#ffd34f;
+  --red:#df3343;--green:#11ba5d;--white:#fff;--muted:#b9cfdf;
+  --facebook:#1877f2;
+}
+html,body{margin:0;min-height:100%}
+body{
+  font-family:Arial,Helvetica,sans-serif;color:#fff;
+  background:radial-gradient(circle at top,#135181 0%,#062d52 30%,#02182e 70%,#010b17 100%)
+}
+.header{
+  position:sticky;top:0;z-index:1000;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:17px 4%;
+  background:linear-gradient(90deg,#011529,#063a64,#011529);
+  border-bottom:2px solid #1c5a89;
+  box-shadow:0 5px 25px #0008
+}
+.small-title{color:var(--cyan);font-size:10px;letter-spacing:5px;font-weight:900}
+.brand h1{margin:4px 0;font-size:clamp(25px,3vw,42px);line-height:1}
+.byline{color:var(--gold);font-size:12px;font-weight:700}
+.status-badge{padding:9px 17px;border-radius:30px;font-size:12px;font-weight:900}
+.status-badge.live{background:var(--green)}
+.status-badge.connecting{background:#c58e16}
+.status-badge.offline{background:#b62d3b}
+.news-strip{display:flex;min-height:43px;background:#031c35;border-bottom:1px solid #28577a}
+.news-strip-label{display:flex;align-items:center;padding:0 18px;background:var(--red);font-size:11px;font-weight:900;white-space:nowrap}
+.news-strip-text{display:flex;align-items:center;flex:1;padding:0 15px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:13px;font-weight:800}
+.main-content{width:min(1400px,96%);margin:auto;padding:24px 0 40px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px}
+.media-panel{min-height:500px;position:relative;overflow:hidden;border:1px solid var(--border);border-radius:20px;background:#000;box-shadow:0 18px 50px #0008}
+.photo-section{position:absolute;inset:0}
+.family-photo,.story-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.family-photo{z-index:1;opacity:.85}
+.story-image{z-index:2}
+.media-gradient{position:absolute;z-index:3;inset:auto 0 0;padding:75px 18px 18px;background:linear-gradient(transparent,rgba(0,10,22,.95))}
+.live-label{display:inline-block;padding:6px 10px;border-radius:5px;background:var(--red);font-size:11px;font-weight:900}
+.story-side{display:flex;flex-direction:column;gap:13px}
+.card{background:linear-gradient(145deg,#082e51,#03182e);border:1px solid var(--border);border-radius:17px;box-shadow:0 12px 35px #0005}
+.story-card{padding:25px}
+.category{color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+.headline{margin:10px 0 15px;font-size:clamp(26px,3vw,41px);line-height:1.12}
+.summary{color:#d7e8f5;font-size:16px;line-height:1.6}
+.read-more{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:11px 18px;border:1px solid #52c7ff;border-radius:8px;background:linear-gradient(#169de9,#086cb5);color:#fff;text-decoration:none;font-size:14px;font-weight:900;cursor:pointer}
+.info-card{padding:17px 20px}
+.section-label{color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:2px;margin-bottom:8px}
+.source-line{color:#d4e4ef;font-size:13px;line-height:1.5}
+.verse{color:var(--gold);font-weight:900;margin-bottom:8px}
+.reflection{margin:0;color:#d4e4ef;line-height:1.6}
+.video-section{margin-top:30px}
+.video-header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px}
+.video-header h2{margin:0;font-size:clamp(24px,3vw,35px)}
+.video-subtitle{color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:1px}
+.source-buttons{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:15px}
+.source-btn{border:1px solid #4281ac;border-radius:8px;background:#08365f;color:#fff;padding:10px 15px;font-weight:900;cursor:pointer;transition:.2s}
+.source-btn:hover{background:#116da8;transform:translateY(-2px)}
+.source-btn.active{background:var(--gold);color:#061525;border-color:var(--gold)}
+.source-btn.youtube-own{background:#b51d2c;border-color:#ff6572}
+.source-btn.youtube-own.active{background:#ff3045;color:#fff}
+.source-btn.facebook-source{background:#145fc1;border-color:#4d98ff}
+.source-btn.facebook-source.active{background:#1877f2;color:#fff}
+.video-layout{display:grid;grid-template-columns:1.35fr .65fr;gap:20px}
+.video-card{padding:14px}
+.video-player{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;border-radius:13px}
+.video-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.video-placeholder{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;background:radial-gradient(circle,#15517f,#03172c);color:#d9e8f4;padding:24px;cursor:pointer}
+.play-symbol{font-size:65px;color:#ff3447}
+.video-title{margin:14px 4px 5px;font-size:19px;font-weight:900}
+.video-meta{color:var(--muted);margin:0 4px;font-size:13px;min-height:18px}
+.video-controls{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.video-controls button{border:1px solid #3a79a3;border-radius:7px;background:#08365d;color:#fff;padding:9px 13px;font-weight:900;cursor:pointer}
+.video-controls .open-direct{background:#176aa4}
+.video-status{margin-top:10px;padding:10px 12px;border-radius:8px;background:#041d35;border:1px solid #28577a;color:#bfe9ff;font-size:12px;line-height:1.45}
+.broadcast-links{display:grid;grid-template-columns:1fr;gap:13px;margin-top:15px}
+.link-box{padding:14px;border:1px solid #3b739a;border-radius:12px;background:#041d35}
+.link-box.youtube-box{border-color:#934652}
+.link-box.facebook-box{border-color:#246cc5}
+.link-box-title{font-size:14px;font-weight:900;margin-bottom:8px}
+.youtube-box .link-box-title{color:#ff6774}
+.facebook-box .link-box-title{color:#62a7ff}
+.link-input-row{display:flex;gap:8px;flex-wrap:wrap}
+.link-input{flex:1 1 320px;min-width:0;padding:12px 13px;border-radius:8px;border:1px solid #4b84aa;background:#021426;color:#fff;font-size:14px;outline:none}
+.link-input:focus{border-color:#4bd0ff;box-shadow:0 0 0 2px #4bd0ff22}
+.link-save,.link-play{border-radius:8px;color:#fff;padding:11px 14px;font-weight:900;cursor:pointer}
+.youtube-box .link-save{background:#8f1f2a;border:1px solid #ff6473}
+.youtube-box .link-play{background:#c92737;border:1px solid #ff6473}
+.facebook-box .link-save{background:#155ebd;border:1px solid #559cf7}
+.facebook-box .link-play{background:#1877f2;border:1px solid #69a9ff}
+.link-help{margin-top:8px;color:#b9cfdf;font-size:12px;line-height:1.45}
+.network-card{padding:22px}
+.network-card h3{color:var(--gold);margin-top:0;font-size:22px}
+.network-card p{color:#d4e3ed;line-height:1.6}
+.network-card ul{list-style:none;padding:0;margin:15px 0 0}
+.network-card li{padding:10px 0;border-bottom:1px solid #28577a;color:#d1e0ea}
+.peace-message{margin-top:28px;padding:15px;text-align:center;color:var(--gold);border-top:1px solid #806925;border-bottom:1px solid #806925;font-weight:900}
+.player-controls{margin-top:20px;display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
+.player-controls button{border:1px solid #417fa8;border-radius:8px;background:#093b65;color:#fff;padding:10px 17px;font-weight:900;cursor:pointer}
+.progress-container{max-width:650px;height:5px;margin:15px auto;background:#214a67;border-radius:20px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,#17a7ff,#ffda45)}
+.story-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,7,18,.95);backdrop-filter:blur(7px)}
+.story-modal.show{display:flex}
+.story-modal-box{width:min(1050px,96vw);max-height:92vh;overflow:auto;background:linear-gradient(145deg,#082d50,#03182d);border:2px solid #287db7;border-radius:22px;box-shadow:0 30px 90px #000}
+.modal-header{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:#03182df3;border-bottom:1px solid #2b6289}
+.modal-label{color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:2px}
+.modal-close{width:43px;height:43px;border-radius:50%;border:1px solid #ff6a77;background:#a72431;color:#fff;font-size:25px;cursor:pointer}
+.modal-body{padding:25px}
+.modal-image{width:100%;max-height:490px;object-fit:cover;border-radius:15px;margin-bottom:20px}
+.modal-headline{margin:0 0 15px;font-size:clamp(29px,4vw,48px);line-height:1.15}
+.modal-source{color:var(--cyan);margin-bottom:22px;font-weight:900}
+.modal-text{color:#e3edf5;font-size:18px;line-height:1.8;white-space:pre-wrap}
+.modal-note{margin-top:25px;padding:15px;border-radius:10px;background:#062541;border:1px solid #28597c;color:#afc7d9;font-size:13px;line-height:1.5}
+.footer{text-align:center;padding:25px;color:#7e9bb1;font-size:12px}
+@media(max-width:900px){
+  .hero-grid,.video-layout{grid-template-columns:1fr}
+  .media-panel{min-height:430px}
+}
+@media(max-width:550px){
+  .header{padding:13px 15px}
+  .brand h1{font-size:23px}
+  .media-panel{min-height:320px}
+  .source-btn{flex:1 1 45%}
+  .modal-text{font-size:16px}
+  .link-input-row button{flex:1 1 45%}
+}
+
+/* ===== AI PRESENTER ADDITION ===== */
+.presenter-video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  z-index:6;background:#000;display:none;
+}
+.presenter-video.show{display:block}
+.presenter-badge{
+  position:absolute;z-index:7;left:16px;top:16px;
+  padding:7px 11px;border-radius:7px;background:#df3343;
+  font-size:11px;font-weight:900;letter-spacing:1px;display:none;
+}
+.presenter-badge.show{display:block}
+.presenter-card{padding:18px 20px}
+.presenter-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.presenter-title strong{color:var(--gold);font-size:17px}
+.presenter-status{color:#cfe6f5;font-size:12px;line-height:1.45;margin:8px 0 12px}
+.presenter-actions{display:flex;gap:8px;flex-wrap:wrap}
+.presenter-actions button,.presenter-settings button{
+  border:1px solid #4c91bf;border-radius:8px;background:#0b5689;color:#fff;
+  padding:10px 13px;font-weight:900;cursor:pointer
+}
+.presenter-actions .present-now{background:#b52534;border-color:#ff6c78}
+.presenter-actions .show-image{background:#0b416c}
+.presenter-settings{margin-top:12px;border-top:1px solid #28577a;padding-top:10px}
+.presenter-settings summary{cursor:pointer;color:var(--cyan);font-size:12px;font-weight:900}
+.presenter-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.presenter-grid select{
+  width:100%;min-width:0;padding:10px;border-radius:8px;border:1px solid #4b84aa;
+  background:#021426;color:#fff
+}
+.presenter-note{margin-top:9px;color:#9fc0d5;font-size:11px;line-height:1.4}
+@media(max-width:550px){
+  .presenter-grid{grid-template-columns:1fr}
+  .presenter-actions button{flex:1 1 45%}
+}
+
+
+/* ===== INTEGRATED AI VIDEO ADMIN ===== */
+.ai-admin-section{margin-top:30px}
+.ai-admin-header{
+  display:flex;justify-content:space-between;align-items:center;gap:14px;
+  margin-bottom:14px;flex-wrap:wrap
+}
+.ai-admin-header h2{margin:0;font-size:clamp(24px,3vw,35px)}
+.ai-admin-subtitle{color:var(--gold);font-size:11px;font-weight:900;letter-spacing:1px}
+.ai-admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.ai-admin-card{
+  background:linear-gradient(145deg,#082e51,#03182e);
+  border:1px solid var(--border);border-radius:17px;
+  box-shadow:0 12px 35px #0005;padding:20px
+}
+.ai-admin-card.wide{grid-column:1/-1}
+.ai-admin-card h3{margin:0 0 12px;color:var(--gold);font-size:20px}
+.ai-admin-warning{color:#ffd977;font-size:13px;line-height:1.5}
+.ai-admin-small{color:#9eb4c8;font-size:12px;line-height:1.45}
+.ai-admin-label{display:block;font-weight:900;margin:14px 0 7px;color:#dcecf7}
+.ai-admin-input,.ai-admin-textarea,.ai-admin-select{
+  width:100%;border:1px solid #3e6385;border-radius:9px;
+  background:#061727;color:#fff;padding:12px;font-size:14px
+}
+.ai-admin-textarea{min-height:220px;resize:vertical;line-height:1.5}
+.ai-admin-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.ai-admin-btn{
+  border:1px solid #4c86ad;border-radius:9px;padding:11px 15px;
+  font-size:13px;font-weight:900;cursor:pointer;background:#1a4770;color:#fff
+}
+.ai-admin-btn.primary{background:var(--gold);color:#07182b;border-color:var(--gold)}
+.ai-admin-btn.danger{background:#9f3131;border-color:#d75959}
+.ai-admin-btn:disabled{opacity:.5;cursor:not-allowed}
+.ai-admin-status{
+  border-radius:10px;background:#061727;padding:13px;margin-top:14px;
+  white-space:pre-wrap;overflow-wrap:anywhere;border-left:5px solid #3e6385;
+  color:#d9e8f4;font-size:13px;line-height:1.45
+}
+.ai-admin-status.success{border-left-color:#49cb78}
+.ai-admin-status.error{border-left-color:#e75c5c}
+.ai-admin-status.waiting{border-left-color:#e0b54f}
+.ai-admin-remember{display:flex;align-items:center;gap:8px;margin-top:10px}
+.ai-admin-remember input{width:auto}
+.ai-admin-remember label{margin:0;font-weight:normal;color:#c4d5e2;font-size:13px}
+.ai-admin-saved{display:none;margin-top:8px;color:#7ee6a1;font-size:12px}
+.ai-admin-story-title{font-size:22px;font-weight:900;line-height:1.25;margin-bottom:10px}
+.ai-admin-story-summary{color:#c7d5e4;font-size:15px;line-height:1.55}
+.ai-admin-story-source{color:#91b8d9;margin-top:10px;font-size:13px}
+.ai-admin-video-wrap{margin-top:16px;display:none}
+.ai-admin-video-wrap video{width:100%;max-height:600px;background:#000;border-radius:12px}
+.ai-admin-live-chip{
+  display:inline-block;padding:6px 10px;border-radius:6px;background:#b52534;
+  font-size:11px;font-weight:900
+}
+@media(max-width:900px){.ai-admin-grid{grid-template-columns:1fr}.ai-admin-card.wide{grid-column:auto}}
+
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="brand">
+    <div class="small-title">THIS IS THE</div>
+    <h1>VOICE OF PEACE</h1>
+    <div class="byline">By Emmanuel &amp; Camili Hileah</div>
+  </div>
+  <div id="liveStatus" class="status-badge connecting">CONNECTING</div>
+</header>
+
+<div class="news-strip">
+  <div class="news-strip-label">BREAKING NEWS</div>
+  <div id="newsStripText" class="news-strip-text">Voice of Peace is connecting to live news...</div>
+</div>
+
+<main class="main-content">
+  <div class="hero-grid">
+    <section class="media-panel">
+      <div class="photo-section">
+        <img src="many.jpeg" class="family-photo" alt="Voice of Peace">
+        <img id="storyImage" class="story-image" alt="News story">
+        <video id="presenterVideo" class="presenter-video" playsinline controls preload="metadata"></video>
+        <div id="presenterBadge" class="presenter-badge">● AI PRESENTER — EMMANUEL</div>
+        <div class="media-gradient"><span class="live-label">● LIVE WORLD NEWS</span></div>
+      </div>
+    </section>
+
+    <div class="story-side">
+      <section class="card story-card">
+        <div id="category" class="category">Voice of Peace</div>
+        <h2 id="headline" class="headline">Connecting to live news...</h2>
+        <p id="summary" class="summary">Loading current reports...</p>
+        <a id="storyLink" class="read-more" href="#">📖 Read Full Story</a>
+      </section>
+
+      <section class="card info-card">
+        <div class="section-label">REPORTING</div>
+        <div id="sourceLine" class="source-line">Connecting...</div>
+      </section>
+
+      <section class="card info-card">
+        <div class="section-label">VOICE OF PEACE REFLECTION</div>
+        <div id="verse" class="verse"></div>
+        <p id="reflection" class="reflection"></p>
+      </section>
+
+    </div>
+  </div>
+
+  <section class="video-section">
+    <div class="video-header">
+      <h2>▶ Video News + Voice of Peace Broadcast</h2>
+      <div class="video-subtitle">VIDEO BROADCAST DESK</div>
+    </div>
+
+    <div class="source-buttons">
+      <button class="source-btn active" data-source="Fox News" type="button">FOX NEWS</button>
+      <button class="source-btn" data-source="Newsmax" type="button">NEWSMAX</button>
+      <button class="source-btn" data-source="OAN" type="button">OAN</button>
+      <button class="source-btn" data-source="Breitbart" type="button">BREITBART</button>
+      <button class="source-btn" data-source="Daily Wire" type="button">DAILY WIRE</button>
+      <button class="source-btn youtube-own" data-source="My YouTube Video" type="button">▶ MY YOUTUBE VIDEO</button>
+      <button class="source-btn facebook-source" data-source="Facebook Live" type="button">🔴 FACEBOOK LIVE</button>
+      <button class="source-btn" data-source="PLAYER TEST" type="button">▶ PLAYER TEST</button>
+    </div>
+
+    <div class="video-layout">
+      <section class="card video-card">
+        <div class="video-player">
+          <iframe
+            id="broadcastFrame"
+            title="Voice of Peace video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            scrolling="no"
+            referrerpolicy="strict-origin-when-cross-origin"
+            src="about:blank">
+          </iframe>
+
+          <div id="videoPlaceholder" class="video-placeholder">
+            <div class="play-symbol">▶</div>
+            <strong>Choose a video source.</strong>
+          </div>
+        </div>
+
+        <div id="videoTitle" class="video-title">Voice of Peace Video Desk</div>
+        <div id="videoMeta" class="video-meta">Ready</div>
+
+        <div class="video-controls">
+          <button id="videoPrev" type="button">◀ Previous</button>
+          <button id="videoNext" type="button">Next ▶</button>
+          <button id="reloadVideo" type="button">↻ Reload</button>
+          <button id="openDirect" class="open-direct" type="button">↗ Open Video</button>
+        </div>
+
+        <div id="videoStatus" class="video-status">Select a video source above.</div>
+
+        <div class="broadcast-links">
+          <div class="link-box youtube-box">
+            <div class="link-box-title">▶ MY YOUTUBE VIDEO</div>
+            <div class="link-input-row">
+              <input
+                id="youtubeInput"
+                class="link-input"
+                type="url"
+                inputmode="url"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="Paste any regular YouTube video link here">
+              <button id="saveYoutube" class="link-save" type="button">💾 SAVE</button>
+              <button id="playYoutube" class="link-play" type="button">▶ PLAY</button>
+            </div>
+            <div class="link-help">
+              You do NOT need YouTube Live permission.
+              Paste a normal YouTube video link such as youtube.com/watch?v=... or youtu.be/...
+              The link stays saved on this device.
+            </div>
+          </div>
+
+          <div class="link-box facebook-box">
+            <div class="link-box-title">🔴 FACEBOOK LIVE / FACEBOOK VIDEO</div>
+            <div class="link-input-row">
+              <input
+                id="facebookInput"
+                class="link-input"
+                type="url"
+                inputmode="url"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="Paste your Facebook Live or Facebook video link here">
+              <button id="saveFacebook" class="link-save" type="button">💾 SAVE</button>
+              <button id="playFacebook" class="link-play" type="button">🔴 PLAY LIVE</button>
+            </div>
+            <div class="link-help">
+              Start your Facebook Live broadcast, tap Share, copy the Facebook Live/video link,
+              paste it here, and press SAVE. The app will try to show the public Facebook broadcast
+              inside Voice of Peace.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card network-card">
+        <h3>Broadcast Sources</h3>
+        <p>Voice of Peace can now use regular YouTube videos without requiring YouTube Live permission.</p>
+        <p>You can also paste a public Facebook Live or Facebook video link and try to display the broadcast directly inside Voice of Peace.</p>
+        <ul>
+          <li>Fox News</li>
+          <li>Newsmax</li>
+          <li>One America News — OAN</li>
+          <li>Breitbart</li>
+          <li>Daily Wire</li>
+          <li>▶ My YouTube Video</li>
+          <li>🔴 Facebook Live</li>
+          <li>▶ Player Test</li>
+        </ul>
+      </section>
+    </div>
+  </section>
+
+
+  <section class="ai-admin-section" id="aiVideoAdmin">
+    <div class="ai-admin-header">
+      <h2>🎬 Emmanuel AI Video Studio</h2>
+      <div class="ai-admin-subtitle">AI NEWS PRESENTER ADMIN • ALL IN ONE PAGE</div>
+    </div>
+
+    <div class="ai-admin-grid">
+
+      <section class="ai-admin-card">
+        <h3>🔐 Private Access</h3>
+        <p class="ai-admin-warning">
+          Your HeyGen API key is NOT stored in this website. It remains protected inside Supabase.
+        </p>
+        <p class="ai-admin-small">
+          This page uses your private HEYGEN_FUNCTION_TOKEN only to communicate with the protected Supabase Edge Function.
+        </p>
+
+        <label class="ai-admin-label" for="aiFunctionToken">Private Function Token</label>
+        <input
+          id="aiFunctionToken"
+          class="ai-admin-input"
+          type="password"
+          placeholder="Paste your 64-character private token"
+          autocomplete="off">
+
+        <div class="ai-admin-remember">
+          <input id="aiRememberToken" type="checkbox" checked>
+          <label for="aiRememberToken">Remember this token on this computer</label>
+        </div>
+
+        <div id="aiSavedTokenNote" class="ai-admin-saved">✓ Saved private token loaded from this browser.</div>
+
+        <div class="ai-admin-controls">
+          <button id="aiTestConnectionBtn" class="ai-admin-btn" type="button">Test Connection</button>
+          <button id="aiForgetTokenBtn" class="ai-admin-btn danger" type="button">Forget Saved Token</button>
+        </div>
+
+        <div id="aiConnectionStatus" class="ai-admin-status">Not connected yet.</div>
+      </section>
+
+      <section class="ai-admin-card">
+        <h3>👤 Presenter</h3>
+
+        <label class="ai-admin-label" for="aiAvatarId">Avatar Look</label>
+        <select id="aiAvatarId" class="ai-admin-select">
+          <option value="59219bcd09c24be0a4804f8740aba433">Professional in City Office</option>
+          <option value="48b91f4cfa1a492fa6d02de816a7f170">Executive in City Office</option>
+          <option value="2bb9d59aebd44c99b644f448c6eaf89f">Professional in Blue Suit</option>
+          <option value="d84bd5e0017444a0b13a444a56901a62">Professional in Library</option>
+          <option value="b6431d1994354455b4534d7d302afed9">Professional in a Suit</option>
+          <option value="b1df723c9fcf4a50b66a56158bfeb400">Professional in City Office 2</option>
+          <option value="4470a07541cb43eb92957ab4eb4a2836">Professional in White Shirt</option>
+          <option value="36379196e183456e80c21ab03df07c9e">Professional in Blue Blazer</option>
+          <option value="9a7ccc96725b41c7a923e528fe3079b1">Original Emmanuel</option>
+        </select>
+
+        <label class="ai-admin-label" for="aiVoiceId">Voice</label>
+        <input
+          id="aiVoiceId"
+          class="ai-admin-input"
+          value="4e7e014e26cc4b138eda8b1915652b58"
+          readonly>
+
+        <p class="ai-admin-small">Default Emmanuel HeyGen voice.</p>
+      </section>
+
+      <section class="ai-admin-card wide">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+          <h3 style="margin:0">📰 Current Voice of Peace Story</h3>
+          <span class="ai-admin-live-chip">LIVE PAGE STORY</span>
+        </div>
+
+        <div id="aiStoryTitle" class="ai-admin-story-title" style="margin-top:14px">Loading current story...</div>
+        <div id="aiStorySummary" class="ai-admin-story-summary"></div>
+        <div id="aiStorySource" class="ai-admin-story-source"></div>
+
+        <div class="ai-admin-controls">
+          <button id="aiUseCurrentStoryBtn" class="ai-admin-btn" type="button">↻ Use Current Story</button>
+          <button id="aiPreviousStoryBtn" class="ai-admin-btn" type="button">◀ Previous</button>
+          <button id="aiNextStoryBtn" class="ai-admin-btn" type="button">Next ▶</button>
+        </div>
+      </section>
+
+      <section class="ai-admin-card wide">
+        <h3>🎙 Emmanuel AI Presenter Script</h3>
+
+        <label class="ai-admin-label" for="aiVideoTitle">Video Title</label>
+        <input id="aiVideoTitle" class="ai-admin-input" value="Voice of Peace News Report">
+
+        <label class="ai-admin-label" for="aiScriptText">Script</label>
+        <textarea id="aiScriptText" class="ai-admin-textarea"></textarea>
+
+        <div class="ai-admin-controls">
+          <button id="aiBuildScriptBtn" class="ai-admin-btn" type="button">Build Script From Story</button>
+        </div>
+      </section>
+
+      <section class="ai-admin-card wide">
+        <h3>🎥 Generate AI News Video</h3>
+        <p class="ai-admin-warning">
+          Generating a video uses HeyGen credits. Nothing is generated until you approve it.
+        </p>
+
+        <div class="ai-admin-controls">
+          <button id="aiGenerateButton" class="ai-admin-btn primary" type="button">🎥 CREATE AI VIDEO</button>
+          <button id="aiCheckStatusBtn" class="ai-admin-btn" type="button">Check Video Status</button>
+          <button id="aiShowNewsImageBtn" class="ai-admin-btn" type="button">🖼 Show News Image</button>
+        </div>
+
+        <div id="aiGenerationStatus" class="ai-admin-status">No video generated yet.</div>
+
+        <div id="aiVideoWrap" class="ai-admin-video-wrap">
+          <video id="aiResultVideo" controls playsinline></video>
+        </div>
+      </section>
+
+    </div>
+  </section>
+
+
+  <div class="peace-message">Respect • Truth • Understanding • Help one another</div>
+
+  <section class="player-controls">
+    <button id="prevBtn" type="button">◀ Previous</button>
+    <button id="playBtn" type="button">Pause</button>
+    <button id="nextBtn" type="button">Next ▶</button>
+    <button id="soundBtn" type="button" data-sound="on">🔊 Sound On</button>
+  </section>
+
+  <div class="progress-container">
+    <div id="progressBar" class="progress-bar"></div>
+  </div>
+</main>
+
+<footer class="footer">VOICE OF PEACE • NEWS • UNDERSTANDING • RESPONSIBILITY</footer>
+
+<div id="storyModal" class="story-modal">
+  <div class="story-modal-box">
+    <div class="modal-header">
+      <div class="modal-label">VOICE OF PEACE • FULL STORY</div>
+      <button id="modalClose" class="modal-close" type="button">×</button>
+    </div>
+
+    <div class="modal-body">
+      <img id="modalImage" class="modal-image" src="many.jpeg" alt="News story">
+      <h2 id="modalHeadline" class="modal-headline"></h2>
+      <div id="modalSource" class="modal-source"></div>
+      <div id="modalText" class="modal-text"></div>
+      <div class="modal-note">
+        This report is presented inside Voice of Peace using the headline and available summary supplied by the news feed.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js?v=20260903-youtube-facebook-1"></script>
+
+
+<script>
+const broadcastFrame = document.getElementById("broadcastFrame");
+const videoPlaceholder = document.getElementById("videoPlaceholder");
+const videoTitle = document.getElementById("videoTitle");
+const videoMeta = document.getElementById("videoMeta");
+const videoStatus = document.getElementById("videoStatus");
+
+const VIDEO_CHANNELS = {
+  "Fox News": { channelId:"UCXIJgqnII2ZOINSWNOGFThA", label:"Fox News" },
+  "Newsmax": { channelId:"UCx6h-dWzJ5NpAlja1YsApdg", label:"Newsmax" },
+  "OAN": { channelId:"UCNbIDJNNgaRrXOD7VllIMRQ", label:"One America News" },
+  "Breitbart": { channelId:"UCmgnsaQIK1IR808Ebde-ssA", label:"Breitbart News" },
+  "Daily Wire": { channelId:"UCaeO5vkdj5xOQHp4UmIN6dw", label:"DailyWire+" }
+};
+
+const SOURCE_ORDER = [
+  "Fox News",
+  "Newsmax",
+  "OAN",
+  "Breitbart",
+  "Daily Wire",
+  "My YouTube Video",
+  "Facebook Live",
+  "PLAYER TEST"
+];
+
+let selectedSource = "Fox News";
+let preparedUrl = "";
+let preparedOpenUrl = "";
+let preparedType = "youtube";
+
+function setVideoStatus(text){ videoStatus.textContent = text; }
+function resetFrame(){ broadcastFrame.src = "about:blank"; }
+function escapeHtml(text){
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+function showPlayOverlay(title,message,symbol){
+  videoPlaceholder.style.display = "flex";
+  videoPlaceholder.innerHTML =
+    '<div class="play-symbol">' + escapeHtml(symbol || "▶") + '</div>' +
+    '<strong>' + escapeHtml(title) + '</strong>' +
+    '<span>' + escapeHtml(message) + '</span>';
+}
+function setActiveButton(){
+  document.querySelectorAll(".source-btn").forEach(function(button){
+    button.classList.toggle("active", button.dataset.source === selectedSource);
+  });
+}
+function uploadsPlaylistId(channelId){ return "UU" + channelId.slice(2); }
+
+function extractYouTubeVideoId(value){
+  const raw = String(value || "").trim();
+  if(/^[A-Za-z0-9_-]{11}$/.test(raw)) return raw;
+
+  try{
+    const url = new URL(raw);
+    const host = url.hostname.toLowerCase().replace(/^www\./,"");
+
+    if(host === "youtu.be"){
+      const id = url.pathname.split("/").filter(Boolean)[0] || "";
+      return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : "";
+    }
+
+    if(
+      host === "youtube.com" ||
+      host.endsWith(".youtube.com") ||
+      host === "youtube-nocookie.com" ||
+      host.endsWith(".youtube-nocookie.com")
+    ){
+      const v = url.searchParams.get("v");
+      if(v && /^[A-Za-z0-9_-]{11}$/.test(v)) return v;
+
+      const parts = url.pathname.split("/").filter(Boolean);
+      for(const marker of ["live","embed","shorts"]){
+        const index = parts.indexOf(marker);
+        if(
+          index >= 0 &&
+          parts[index + 1] &&
+          /^[A-Za-z0-9_-]{11}$/.test(parts[index + 1])
+        ){
+          return parts[index + 1];
+        }
+      }
+    }
+  } catch(error){}
+
+  return "";
+}
+
+function isFacebookUrl(value){
+  const raw = String(value || "").trim();
+  try{
+    const url = new URL(raw);
+    const host = url.hostname.toLowerCase().replace(/^www\./,"");
+    return (
+      host === "facebook.com" ||
+      host.endsWith(".facebook.com") ||
+      host === "fb.watch" ||
+      host.endsWith(".fb.watch")
+    );
+  } catch(error){
+    return false;
+  }
+}
+
+function prepareOfficialChannel(source){
+  const info = VIDEO_CHANNELS[source];
+  if(!info) return false;
+
+  const playlistId = uploadsPlaylistId(info.channelId);
+  preparedType = "youtube";
+  preparedUrl =
+    "https://www.youtube-nocookie.com/embed/videoseries" +
+    "?list=" + encodeURIComponent(playlistId) +
+    "&playsinline=1" +
+    "&rel=0";
+  preparedOpenUrl =
+    "https://www.youtube.com/channel/" +
+    encodeURIComponent(info.channelId) +
+    "/videos";
+
+  resetFrame();
+  videoTitle.textContent = info.label;
+  videoMeta.textContent = "Official YouTube channel";
+  setVideoStatus(
+    "Tap the player to watch recent videos from " +
+    info.label +
+    ". If YouTube blocks a video inside the app, use Open Video."
+  );
+  showPlayOverlay(
+    "▶ Play " + info.label,
+    "Tap here to open recent videos.",
+    "▶"
+  );
+  videoPlaceholder.onclick = playPrepared;
+  return true;
+}
+
+function prepareMyYoutube(){
+  resetFrame();
+
+  const saved = localStorage.getItem("vop_youtube_video_url") || "";
+  const videoId = extractYouTubeVideoId(saved);
+
+  preparedUrl = "";
+  preparedOpenUrl = "";
+  preparedType = "youtube";
+
+  if(videoId){
+    preparedUrl =
+      "https://www.youtube-nocookie.com/embed/" +
+      encodeURIComponent(videoId) +
+      "?playsinline=1&rel=0";
+    preparedOpenUrl =
+      "https://www.youtube.com/watch?v=" +
+      encodeURIComponent(videoId);
+
+    videoTitle.textContent = "Voice of Peace YouTube Video";
+    videoMeta.textContent = "Your saved YouTube video";
+    setVideoStatus("✅ Your YouTube video is ready. Tap the player or press PLAY.");
+    showPlayOverlay(
+      "▶ Play My YouTube Video",
+      "No YouTube Live permission is required.",
+      "▶"
+    );
+    videoPlaceholder.onclick = playPrepared;
+  } else {
+    videoTitle.textContent = "My YouTube Video";
+    videoMeta.textContent = "No YouTube video saved";
+    setVideoStatus(
+      "Paste any regular YouTube video link into the MY YOUTUBE VIDEO box and press SAVE."
+    );
+    showPlayOverlay(
+      "YouTube video not set",
+      "Paste a normal YouTube video link below.",
+      "▶"
+    );
+    videoPlaceholder.onclick = null;
+  }
+}
+
+function prepareFacebook(){
+  resetFrame();
+
+  const saved = localStorage.getItem("vop_facebook_url") || "";
+
+  preparedUrl = "";
+  preparedOpenUrl = "";
+  preparedType = "facebook";
+
+  if(!saved || !isFacebookUrl(saved)){
+    videoTitle.textContent = "Facebook Live";
+    videoMeta.textContent = "No Facebook link saved";
+    setVideoStatus(
+      "Paste your public Facebook Live or Facebook video link below and press SAVE."
+    );
+    showPlayOverlay(
+      "🔴 Facebook Live",
+      "Paste your Facebook Live link below.",
+      "🔴"
+    );
+    videoPlaceholder.onclick = null;
+    return;
+  }
+
+  preparedOpenUrl = saved;
+  preparedUrl =
+    "https://www.facebook.com/plugins/video.php" +
+    "?href=" + encodeURIComponent(saved) +
+    "&show_text=false" +
+    "&autoplay=false" +
+    "&width=1280";
+
+  videoTitle.textContent = "🔴 Facebook Live";
+  videoMeta.textContent = "Your saved Facebook broadcast";
+  setVideoStatus(
+    "✅ Facebook link ready. Tap the player to try the broadcast. If Facebook blocks embedding, press Open Video."
+  );
+  showPlayOverlay(
+    "🔴 Play Facebook Broadcast",
+    "Tap here to load your public Facebook Live/video.",
+    "🔴"
+  );
+  videoPlaceholder.onclick = playPrepared;
+}
+
+function preparePlayerTest(){
+  resetFrame();
+
+  const id = "M7lc1UVf-VE";
+  preparedType = "youtube";
+  preparedUrl =
+    "https://www.youtube-nocookie.com/embed/" +
+    id +
+    "?playsinline=1&rel=0";
+  preparedOpenUrl =
+    "https://www.youtube.com/watch?v=" +
+    id;
+
+  videoTitle.textContent = "YouTube Player Test";
+  videoMeta.textContent = "Known YouTube test video";
+  setVideoStatus(
+    "Tap the player. If this plays, the embedded YouTube player is working."
+  );
+  showPlayOverlay(
+    "▶ Run Player Test",
+    "This checks the YouTube player.",
+    "▶"
+  );
+  videoPlaceholder.onclick = playPrepared;
+}
+
+function prepareSelectedSource(){
+  preparedUrl = "";
+  preparedOpenUrl = "";
+  resetFrame();
+
+  if(selectedSource === "PLAYER TEST"){
+    preparePlayerTest();
+    return;
+  }
+
+  if(selectedSource === "My YouTube Video"){
+    prepareMyYoutube();
+    return;
+  }
+
+  if(selectedSource === "Facebook Live"){
+    prepareFacebook();
+    return;
+  }
+
+  if(!prepareOfficialChannel(selectedSource)){
+    setVideoStatus("Unknown video source.");
+  }
+}
+
+function playPrepared(){
+  if(!preparedUrl){
+    setVideoStatus("No video link is ready yet.");
+    return;
+  }
+
+  videoPlaceholder.style.display = "none";
+
+  if(preparedType === "youtube"){
+    const separator = preparedUrl.includes("?") ? "&" : "?";
+    broadcastFrame.src = preparedUrl + separator + "autoplay=1";
+  } else {
+    broadcastFrame.src = preparedUrl;
+  }
+
+  if(preparedType === "facebook"){
+    setVideoStatus(
+      "Loading Facebook broadcast. If Facebook does not permit this video to appear inside the app, press Open Video."
+    );
+  } else {
+    setVideoStatus("Loading YouTube video...");
+  }
+}
+
+function selectSource(source){
+  selectedSource = source;
+  setActiveButton();
+  prepareSelectedSource();
+}
+
+function stepSource(direction){
+  let index = SOURCE_ORDER.indexOf(selectedSource);
+  if(index < 0) index = 0;
+
+  index = (index + direction + SOURCE_ORDER.length) % SOURCE_ORDER.length;
+  selectSource(SOURCE_ORDER[index]);
+}
+
+document.querySelectorAll(".source-btn").forEach(function(button){
+  button.addEventListener("click", function(){
+    selectSource(button.dataset.source);
+  });
+});
+
+document.getElementById("videoNext").addEventListener("click", function(){
+  stepSource(1);
+});
+
+document.getElementById("videoPrev").addEventListener("click", function(){
+  stepSource(-1);
+});
+
+document.getElementById("reloadVideo").addEventListener("click", function(){
+  prepareSelectedSource();
+});
+
+document.getElementById("openDirect").addEventListener("click", function(){
+  if(!preparedOpenUrl){
+    setVideoStatus("Choose or save a video first.");
+    return;
+  }
+  window.open(preparedOpenUrl, "_blank", "noopener,noreferrer");
+});
+
+const youtubeInput = document.getElementById("youtubeInput");
+const saveYoutube = document.getElementById("saveYoutube");
+const playYoutube = document.getElementById("playYoutube");
+
+youtubeInput.value = localStorage.getItem("vop_youtube_video_url") || "";
+
+function saveYoutubeLink(){
+  const value = String(youtubeInput.value || "").trim();
+
+  if(!value){
+    setVideoStatus("Paste a YouTube video link first.");
+    youtubeInput.focus();
+    return false;
+  }
+
+  const videoId = extractYouTubeVideoId(value);
+
+  if(!videoId){
+    setVideoStatus(
+      "That does not look like a valid YouTube video link. Use a normal youtube.com/watch?v=... or youtu.be/... link."
+    );
+    youtubeInput.focus();
+    return false;
+  }
+
+  localStorage.setItem("vop_youtube_video_url", value);
+  youtubeInput.value = value;
+  setVideoStatus("✅ YouTube video saved.");
+  return true;
+}
+
+saveYoutube.addEventListener("click", function(){
+  if(!saveYoutubeLink()) return;
+  selectSource("My YouTube Video");
+});
+
+playYoutube.addEventListener("click", function(){
+  if(!saveYoutubeLink()) return;
+  selectSource("My YouTube Video");
+  setTimeout(playPrepared, 0);
+});
+
+youtubeInput.addEventListener("keydown", function(event){
+  if(event.key === "Enter"){
+    event.preventDefault();
+    if(saveYoutubeLink()){
+      selectSource("My YouTube Video");
+    }
+  }
+});
+
+const facebookInput = document.getElementById("facebookInput");
+const saveFacebook = document.getElementById("saveFacebook");
+const playFacebook = document.getElementById("playFacebook");
+
+facebookInput.value = localStorage.getItem("vop_facebook_url") || "";
+
+function saveFacebookLink(){
+  const value = String(facebookInput.value || "").trim();
+
+  if(!value){
+    setVideoStatus("Paste your Facebook Live/video link first.");
+    facebookInput.focus();
+    return false;
+  }
+
+  if(!isFacebookUrl(value)){
+    setVideoStatus(
+      "That does not look like a Facebook link. Paste the Facebook Live or Facebook video Share link."
+    );
+    facebookInput.focus();
+    return false;
+  }
+
+  localStorage.setItem("vop_facebook_url", value);
+  facebookInput.value = value;
+  setVideoStatus("✅ Facebook Live/video link saved.");
+  return true;
+}
+
+saveFacebook.addEventListener("click", function(){
+  if(!saveFacebookLink()) return;
+  selectSource("Facebook Live");
+});
+
+playFacebook.addEventListener("click", function(){
+  if(!saveFacebookLink()) return;
+  selectSource("Facebook Live");
+  setTimeout(playPrepared, 0);
+});
+
+facebookInput.addEventListener("keydown", function(event){
+  if(event.key === "Enter"){
+    event.preventDefault();
+    if(saveFacebookLink()){
+      selectSource("Facebook Live");
+    }
+  }
+});
+
+prepareSelectedSource();
+</script>
+
+
+<script>
+/* ============================================================
+   VOICE OF PEACE — INTEGRATED SECURE AI VIDEO ADMIN
+   Combined from ai-video-admin.html into the main index page.
+   ============================================================ */
+
+const AI_FUNCTION_URL =
+  "https://pqaqbpxrygveahwhoobt.supabase.co/functions/v1/heygen-video";
+
+const AI_DEFAULT_VOICE =
+  "4e7e014e26cc4b138eda8b1915652b58";
+
+const AI_TOKEN_STORAGE_KEY =
+  "voiceOfPeaceHeygenFunctionToken";
+
+let aiCurrentVideoId = "";
+let aiStatusTimer = null;
+
+function aiEl(id){ return document.getElementById(id); }
+
+function aiSetStatus(id, text, state){
+  const box = aiEl(id);
+  if(!box) return;
+  box.className = "ai-admin-status" + (state ? " " + state : "");
+  box.textContent = text;
+}
+
+function aiLoadSavedToken(){
+  try{
+    const saved = localStorage.getItem(AI_TOKEN_STORAGE_KEY);
+    if(!saved) return;
+    aiEl("aiFunctionToken").value = saved;
+    aiEl("aiSavedTokenNote").style.display = "block";
+    aiSetStatus("aiConnectionStatus","Saved private token loaded. Click Test Connection.");
+  }catch(error){
+    console.warn("Could not load saved token:",error);
+  }
+}
+
+function aiSaveTokenLocally(){
+  if(!aiEl("aiRememberToken").checked) return;
+  const token = String(aiEl("aiFunctionToken").value || "").trim();
+  if(!token) return;
+  try{
+    localStorage.setItem(AI_TOKEN_STORAGE_KEY,token);
+    aiEl("aiSavedTokenNote").style.display = "block";
+  }catch(error){
+    console.warn("Could not save token:",error);
+  }
+}
+
+function aiForgetSavedToken(){
+  if(!confirm("Remove the saved private token from this browser?")) return;
+  localStorage.removeItem(AI_TOKEN_STORAGE_KEY);
+  aiEl("aiFunctionToken").value = "";
+  aiEl("aiSavedTokenNote").style.display = "none";
+  aiSetStatus("aiConnectionStatus","Saved token removed from this browser.");
+}
+
+function aiGetToken(){
+  const token = String(aiEl("aiFunctionToken").value || "").trim();
+  if(!token) throw new Error("Please enter your private HEYGEN_FUNCTION_TOKEN.");
+  if(token.length !== 64) throw new Error("Private token should contain 64 characters.");
+  return token;
+}
+
+async function aiCallHeyGen(body){
+  const token = aiGetToken();
+
+  const response = await fetch(AI_FUNCTION_URL,{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json",
+      "x-function-token":token
+    },
+    body:JSON.stringify(body)
+  });
+
+  let data;
+  try{
+    data = await response.json();
+  }catch(error){
+    data = {error:"Invalid response from server."};
+  }
+
+  if(!response.ok){
+    throw new Error(
+      data?.heygen_response?.message ||
+      data?.heygen_response?.error?.message ||
+      data?.error ||
+      ("HTTP " + response.status)
+    );
+  }
+
+  return data;
+}
+
+async function aiTestConnection(){
+  aiSetStatus("aiConnectionStatus","Testing secure Voice of Peace connection...","waiting");
+  try{
+    const result = await aiCallHeyGen({action:"test"});
+    aiSaveTokenLocally();
+    aiSetStatus(
+      "aiConnectionStatus",
+      result.message || "Secure Voice of Peace connection successful.",
+      "success"
+    );
+  }catch(error){
+    aiSetStatus("aiConnectionStatus","Connection failed:\n" + error.message,"error");
+  }
+}
+
+function aiReadCurrentStory(){
+  const title = String(aiEl("headline")?.textContent || "").trim();
+  const summary = String(aiEl("summary")?.textContent || "").trim();
+  const source = String(aiEl("sourceLine")?.textContent || "").trim();
+
+  aiEl("aiStoryTitle").textContent = title || "Voice of Peace News";
+  aiEl("aiStorySummary").textContent = summary;
+  aiEl("aiStorySource").textContent = source;
+
+  return {headline:title,summary:summary,source:source};
+}
+
+function aiBuildScript(){
+  const story = aiReadCurrentStory();
+  const headline = story.headline || "";
+  const summary = story.summary || "";
+
+  const script =
+`Hello, I'm Emmanuel Hileah, and this is Voice of Peace.
+
+Here is today's report.
+
+${headline}.
+
+${summary}
+
+At Voice of Peace, we believe understanding the facts is the first step toward understanding one another.
+
+Thank you for joining us.
+
+Seek truth, choose understanding, and pursue peace.`;
+
+  aiEl("aiScriptText").value = script;
+  aiEl("aiVideoTitle").value =
+    headline ? ("Voice of Peace - " + headline) : "Voice of Peace News Report";
+}
+
+function aiUseCurrentStory(){
+  aiReadCurrentStory();
+  aiBuildScript();
+}
+
+function aiClickMainStoryButton(id){
+  const btn = aiEl(id);
+  if(btn) btn.click();
+  setTimeout(aiUseCurrentStory,350);
+}
+
+function aiStopRobotVoice(){
+  try{
+    if("speechSynthesis" in window){
+      window.speechSynthesis.cancel();
+    }
+  }catch(error){}
+}
+
+function aiShowFinishedVideo(url){
+  if(!url) return;
+
+  aiStopRobotVoice();
+
+  const wrap = aiEl("aiVideoWrap");
+  const resultVideo = aiEl("aiResultVideo");
+  resultVideo.src = url;
+  wrap.style.display = "block";
+  resultVideo.load();
+
+  /* Also put the finished Emmanuel presentation in the large
+     main Voice of Peace hero video area. */
+  const presenter = aiEl("presenterVideo");
+  const badge = aiEl("presenterBadge");
+
+  if(presenter){
+    presenter.src = url;
+    presenter.classList.add("show");
+    presenter.controls = true;
+    presenter.load();
+    presenter.play().catch(function(){});
+  }
+
+  if(badge) badge.classList.add("show");
+
+  try{
+    localStorage.setItem("vop_last_presenter_video",url);
+  }catch(error){}
+}
+
+function aiShowNewsImage(){
+  const presenter = aiEl("presenterVideo");
+  const badge = aiEl("presenterBadge");
+
+  if(presenter){
+    try{ presenter.pause(); }catch(error){}
+    presenter.classList.remove("show");
+    presenter.removeAttribute("src");
+    try{ presenter.load(); }catch(error){}
+  }
+
+  if(badge) badge.classList.remove("show");
+}
+
+async function aiGenerateVideo(){
+  const statusBox = aiEl("aiGenerationStatus");
+  const button = aiEl("aiGenerateButton");
+  const script = String(aiEl("aiScriptText").value || "").trim();
+
+  if(!script){
+    alert("Please enter a script.");
+    return;
+  }
+
+  if(!confirm("This will use HeyGen credits.\n\nCreate this AI video?")) return;
+
+  aiStopRobotVoice();
+  button.disabled = true;
+  aiSetStatus("aiGenerationStatus","Sending video to HeyGen...","waiting");
+
+  try{
+    const result = await aiCallHeyGen({
+      action:"generate",
+      avatar_id:aiEl("aiAvatarId").value,
+      voice_id:AI_DEFAULT_VOICE,
+      engine:"avatar_v",
+      title:String(aiEl("aiVideoTitle").value || "").trim(),
+      resolution:"1080p",
+      aspect_ratio:"16:9",
+      script:script
+    });
+
+    aiCurrentVideoId = result.video_id || "";
+
+    if(!aiCurrentVideoId){
+      throw new Error("HeyGen did not return a video ID.");
+    }
+
+    aiSetStatus(
+      "aiGenerationStatus",
+      "Video accepted by HeyGen.\n\nVideo ID:\n" +
+      aiCurrentVideoId +
+      "\n\nStatus:\n" +
+      (result.status || "waiting") +
+      "\n\nRendering has started.",
+      "waiting"
+    );
+
+    aiStartStatusPolling();
+  }catch(error){
+    aiSetStatus("aiGenerationStatus","Video generation failed:\n" + error.message,"error");
+  }finally{
+    button.disabled = false;
+  }
+}
+
+async function aiCheckVideoStatus(){
+  if(!aiCurrentVideoId){
+    const entered = prompt("Enter HeyGen video ID:");
+    if(!entered) return;
+    aiCurrentVideoId = entered.trim();
+  }
+
+  try{
+    const result = await aiCallHeyGen({
+      action:"status",
+      video_id:aiCurrentVideoId
+    });
+
+    const status = result.status || "unknown";
+
+    aiSetStatus(
+      "aiGenerationStatus",
+      "Video ID:\n" + aiCurrentVideoId + "\n\nStatus:\n" + status,
+      status === "completed" ? "success" :
+      status === "failed" ? "error" : "waiting"
+    );
+
+    if(status === "completed" && result.video_url){
+      aiStopStatusPolling();
+      aiSetStatus(
+        "aiGenerationStatus",
+        "Video ID:\n" + aiCurrentVideoId +
+        "\n\nStatus:\ncompleted\n\nVideo ready:\n" + result.video_url,
+        "success"
+      );
+      aiShowFinishedVideo(result.video_url);
+    }
+
+    if(status === "failed"){
+      aiStopStatusPolling();
+      aiSetStatus(
+        "aiGenerationStatus",
+        "Video ID:\n" + aiCurrentVideoId +
+        "\n\nStatus:\nfailed\n\n" +
+        (result.failure_message || "HeyGen video failed."),
+        "error"
+      );
+    }
+  }catch(error){
+    aiSetStatus("aiGenerationStatus","Status check error:\n" + error.message,"error");
+  }
+}
+
+function aiStartStatusPolling(){
+  aiStopStatusPolling();
+  aiStatusTimer = setInterval(aiCheckVideoStatus,30000);
+}
+
+function aiStopStatusPolling(){
+  if(aiStatusTimer){
+    clearInterval(aiStatusTimer);
+    aiStatusTimer = null;
+  }
+}
+
+/* Buttons */
+aiEl("aiTestConnectionBtn")?.addEventListener("click",aiTestConnection);
+aiEl("aiForgetTokenBtn")?.addEventListener("click",aiForgetSavedToken);
+aiEl("aiUseCurrentStoryBtn")?.addEventListener("click",aiUseCurrentStory);
+aiEl("aiPreviousStoryBtn")?.addEventListener("click",function(){ aiClickMainStoryButton("prevBtn"); });
+aiEl("aiNextStoryBtn")?.addEventListener("click",function(){ aiClickMainStoryButton("nextBtn"); });
+aiEl("aiBuildScriptBtn")?.addEventListener("click",aiBuildScript);
+aiEl("aiGenerateButton")?.addEventListener("click",aiGenerateVideo);
+aiEl("aiCheckStatusBtn")?.addEventListener("click",aiCheckVideoStatus);
+aiEl("aiShowNewsImageBtn")?.addEventListener("click",aiShowNewsImage);
+
+/* Save avatar choice on this browser. */
+try{
+  const savedAvatar = localStorage.getItem("vop_ai_avatar_id");
+  if(savedAvatar) aiEl("aiAvatarId").value = savedAvatar;
+}catch(error){}
+
+aiEl("aiAvatarId")?.addEventListener("change",function(){
+  try{ localStorage.setItem("vop_ai_avatar_id",this.value); }catch(error){}
+});
+
+/* Initial state */
+aiLoadSavedToken();
+
+setTimeout(function(){
+  aiUseCurrentStory();
+
+  try{
+    const oldVideo = localStorage.getItem("vop_last_presenter_video");
+    if(oldVideo){
+      aiSetStatus(
+        "aiGenerationStatus",
+        "A previous Emmanuel presenter video is saved on this device. Create a new video when you are ready."
+      );
+    }
+  }catch(error){}
+},900);
+</script>
+
+</body>
+</html>

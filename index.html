@@ -12,6 +12,7 @@
   --bg:#01162b;--bg2:#052d52;--card:#062746;--card2:#031a31;
   --border:#225a83;--blue:#159be6;--cyan:#4bd0ff;--gold:#ffd34f;
   --red:#df3343;--green:#11ba5d;--white:#fff;--muted:#b9cfdf;
+  --facebook:#1877f2;
 }
 html,body{margin:0;min-height:100%}
 body{
@@ -19,15 +20,20 @@ body{
   background:radial-gradient(circle at top,#135181 0%,#062d52 30%,#02182e 70%,#010b17 100%)
 }
 .header{
-  position:sticky;top:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;
-  padding:17px 4%;background:linear-gradient(90deg,#011529,#063a64,#011529);
-  border-bottom:2px solid #1c5a89;box-shadow:0 5px 25px #0008
+  position:sticky;top:0;z-index:1000;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:17px 4%;
+  background:linear-gradient(90deg,#011529,#063a64,#011529);
+  border-bottom:2px solid #1c5a89;
+  box-shadow:0 5px 25px #0008
 }
 .small-title{color:var(--cyan);font-size:10px;letter-spacing:5px;font-weight:900}
 .brand h1{margin:4px 0;font-size:clamp(25px,3vw,42px);line-height:1}
 .byline{color:var(--gold);font-size:12px;font-weight:700}
 .status-badge{padding:9px 17px;border-radius:30px;font-size:12px;font-weight:900}
-.status-badge.live{background:var(--green)} .status-badge.connecting{background:#c58e16} .status-badge.offline{background:#b62d3b}
+.status-badge.live{background:var(--green)}
+.status-badge.connecting{background:#c58e16}
+.status-badge.offline{background:#b62d3b}
 .news-strip{display:flex;min-height:43px;background:#031c35;border-bottom:1px solid #28577a}
 .news-strip-label{display:flex;align-items:center;padding:0 18px;background:var(--red);font-size:11px;font-weight:900;white-space:nowrap}
 .news-strip-text{display:flex;align-items:center;flex:1;padding:0 15px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:13px;font-weight:800}
@@ -36,62 +42,100 @@ body{
 .media-panel{min-height:500px;position:relative;overflow:hidden;border:1px solid var(--border);border-radius:20px;background:#000;box-shadow:0 18px 50px #0008}
 .photo-section{position:absolute;inset:0}
 .family-photo,.story-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.family-photo{z-index:1;opacity:.85}.story-image{z-index:2}
+.family-photo{z-index:1;opacity:.85}
+.story-image{z-index:2}
 .media-gradient{position:absolute;z-index:3;inset:auto 0 0;padding:75px 18px 18px;background:linear-gradient(transparent,rgba(0,10,22,.95))}
 .live-label{display:inline-block;padding:6px 10px;border-radius:5px;background:var(--red);font-size:11px;font-weight:900}
 .story-side{display:flex;flex-direction:column;gap:13px}
 .card{background:linear-gradient(145deg,#082e51,#03182e);border:1px solid var(--border);border-radius:17px;box-shadow:0 12px 35px #0005}
-.story-card{padding:25px}.category{color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
+.story-card{padding:25px}
+.category{color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
 .headline{margin:10px 0 15px;font-size:clamp(26px,3vw,41px);line-height:1.12}
 .summary{color:#d7e8f5;font-size:16px;line-height:1.6}
 .read-more{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:11px 18px;border:1px solid #52c7ff;border-radius:8px;background:linear-gradient(#169de9,#086cb5);color:#fff;text-decoration:none;font-size:14px;font-weight:900;cursor:pointer}
-.info-card{padding:17px 20px}.section-label{color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:2px;margin-bottom:8px}
-.source-line{color:#d4e4ef;font-size:13px;line-height:1.5}.verse{color:var(--gold);font-weight:900;margin-bottom:8px}.reflection{margin:0;color:#d4e4ef;line-height:1.6}
-.video-section{margin-top:30px}.video-header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px}
-.video-header h2{margin:0;font-size:clamp(24px,3vw,35px)}.video-subtitle{color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:1px}
+.info-card{padding:17px 20px}
+.section-label{color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:2px;margin-bottom:8px}
+.source-line{color:#d4e4ef;font-size:13px;line-height:1.5}
+.verse{color:var(--gold);font-weight:900;margin-bottom:8px}
+.reflection{margin:0;color:#d4e4ef;line-height:1.6}
+.video-section{margin-top:30px}
+.video-header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px}
+.video-header h2{margin:0;font-size:clamp(24px,3vw,35px)}
+.video-subtitle{color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:1px}
 .source-buttons{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:15px}
 .source-btn{border:1px solid #4281ac;border-radius:8px;background:#08365f;color:#fff;padding:10px 15px;font-weight:900;cursor:pointer;transition:.2s}
-.source-btn:hover{background:#116da8;transform:translateY(-2px)} .source-btn.active{background:var(--gold);color:#061525;border-color:var(--gold)}
-.source-btn.my-live{background:#8f1f2a;border-color:#ff6270}.source-btn.my-live.active{background:#ff4353;color:#fff}
+.source-btn:hover{background:#116da8;transform:translateY(-2px)}
+.source-btn.active{background:var(--gold);color:#061525;border-color:var(--gold)}
+.source-btn.youtube-own{background:#b51d2c;border-color:#ff6572}
+.source-btn.youtube-own.active{background:#ff3045;color:#fff}
+.source-btn.facebook-source{background:#145fc1;border-color:#4d98ff}
+.source-btn.facebook-source.active{background:#1877f2;color:#fff}
 .video-layout{display:grid;grid-template-columns:1.35fr .65fr;gap:20px}
 .video-card{padding:14px}
 .video-player{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;border-radius:13px}
 .video-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
 .video-placeholder{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;background:radial-gradient(circle,#15517f,#03172c);color:#d9e8f4;padding:24px;cursor:pointer}
-.play-symbol{font-size:65px;color:#ff3447}.video-title{margin:14px 4px 5px;font-size:19px;font-weight:900}
+.play-symbol{font-size:65px;color:#ff3447}
+.video-title{margin:14px 4px 5px;font-size:19px;font-weight:900}
 .video-meta{color:var(--muted);margin:0 4px;font-size:13px;min-height:18px}
 .video-controls{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .video-controls button{border:1px solid #3a79a3;border-radius:7px;background:#08365d;color:#fff;padding:9px 13px;font-weight:900;cursor:pointer}
-.video-controls .red{background:#b72434;border-color:#ff6473}
-.video-controls .live-open{background:#d61f32;border-color:#ff6c77}
+.video-controls .open-direct{background:#176aa4}
 .video-status{margin-top:10px;padding:10px 12px;border-radius:8px;background:#041d35;border:1px solid #28577a;color:#bfe9ff;font-size:12px;line-height:1.45}
-.my-live-box{margin-top:14px;padding:14px;border:1px solid #3b739a;border-radius:12px;background:#041d35}
-.my-live-box-title{font-size:14px;font-weight:900;color:#ff6774;margin-bottom:8px}
-.my-live-input-row{display:flex;gap:8px;flex-wrap:wrap}
-.my-live-input{flex:1 1 320px;min-width:0;padding:12px 13px;border-radius:8px;border:1px solid #4b84aa;background:#021426;color:#fff;font-size:14px;outline:none}
-.my-live-input:focus{border-color:#4bd0ff;box-shadow:0 0 0 2px #4bd0ff22}
-.my-live-save,.my-live-play{border:1px solid #ff6473;border-radius:8px;color:#fff;padding:11px 14px;font-weight:900;cursor:pointer}
-.my-live-save{background:#8f1f2a}.my-live-play{background:#c92737}
-.my-live-help{margin-top:8px;color:#b9cfdf;font-size:12px;line-height:1.45}
-.network-card{padding:22px}.network-card h3{color:var(--gold);margin-top:0;font-size:22px}.network-card p{color:#d4e3ed;line-height:1.6}
-.network-card ul{list-style:none;padding:0;margin:15px 0 0}.network-card li{padding:10px 0;border-bottom:1px solid #28577a;color:#d1e0ea}
+.broadcast-links{display:grid;grid-template-columns:1fr;gap:13px;margin-top:15px}
+.link-box{padding:14px;border:1px solid #3b739a;border-radius:12px;background:#041d35}
+.link-box.youtube-box{border-color:#934652}
+.link-box.facebook-box{border-color:#246cc5}
+.link-box-title{font-size:14px;font-weight:900;margin-bottom:8px}
+.youtube-box .link-box-title{color:#ff6774}
+.facebook-box .link-box-title{color:#62a7ff}
+.link-input-row{display:flex;gap:8px;flex-wrap:wrap}
+.link-input{flex:1 1 320px;min-width:0;padding:12px 13px;border-radius:8px;border:1px solid #4b84aa;background:#021426;color:#fff;font-size:14px;outline:none}
+.link-input:focus{border-color:#4bd0ff;box-shadow:0 0 0 2px #4bd0ff22}
+.link-save,.link-play{border-radius:8px;color:#fff;padding:11px 14px;font-weight:900;cursor:pointer}
+.youtube-box .link-save{background:#8f1f2a;border:1px solid #ff6473}
+.youtube-box .link-play{background:#c92737;border:1px solid #ff6473}
+.facebook-box .link-save{background:#155ebd;border:1px solid #559cf7}
+.facebook-box .link-play{background:#1877f2;border:1px solid #69a9ff}
+.link-help{margin-top:8px;color:#b9cfdf;font-size:12px;line-height:1.45}
+.network-card{padding:22px}
+.network-card h3{color:var(--gold);margin-top:0;font-size:22px}
+.network-card p{color:#d4e3ed;line-height:1.6}
+.network-card ul{list-style:none;padding:0;margin:15px 0 0}
+.network-card li{padding:10px 0;border-bottom:1px solid #28577a;color:#d1e0ea}
 .peace-message{margin-top:28px;padding:15px;text-align:center;color:var(--gold);border-top:1px solid #806925;border-bottom:1px solid #806925;font-weight:900}
 .player-controls{margin-top:20px;display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
 .player-controls button{border:1px solid #417fa8;border-radius:8px;background:#093b65;color:#fff;padding:10px 17px;font-weight:900;cursor:pointer}
 .progress-container{max-width:650px;height:5px;margin:15px auto;background:#214a67;border-radius:20px;overflow:hidden}
 .progress-bar{height:100%;width:0;background:linear-gradient(90deg,#17a7ff,#ffda45)}
 .story-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,7,18,.95);backdrop-filter:blur(7px)}
-.story-modal.show{display:flex}.story-modal-box{width:min(1050px,96vw);max-height:92vh;overflow:auto;background:linear-gradient(145deg,#082d50,#03182d);border:2px solid #287db7;border-radius:22px;box-shadow:0 30px 90px #000}
+.story-modal.show{display:flex}
+.story-modal-box{width:min(1050px,96vw);max-height:92vh;overflow:auto;background:linear-gradient(145deg,#082d50,#03182d);border:2px solid #287db7;border-radius:22px;box-shadow:0 30px 90px #000}
 .modal-header{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:15px 20px;background:#03182df3;border-bottom:1px solid #2b6289}
-.modal-label{color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:2px}.modal-close{width:43px;height:43px;border-radius:50%;border:1px solid #ff6a77;background:#a72431;color:#fff;font-size:25px;cursor:pointer}
-.modal-body{padding:25px}.modal-image{width:100%;max-height:490px;object-fit:cover;border-radius:15px;margin-bottom:20px}
-.modal-headline{margin:0 0 15px;font-size:clamp(29px,4vw,48px);line-height:1.15}.modal-source{color:var(--cyan);margin-bottom:22px;font-weight:900}
-.modal-text{color:#e3edf5;font-size:18px;line-height:1.8;white-space:pre-wrap}.modal-note{margin-top:25px;padding:15px;border-radius:10px;background:#062541;border:1px solid #28597c;color:#afc7d9;font-size:13px;line-height:1.5}
+.modal-label{color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:2px}
+.modal-close{width:43px;height:43px;border-radius:50%;border:1px solid #ff6a77;background:#a72431;color:#fff;font-size:25px;cursor:pointer}
+.modal-body{padding:25px}
+.modal-image{width:100%;max-height:490px;object-fit:cover;border-radius:15px;margin-bottom:20px}
+.modal-headline{margin:0 0 15px;font-size:clamp(29px,4vw,48px);line-height:1.15}
+.modal-source{color:var(--cyan);margin-bottom:22px;font-weight:900}
+.modal-text{color:#e3edf5;font-size:18px;line-height:1.8;white-space:pre-wrap}
+.modal-note{margin-top:25px;padding:15px;border-radius:10px;background:#062541;border:1px solid #28597c;color:#afc7d9;font-size:13px;line-height:1.5}
 .footer{text-align:center;padding:25px;color:#7e9bb1;font-size:12px}
-@media(max-width:900px){.hero-grid,.video-layout{grid-template-columns:1fr}.media-panel{min-height:430px}}
-@media(max-width:550px){.header{padding:13px 15px}.brand h1{font-size:23px}.media-panel{min-height:320px}.source-btn{flex:1 1 45%}.modal-text{font-size:16px}}
+@media(max-width:900px){
+  .hero-grid,.video-layout{grid-template-columns:1fr}
+  .media-panel{min-height:430px}
+}
+@media(max-width:550px){
+  .header{padding:13px 15px}
+  .brand h1{font-size:23px}
+  .media-panel{min-height:320px}
+  .source-btn{flex:1 1 45%}
+  .modal-text{font-size:16px}
+  .link-input-row button{flex:1 1 45%}
+}
 </style>
 </head>
+
 <body>
 
 <header class="header">
@@ -141,8 +185,8 @@ body{
 
   <section class="video-section">
     <div class="video-header">
-      <h2>▶ Video News + Voice of Peace LIVE</h2>
-      <div class="video-subtitle">YOUTUBE DESK</div>
+      <h2>▶ Video News + Voice of Peace Broadcast</h2>
+      <div class="video-subtitle">VIDEO BROADCAST DESK</div>
     </div>
 
     <div class="source-buttons">
@@ -151,7 +195,8 @@ body{
       <button class="source-btn" data-source="OAN" type="button">OAN</button>
       <button class="source-btn" data-source="Breitbart" type="button">BREITBART</button>
       <button class="source-btn" data-source="Daily Wire" type="button">DAILY WIRE</button>
-      <button class="source-btn my-live" data-source="Emmanuel & Camili LIVE" type="button">🔴 EMMANUEL &amp; CAMILI LIVE</button>
+      <button class="source-btn youtube-own" data-source="My YouTube Video" type="button">▶ MY YOUTUBE VIDEO</button>
+      <button class="source-btn facebook-source" data-source="Facebook Live" type="button">🔴 FACEBOOK LIVE</button>
       <button class="source-btn" data-source="PLAYER TEST" type="button">▶ PLAYER TEST</button>
     </div>
 
@@ -159,60 +204,92 @@ body{
       <section class="card video-card">
         <div class="video-player">
           <iframe
-            id="youtubeFrame"
-            title="Voice of Peace YouTube player"
+            id="broadcastFrame"
+            title="Voice of Peace video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen
+            scrolling="no"
             referrerpolicy="strict-origin-when-cross-origin"
             src="about:blank">
           </iframe>
 
           <div id="videoPlaceholder" class="video-placeholder">
             <div class="play-symbol">▶</div>
-            <strong>Choose a channel, then tap here to play.</strong>
+            <strong>Choose a video source.</strong>
           </div>
         </div>
 
-        <div id="videoTitle" class="video-title">YouTube Video Desk</div>
+        <div id="videoTitle" class="video-title">Voice of Peace Video Desk</div>
         <div id="videoMeta" class="video-meta">Ready</div>
 
         <div class="video-controls">
-          <button id="videoPrev" type="button">◀ Previous Channel</button>
-          <button id="videoNext" type="button">Next Channel ▶</button>
+          <button id="videoPrev" type="button">◀ Previous</button>
+          <button id="videoNext" type="button">Next ▶</button>
           <button id="reloadVideo" type="button">↻ Reload</button>
-          <button id="openLiveOnYouTube" class="live-open" type="button">🔴 YouTube LIVE</button>
-          <button id="openOnYouTube" type="button">Open on YouTube</button>
+          <button id="openDirect" class="open-direct" type="button">↗ Open Video</button>
         </div>
 
-        <div class="my-live-box">
-          <div class="my-live-box-title">🔴 MY YOUTUBE LIVE LINK</div>
-          <div class="my-live-input-row">
-            <input id="myLiveInput" class="my-live-input" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste your YouTube LIVE link here">
-            <button id="saveMyLive" class="my-live-save" type="button">💾 SAVE LIVE LINK</button>
-            <button id="playMyLive" class="my-live-play" type="button">▶ PLAY MY LIVE</button>
+        <div id="videoStatus" class="video-status">Select a video source above.</div>
+
+        <div class="broadcast-links">
+          <div class="link-box youtube-box">
+            <div class="link-box-title">▶ MY YOUTUBE VIDEO</div>
+            <div class="link-input-row">
+              <input
+                id="youtubeInput"
+                class="link-input"
+                type="url"
+                inputmode="url"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="Paste any regular YouTube video link here">
+              <button id="saveYoutube" class="link-save" type="button">💾 SAVE</button>
+              <button id="playYoutube" class="link-play" type="button">▶ PLAY</button>
+            </div>
+            <div class="link-help">
+              You do NOT need YouTube Live permission.
+              Paste a normal YouTube video link such as youtube.com/watch?v=... or youtu.be/...
+              The link stays saved on this device.
+            </div>
           </div>
-          <div class="my-live-help">Paste your Emmanuel &amp; Camili YouTube LIVE/video link here once, then tap SAVE LIVE LINK. The link stays saved on this device.</div>
-        </div>
 
-        <div id="videoStatus" class="video-status">
-          Player ready. Select a source. For third-party LIVE channels, the red YouTube LIVE button opens the official live page directly so YouTube cannot block it inside this website.
+          <div class="link-box facebook-box">
+            <div class="link-box-title">🔴 FACEBOOK LIVE / FACEBOOK VIDEO</div>
+            <div class="link-input-row">
+              <input
+                id="facebookInput"
+                class="link-input"
+                type="url"
+                inputmode="url"
+                autocomplete="off"
+                autocapitalize="off"
+                spellcheck="false"
+                placeholder="Paste your Facebook Live or Facebook video link here">
+              <button id="saveFacebook" class="link-save" type="button">💾 SAVE</button>
+              <button id="playFacebook" class="link-play" type="button">🔴 PLAY LIVE</button>
+            </div>
+            <div class="link-help">
+              Start your Facebook Live broadcast, tap Share, copy the Facebook Live/video link,
+              paste it here, and press SAVE. The app will try to show the public Facebook broadcast
+              inside Voice of Peace.
+            </div>
+          </div>
         </div>
       </section>
 
       <section class="card network-card">
-        <h3>Selected Sources</h3>
-        <p>
-          Latest videos can play inside Voice of Peace when YouTube allows embedding.
-          The red YouTube LIVE button opens the selected channel's official YouTube LIVE page directly.
-          This avoids the “This video is unavailable” problem caused by publishers blocking live embeds.
-        </p>
+        <h3>Broadcast Sources</h3>
+        <p>Voice of Peace can now use regular YouTube videos without requiring YouTube Live permission.</p>
+        <p>You can also paste a public Facebook Live or Facebook video link and try to display the broadcast directly inside Voice of Peace.</p>
         <ul>
           <li>Fox News</li>
           <li>Newsmax</li>
           <li>One America News — OAN</li>
           <li>Breitbart</li>
           <li>Daily Wire</li>
-          <li>🔴 Emmanuel &amp; Camili LIVE</li>
+          <li>▶ My YouTube Video</li>
+          <li>🔴 Facebook Live</li>
           <li>▶ Player Test</li>
         </ul>
       </section>
@@ -228,7 +305,9 @@ body{
     <button id="soundBtn" type="button" data-sound="on">🔊 Sound On</button>
   </section>
 
-  <div class="progress-container"><div id="progressBar" class="progress-bar"></div></div>
+  <div class="progress-container">
+    <div id="progressBar" class="progress-bar"></div>
+  </div>
 </main>
 
 <footer class="footer">VOICE OF PEACE • NEWS • UNDERSTANDING • RESPONSIBILITY</footer>
@@ -239,6 +318,7 @@ body{
       <div class="modal-label">VOICE OF PEACE • FULL STORY</div>
       <button id="modalClose" class="modal-close" type="button">×</button>
     </div>
+
     <div class="modal-body">
       <img id="modalImage" class="modal-image" src="many.jpeg" alt="News story">
       <h2 id="modalHeadline" class="modal-headline"></h2>
@@ -251,52 +331,21 @@ body{
   </div>
 </div>
 
-<script src="app.js?v=20260903-youtube-livebox-3"></script>
+<script src="app.js?v=20260903-youtube-facebook-1"></script>
 
 <script>
-/* ==========================================================
-   VOICE OF PEACE — YOUTUBE FIX
-   ----------------------------------------------------------
-   WHY THIS VERSION IS DIFFERENT:
-
-   1. Latest uploaded videos can still play inside the site.
-   2. Third-party LIVE channels are NOT forced into an iframe.
-      Some publishers (including live news publishers) block
-      live embedding. When that happens YouTube itself displays
-      "This video is unavailable".
-   3. The red "YouTube LIVE" button therefore opens the selected
-      channel's official /live page directly on YouTube.
-   4. Emmanuel & Camili LIVE may still be embedded when YOUR
-      YouTube stream permits embedding.
-========================================================== */
-
-const youtubeFrame = document.getElementById("youtubeFrame");
+const broadcastFrame = document.getElementById("broadcastFrame");
 const videoPlaceholder = document.getElementById("videoPlaceholder");
 const videoTitle = document.getElementById("videoTitle");
 const videoMeta = document.getElementById("videoMeta");
 const videoStatus = document.getElementById("videoStatus");
 
-const YOUTUBE_CHANNELS = {
-  "Fox News": {
-    channelId: "UCXIJgqnII2ZOINSWNOGFThA",
-    label: "Fox News"
-  },
-  "Newsmax": {
-    channelId: "UCx6h-dWzJ5NpAlja1YsApdg",
-    label: "Newsmax"
-  },
-  "OAN": {
-    channelId: "UCNbIDJNNgaRrXOD7VllIMRQ",
-    label: "One America News"
-  },
-  "Breitbart": {
-    channelId: "UCmgnsaQIK1IR808Ebde-ssA",
-    label: "Breitbart News"
-  },
-  "Daily Wire": {
-    channelId: "UCaeO5vkdj5xOQHp4UmIN6dw",
-    label: "DailyWire+"
-  }
+const VIDEO_CHANNELS = {
+  "Fox News": { channelId:"UCXIJgqnII2ZOINSWNOGFThA", label:"Fox News" },
+  "Newsmax": { channelId:"UCx6h-dWzJ5NpAlja1YsApdg", label:"Newsmax" },
+  "OAN": { channelId:"UCNbIDJNNgaRrXOD7VllIMRQ", label:"One America News" },
+  "Breitbart": { channelId:"UCmgnsaQIK1IR808Ebde-ssA", label:"Breitbart News" },
+  "Daily Wire": { channelId:"UCaeO5vkdj5xOQHp4UmIN6dw", label:"DailyWire+" }
 };
 
 const SOURCE_ORDER = [
@@ -305,418 +354,431 @@ const SOURCE_ORDER = [
   "OAN",
   "Breitbart",
   "Daily Wire",
-  "Emmanuel & Camili LIVE",
+  "My YouTube Video",
+  "Facebook Live",
   "PLAYER TEST"
 ];
 
 let selectedSource = "Fox News";
 let preparedUrl = "";
 let preparedOpenUrl = "";
-let preparedLiveUrl = "";
+let preparedType = "youtube";
 
-function setVideoStatus(text) {
-  videoStatus.textContent = text;
+function setVideoStatus(text){ videoStatus.textContent = text; }
+function resetFrame(){ broadcastFrame.src = "about:blank"; }
+function escapeHtml(text){
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
-
-function resetFrame() {
-  youtubeFrame.src = "about:blank";
-}
-
-function showPlayOverlay(title, message) {
+function showPlayOverlay(title,message,symbol){
   videoPlaceholder.style.display = "flex";
   videoPlaceholder.innerHTML =
-    '<div class="play-symbol">▶</div>' +
-    '<strong>' + title + '</strong>' +
-    '<span>' + message + '</span>';
+    '<div class="play-symbol">' + escapeHtml(symbol || "▶") + '</div>' +
+    '<strong>' + escapeHtml(title) + '</strong>' +
+    '<span>' + escapeHtml(message) + '</span>';
 }
-
-function uploadsPlaylistId(channelId) {
-  return "UU" + channelId.slice(2);
-}
-
-function setActiveButton() {
-  document.querySelectorAll(".source-btn").forEach(function(button) {
+function setActiveButton(){
+  document.querySelectorAll(".source-btn").forEach(function(button){
     button.classList.toggle("active", button.dataset.source === selectedSource);
   });
 }
+function uploadsPlaylistId(channelId){ return "UU" + channelId.slice(2); }
 
-function prepareOfficialChannel(source) {
-  const info = YOUTUBE_CHANNELS[source];
+function extractYouTubeVideoId(value){
+  const raw = String(value || "").trim();
+  if(/^[A-Za-z0-9_-]{11}$/.test(raw)) return raw;
 
-  if (!info) {
+  try{
+    const url = new URL(raw);
+    const host = url.hostname.toLowerCase().replace(/^www\./,"");
+
+    if(host === "youtu.be"){
+      const id = url.pathname.split("/").filter(Boolean)[0] || "";
+      return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : "";
+    }
+
+    if(
+      host === "youtube.com" ||
+      host.endsWith(".youtube.com") ||
+      host === "youtube-nocookie.com" ||
+      host.endsWith(".youtube-nocookie.com")
+    ){
+      const v = url.searchParams.get("v");
+      if(v && /^[A-Za-z0-9_-]{11}$/.test(v)) return v;
+
+      const parts = url.pathname.split("/").filter(Boolean);
+      for(const marker of ["live","embed","shorts"]){
+        const index = parts.indexOf(marker);
+        if(
+          index >= 0 &&
+          parts[index + 1] &&
+          /^[A-Za-z0-9_-]{11}$/.test(parts[index + 1])
+        ){
+          return parts[index + 1];
+        }
+      }
+    }
+  } catch(error){}
+
+  return "";
+}
+
+function isFacebookUrl(value){
+  const raw = String(value || "").trim();
+  try{
+    const url = new URL(raw);
+    const host = url.hostname.toLowerCase().replace(/^www\./,"");
+    return (
+      host === "facebook.com" ||
+      host.endsWith(".facebook.com") ||
+      host === "fb.watch" ||
+      host.endsWith(".fb.watch")
+    );
+  } catch(error){
     return false;
   }
+}
+
+function prepareOfficialChannel(source){
+  const info = VIDEO_CHANNELS[source];
+  if(!info) return false;
 
   const playlistId = uploadsPlaylistId(info.channelId);
-
+  preparedType = "youtube";
   preparedUrl =
     "https://www.youtube-nocookie.com/embed/videoseries" +
     "?list=" + encodeURIComponent(playlistId) +
     "&playsinline=1" +
     "&rel=0";
-
   preparedOpenUrl =
     "https://www.youtube.com/channel/" +
     encodeURIComponent(info.channelId) +
     "/videos";
 
-  preparedLiveUrl =
-    "https://www.youtube.com/channel/" +
-    encodeURIComponent(info.channelId) +
-    "/live";
-
   resetFrame();
-
   videoTitle.textContent = info.label;
   videoMeta.textContent = "Official YouTube channel";
   setVideoStatus(
-    "Ready. Tap the video to play recent uploads, or tap 🔴 YouTube LIVE to open " +
+    "Tap the player to watch recent videos from " +
     info.label +
-    "'s official live page."
+    ". If YouTube blocks a video inside the app, use Open Video."
   );
-
   showPlayOverlay(
-    "▶ Tap to play " + info.label,
-    "This plays the channel's recent uploads. Use the red YouTube LIVE button for its current live broadcast."
+    "▶ Play " + info.label,
+    "Tap here to open recent videos.",
+    "▶"
   );
-
   videoPlaceholder.onclick = playPrepared;
   return true;
 }
 
-function extractYouTubeVideoId(value) {
-  const raw = String(value || "").trim();
-
-  if (/^[A-Za-z0-9_-]{11}$/.test(raw)) {
-    return raw;
-  }
-
-  try {
-    const url = new URL(raw);
-
-    if (url.hostname === "youtu.be") {
-      const id = url.pathname.split("/").filter(Boolean)[0] || "";
-      return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : "";
-    }
-
-    if (
-      url.hostname.includes("youtube.com") ||
-      url.hostname.includes("youtube-nocookie.com")
-    ) {
-      const v = url.searchParams.get("v");
-
-      if (v && /^[A-Za-z0-9_-]{11}$/.test(v)) {
-        return v;
-      }
-
-      const parts = url.pathname.split("/").filter(Boolean);
-
-      for (const marker of ["live", "embed", "shorts"]) {
-        const i = parts.indexOf(marker);
-        if (
-          i >= 0 &&
-          parts[i + 1] &&
-          /^[A-Za-z0-9_-]{11}$/.test(parts[i + 1])
-        ) {
-          return parts[i + 1];
-        }
-      }
-    }
-  } catch (error) {}
-
-  return "";
-}
-
-function extractYouTubeChannelId(value) {
-  const raw = String(value || "").trim();
-
-  if (/^UC[A-Za-z0-9_-]{22}$/.test(raw)) {
-    return raw;
-  }
-
-  try {
-    const url = new URL(raw);
-    const parts = url.pathname.split("/").filter(Boolean);
-    const i = parts.indexOf("channel");
-
-    if (
-      i >= 0 &&
-      parts[i + 1] &&
-      /^UC[A-Za-z0-9_-]{22}$/.test(parts[i + 1])
-    ) {
-      return parts[i + 1];
-    }
-  } catch (error) {}
-
-  return "";
-}
-
-function prepareMyLive() {
+function prepareMyYoutube(){
   resetFrame();
 
-  const saved = localStorage.getItem("vop_my_live_url") || "";
+  const saved = localStorage.getItem("vop_youtube_video_url") || "";
   const videoId = extractYouTubeVideoId(saved);
-  const channelId = extractYouTubeChannelId(saved);
 
   preparedUrl = "";
   preparedOpenUrl = "";
-  preparedLiveUrl = "";
+  preparedType = "youtube";
 
-  if (videoId) {
+  if(videoId){
     preparedUrl =
       "https://www.youtube-nocookie.com/embed/" +
       encodeURIComponent(videoId) +
       "?playsinline=1&rel=0";
-
     preparedOpenUrl =
       "https://www.youtube.com/watch?v=" +
       encodeURIComponent(videoId);
 
-    preparedLiveUrl = preparedOpenUrl;
-
-    videoTitle.textContent = "Emmanuel & Camili LIVE";
-    videoMeta.textContent = "Your saved YouTube broadcast";
-
-    setVideoStatus(
-      "Ready. Tap the video to play your saved broadcast. If YouTube blocks embedding, tap 🔴 YouTube LIVE."
-    );
-
+    videoTitle.textContent = "Voice of Peace YouTube Video";
+    videoMeta.textContent = "Your saved YouTube video";
+    setVideoStatus("✅ Your YouTube video is ready. Tap the player or press PLAY.");
     showPlayOverlay(
-      "🔴 Tap to play Emmanuel & Camili LIVE",
-      "Your saved YouTube broadcast is ready."
+      "▶ Play My YouTube Video",
+      "No YouTube Live permission is required.",
+      "▶"
     );
-
     videoPlaceholder.onclick = playPrepared;
-    return;
-  }
-
-  if (channelId) {
-    /*
-      This embed can work for your own channel when:
-      - the channel is currently live, and
-      - embedding is allowed for the stream.
-    */
-    preparedUrl =
-      "https://www.youtube-nocookie.com/embed/live_stream" +
-      "?channel=" + encodeURIComponent(channelId) +
-      "&playsinline=1&rel=0";
-
-    preparedOpenUrl =
-      "https://www.youtube.com/channel/" +
-      encodeURIComponent(channelId);
-
-    preparedLiveUrl =
-      "https://www.youtube.com/channel/" +
-      encodeURIComponent(channelId) +
-      "/live";
-
-    videoTitle.textContent = "Emmanuel & Camili LIVE";
-    videoMeta.textContent = "Your YouTube live channel";
-
+  } else {
+    videoTitle.textContent = "My YouTube Video";
+    videoMeta.textContent = "No YouTube video saved";
     setVideoStatus(
-      "Ready. Tap the player to try the embedded live stream, or tap 🔴 YouTube LIVE to open your official live page."
+      "Paste any regular YouTube video link into the MY YOUTUBE VIDEO box and press SAVE."
     );
-
     showPlayOverlay(
-      "🔴 Tap to try Emmanuel & Camili LIVE",
-      "Your live stream will play here when your channel is live and embedding is enabled."
+      "YouTube video not set",
+      "Paste a normal YouTube video link below.",
+      "▶"
     );
-
-    videoPlaceholder.onclick = playPrepared;
-    return;
+    videoPlaceholder.onclick = null;
   }
-
-  videoTitle.textContent = "Emmanuel & Camili LIVE";
-  videoMeta.textContent = "Live channel not set";
-
-  setVideoStatus(
-    "Paste your YouTube LIVE/video link in the MY YOUTUBE LIVE LINK box below, then tap SAVE LIVE LINK."
-  );
-
-  videoPlaceholder.style.display = "flex";
-  videoPlaceholder.onclick = null;
-  videoPlaceholder.innerHTML =
-    '<div class="play-symbol">🔴</div>' +
-    '<strong>Your LIVE link is not saved yet.</strong>' +
-    '<span>Paste it in the MY YOUTUBE LIVE LINK box below and tap SAVE LIVE LINK.</span>';
 }
 
-function preparePlayerTest() {
+function prepareFacebook(){
+  resetFrame();
+
+  const saved = localStorage.getItem("vop_facebook_url") || "";
+
+  preparedUrl = "";
+  preparedOpenUrl = "";
+  preparedType = "facebook";
+
+  if(!saved || !isFacebookUrl(saved)){
+    videoTitle.textContent = "Facebook Live";
+    videoMeta.textContent = "No Facebook link saved";
+    setVideoStatus(
+      "Paste your public Facebook Live or Facebook video link below and press SAVE."
+    );
+    showPlayOverlay(
+      "🔴 Facebook Live",
+      "Paste your Facebook Live link below.",
+      "🔴"
+    );
+    videoPlaceholder.onclick = null;
+    return;
+  }
+
+  preparedOpenUrl = saved;
+  preparedUrl =
+    "https://www.facebook.com/plugins/video.php" +
+    "?href=" + encodeURIComponent(saved) +
+    "&show_text=false" +
+    "&autoplay=false" +
+    "&width=1280";
+
+  videoTitle.textContent = "🔴 Facebook Live";
+  videoMeta.textContent = "Your saved Facebook broadcast";
+  setVideoStatus(
+    "✅ Facebook link ready. Tap the player to try the broadcast. If Facebook blocks embedding, press Open Video."
+  );
+  showPlayOverlay(
+    "🔴 Play Facebook Broadcast",
+    "Tap here to load your public Facebook Live/video.",
+    "🔴"
+  );
+  videoPlaceholder.onclick = playPrepared;
+}
+
+function preparePlayerTest(){
   resetFrame();
 
   const id = "M7lc1UVf-VE";
-
+  preparedType = "youtube";
   preparedUrl =
     "https://www.youtube-nocookie.com/embed/" +
     id +
     "?playsinline=1&rel=0";
-
   preparedOpenUrl =
     "https://www.youtube.com/watch?v=" +
     id;
 
-  preparedLiveUrl = preparedOpenUrl;
-
   videoTitle.textContent = "YouTube Player Test";
   videoMeta.textContent = "Known YouTube test video";
-
   setVideoStatus(
-    "Tap the player. If this video plays, your iPhone and GitHub Pages can display YouTube embeds correctly."
+    "Tap the player. If this plays, the embedded YouTube player is working."
   );
-
   showPlayOverlay(
-    "▶ Tap to run PLAYER TEST",
-    "This checks the embedded YouTube player itself."
+    "▶ Run Player Test",
+    "This checks the YouTube player.",
+    "▶"
   );
-
   videoPlaceholder.onclick = playPrepared;
 }
 
-function prepareSelectedSource() {
+function prepareSelectedSource(){
   preparedUrl = "";
   preparedOpenUrl = "";
-  preparedLiveUrl = "";
+  resetFrame();
 
-  if (selectedSource === "PLAYER TEST") {
+  if(selectedSource === "PLAYER TEST"){
     preparePlayerTest();
     return;
   }
 
-  if (selectedSource === "Emmanuel & Camili LIVE") {
-    prepareMyLive();
+  if(selectedSource === "My YouTube Video"){
+    prepareMyYoutube();
     return;
   }
 
-  if (!prepareOfficialChannel(selectedSource)) {
-    resetFrame();
+  if(selectedSource === "Facebook Live"){
+    prepareFacebook();
+    return;
+  }
+
+  if(!prepareOfficialChannel(selectedSource)){
     setVideoStatus("Unknown video source.");
   }
 }
 
-function playPrepared() {
-  if (!preparedUrl) {
-    setVideoStatus("No embeddable YouTube source is prepared.");
+function playPrepared(){
+  if(!preparedUrl){
+    setVideoStatus("No video link is ready yet.");
     return;
   }
 
   videoPlaceholder.style.display = "none";
 
-  const separator = preparedUrl.includes("?") ? "&" : "?";
-  youtubeFrame.src = preparedUrl + separator + "autoplay=1";
+  if(preparedType === "youtube"){
+    const separator = preparedUrl.includes("?") ? "&" : "?";
+    broadcastFrame.src = preparedUrl + separator + "autoplay=1";
+  } else {
+    broadcastFrame.src = preparedUrl;
+  }
 
-  setVideoStatus(
-    "Loading YouTube. If YouTube says a publisher's video is unavailable, that publisher has blocked embedding. Tap 🔴 YouTube LIVE to watch the official live page."
-  );
+  if(preparedType === "facebook"){
+    setVideoStatus(
+      "Loading Facebook broadcast. If Facebook does not permit this video to appear inside the app, press Open Video."
+    );
+  } else {
+    setVideoStatus("Loading YouTube video...");
+  }
 }
 
-function selectSource(source) {
+function selectSource(source){
   selectedSource = source;
   setActiveButton();
   prepareSelectedSource();
 }
 
-function stepSource(direction) {
+function stepSource(direction){
   let index = SOURCE_ORDER.indexOf(selectedSource);
-
-  if (index < 0) {
-    index = 0;
-  }
+  if(index < 0) index = 0;
 
   index = (index + direction + SOURCE_ORDER.length) % SOURCE_ORDER.length;
   selectSource(SOURCE_ORDER[index]);
 }
 
-document.querySelectorAll(".source-btn").forEach(function(button) {
-  button.addEventListener("click", function() {
+document.querySelectorAll(".source-btn").forEach(function(button){
+  button.addEventListener("click", function(){
     selectSource(button.dataset.source);
   });
 });
 
-document.getElementById("videoNext").addEventListener("click", function() {
+document.getElementById("videoNext").addEventListener("click", function(){
   stepSource(1);
 });
 
-document.getElementById("videoPrev").addEventListener("click", function() {
+document.getElementById("videoPrev").addEventListener("click", function(){
   stepSource(-1);
 });
 
-document.getElementById("reloadVideo").addEventListener("click", function() {
+document.getElementById("reloadVideo").addEventListener("click", function(){
   prepareSelectedSource();
 });
 
-document.getElementById("openLiveOnYouTube").addEventListener("click", function() {
-  if (!preparedLiveUrl) {
-    setVideoStatus("Choose a YouTube source first.");
+document.getElementById("openDirect").addEventListener("click", function(){
+  if(!preparedOpenUrl){
+    setVideoStatus("Choose or save a video first.");
     return;
   }
-
-  /*
-    IMPORTANT:
-    We intentionally open LIVE directly on YouTube.
-    A static GitHub Pages site cannot force a publisher
-    to permit its live stream inside an iframe.
-  */
-  window.open(preparedLiveUrl, "_blank", "noopener,noreferrer");
-});
-
-document.getElementById("openOnYouTube").addEventListener("click", function() {
-  if (!preparedOpenUrl) {
-    setVideoStatus("Choose a YouTube source first.");
-    return;
-  }
-
   window.open(preparedOpenUrl, "_blank", "noopener,noreferrer");
 });
 
-const myLiveInput = document.getElementById("myLiveInput");
-const saveMyLive = document.getElementById("saveMyLive");
-const playMyLive = document.getElementById("playMyLive");
+const youtubeInput = document.getElementById("youtubeInput");
+const saveYoutube = document.getElementById("saveYoutube");
+const playYoutube = document.getElementById("playYoutube");
 
-myLiveInput.value = localStorage.getItem("vop_my_live_url") || "";
+youtubeInput.value = localStorage.getItem("vop_youtube_video_url") || "";
 
-function validateAndSaveMyLive() {
-  const value = String(myLiveInput.value || "").trim();
+function saveYoutubeLink(){
+  const value = String(youtubeInput.value || "").trim();
 
-  if (!value) {
-    setVideoStatus("Paste your YouTube LIVE/video link in the box first.");
-    myLiveInput.focus();
+  if(!value){
+    setVideoStatus("Paste a YouTube video link first.");
+    youtubeInput.focus();
     return false;
   }
 
   const videoId = extractYouTubeVideoId(value);
-  const channelId = extractYouTubeChannelId(value);
 
-  if (!videoId && !channelId) {
-    setVideoStatus("That does not look like a supported YouTube link. Paste a YouTube video/live URL or a /channel/UC... URL.");
-    myLiveInput.focus();
+  if(!videoId){
+    setVideoStatus(
+      "That does not look like a valid YouTube video link. Use a normal youtube.com/watch?v=... or youtu.be/... link."
+    );
+    youtubeInput.focus();
     return false;
   }
 
-  localStorage.setItem("vop_my_live_url", value);
-  myLiveInput.value = value;
-  setVideoStatus("✅ Emmanuel & Camili LIVE link saved on this device.");
+  localStorage.setItem("vop_youtube_video_url", value);
+  youtubeInput.value = value;
+  setVideoStatus("✅ YouTube video saved.");
   return true;
 }
 
-saveMyLive.addEventListener("click", function() {
-  if (!validateAndSaveMyLive()) return;
-  selectSource("Emmanuel & Camili LIVE");
+saveYoutube.addEventListener("click", function(){
+  if(!saveYoutubeLink()) return;
+  selectSource("My YouTube Video");
 });
 
-playMyLive.addEventListener("click", function() {
-  if (!validateAndSaveMyLive()) return;
-  selectSource("Emmanuel & Camili LIVE");
-  setTimeout(function() { playPrepared(); }, 0);
+playYoutube.addEventListener("click", function(){
+  if(!saveYoutubeLink()) return;
+  selectSource("My YouTube Video");
+  setTimeout(playPrepared, 0);
 });
 
-myLiveInput.addEventListener("keydown", function(event) {
-  if (event.key === "Enter") {
+youtubeInput.addEventListener("keydown", function(event){
+  if(event.key === "Enter"){
     event.preventDefault();
-    if (validateAndSaveMyLive()) selectSource("Emmanuel & Camili LIVE");
+    if(saveYoutubeLink()){
+      selectSource("My YouTube Video");
+    }
   }
 });
 
-/* Prepare Fox News at startup without automatically playing anything. */
+const facebookInput = document.getElementById("facebookInput");
+const saveFacebook = document.getElementById("saveFacebook");
+const playFacebook = document.getElementById("playFacebook");
+
+facebookInput.value = localStorage.getItem("vop_facebook_url") || "";
+
+function saveFacebookLink(){
+  const value = String(facebookInput.value || "").trim();
+
+  if(!value){
+    setVideoStatus("Paste your Facebook Live/video link first.");
+    facebookInput.focus();
+    return false;
+  }
+
+  if(!isFacebookUrl(value)){
+    setVideoStatus(
+      "That does not look like a Facebook link. Paste the Facebook Live or Facebook video Share link."
+    );
+    facebookInput.focus();
+    return false;
+  }
+
+  localStorage.setItem("vop_facebook_url", value);
+  facebookInput.value = value;
+  setVideoStatus("✅ Facebook Live/video link saved.");
+  return true;
+}
+
+saveFacebook.addEventListener("click", function(){
+  if(!saveFacebookLink()) return;
+  selectSource("Facebook Live");
+});
+
+playFacebook.addEventListener("click", function(){
+  if(!saveFacebookLink()) return;
+  selectSource("Facebook Live");
+  setTimeout(playPrepared, 0);
+});
+
+facebookInput.addEventListener("keydown", function(event){
+  if(event.key === "Enter"){
+    event.preventDefault();
+    if(saveFacebookLink()){
+      selectSource("Facebook Live");
+    }
+  }
+});
+
 prepareSelectedSource();
 </script>
 

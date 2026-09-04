@@ -6,10 +6,6 @@
 <meta name="description" content="Voice of Peace - Live news, video reports and messages of peace.">
 <title>Voice of Peace</title>
 
-<link rel="preconnect" href="https://www.youtube.com">
-<link rel="preconnect" href="https://i.ytimg.com">
-<link rel="preconnect" href="https://googlevideo.com">
-
 <style>
 *{box-sizing:border-box}
 :root{
@@ -31,9 +27,7 @@ body{
 .brand h1{margin:4px 0;font-size:clamp(25px,3vw,42px);line-height:1}
 .byline{color:var(--gold);font-size:12px;font-weight:700}
 .status-badge{padding:9px 17px;border-radius:30px;font-size:12px;font-weight:900}
-.status-badge.live{background:var(--green)}
-.status-badge.connecting{background:#c58e16}
-.status-badge.offline{background:#b62d3b}
+.status-badge.live{background:var(--green)} .status-badge.connecting{background:#c58e16} .status-badge.offline{background:#b62d3b}
 .news-strip{display:flex;min-height:43px;background:#031c35;border-bottom:1px solid #28577a}
 .news-strip-label{display:flex;align-items:center;padding:0 18px;background:var(--red);font-size:11px;font-weight:900;white-space:nowrap}
 .news-strip-text{display:flex;align-items:center;flex:1;padding:0 15px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:13px;font-weight:800}
@@ -52,27 +46,24 @@ body{
 .summary{color:#d7e8f5;font-size:16px;line-height:1.6}
 .read-more{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:11px 18px;border:1px solid #52c7ff;border-radius:8px;background:linear-gradient(#169de9,#086cb5);color:#fff;text-decoration:none;font-size:14px;font-weight:900;cursor:pointer}
 .info-card{padding:17px 20px}.section-label{color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:2px;margin-bottom:8px}
-.source-line{color:#d4e4ef;font-size:13px;line-height:1.5}.verse{color:var(--gold);font-weight:900;margin-bottom:8px}
-.reflection{margin:0;color:#d4e4ef;line-height:1.6}
-
+.source-line{color:#d4e4ef;font-size:13px;line-height:1.5}.verse{color:var(--gold);font-weight:900;margin-bottom:8px}.reflection{margin:0;color:#d4e4ef;line-height:1.6}
 .video-section{margin-top:30px}.video-header{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:14px}
 .video-header h2{margin:0;font-size:clamp(24px,3vw,35px)}.video-subtitle{color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:1px}
 .source-buttons{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:15px}
 .source-btn{border:1px solid #4281ac;border-radius:8px;background:#08365f;color:#fff;padding:10px 15px;font-weight:900;cursor:pointer;transition:.2s}
-.source-btn:hover{background:#116da8;transform:translateY(-2px)}
-.source-btn.active{background:var(--gold);color:#061525;border-color:var(--gold)}
-.source-btn.my-live{border-color:#ff5b67;background:#8f1f2a}
-.source-btn.my-live.active{background:#ff4353;color:#fff;border-color:#ff7b86}
-
+.source-btn:hover{background:#116da8;transform:translateY(-2px)} .source-btn.active{background:var(--gold);color:#061525;border-color:var(--gold)}
+.source-btn.my-live{background:#8f1f2a;border-color:#ff6270}.source-btn.my-live.active{background:#ff4353;color:#fff}
 .video-layout{display:grid;grid-template-columns:1.35fr .65fr;gap:20px}
-.video-card{padding:14px}.video-player{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;border-radius:13px}
-#youtubePlayer{position:absolute;inset:0;width:100%;height:100%}
-.video-placeholder{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;background:radial-gradient(circle,#15517f,#03172c);color:#d9e8f4;padding:20px}
+.video-card{padding:14px}
+.video-player{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;border-radius:13px}
+.video-player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.video-placeholder{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:12px;background:radial-gradient(circle,#15517f,#03172c);color:#d9e8f4;padding:24px;cursor:pointer}
 .play-symbol{font-size:65px;color:#ff3447}.video-title{margin:14px 4px 5px;font-size:19px;font-weight:900}
 .video-meta{color:var(--muted);margin:0 4px;font-size:13px;min-height:18px}
 .video-controls{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
 .video-controls button{border:1px solid #3a79a3;border-radius:7px;background:#08365d;color:#fff;padding:9px 13px;font-weight:900;cursor:pointer}
-.video-status{margin-top:10px;padding:9px 11px;border-radius:8px;background:#041d35;color:#bfe9ff;font-size:12px;border:1px solid #28577a}
+.video-controls .red{background:#9f2632;border-color:#ff5a68}
+.video-status{margin-top:10px;padding:10px 12px;border-radius:8px;background:#041d35;border:1px solid #28577a;color:#bfe9ff;font-size:12px}
 .network-card{padding:22px}.network-card h3{color:var(--gold);margin-top:0;font-size:22px}.network-card p{color:#d4e3ed;line-height:1.6}
 .network-card ul{list-style:none;padding:0;margin:15px 0 0}.network-card li{padding:10px 0;border-bottom:1px solid #28577a;color:#d1e0ea}
 .peace-message{margin-top:28px;padding:15px;text-align:center;color:var(--gold);border-top:1px solid #806925;border-bottom:1px solid #806925;font-weight:900}
@@ -88,13 +79,12 @@ body{
 .modal-headline{margin:0 0 15px;font-size:clamp(29px,4vw,48px);line-height:1.15}.modal-source{color:var(--cyan);margin-bottom:22px;font-weight:900}
 .modal-text{color:#e3edf5;font-size:18px;line-height:1.8;white-space:pre-wrap}.modal-note{margin-top:25px;padding:15px;border-radius:10px;background:#062541;border:1px solid #28597c;color:#afc7d9;font-size:13px;line-height:1.5}
 .footer{text-align:center;padding:25px;color:#7e9bb1;font-size:12px}
-
 @media(max-width:900px){.hero-grid,.video-layout{grid-template-columns:1fr}.media-panel{min-height:430px}}
 @media(max-width:550px){.header{padding:13px 15px}.brand h1{font-size:23px}.media-panel{min-height:320px}.source-btn{flex:1 1 45%}.modal-text{font-size:16px}}
 </style>
 </head>
-
 <body>
+
 <header class="header">
   <div class="brand">
     <div class="small-title">THIS IS THE</div>
@@ -110,140 +100,146 @@ body{
 </div>
 
 <main class="main-content">
-<div class="hero-grid">
-<section class="media-panel">
-  <div class="photo-section">
-    <img src="many.jpeg" class="family-photo" alt="Voice of Peace">
-    <img id="storyImage" class="story-image" alt="News story">
-    <div class="media-gradient"><span class="live-label">● LIVE WORLD NEWS</span></div>
-  </div>
-</section>
+  <div class="hero-grid">
+    <section class="media-panel">
+      <div class="photo-section">
+        <img src="many.jpeg" class="family-photo" alt="Voice of Peace">
+        <img id="storyImage" class="story-image" alt="News story">
+        <div class="media-gradient"><span class="live-label">● LIVE WORLD NEWS</span></div>
+      </div>
+    </section>
 
-<div class="story-side">
-<section class="card story-card">
-  <div id="category" class="category">Voice of Peace</div>
-  <h2 id="headline" class="headline">Connecting to live news...</h2>
-  <p id="summary" class="summary">Loading current reports...</p>
-  <a id="storyLink" class="read-more" href="#">📖 Read Full Story</a>
-</section>
+    <div class="story-side">
+      <section class="card story-card">
+        <div id="category" class="category">Voice of Peace</div>
+        <h2 id="headline" class="headline">Connecting to live news...</h2>
+        <p id="summary" class="summary">Loading current reports...</p>
+        <a id="storyLink" class="read-more" href="#">📖 Read Full Story</a>
+      </section>
 
-<section class="card info-card">
-  <div class="section-label">REPORTING</div>
-  <div id="sourceLine" class="source-line">Connecting...</div>
-</section>
+      <section class="card info-card">
+        <div class="section-label">REPORTING</div>
+        <div id="sourceLine" class="source-line">Connecting...</div>
+      </section>
 
-<section class="card info-card">
-  <div class="section-label">VOICE OF PEACE REFLECTION</div>
-  <div id="verse" class="verse"></div>
-  <p id="reflection" class="reflection"></p>
-</section>
-</div>
-</div>
-
-<section class="video-section">
-<div class="video-header">
-  <h2>▶ News From the Right + Voice of Peace LIVE</h2>
-  <div class="video-subtitle">LIVE &amp; VIDEO NEWS DESK</div>
-</div>
-
-<div class="source-buttons">
-  <button class="source-btn active" data-source="Fox News" type="button">FOX NEWS</button>
-  <button class="source-btn" data-source="Newsmax" type="button">NEWSMAX</button>
-  <button class="source-btn" data-source="OAN" type="button">OAN</button>
-  <button class="source-btn" data-source="Breitbart" type="button">BREITBART</button>
-  <button class="source-btn" data-source="Daily Wire" type="button">DAILY WIRE</button>
-  <button class="source-btn my-live" data-source="Emmanuel & Camili LIVE" type="button">🔴 EMMANUEL &amp; CAMILI LIVE</button>
-</div>
-
-<div class="video-layout">
-<section class="card video-card">
-  <div class="video-player">
-    <div id="videoPlaceholder" class="video-placeholder">
-      <div class="play-symbol">▶</div>
-      <strong>Loading video player...</strong>
+      <section class="card info-card">
+        <div class="section-label">VOICE OF PEACE REFLECTION</div>
+        <div id="verse" class="verse"></div>
+        <p id="reflection" class="reflection"></p>
+      </section>
     </div>
-    <div id="youtubePlayer"></div>
   </div>
 
-  <div id="videoTitle" class="video-title">Latest Video Report</div>
-  <div id="videoMeta" class="video-meta">Loading...</div>
+  <section class="video-section">
+    <div class="video-header">
+      <h2>▶ Video News + Voice of Peace LIVE</h2>
+      <div class="video-subtitle">YOUTUBE DESK</div>
+    </div>
 
-  <div class="video-controls">
-    <button id="videoPrev" type="button">◀ Previous Video</button>
-    <button id="videoNext" type="button">Next Video ▶</button>
-    <button id="reloadVideo" type="button">↻ Reload</button>
-    <button id="setMyLive" type="button">🔴 Set My LIVE</button>
-    <button id="openOnYouTube" type="button">Open on YouTube</button>
-  </div>
+    <div class="source-buttons">
+      <button class="source-btn active" data-source="Fox News" type="button">FOX NEWS</button>
+      <button class="source-btn" data-source="Newsmax" type="button">NEWSMAX</button>
+      <button class="source-btn" data-source="OAN" type="button">OAN</button>
+      <button class="source-btn" data-source="Breitbart" type="button">BREITBART</button>
+      <button class="source-btn" data-source="Daily Wire" type="button">DAILY WIRE</button>
+      <button class="source-btn my-live" data-source="Emmanuel & Camili LIVE" type="button">🔴 EMMANUEL &amp; CAMILI LIVE</button>
+      <button class="source-btn" data-source="PLAYER TEST" type="button">▶ PLAYER TEST</button>
+    </div>
 
-  <div id="videoStatus" class="video-status">
-    YouTube player starting...
-  </div>
-</section>
+    <div class="video-layout">
+      <section class="card video-card">
+        <div class="video-player">
+          <!-- IMPORTANT: this iframe ID now matches the JavaScript exactly -->
+          <iframe
+            id="youtubeFrame"
+            title="Voice of Peace YouTube player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin"
+            src="about:blank">
+          </iframe>
 
-<section class="card network-card">
-  <h3>Selected Sources</h3>
-  <p>
-    Conservative and right-leaning sources remain available, plus your own
-    Emmanuel &amp; Camili LIVE channel.
-  </p>
-  <ul>
-    <li>Fox News</li>
-    <li>Newsmax</li>
-    <li>One America News — OAN</li>
-    <li>Breitbart</li>
-    <li>Daily Wire</li>
-    <li>🔴 Emmanuel &amp; Camili LIVE</li>
-  </ul>
-</section>
-</div>
-</section>
+          <div id="videoPlaceholder" class="video-placeholder">
+            <div class="play-symbol">▶</div>
+            <strong>Choose a channel, then tap here to play.</strong>
+          </div>
+        </div>
 
-<div class="peace-message">Respect • Truth • Understanding • Help one another</div>
+        <div id="videoTitle" class="video-title">YouTube Video Desk</div>
+        <div id="videoMeta" class="video-meta">Ready</div>
 
-<section class="player-controls">
-  <button id="prevBtn" type="button">◀ Previous</button>
-  <button id="playBtn" type="button">Pause</button>
-  <button id="nextBtn" type="button">Next ▶</button>
-  <button id="soundBtn" type="button" data-sound="on">🔊 Sound On</button>
-</section>
+        <div class="video-controls">
+          <button id="videoPrev" type="button">◀ Previous Video</button>
+          <button id="videoNext" type="button">Next Video ▶</button>
+          <button id="reloadVideo" type="button">↻ Reload</button>
+          <button id="setMyLive" class="red" type="button">🔴 Set My LIVE</button>
+          <button id="openOnYouTube" type="button">Open on YouTube</button>
+        </div>
 
-<div class="progress-container"><div id="progressBar" class="progress-bar"></div></div>
+        <div id="videoStatus" class="video-status">Player ready. Tap a channel.</div>
+      </section>
+
+      <section class="card network-card">
+        <h3>Selected Sources</h3>
+        <p>
+          The player now uses one simple iframe and a user tap. It does not use the
+          YouTube JavaScript API, so there is no API-loading race or player-ID mismatch.
+        </p>
+        <ul>
+          <li>Fox News</li>
+          <li>Newsmax</li>
+          <li>One America News — OAN</li>
+          <li>Breitbart</li>
+          <li>Daily Wire</li>
+          <li>🔴 Emmanuel &amp; Camili LIVE</li>
+          <li>▶ Player Test</li>
+        </ul>
+      </section>
+    </div>
+  </section>
+
+  <div class="peace-message">Respect • Truth • Understanding • Help one another</div>
+
+  <section class="player-controls">
+    <button id="prevBtn" type="button">◀ Previous</button>
+    <button id="playBtn" type="button">Pause</button>
+    <button id="nextBtn" type="button">Next ▶</button>
+    <button id="soundBtn" type="button" data-sound="on">🔊 Sound On</button>
+  </section>
+
+  <div class="progress-container"><div id="progressBar" class="progress-bar"></div></div>
 </main>
 
 <footer class="footer">VOICE OF PEACE • NEWS • UNDERSTANDING • RESPONSIBILITY</footer>
 
 <div id="storyModal" class="story-modal">
-<div class="story-modal-box">
-<div class="modal-header">
-  <div class="modal-label">VOICE OF PEACE • FULL STORY</div>
-  <button id="modalClose" class="modal-close" type="button">×</button>
-</div>
-<div class="modal-body">
-  <img id="modalImage" class="modal-image" src="many.jpeg" alt="News story">
-  <h2 id="modalHeadline" class="modal-headline"></h2>
-  <div id="modalSource" class="modal-source"></div>
-  <div id="modalText" class="modal-text"></div>
-  <div class="modal-note">
-    This report is presented inside Voice of Peace using the headline and available
-    summary supplied by the news feed.
+  <div class="story-modal-box">
+    <div class="modal-header">
+      <div class="modal-label">VOICE OF PEACE • FULL STORY</div>
+      <button id="modalClose" class="modal-close" type="button">×</button>
+    </div>
+    <div class="modal-body">
+      <img id="modalImage" class="modal-image" src="many.jpeg" alt="News story">
+      <h2 id="modalHeadline" class="modal-headline"></h2>
+      <div id="modalSource" class="modal-source"></div>
+      <div id="modalText" class="modal-text"></div>
+      <div class="modal-note">
+        This report is presented inside Voice of Peace using the headline and available summary supplied by the news feed.
+      </div>
+    </div>
   </div>
 </div>
-</div>
-</div>
 
-<script src="https://www.youtube.com/iframe_api"></script>
-<script src="app.js?v=20260903-ytfast1"></script>
+<script src="app.js?v=20260903-youtube-final-1"></script>
 
 <script>
 /* BREAKING NEWS */
 const headlineNode = document.getElementById("headline");
 if (headlineNode) {
-  const observer = new MutationObserver(function () {
+  new MutationObserver(function () {
     document.getElementById("newsStripText").textContent =
       headlineNode.textContent || "Voice of Peace News";
-  });
-  observer.observe(headlineNode,{childList:true,subtree:true,characterData:true});
+  }).observe(headlineNode,{childList:true,subtree:true,characterData:true});
 }
 
 /* FULL STORY MODAL */
@@ -252,8 +248,7 @@ const storyModal = document.getElementById("storyModal");
 const modalClose = document.getElementById("modalClose");
 
 function getCurrentStory() {
-  if (window.voiceOfPeaceCurrentStory) return window.voiceOfPeaceCurrentStory;
-  return {
+  return window.voiceOfPeaceCurrentStory || {
     headline: document.getElementById("headline")?.textContent?.trim() || "",
     summary: document.getElementById("summary")?.textContent?.trim() || "",
     source_line: document.getElementById("sourceLine")?.textContent?.trim() || "",
@@ -261,146 +256,97 @@ function getCurrentStory() {
   };
 }
 
-storyLink.addEventListener("click", function(event){
+storyLink.addEventListener("click",function(event){
   event.preventDefault();
-  event.stopPropagation();
   const story = getCurrentStory();
   document.getElementById("modalHeadline").textContent = story.headline || "News Report";
   document.getElementById("modalSource").textContent = story.source_line || "";
   document.getElementById("modalText").textContent =
     story.article_text || story.full_summary || story.summary ||
     "Additional details are not available in the current news feed.";
-  const modalImage = document.getElementById("modalImage");
-  modalImage.onerror = function(){ modalImage.src = "many.jpeg"; };
-  modalImage.src = story.image || "many.jpeg";
+  const modalImage=document.getElementById("modalImage");
+  modalImage.onerror=()=>modalImage.src="many.jpeg";
+  modalImage.src=story.image||"many.jpeg";
   storyModal.classList.add("show");
-  document.body.style.overflow = "hidden";
+  document.body.style.overflow="hidden";
 });
 
 function closeStoryModal(){
   storyModal.classList.remove("show");
-  document.body.style.overflow = "";
+  document.body.style.overflow="";
 }
 modalClose.addEventListener("click",closeStoryModal);
 storyModal.addEventListener("click",e=>{if(e.target===storyModal)closeStoryModal();});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeStoryModal();});
 
-/* ======================================================
-   FAST YOUTUBE PLAYER
-   One persistent YT.Player; switching uses loadVideoById.
-   ====================================================== */
+/* =====================================================
+   YOUTUBE FIX
+   - NO YouTube IFrame API
+   - ONE REAL iframe: #youtubeFrame
+   - user taps before loading
+   - valid ID extraction
+   - PLAYER TEST uses YouTube's own API-demo video
+   ===================================================== */
+
+const youtubeFrame = document.getElementById("youtubeFrame");
+const videoPlaceholder = document.getElementById("videoPlaceholder");
+const videoTitle = document.getElementById("videoTitle");
+const videoMeta = document.getElementById("videoMeta");
+const videoStatus = document.getElementById("videoStatus");
 
 let youtubeVideos = [];
 let selectedSource = "Fox News";
 let selectedVideoIndex = 0;
-let ytPlayer = null;
-let ytReady = false;
-let pendingVideoId = "";
-let currentVideoUrl = "";
+let preparedVideo = null;
 
 function setVideoStatus(text){
-  document.getElementById("videoStatus").textContent = text;
-}
-
-function showPlaceholder(html){
-  const p = document.getElementById("videoPlaceholder");
-  p.innerHTML = html;
-  p.style.display = "flex";
-}
-
-function hidePlaceholder(){
-  document.getElementById("videoPlaceholder").style.display = "none";
+  videoStatus.textContent = text;
 }
 
 function extractYouTubeId(value){
-  const text = String(value || "").trim();
-  if (/^[A-Za-z0-9_-]{11}$/.test(text)) return text;
+  const raw = String(value || "").trim();
+
+  if (/^[A-Za-z0-9_-]{11}$/.test(raw)) return raw;
+
   try{
-    const u = new URL(text);
-    if(u.hostname === "youtu.be") return u.pathname.split("/").filter(Boolean)[0] || "";
-    if(u.hostname.includes("youtube.com") || u.hostname.includes("youtube-nocookie.com")){
-      const v = u.searchParams.get("v");
-      if(v) return v;
-      const parts = u.pathname.split("/").filter(Boolean);
-      for(const type of ["live","embed","shorts"]){
-        const i = parts.indexOf(type);
-        if(i >= 0 && parts[i+1]) return parts[i+1];
+    const url = new URL(raw);
+
+    if(url.hostname === "youtu.be"){
+      const id = url.pathname.split("/").filter(Boolean)[0] || "";
+      return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : "";
+    }
+
+    if(url.hostname.includes("youtube.com") || url.hostname.includes("youtube-nocookie.com")){
+      const v = url.searchParams.get("v");
+      if(v && /^[A-Za-z0-9_-]{11}$/.test(v)) return v;
+
+      const parts = url.pathname.split("/").filter(Boolean);
+      for(const marker of ["live","embed","shorts"]){
+        const i = parts.indexOf(marker);
+        if(i >= 0 && parts[i+1] && /^[A-Za-z0-9_-]{11}$/.test(parts[i+1])){
+          return parts[i+1];
+        }
       }
     }
-  }catch(e){}
+  }catch(error){}
+
   return "";
 }
 
-function onYouTubeIframeAPIReady(){
-  ytPlayer = new YT.Player("youtubePlayer",{
-    width:"100%",
-    height:"100%",
-    playerVars:{
-      autoplay:1,
-      controls:1,
-      rel:0,
-      playsinline:1,
-      enablejsapi:1,
-      origin:location.origin
-    },
-    events:{
-      onReady:function(){
-        ytReady = true;
-        setVideoStatus("YouTube ready");
-        if(pendingVideoId) playVideoId(pendingVideoId);
-        else renderVideo();
-      },
-      onStateChange:function(e){
-        if(e.data === YT.PlayerState.PLAYING) setVideoStatus("LIVE / PLAYING");
-        if(e.data === YT.PlayerState.BUFFERING) setVideoStatus("Buffering...");
-        if(e.data === YT.PlayerState.PAUSED) setVideoStatus("Paused");
-        if(e.data === YT.PlayerState.ENDED) setVideoStatus("Video ended");
-      },
-      onError:function(e){
-        const msg = {
-          2:"Invalid YouTube video ID.",
-          5:"This video cannot play in the embedded player.",
-          100:"This video is unavailable.",
-          101:"The owner does not allow embedding.",
-          150:"The owner does not allow embedding."
-        }[e.data] || "YouTube playback error.";
-        setVideoStatus(msg);
-        showPlaceholder(`<div class="play-symbol">▶</div><strong>${msg}</strong>`);
-      }
-    }
-  });
+function blankPlayer(){
+  youtubeFrame.src = "about:blank";
 }
 
-function playVideoId(id){
-  if(!id) return;
-  pendingVideoId = id;
-  if(!ytReady || !ytPlayer){
-    setVideoStatus("YouTube player loading...");
-    return;
+function sourceVideos(){
+  if(selectedSource === "PLAYER TEST"){
+    return [{
+      source:"PLAYER TEST",
+      title:"YouTube Player Test",
+      video_id:"M7lc1UVf-VE",
+      url:"https://www.youtube.com/watch?v=M7lc1UVf-VE"
+    }];
   }
-  hidePlaceholder();
-  try{
-    ytPlayer.loadVideoById(id);
-  }catch(e){
-    console.error(e);
-    setVideoStatus("Could not load this YouTube video.");
-  }
-}
 
-async function loadYouTubeNews(){
-  try{
-    const response = await fetch("data/youtube-news.json?v="+Date.now(),{cache:"no-store"});
-    if(!response.ok) throw new Error("YouTube news file unavailable");
-    const data = await response.json();
-    youtubeVideos = Array.isArray(data.videos) ? data.videos : [];
-  }catch(error){
-    console.error("YouTube news:",error);
-    youtubeVideos = [];
-  }
-  renderVideo();
-}
-
-function getSourceVideos(){
   if(selectedSource === "Emmanuel & Camili LIVE"){
     const saved = localStorage.getItem("vop_my_live_url") || "";
     const id = extractYouTubeId(saved);
@@ -417,111 +363,162 @@ function getSourceVideos(){
   );
 }
 
-function renderVideo(){
-  const videos = getSourceVideos();
+function prepareSelectedVideo(){
+  blankPlayer();
+  preparedVideo = null;
+  videoPlaceholder.style.display = "flex";
+  videoPlaceholder.onclick = null;
+
+  const videos = sourceVideos();
 
   if(!videos.length){
-    pendingVideoId = "";
-    if(ytPlayer && ytReady){
-      try{ ytPlayer.stopVideo(); }catch(e){}
-    }
+    videoTitle.textContent = selectedSource;
+    videoMeta.textContent = "No playable video saved";
+    setVideoStatus("No YouTube video is saved for this channel.");
 
     if(selectedSource === "Emmanuel & Camili LIVE"){
-      showPlaceholder(`
-        <div class="play-symbol">🔴</div>
-        <strong>Your LIVE channel is ready to be added.</strong>
-        <span>Tap “Set My LIVE” below and paste your YouTube live/video link.</span>
-      `);
-      document.getElementById("videoTitle").textContent = "Emmanuel & Camili LIVE";
-      document.getElementById("videoMeta").textContent = "No live link saved yet";
-      setVideoStatus("Waiting for your YouTube LIVE link.");
+      videoPlaceholder.innerHTML =
+        '<div class="play-symbol">🔴</div>' +
+        '<strong>Set your live link first.</strong>' +
+        '<span>Tap “Set My LIVE” and paste the exact YouTube LIVE/video URL.</span>';
     }else{
-      showPlaceholder(`
-        <div class="play-symbol">▶</div>
-        <strong>No ${selectedSource} video has been collected yet.</strong>
-        <span>Add/update data/youtube-news.json.</span>
-      `);
-      document.getElementById("videoTitle").textContent = selectedSource;
-      document.getElementById("videoMeta").textContent = "Waiting for video";
-      setVideoStatus("No saved video for this source.");
+      videoPlaceholder.innerHTML =
+        '<div class="play-symbol">▶</div>' +
+        '<strong>No playable '+selectedSource+' video is in data/youtube-news.json.</strong>' +
+        '<span>Use PLAYER TEST to confirm YouTube itself is working.</span>';
     }
     return;
   }
 
   if(selectedVideoIndex >= videos.length) selectedVideoIndex = 0;
-  const video = videos[selectedVideoIndex];
-  const videoID = String(video.video_id || video.youtube_id || "").trim();
-  if(!videoID) return;
+  const v = videos[selectedVideoIndex];
 
-  currentVideoUrl = video.url || ("https://www.youtube.com/watch?v="+videoID);
-  document.getElementById("videoTitle").textContent = video.title || "Latest Video Report";
-  document.getElementById("videoMeta").textContent =
-    `${selectedSource}${videos.length > 1 ? " • "+(selectedVideoIndex+1)+" of "+videos.length : ""}`;
-  playVideoId(videoID);
+  const id = extractYouTubeId(v.video_id || v.youtube_id || v.url || "");
+
+  if(!id){
+    videoTitle.textContent = selectedSource;
+    videoMeta.textContent = "Invalid video ID";
+    setVideoStatus("Saved YouTube ID is invalid.");
+    videoPlaceholder.innerHTML =
+      '<div class="play-symbol">▶</div><strong>Invalid YouTube video ID.</strong>';
+    return;
+  }
+
+  preparedVideo = {
+    id:id,
+    title:v.title || "YouTube Video",
+    source:v.source || selectedSource,
+    url:v.url || ("https://www.youtube.com/watch?v="+id)
+  };
+
+  videoTitle.textContent = preparedVideo.title;
+  videoMeta.textContent =
+    selectedSource + (videos.length > 1 ? " • "+(selectedVideoIndex+1)+" of "+videos.length : "");
+  setVideoStatus("Ready — tap the video area to play.");
+
+  videoPlaceholder.innerHTML =
+    '<div class="play-symbol">▶</div>' +
+    '<strong>Tap to play '+selectedSource+'</strong>' +
+    '<span>This direct tap works better on iPhone/Safari.</span>';
+
+  videoPlaceholder.onclick = playPreparedVideo;
+}
+
+function playPreparedVideo(){
+  if(!preparedVideo) return;
+
+  videoPlaceholder.style.display = "none";
+  setVideoStatus("Loading YouTube...");
+
+  const origin =
+    (location.protocol === "http:" || location.protocol === "https:")
+      ? "&origin="+encodeURIComponent(location.origin)
+      : "";
+
+  youtubeFrame.src =
+    "https://www.youtube-nocookie.com/embed/" +
+    encodeURIComponent(preparedVideo.id) +
+    "?autoplay=1&playsinline=1&rel=0&enablejsapi=0" +
+    origin;
+
+  /* If YouTube itself blocks embedding, the Open on YouTube button remains available. */
+  setTimeout(()=>{
+    setVideoStatus("If you see a YouTube restriction message, tap “Open on YouTube”.");
+  },3500);
+}
+
+async function loadYouTubeNews(){
+  try{
+    const response = await fetch("data/youtube-news.json?v="+Date.now(),{cache:"no-store"});
+    if(!response.ok) throw new Error("youtube-news.json HTTP "+response.status);
+    const data = await response.json();
+    youtubeVideos = Array.isArray(data.videos) ? data.videos : [];
+  }catch(error){
+    console.error("YouTube list:",error);
+    youtubeVideos = [];
+    setVideoStatus("Could not load data/youtube-news.json.");
+  }
+
+  prepareSelectedVideo();
 }
 
 document.querySelectorAll(".source-btn").forEach(button=>{
   button.addEventListener("click",function(){
-    document.querySelectorAll(".source-btn").forEach(item=>item.classList.remove("active"));
+    document.querySelectorAll(".source-btn").forEach(x=>x.classList.remove("active"));
     button.classList.add("active");
     selectedSource = button.dataset.source;
     selectedVideoIndex = 0;
-    renderVideo();
+    prepareSelectedVideo();
   });
 });
 
 document.getElementById("videoNext").addEventListener("click",function(){
-  const videos = getSourceVideos();
+  const videos = sourceVideos();
   if(!videos.length) return;
-  selectedVideoIndex = (selectedVideoIndex + 1) % videos.length;
-  renderVideo();
+  selectedVideoIndex=(selectedVideoIndex+1)%videos.length;
+  prepareSelectedVideo();
 });
 
 document.getElementById("videoPrev").addEventListener("click",function(){
-  const videos = getSourceVideos();
+  const videos=sourceVideos();
   if(!videos.length) return;
-  selectedVideoIndex = (selectedVideoIndex - 1 + videos.length) % videos.length;
-  renderVideo();
+  selectedVideoIndex=(selectedVideoIndex-1+videos.length)%videos.length;
+  prepareSelectedVideo();
 });
 
-document.getElementById("reloadVideo").addEventListener("click",renderVideo);
+document.getElementById("reloadVideo").addEventListener("click",prepareSelectedVideo);
 
 document.getElementById("setMyLive").addEventListener("click",function(){
-  const existing = localStorage.getItem("vop_my_live_url") || "";
-  const value = prompt(
-    "Paste your YouTube LIVE or video link for Emmanuel & Camili LIVE:",
-    existing
-  );
+  const old = localStorage.getItem("vop_my_live_url") || "";
+  const value = prompt("Paste your exact YouTube LIVE or video URL:",old);
   if(value === null) return;
 
   const id = extractYouTubeId(value);
   if(!id){
-    setVideoStatus("That is not a valid YouTube video/live link.");
+    alert("I could not find a valid 11-character YouTube video ID in that link.");
     return;
   }
 
   localStorage.setItem("vop_my_live_url",value.trim());
-  selectedSource = "Emmanuel & Camili LIVE";
-  selectedVideoIndex = 0;
 
-  document.querySelectorAll(".source-btn").forEach(item=>{
-    item.classList.toggle("active",item.dataset.source === selectedSource);
-  });
-
-  renderVideo();
+  selectedSource="Emmanuel & Camili LIVE";
+  selectedVideoIndex=0;
+  document.querySelectorAll(".source-btn").forEach(x=>
+    x.classList.toggle("active",x.dataset.source===selectedSource)
+  );
+  prepareSelectedVideo();
 });
 
 document.getElementById("openOnYouTube").addEventListener("click",function(){
-  const videos = getSourceVideos();
-  if(videos.length){
-    const video = videos[selectedVideoIndex] || videos[0];
-    const id = video.video_id || video.youtube_id || "";
-    const url = video.url || ("https://www.youtube.com/watch?v="+id);
-    window.open(url,"_blank","noopener,noreferrer");
+  if(preparedVideo?.url){
+    window.open(preparedVideo.url,"_blank","noopener,noreferrer");
+  }else{
+    setVideoStatus("Choose a video first.");
   }
 });
 
 loadYouTubeNews();
 </script>
+
 </body>
 </html>

@@ -2,15 +2,33 @@
   "videos": [
     {
       "source": "Fox News",
-      "title": "Fox News Highlights",
-      "video_id": "isTLg0REPcU",
-      "url": "https://www.youtube.com/watch?v=isTLg0REPcU"
+      "title": "Fox News \u2014 add current YouTube URL or video ID here",
+      "video_id": "",
+      "url": ""
+    },
+    {
+      "source": "Newsmax",
+      "title": "Newsmax \u2014 add current YouTube URL or video ID here",
+      "video_id": "",
+      "url": ""
+    },
+    {
+      "source": "OAN",
+      "title": "OAN \u2014 add current YouTube URL or video ID here",
+      "video_id": "",
+      "url": ""
+    },
+    {
+      "source": "Breitbart",
+      "title": "Breitbart \u2014 add current YouTube URL or video ID here",
+      "video_id": "",
+      "url": ""
     },
     {
       "source": "Daily Wire",
-      "title": "Are Republicans About To Lose 2026?",
-      "video_id": "oqFvo96-C68",
-      "url": "https://www.youtube.com/watch?v=oqFvo96-C68"
+      "title": "Daily Wire \u2014 add current YouTube URL or video ID here",
+      "video_id": "",
+      "url": ""
     }
   ]
 }

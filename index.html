@@ -331,8 +331,8 @@ body{
             <span class="presenter-secure">Secure automatic connection:</span>
             New visitors do not enter any API key or private code. The HeyGen API key and private function token stay only in Supabase.
             Voice of Peace connects automatically from the official website.
-            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 14:50 AUTO-CONNECT NO USER CODE</strong>
-            <br><span style="color:#ffd34f">PREPARE ALL AVATAR NEWS VIDEOS assigns a different live news story to each avatar and creates a talking HeyGen report with your private voice. Existing old “Hello, this is Emmanuel” previews are ignored. This uses HeyGen credits, so it runs only when you press the button.</span>
+            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 18:10 UNIQUE NEWS PER AVATAR</strong>
+            <br><span style="color:#ffd34f">PREPARE ALL AVATAR NEWS VIDEOS now collects separate stories from the live news carousel and assigns a different story to each avatar before creating the talking HeyGen reports with your private voice. Existing old “Hello, this is Emmanuel” previews are ignored. This uses HeyGen credits, so it runs only when you press the button.</span>
           </div>
         </details>
 
@@ -477,10 +477,9 @@ body{
       </div>
 
       <div class="radio-buttons">
-        <button class="radio-btn newsmax" type="button" data-free-stream="Newsmax2">▶ NEWSMAX2 FREE</button>
+        <button class="radio-btn newsmax" type="button" data-free-stream="Newsmax2">▶ NEWSMAX2 LIVE</button>
         <button class="radio-btn rav" type="button" data-free-stream="Real America's Voice">▶ REAL AMERICA'S VOICE</button>
         <button class="radio-btn salem" type="button" data-free-stream="Salem News Channel">▶ SALEM NEWS</button>
-        <button class="radio-btn first" type="button" data-free-stream="The First TV">▶ THE FIRST TV</button>
         <button class="radio-btn fox" type="button" data-free-stream="LiveNOW from FOX">▶ LIVENOW FOX</button>
       </div>
 
@@ -496,8 +495,10 @@ body{
       </div>
 
       <div class="radio-controls">
+        <button id="radioPrevBtn" class="radio-control-btn" type="button">◀ Previous Station</button>
         <button id="radioPlayBtn" class="radio-control-btn" type="button">▶ Play</button>
         <button id="radioPauseBtn" class="radio-control-btn" type="button">⏸ Pause</button>
+        <button id="radioNextBtn" class="radio-control-btn" type="button">Next Station ▶</button>
         <button id="radioAudioOnlyBtn" class="radio-control-btn" type="button">📻 Audio Only</button>
         <div class="radio-volume-wrap">
           <span>🔊 Volume</span>
@@ -506,8 +507,8 @@ body{
         </div>
       </div>
 
-      <div id="radioStatus" class="radio-status">Choose a free stream above. It will play inside Voice of Peace — no new page and no paid subscription button.</div>
-      <div class="radio-note">The main Voice of Peace <strong>🔊 Sound On / 🔇 Sound Off</strong> button also controls this player. These buttons use free official YouTube streams/channels; a channel can show “offline” when that network is not broadcasting on YouTube at that moment.</div>
+      <div id="radioStatus" class="radio-status">Choose a free stream above. It stays inside Voice of Peace and uses the app controls.</div>
+      <div class="radio-note">The main Voice of Peace <strong>◀ Previous / Pause / Next ▶ / 🔊 Sound</strong> buttons control the selected stream too. Newsmax2, Real America's Voice and LiveNOW use their current official free YouTube players; Salem uses its official live channel feed.</div>
     </div>
   </section>
 
@@ -752,7 +753,7 @@ function markSelectedAvatarCard(){
   });
 }
 
-const AVATAR_PREVIEW_CACHE_PREFIX = "vop_avatar_news_v4_";
+const AVATAR_PREVIEW_CACHE_PREFIX = "vop_avatar_news_v5_unique_";
 const avatarPreviewJobs = new Map();
 const avatarPreviewState = new Map();
 let avatarNewsStories = [];
@@ -827,11 +828,17 @@ async function collectStoriesFromVisibleNews(requiredCount){
   if(!next || !prev || requiredCount <= 1) return uniqueNewsStories(found);
 
   let moves = 0;
+  /*
+     IMPORTANT: the main Previous/Next buttons also become radio-station controls
+     when a free stream is active. While we quietly collect the text-news carousel,
+     bypass that radio hijack so these clicks continue changing NEWS STORIES.
+  */
+  window.__vopCollectingNewsStories = true;
   try{
-    for(let i=0;i<Math.max(requiredCount * 2, 12);i++){
+    for(let i=0;i<Math.max(requiredCount * 4, 24);i++){
       next.click();
       moves++;
-      await new Promise(function(resolve){ setTimeout(resolve, 55); });
+      await new Promise(function(resolve){ setTimeout(resolve, 85); });
       const story = currentUiNewsStory();
       if(story) found.push(story);
       if(uniqueNewsStories(found).length >= requiredCount) break;
@@ -839,15 +846,16 @@ async function collectStoriesFromVisibleNews(requiredCount){
   }finally{
     for(let i=0;i<moves;i++){
       prev.click();
-      await new Promise(function(resolve){ setTimeout(resolve, 12); });
+      await new Promise(function(resolve){ setTimeout(resolve, 20); });
     }
+    window.__vopCollectingNewsStories = false;
   }
   return uniqueNewsStories(found);
 }
 
 async function loadAvatarNewsStories(requiredCount){
   requiredCount = Math.max(1, Number(requiredCount || cachedHeyGenAvatars.length || 1));
-  if(avatarNewsStories.length >= Math.min(requiredCount, 3)) return avatarNewsStories;
+  if(avatarNewsStories.length >= requiredCount) return avatarNewsStories;
   if(avatarNewsStoriesPromise) return avatarNewsStoriesPromise;
 
   avatarNewsStoriesPromise = (async function(){
@@ -2225,7 +2233,7 @@ prepareSelectedSource();
 
 
 <script>
-/* ===== FREE SAME-PAGE STREAMING NEWS PLAYER ===== */
+/* ===== FREE SAME-PAGE STREAMING NEWS PLAYER — VERIFIED DIRECT FEEDS + APP CONTROLS ===== */
 (function(){
   const player = document.getElementById("freeNewsPlayer");
   const wrap = document.getElementById("radioPlayerWrap");
@@ -2234,56 +2242,96 @@ prepareSelectedSource();
   const volumeValue = document.getElementById("radioVolumeValue");
   const playBtn = document.getElementById("radioPlayBtn");
   const pauseBtn = document.getElementById("radioPauseBtn");
+  const prevStationBtn = document.getElementById("radioPrevBtn");
+  const nextStationBtn = document.getElementById("radioNextBtn");
   const audioOnlyBtn = document.getElementById("radioAudioOnlyBtn");
+  const mainPrevBtn = document.getElementById("prevBtn");
+  const mainPlayBtn = document.getElementById("playBtn");
+  const mainNextBtn = document.getElementById("nextBtn");
   const mainSoundBtn = document.getElementById("soundBtn");
 
-  // Stable official YouTube channel IDs. Using YouTube's live_stream endpoint keeps
-  // Voice of Peace on one page and automatically follows the channel's current live feed.
+  /*
+     IMPORTANT:
+     Do not use YouTube's old live_stream?channel endpoint for every network.
+     Several channels return an unavailable player that way even while they are live.
+     These direct official video IDs were verified on 2026-09-06.
+     Salem is the exception because its channel live endpoint is currently working.
+  */
   const FREE_STREAMS = {
     "Newsmax2": {
-      channelId: "UCx6h-dWzJ5NpAlja1YsApdg",
-      label: "Newsmax2 — free official stream"
+      videoId: "oPtapPqfO_0",
+      label: "Newsmax2 LIVE — free official Newsmax stream"
     },
     "Real America's Voice": {
-      channelId: "UCMGZ8pfQHgZ6Yj0-92PMENg",
-      label: "Real America's Voice — free official stream"
+      videoId: "FY2VaeK3TJQ",
+      label: "Real America's Voice — official free stream"
     },
     "Salem News Channel": {
       channelId: "UCgV4zjmG_mUuCl_VwcXoRgg",
-      label: "Salem News Channel — free official stream"
-    },
-    "The First TV": {
-      channelId: "UCQVhgOxzt5W1fZhOd0l2E6g",
-      label: "The First TV — free conservative stream"
+      label: "Salem News Channel — official free live stream"
     },
     "LiveNOW from FOX": {
-      channelId: "UCJg9wBPyKMNA5sRDnvzmkdg",
-      label: "LiveNOW from FOX — free breaking-news stream"
+      videoId: "4nMfRpesYfw",
+      label: "LiveNOW from FOX — free non-stop breaking news"
     }
   };
 
+  const STREAM_ORDER = [
+    "Newsmax2",
+    "Real America's Voice",
+    "Salem News Channel",
+    "LiveNOW from FOX"
+  ];
+
   let activeName = "";
   let currentVolume = 85;
+  let desiredPlaying = true;
+  let playerLoaded = false;
+  let handshakeTimer = null;
 
   function setStatus(text){
     if(status) status.textContent = text;
   }
 
-  function ytCommand(func,args){
+  function soundIsOn(){
+    return !mainSoundBtn || String(mainSoundBtn.dataset.sound || "on").toLowerCase() !== "off";
+  }
+
+  function postToYouTube(payload){
     if(!player || !player.contentWindow) return;
     try{
-      player.contentWindow.postMessage(JSON.stringify({
-        event:"command",
-        func:func,
-        args:Array.isArray(args) ? args : []
-      }),"*");
+      player.contentWindow.postMessage(JSON.stringify(payload), "https://www.youtube.com");
     }catch(error){
-      console.warn("Streaming player command failed:",error);
+      try{ player.contentWindow.postMessage(JSON.stringify(payload), "*"); }catch(e){}
     }
   }
 
-  function soundIsOn(){
-    return !mainSoundBtn || String(mainSoundBtn.dataset.sound || "on").toLowerCase() !== "off";
+  function ytCommand(func,args){
+    if(!player || !player.contentWindow) return;
+    const payload = {
+      event:"command",
+      func:func,
+      args:Array.isArray(args) ? args : []
+    };
+    postToYouTube(payload);
+    /* A second send helps when the iframe has just finished changing videos. */
+    setTimeout(function(){ postToYouTube(payload); },120);
+  }
+
+  function startHandshake(){
+    if(handshakeTimer) clearInterval(handshakeTimer);
+    let tries = 0;
+    handshakeTimer = setInterval(function(){
+      tries += 1;
+      postToYouTube({event:"listening",id:"freeNewsPlayer"});
+      ytCommand("setVolume",[currentVolume]);
+      ytCommand(soundIsOn() ? "unMute" : "mute",[]);
+      if(desiredPlaying) ytCommand("playVideo",[]);
+      if(tries >= 12){
+        clearInterval(handshakeTimer);
+        handshakeTimer = null;
+      }
+    },350);
   }
 
   function applySoundState(){
@@ -2291,36 +2339,111 @@ prepareSelectedSource();
     ytCommand(soundIsOn() ? "unMute" : "mute",[]);
   }
 
-  function streamUrl(channelId){
-    return "https://www.youtube.com/embed/live_stream?channel=" + encodeURIComponent(channelId) +
-      "&autoplay=1&mute=" + (soundIsOn() ? "0" : "1") +
-      "&enablejsapi=1&playsinline=1&rel=0&modestbranding=1";
+  function embedBase(){
+    return "https://www.youtube.com/embed/";
+  }
+
+  function commonParams(){
+    const origin = (location.origin && location.origin.indexOf("http") === 0) ? location.origin : "https://mano34911.github.io";
+    return "autoplay=1&enablejsapi=1&playsinline=1&rel=0&controls=1" +
+      "&mute=" + (soundIsOn() ? "0" : "1") +
+      "&origin=" + encodeURIComponent(origin) +
+      "&widget_referrer=" + encodeURIComponent(location.href);
+  }
+
+  function streamUrl(config){
+    if(config.videoId){
+      return embedBase() + encodeURIComponent(config.videoId) + "?" + commonParams();
+    }
+    return embedBase() + "live_stream?channel=" + encodeURIComponent(config.channelId) + "&" + commonParams();
+  }
+
+  function setActiveButton(){
+    document.querySelectorAll(".radio-btn[data-free-stream]").forEach(function(button){
+      button.classList.toggle("active",button.dataset.freeStream === activeName);
+    });
+  }
+
+  function syncMainPlayLabel(){
+    if(mainPlayBtn && activeName){
+      mainPlayBtn.textContent = desiredPlaying ? "Pause" : "Play";
+    }
   }
 
   function selectStream(name){
     const config = FREE_STREAMS[name];
     if(!config || !player) return;
     activeName = name;
-    document.querySelectorAll(".radio-btn[data-free-stream]").forEach(function(button){
-      button.classList.toggle("active",button.dataset.freeStream === name);
-    });
+    desiredPlaying = true;
+    playerLoaded = false;
+    setActiveButton();
+    syncMainPlayLabel();
     if(wrap) wrap.classList.remove("audio-only");
     if(audioOnlyBtn) audioOnlyBtn.textContent = "📻 Audio Only";
-    player.src = streamUrl(config.channelId);
     setStatus("Loading " + config.label + " inside Voice of Peace...");
-
-    // The station button click is a user gesture, so browsers usually permit sound.
-    // Re-apply play/volume/unmute after the YouTube iframe has initialized.
-    setTimeout(function(){
-      ytCommand("playVideo",[]);
-      applySoundState();
-    },1200);
-    setTimeout(function(){
-      ytCommand("playVideo",[]);
-      applySoundState();
-      setStatus(config.label + " is selected. Use the Voice of Peace sound button or the volume slider here.");
-    },2600);
+    player.src = streamUrl(config);
   }
+
+  function playStream(){
+    if(!activeName){ setStatus("Choose a free news stream first."); return; }
+    desiredPlaying = true;
+    ytCommand("playVideo",[]);
+    applySoundState();
+    syncMainPlayLabel();
+    setStatus("▶ Playing " + FREE_STREAMS[activeName].label + ".");
+  }
+
+  function pauseStream(){
+    if(!activeName){ setStatus("Choose a free news stream first."); return; }
+    desiredPlaying = false;
+    ytCommand("pauseVideo",[]);
+    syncMainPlayLabel();
+    setStatus("⏸ Paused " + FREE_STREAMS[activeName].label + ".");
+  }
+
+  function cycleStation(direction){
+    if(!STREAM_ORDER.length) return;
+    let index = STREAM_ORDER.indexOf(activeName);
+    if(index < 0) index = 0;
+    else index = (index + direction + STREAM_ORDER.length) % STREAM_ORDER.length;
+    selectStream(STREAM_ORDER[index]);
+  }
+
+  function togglePlayPause(){
+    if(!activeName){
+      selectStream(STREAM_ORDER[0]);
+      return;
+    }
+    if(desiredPlaying) pauseStream(); else playStream();
+  }
+
+  player.addEventListener("load",function(){
+    playerLoaded = true;
+    startHandshake();
+    setTimeout(function(){
+      if(activeName){
+        setStatus("✅ " + FREE_STREAMS[activeName].label + " loaded. Use Play/Pause, Previous/Next and Sound controls here or at the bottom of the app.");
+      }
+    },900);
+  });
+
+  window.addEventListener("message",function(event){
+    if(event.origin !== "https://www.youtube.com" && event.origin !== "https://www.youtube-nocookie.com") return;
+    let data = event.data;
+    if(typeof data === "string"){
+      try{ data = JSON.parse(data); }catch(e){ return; }
+    }
+    if(!data || typeof data !== "object") return;
+    if(data.event === "onStateChange" && typeof data.info === "number"){
+      if(data.info === 1){
+        desiredPlaying = true;
+        syncMainPlayLabel();
+      }else if(data.info === 2){
+        desiredPlaying = false;
+        syncMainPlayLabel();
+      }
+    }
+  });
 
   document.querySelectorAll(".radio-btn[data-free-stream]").forEach(function(button){
     button.addEventListener("click",function(){
@@ -2328,22 +2451,10 @@ prepareSelectedSource();
     });
   });
 
-  if(playBtn){
-    playBtn.addEventListener("click",function(){
-      if(!activeName){ setStatus("Choose a free news stream first."); return; }
-      ytCommand("playVideo",[]);
-      applySoundState();
-      setStatus("Playing " + FREE_STREAMS[activeName].label + ".");
-    });
-  }
-
-  if(pauseBtn){
-    pauseBtn.addEventListener("click",function(){
-      if(!activeName){ setStatus("Choose a free news stream first."); return; }
-      ytCommand("pauseVideo",[]);
-      setStatus("Paused " + FREE_STREAMS[activeName].label + ".");
-    });
-  }
+  if(playBtn) playBtn.addEventListener("click",playStream);
+  if(pauseBtn) pauseBtn.addEventListener("click",pauseStream);
+  if(prevStationBtn) prevStationBtn.addEventListener("click",function(){ cycleStation(-1); });
+  if(nextStationBtn) nextStationBtn.addEventListener("click",function(){ cycleStation(1); });
 
   if(audioOnlyBtn && wrap){
     audioOnlyBtn.addEventListener("click",function(){
@@ -2351,9 +2462,9 @@ prepareSelectedSource();
       const audioOnly = !wrap.classList.contains("audio-only");
       wrap.classList.toggle("audio-only",audioOnly);
       audioOnlyBtn.textContent = audioOnly ? "📺 Show Video" : "📻 Audio Only";
-      ytCommand("playVideo",[]);
+      if(desiredPlaying) ytCommand("playVideo",[]);
       applySoundState();
-      setStatus(audioOnly ? "Audio-only mode: " + FREE_STREAMS[activeName].label + " is still playing." : "Video restored for " + FREE_STREAMS[activeName].label + ".");
+      setStatus(audioOnly ? "📻 Audio-only mode: " + FREE_STREAMS[activeName].label + " is still playing." : "📺 Video restored for " + FREE_STREAMS[activeName].label + ".");
     });
   }
 
@@ -2366,8 +2477,6 @@ prepareSelectedSource();
     });
   }
 
-  // app.js registers the main Sound button before this script. By the time this
-  // listener runs, data-sound contains the new Voice of Peace sound state.
   if(mainSoundBtn){
     mainSoundBtn.addEventListener("click",function(){
       setTimeout(function(){
@@ -2376,8 +2485,40 @@ prepareSelectedSource();
           setStatus((soundIsOn() ? "🔊 Sound ON — " : "🔇 Sound OFF — ") + FREE_STREAMS[activeName].label);
         }
       },0);
-    });
+    },true);
   }
+
+  /*
+     When a radio/news stream is selected, the MAIN Voice of Peace controls at the
+     bottom of the page become stream controls. Capture mode prevents app.js from
+     also changing the text-news story at the same time.
+  */
+  function hijackIfRadioActive(event,handler){
+    if(window.__vopCollectingNewsStories) return;
+    if(!activeName) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    handler();
+  }
+
+  if(mainPrevBtn){
+    mainPrevBtn.addEventListener("click",function(event){
+      hijackIfRadioActive(event,function(){ cycleStation(-1); });
+    },true);
+  }
+  if(mainNextBtn){
+    mainNextBtn.addEventListener("click",function(event){
+      hijackIfRadioActive(event,function(){ cycleStation(1); });
+    },true);
+  }
+  if(mainPlayBtn){
+    mainPlayBtn.addEventListener("click",function(event){
+      hijackIfRadioActive(event,togglePlayPause);
+    },true);
+  }
+
+  /* Do not auto-start on page load. The first station click is the browser-approved user gesture. */
+  setStatus("Choose Newsmax2, Real America's Voice, Salem News or LiveNOW FOX. All stay inside Voice of Peace.");
 })();
 </script>
 

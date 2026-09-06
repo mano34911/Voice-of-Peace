@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -562,6 +562,15 @@ function fillSelect(select, items, kind){
     const option = document.createElement("option");
     option.value = id;
     option.textContent = name;
+
+    // Keep HeyGen preview information on the avatar option so the
+    // selected avatar can be previewed immediately on the left.
+    if(kind === "avatar"){
+      option.dataset.previewVideoUrl = item.preview_video_url || "";
+      option.dataset.previewImageUrl = item.preview_image_url || "";
+      option.dataset.defaultVoiceId = item.default_voice_id || "";
+    }
+
     if(id === saved) option.selected = true;
     select.appendChild(option);
   });
@@ -585,8 +594,13 @@ async function loadHeyGenOptions(){
 
     setPresenterStatus(
       "✅ Connected. Found " + avatars.length + " avatar(s) and " +
-      voices.length + " voice(s). Choose an avatar and voice."
+      voices.length + " voice(s). Choose an avatar below to see its HeyGen preview, then choose a voice."
     );
+
+    // If a previously saved avatar was restored, show its preview now.
+    if(presenterAvatarSelect.value){
+      previewSelectedAvatar();
+    }
   }catch(error){
     console.error(error);
     setPresenterStatus("❌ Presenter setup error: " + error.message);
@@ -595,12 +609,56 @@ async function loadHeyGenOptions(){
   }
 }
 
+function previewSelectedAvatar(){
+  const option = presenterAvatarSelect.selectedOptions && presenterAvatarSelect.selectedOptions[0];
+  if(!option || !option.value){
+    return;
+  }
+
+  const previewVideoUrl = option.dataset.previewVideoUrl || "";
+  const defaultVoiceId = option.dataset.defaultVoiceId || "";
+
+  // If HeyGen supplied a default voice for this avatar and the user has
+  // not chosen a voice yet, select that voice automatically when present.
+  if(defaultVoiceId && !presenterVoiceSelect.value){
+    const matchingVoice = Array.from(presenterVoiceSelect.options).find(function(v){
+      return v.value === defaultVoiceId;
+    });
+    if(matchingVoice){
+      presenterVoiceSelect.value = defaultVoiceId;
+      localStorage.setItem("vop_heygen_voice_id", defaultVoiceId);
+    }
+  }
+
+  if(previewVideoUrl){
+    if(presenterVideo){
+      presenterVideo.muted = true;
+      presenterVideo.loop = true;
+      presenterVideo.src = previewVideoUrl;
+      presenterVideo.classList.add("show");
+      try{ presenterVideo.load(); }catch(e){}
+      presenterVideo.play().catch(function(){});
+    }
+    if(presenterBadge){
+      presenterBadge.textContent = "● HEYGEN AVATAR PREVIEW";
+      presenterBadge.classList.add("show");
+    }
+    setPresenterStatus("✅ Avatar preview loaded. Choose a voice, then press PRESENT THIS STORY to create the news video.");
+  }else{
+    setPresenterStatus("✅ Avatar selected. HeyGen did not provide a preview video for this look. Choose a voice and press PRESENT THIS STORY.");
+  }
+}
+
 presenterAvatarSelect.addEventListener("change", function(){
   localStorage.setItem("vop_heygen_avatar_id", this.value || "");
+  previewSelectedAvatar();
 });
 
 presenterVoiceSelect.addEventListener("change", function(){
   localStorage.setItem("vop_heygen_voice_id", this.value || "");
+  if(this.value){
+    setPresenterStatus("✅ Avatar and voice selected. Press PRESENT THIS STORY to generate the HeyGen video.");
+  }
 });
 
 function currentNewsScript(){
@@ -621,10 +679,18 @@ function currentNewsScript(){
 
 function showPresenterVideo(url){
   if(!presenterVideo || !url) return;
+  presenterVideo.loop = false;
+  presenterVideo.muted = false;
   presenterVideo.src = url;
   presenterVideo.classList.add("show");
-  if(presenterBadge) presenterBadge.classList.add("show");
-  presenterVideo.play().catch(function(){});
+  if(presenterBadge){
+    presenterBadge.textContent = "● AI PRESENTER — EMMANUEL";
+    presenterBadge.classList.add("show");
+  }
+  try{ presenterVideo.load(); }catch(e){}
+  presenterVideo.play().catch(function(){
+    setPresenterStatus("✅ Emmanuel's AI news presentation is ready. Press Play on the video to start it.");
+  });
 }
 
 function showNewsImage(){

@@ -209,7 +209,7 @@ body{
 @media(max-width:550px){.heygen-video-library{grid-template-columns:1fr}}
 
 
-/* ===== RIGHT-WING STREAMING NEWS RADIO ===== */
+/* ===== FREE RIGHT-LEANING STREAMING NEWS ===== */
 .radio-section{margin-top:28px}
 .radio-card{padding:18px 20px}
 .radio-title-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
@@ -218,15 +218,26 @@ body{
 .radio-buttons{display:flex;flex-wrap:wrap;gap:9px}
 .radio-btn{border:1px solid #4389b7;border-radius:9px;background:#0a3f6b;color:#fff;padding:11px 15px;font-weight:900;cursor:pointer;transition:.2s}
 .radio-btn:hover{background:#0f639c;transform:translateY(-1px)}
-.radio-btn.fox{background:#b52534;border-color:#ff6976}
-.radio-btn.wabc{background:#69420b;border-color:#d59c36}
-.radio-btn.salem{background:#38408a;border-color:#7e8cff}
-.radio-btn.rav{background:#8a2c2c;border-color:#d95a5a}
+.radio-btn.active{outline:2px solid #fff;box-shadow:0 0 0 4px #159be655}
 .radio-btn.newsmax{background:#1456a0;border-color:#4b93e7}
-.radio-btn.oan{background:#3c3c3c;border-color:#878787}
-.radio-status{margin-top:12px;padding:11px 13px;border:1px solid #2e658b;border-radius:9px;background:#041d35;color:#bfe8ff;font-size:12px;line-height:1.45}
+.radio-btn.rav{background:#8a2c2c;border-color:#d95a5a}
+.radio-btn.salem{background:#38408a;border-color:#7e8cff}
+.radio-btn.first{background:#59308d;border-color:#a46ce4}
+.radio-btn.fox{background:#b52534;border-color:#ff6976}
+.radio-player-wrap{margin-top:14px;border:1px solid #2e658b;border-radius:11px;overflow:hidden;background:#000;position:relative}
+.radio-player-wrap.audio-only{height:68px;background:linear-gradient(90deg,#03192e,#0b3659,#03192e)}
+.radio-player-wrap.audio-only iframe{position:absolute;width:1px;height:1px;opacity:.01;pointer-events:none}
+.radio-player-wrap.audio-only .radio-audio-only-label{display:flex}
+.radio-audio-only-label{display:none;min-height:68px;align-items:center;justify-content:center;gap:9px;color:#dff5ff;font-weight:900;letter-spacing:.4px}
+#freeNewsPlayer{display:block;width:100%;aspect-ratio:16/9;border:0;background:#000}
+.radio-controls{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-top:10px;padding:10px;border:1px solid #2e658b;border-radius:9px;background:#031a31}
+.radio-control-btn{border:1px solid #4c91bf;border-radius:8px;background:#0b5689;color:#fff;padding:9px 12px;font-weight:900;cursor:pointer}
+.radio-control-btn:hover{background:#1474ad}
+.radio-volume-wrap{display:flex;align-items:center;gap:8px;flex:1 1 220px;min-width:190px;color:#cfeeff;font-size:11px;font-weight:900}
+#radioVolume{width:100%;accent-color:#4bd0ff}
+.radio-status{margin-top:10px;padding:11px 13px;border:1px solid #2e658b;border-radius:9px;background:#041d35;color:#bfe8ff;font-size:12px;line-height:1.45}
 .radio-note{margin-top:8px;color:#9fc0d5;font-size:11px;line-height:1.45}
-@media(max-width:550px){.radio-btn{flex:1 1 45%}.radio-title-row{align-items:flex-start;flex-direction:column}}
+@media(max-width:550px){.radio-btn{flex:1 1 45%}.radio-title-row{align-items:flex-start;flex-direction:column}.radio-control-btn{flex:1 1 42%}}
 
 </style>
 </head>
@@ -297,13 +308,6 @@ body{
           <summary>⚙ HEYGEN PRESENTER SETUP</summary>
 
           <div class="presenter-grid">
-            <input
-              id="presenterFunctionToken"
-              class="token-input"
-              type="password"
-              autocomplete="off"
-              placeholder="Paste HEYGEN_FUNCTION_TOKEN here — NOT your HeyGen API key">
-
             <select id="presenterAvatarSelect">
               <option value="">Choose your HeyGen avatar</option>
             </select>
@@ -318,18 +322,16 @@ body{
           </div>
 
           <div class="presenter-actions" style="margin-top:9px">
-            <button id="savePresenterToken" class="save-token" type="button">💾 SAVE PRIVATE TOKEN</button>
             <button id="testPresenterConnection" class="test-connection" type="button">✓ TEST CONNECTION</button>
             <button id="loadPresenterOptions" type="button">🔗 CONNECT TO HEYGEN &amp; SHOW AVATARS</button>
             <button id="prepareAllAvatarPreviewsBtn" type="button">⚡ PREPARE ALL AVATAR NEWS VIDEOS</button>
           </div>
 
           <div class="presenter-note">
-            <span class="presenter-secure">Important:</span>
-            Do not paste your HeyGen API key into this website. The API key stays in Supabase as
-            <strong>HEYGEN_API_KEY</strong>. Paste only your 64-character
-            <strong>HEYGEN_FUNCTION_TOKEN</strong> above. It is saved only in this browser on this computer.
-            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 14:45 NEWS + RADIO RESTORED</strong>
+            <span class="presenter-secure">Secure automatic connection:</span>
+            New visitors do not enter any API key or private code. The HeyGen API key and private function token stay only in Supabase.
+            Voice of Peace connects automatically from the official website.
+            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 14:50 AUTO-CONNECT NO USER CODE</strong>
             <br><span style="color:#ffd34f">PREPARE ALL AVATAR NEWS VIDEOS assigns a different live news story to each avatar and creates a talking HeyGen report with your private voice. Existing old “Hello, this is Emmanuel” previews are ignored. This uses HeyGen credits, so it runs only when you press the button.</span>
           </div>
         </details>
@@ -470,21 +472,42 @@ body{
   <section id="radioSection" class="radio-section">
     <div class="card radio-card">
       <div class="radio-title-row">
-        <h2>📻 Right-Wing Streaming News Radio</h2>
-        <div class="radio-subtitle">LIVE RADIO &amp; NEWS STREAMS</div>
+        <h2>📻 Free Right-Leaning Streaming News</h2>
+        <div class="radio-subtitle">FREE • SAME PAGE • APP SOUND CONTROLS</div>
       </div>
 
       <div class="radio-buttons">
-        <button class="radio-btn fox" type="button" data-radio-name="FOX News Radio" data-radio-url="https://radio.foxnews.com/listen/listen-live-2/">🔊 FOX NEWS RADIO</button>
-        <button class="radio-btn wabc" type="button" data-radio-name="77 WABC New York" data-radio-url="https://wabcradio.com/">📻 77 WABC</button>
-        <button class="radio-btn salem" type="button" data-radio-name="Salem News Channel" data-radio-url="https://salemnewschannel.com/">▶ SALEM NEWS</button>
-        <button class="radio-btn rav" type="button" data-radio-name="Real America's Voice" data-radio-url="https://americasvoice.news/live/">▶ REAL AMERICA'S VOICE</button>
-        <button class="radio-btn newsmax" type="button" data-radio-name="Newsmax Live" data-radio-url="https://www.newsmax.com/live/TVwidget/">▶ NEWSMAX LIVE</button>
-        <button class="radio-btn oan" type="button" data-radio-name="One America News" data-radio-url="https://www.oann.com/wheretowatch/">▶ OAN LIVE</button>
+        <button class="radio-btn newsmax" type="button" data-free-stream="Newsmax2">▶ NEWSMAX2 FREE</button>
+        <button class="radio-btn rav" type="button" data-free-stream="Real America's Voice">▶ REAL AMERICA'S VOICE</button>
+        <button class="radio-btn salem" type="button" data-free-stream="Salem News Channel">▶ SALEM NEWS</button>
+        <button class="radio-btn first" type="button" data-free-stream="The First TV">▶ THE FIRST TV</button>
+        <button class="radio-btn fox" type="button" data-free-stream="LiveNOW from FOX">▶ LIVENOW FOX</button>
       </div>
 
-      <div id="radioStatus" class="radio-status">Choose a station. The official live stream will open in a new tab so the station's own audio player can work reliably.</div>
-      <div class="radio-note">These buttons use the official station/network streaming pages. Voice of Peace stays open in this tab.</div>
+      <div id="radioPlayerWrap" class="radio-player-wrap">
+        <iframe
+          id="freeNewsPlayer"
+          title="Voice of Peace free streaming news player"
+          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+          src="about:blank"></iframe>
+        <div class="radio-audio-only-label">📻 AUDIO ONLY MODE — STREAM IS STILL PLAYING</div>
+      </div>
+
+      <div class="radio-controls">
+        <button id="radioPlayBtn" class="radio-control-btn" type="button">▶ Play</button>
+        <button id="radioPauseBtn" class="radio-control-btn" type="button">⏸ Pause</button>
+        <button id="radioAudioOnlyBtn" class="radio-control-btn" type="button">📻 Audio Only</button>
+        <div class="radio-volume-wrap">
+          <span>🔊 Volume</span>
+          <input id="radioVolume" type="range" min="0" max="100" value="85" aria-label="Streaming news volume">
+          <span id="radioVolumeValue">85%</span>
+        </div>
+      </div>
+
+      <div id="radioStatus" class="radio-status">Choose a free stream above. It will play inside Voice of Peace — no new page and no paid subscription button.</div>
+      <div class="radio-note">The main Voice of Peace <strong>🔊 Sound On / 🔇 Sound Off</strong> button also controls this player. These buttons use free official YouTube streams/channels; a channel can show “offline” when that network is not broadcasting on YouTube at that moment.</div>
     </div>
   </section>
 
@@ -529,7 +552,7 @@ body{
 /* ============================================================
    VOICE OF PEACE — HEYGEN AI PRESENTER
    HeyGen API key stays inside Supabase.
-   Browser sends only HEYGEN_FUNCTION_TOKEN.
+   Browser never receives a HeyGen API key or private function token.
    ============================================================ */
 
 const HEYGEN_FUNCTION_URL =
@@ -580,8 +603,6 @@ const presenterStatus = document.getElementById("presenterStatus");
 const presenterAvatarSelect = document.getElementById("presenterAvatarSelect");
 const presenterVoiceSelect = document.getElementById("presenterVoiceSelect");
 const presenterAvatarGallery = document.getElementById("presenterAvatarGallery");
-const presenterFunctionToken = document.getElementById("presenterFunctionToken");
-const savePresenterToken = document.getElementById("savePresenterToken");
 const testPresenterConnection = document.getElementById("testPresenterConnection");
 const loadPresenterOptions = document.getElementById("loadPresenterOptions");
 const prepareAllAvatarPreviewsBtn = document.getElementById("prepareAllAvatarPreviewsBtn");
@@ -598,46 +619,15 @@ let cachedHeyGenAvatars = [];
 let cachedHeyGenVoices = [];
 let presenterOptionsLoading = false;
 
+// Older builds stored the private function token in this browser.
+// It is no longer needed, so remove any old saved copy automatically.
+try { localStorage.removeItem("vop_heygen_function_token"); } catch(e) {}
+
 function setPresenterStatus(message){
   if(presenterStatus) presenterStatus.textContent = message;
 }
 
-function getPresenterToken(){
-  return String(
-    presenterFunctionToken.value ||
-    localStorage.getItem("vop_heygen_function_token") ||
-    ""
-  ).trim();
-}
-
-function saveToken(){
-  const token = String(presenterFunctionToken.value || "").trim();
-  if(!token){
-    setPresenterStatus("Paste your HEYGEN_FUNCTION_TOKEN first.");
-    presenterFunctionToken.focus();
-    return false;
-  }
-  if(token.length !== 64){
-    setPresenterStatus("The private function token should be 64 characters. Current length: " + token.length + ".");
-    return false;
-  }
-  localStorage.setItem("vop_heygen_function_token", token);
-  setPresenterStatus("✅ Private function token saved. Connecting to HeyGen and loading avatars now...");
-  setTimeout(function(){ testHeyGenConnection(); }, 100);
-  return true;
-}
-
-const savedFunctionToken = localStorage.getItem("vop_heygen_function_token") || "";
-if(savedFunctionToken){
-  presenterFunctionToken.value = savedFunctionToken;
-}
-
 async function callHeyGenFunction(payload, timeoutMs = 30000){
-  const token = getPresenterToken();
-  if(!token){
-    throw new Error("Paste and save your HEYGEN_FUNCTION_TOKEN in Presenter Setup first.");
-  }
-
   const controller = new AbortController();
   const timer = setTimeout(function(){ controller.abort(); }, timeoutMs);
 
@@ -646,8 +636,7 @@ async function callHeyGenFunction(payload, timeoutMs = 30000){
     response = await fetch(HEYGEN_FUNCTION_URL, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "x-function-token": token
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(payload),
       signal: controller.signal
@@ -1739,7 +1728,6 @@ async function generatePresenter(){
   }
 }
 
-savePresenterToken.addEventListener("click", saveToken);
 testPresenterConnection.addEventListener("click", testHeyGenConnection);
 loadPresenterOptions.addEventListener("click", loadHeyGenOptions);
 presentStoryBtn.addEventListener("click", function(){ unlockPresenterAudio(); generatePresenter(); });
@@ -1769,14 +1757,10 @@ if(jumpToNewsBtn){
 }
 
 const savedPresenterVideo = localStorage.getItem("vop_last_presenter_video") || "";
-if(savedFunctionToken){
-  setPresenterStatus("Private token found. Connecting to HeyGen automatically...");
-  setTimeout(function(){
-    testHeyGenConnection();
-  }, 350);
-}else{
-  setPresenterStatus("Paste your 64-character HEYGEN_FUNCTION_TOKEN, save it, then click CONNECT TO HEYGEN & SHOW AVATARS.");
-}
+setPresenterStatus("Connecting securely to HeyGen automatically — no API key or private code is required from visitors...");
+setTimeout(function(){
+  testHeyGenConnection();
+}, 350);
 if(presenterVideo){
   presenterVideo.addEventListener("click", function(){
     unlockPresenterAudio();
@@ -2241,21 +2225,159 @@ prepareSelectedSource();
 
 
 <script>
-/* ===== RIGHT-WING STREAMING NEWS RADIO BUTTONS ===== */
+/* ===== FREE SAME-PAGE STREAMING NEWS PLAYER ===== */
 (function(){
+  const player = document.getElementById("freeNewsPlayer");
+  const wrap = document.getElementById("radioPlayerWrap");
   const status = document.getElementById("radioStatus");
-  document.querySelectorAll(".radio-btn[data-radio-url]").forEach(function(button){
-    button.addEventListener("click", function(){
-      const name = button.dataset.radioName || "Radio stream";
-      const url = button.dataset.radioUrl || "";
-      if(!url) return;
-      if(status) status.textContent = "Opening " + name + " live stream...";
-      const opened = window.open(url, "_blank", "noopener,noreferrer");
-      if(!opened && status){
-        status.textContent = "Your browser blocked the new tab. Allow pop-ups for Voice of Peace and press the station again.";
-      }
+  const volume = document.getElementById("radioVolume");
+  const volumeValue = document.getElementById("radioVolumeValue");
+  const playBtn = document.getElementById("radioPlayBtn");
+  const pauseBtn = document.getElementById("radioPauseBtn");
+  const audioOnlyBtn = document.getElementById("radioAudioOnlyBtn");
+  const mainSoundBtn = document.getElementById("soundBtn");
+
+  // Stable official YouTube channel IDs. Using YouTube's live_stream endpoint keeps
+  // Voice of Peace on one page and automatically follows the channel's current live feed.
+  const FREE_STREAMS = {
+    "Newsmax2": {
+      channelId: "UCx6h-dWzJ5NpAlja1YsApdg",
+      label: "Newsmax2 — free official stream"
+    },
+    "Real America's Voice": {
+      channelId: "UCMGZ8pfQHgZ6Yj0-92PMENg",
+      label: "Real America's Voice — free official stream"
+    },
+    "Salem News Channel": {
+      channelId: "UCgV4zjmG_mUuCl_VwcXoRgg",
+      label: "Salem News Channel — free official stream"
+    },
+    "The First TV": {
+      channelId: "UCQVhgOxzt5W1fZhOd0l2E6g",
+      label: "The First TV — free conservative stream"
+    },
+    "LiveNOW from FOX": {
+      channelId: "UCJg9wBPyKMNA5sRDnvzmkdg",
+      label: "LiveNOW from FOX — free breaking-news stream"
+    }
+  };
+
+  let activeName = "";
+  let currentVolume = 85;
+
+  function setStatus(text){
+    if(status) status.textContent = text;
+  }
+
+  function ytCommand(func,args){
+    if(!player || !player.contentWindow) return;
+    try{
+      player.contentWindow.postMessage(JSON.stringify({
+        event:"command",
+        func:func,
+        args:Array.isArray(args) ? args : []
+      }),"*");
+    }catch(error){
+      console.warn("Streaming player command failed:",error);
+    }
+  }
+
+  function soundIsOn(){
+    return !mainSoundBtn || String(mainSoundBtn.dataset.sound || "on").toLowerCase() !== "off";
+  }
+
+  function applySoundState(){
+    ytCommand("setVolume",[currentVolume]);
+    ytCommand(soundIsOn() ? "unMute" : "mute",[]);
+  }
+
+  function streamUrl(channelId){
+    return "https://www.youtube.com/embed/live_stream?channel=" + encodeURIComponent(channelId) +
+      "&autoplay=1&mute=" + (soundIsOn() ? "0" : "1") +
+      "&enablejsapi=1&playsinline=1&rel=0&modestbranding=1";
+  }
+
+  function selectStream(name){
+    const config = FREE_STREAMS[name];
+    if(!config || !player) return;
+    activeName = name;
+    document.querySelectorAll(".radio-btn[data-free-stream]").forEach(function(button){
+      button.classList.toggle("active",button.dataset.freeStream === name);
+    });
+    if(wrap) wrap.classList.remove("audio-only");
+    if(audioOnlyBtn) audioOnlyBtn.textContent = "📻 Audio Only";
+    player.src = streamUrl(config.channelId);
+    setStatus("Loading " + config.label + " inside Voice of Peace...");
+
+    // The station button click is a user gesture, so browsers usually permit sound.
+    // Re-apply play/volume/unmute after the YouTube iframe has initialized.
+    setTimeout(function(){
+      ytCommand("playVideo",[]);
+      applySoundState();
+    },1200);
+    setTimeout(function(){
+      ytCommand("playVideo",[]);
+      applySoundState();
+      setStatus(config.label + " is selected. Use the Voice of Peace sound button or the volume slider here.");
+    },2600);
+  }
+
+  document.querySelectorAll(".radio-btn[data-free-stream]").forEach(function(button){
+    button.addEventListener("click",function(){
+      selectStream(button.dataset.freeStream || "");
     });
   });
+
+  if(playBtn){
+    playBtn.addEventListener("click",function(){
+      if(!activeName){ setStatus("Choose a free news stream first."); return; }
+      ytCommand("playVideo",[]);
+      applySoundState();
+      setStatus("Playing " + FREE_STREAMS[activeName].label + ".");
+    });
+  }
+
+  if(pauseBtn){
+    pauseBtn.addEventListener("click",function(){
+      if(!activeName){ setStatus("Choose a free news stream first."); return; }
+      ytCommand("pauseVideo",[]);
+      setStatus("Paused " + FREE_STREAMS[activeName].label + ".");
+    });
+  }
+
+  if(audioOnlyBtn && wrap){
+    audioOnlyBtn.addEventListener("click",function(){
+      if(!activeName){ setStatus("Choose a free news stream first."); return; }
+      const audioOnly = !wrap.classList.contains("audio-only");
+      wrap.classList.toggle("audio-only",audioOnly);
+      audioOnlyBtn.textContent = audioOnly ? "📺 Show Video" : "📻 Audio Only";
+      ytCommand("playVideo",[]);
+      applySoundState();
+      setStatus(audioOnly ? "Audio-only mode: " + FREE_STREAMS[activeName].label + " is still playing." : "Video restored for " + FREE_STREAMS[activeName].label + ".");
+    });
+  }
+
+  if(volume){
+    volume.addEventListener("input",function(){
+      currentVolume = Math.max(0,Math.min(100,Number(volume.value) || 0));
+      if(volumeValue) volumeValue.textContent = currentVolume + "%";
+      ytCommand("setVolume",[currentVolume]);
+      if(currentVolume > 0 && soundIsOn()) ytCommand("unMute",[]);
+    });
+  }
+
+  // app.js registers the main Sound button before this script. By the time this
+  // listener runs, data-sound contains the new Voice of Peace sound state.
+  if(mainSoundBtn){
+    mainSoundBtn.addEventListener("click",function(){
+      setTimeout(function(){
+        applySoundState();
+        if(activeName){
+          setStatus((soundIsOn() ? "🔊 Sound ON — " : "🔇 Sound OFF — ") + FREE_STREAMS[activeName].label);
+        }
+      },0);
+    });
+  }
 })();
 </script>
 

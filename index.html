@@ -304,7 +304,7 @@ body{
             Do not paste your HeyGen API key into this website. The API key stays in Supabase as
             <strong>HEYGEN_API_KEY</strong>. Paste only your 64-character
             <strong>HEYGEN_FUNCTION_TOKEN</strong> above. It is saved only in this browser on this computer.
-            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 14:05 MY-PRIVATE-VOICE</strong>
+            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 13:25 INSTANT-PREVIEW</strong>
           </div>
         </details>
 
@@ -1080,7 +1080,7 @@ async function pollPresenterVideo(videoId, attempt){
 
     presenterPollTimer = setTimeout(function(){
       pollPresenterVideo(videoId, attempt + 1);
-    }, 7000);
+    }, 2500);
 
   }catch(error){
     console.error(error);
@@ -1120,7 +1120,20 @@ async function generatePresenter(){
   const engineType = supportedEngines.includes("avatar_v") ? "avatar_v" : "avatar_iv";
 
   presentStoryBtn.disabled = true;
-  setPresenterStatus("Sending the current Voice of Peace story to HeyGen using " + (engineType === "avatar_v" ? "AVATAR V" : "Avatar IV") + "...");
+
+  // Show the selected HeyGen avatar immediately while the final talking video renders.
+  // This removes the blank 1-2 minute wait. The preview is muted because it is only
+  // the avatar preview; the real generated presentation will replace it automatically.
+  previewSelectedAvatar();
+  if(presenterBadge){
+    presenterBadge.textContent = "● AVATAR PREVIEW — FINAL VIDEO RENDERING";
+    presenterBadge.classList.add("show");
+  }
+  setPresenterStatus(
+    "▶ Avatar is on screen now. HeyGen is creating the final talking presentation with " +
+    (engineType === "avatar_v" ? "AVATAR V" : "Avatar IV") +
+    " and your selected voice. It will replace this preview automatically when ready."
+  );
 
   try{
     const result = await callHeyGenFunction({
@@ -1135,7 +1148,11 @@ async function generatePresenter(){
     const videoId = result.video_id || result?.data?.video_id || "";
     if(!videoId) throw new Error("HeyGen accepted the request but no video ID was returned.");
 
-    setPresenterStatus("✅ HeyGen started the presentation with " + (engineType === "avatar_v" ? "AVATAR V" : "Avatar IV") + ". Creating the video now...");
+    setPresenterStatus(
+      "▶ Avatar preview is playing now. HeyGen is rendering the final talking video with " +
+      (engineType === "avatar_v" ? "AVATAR V" : "Avatar IV") +
+      ". It will switch automatically as soon as HeyGen finishes."
+    );
     pollPresenterVideo(videoId, 0);
 
   }catch(error){

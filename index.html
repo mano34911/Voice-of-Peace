@@ -285,7 +285,7 @@ body{
             </select>
 
             <select id="presenterVoiceSelect">
-              <option value="">Choose your HeyGen voice</option>
+              <option value="">Choose your private / cloned HeyGen voice</option>
             </select>
           </div>
 
@@ -304,7 +304,7 @@ body{
             Do not paste your HeyGen API key into this website. The API key stays in Supabase as
             <strong>HEYGEN_API_KEY</strong>. Paste only your 64-character
             <strong>HEYGEN_FUNCTION_TOKEN</strong> above. It is saved only in this browser on this computer.
-            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 13:10 AVATARS-VIDEOS-NEWS</strong>
+            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 14:05 MY-PRIVATE-VOICE</strong>
           </div>
         </details>
 
@@ -627,7 +627,9 @@ function fillSelect(select, items, kind){
   const savedKey = kind === "avatar" ? "vop_heygen_avatar_id" : "vop_heygen_voice_id";
   const saved = localStorage.getItem(savedKey) || "";
 
-  select.innerHTML = '<option value="">Choose your HeyGen ' + kind + '</option>';
+  select.innerHTML = kind === "voice"
+    ? '<option value="">Choose your private / cloned HeyGen voice</option>'
+    : '<option value="">Choose your HeyGen avatar</option>';
 
   items.forEach(function(item){
     const id = item.avatar_id || item.voice_id || item.id || "";
@@ -636,15 +638,18 @@ function fillSelect(select, items, kind){
     const name = item.avatar_name || item.voice_name || item.name || item.display_name || id;
     const option = document.createElement("option");
     option.value = id;
-    option.textContent = name;
+    option.textContent = kind === "voice" ? ("🎙 MY VOICE — " + name) : name;
 
-    // Keep HeyGen preview information on the avatar option so the
-    // selected avatar can be previewed immediately on the left.
     if(kind === "avatar"){
       option.dataset.previewVideoUrl = item.preview_video_url || "";
       option.dataset.previewImageUrl = item.preview_image_url || "";
       option.dataset.defaultVoiceId = item.default_voice_id || "";
       option.dataset.supportedEngines = JSON.stringify(item.supported_api_engines || []);
+    }else{
+      option.dataset.voiceType = item.voice_type || "private";
+      option.dataset.previewAudioUrl = item.preview_audio_url || "";
+      option.dataset.language = item.language || "";
+      option.dataset.gender = item.gender || "";
     }
 
     if(id === saved) option.selected = true;
@@ -760,51 +765,42 @@ function autoSelectPresenterOptions(avatars, voices){
     }
   }
 
-  const selectedAvatar = avatars.find(function(a){
-    return (a.avatar_id || a.id || "") === presenterAvatarSelect.value;
-  });
-  const defaultVoiceId = selectedAvatar?.default_voice_id || "";
+  // Never auto-select a public/stock voice. The Edge Function now returns
+  // only type=private voices (the user's cloned voices). If an old saved
+  // stock voice such as Annie is present in localStorage, discard it.
+  const availableVoiceIds = new Set(voices.map(function(v){
+    return v.voice_id || v.id || "";
+  }).filter(Boolean));
 
-  if(!presenterVoiceSelect.value && defaultVoiceId){
-    const hasDefault = Array.from(presenterVoiceSelect.options).some(function(opt){ return opt.value === defaultVoiceId; });
-    if(hasDefault){
-      presenterVoiceSelect.value = defaultVoiceId;
-      localStorage.setItem("vop_heygen_voice_id", defaultVoiceId);
-    }
+  let selectedVoiceId = presenterVoiceSelect.value || localStorage.getItem("vop_heygen_voice_id") || "";
+  if(selectedVoiceId && !availableVoiceIds.has(selectedVoiceId)){
+    selectedVoiceId = "";
+    presenterVoiceSelect.value = "";
+    localStorage.removeItem("vop_heygen_voice_id");
   }
 
-  if(!presenterVoiceSelect.value && voices.length){
-    const firstVoiceId = voices[0].voice_id || voices[0].id || "";
-    if(firstVoiceId){
-      presenterVoiceSelect.value = firstVoiceId;
-      localStorage.setItem("vop_heygen_voice_id", firstVoiceId);
+  if(!selectedVoiceId && voices.length){
+    const myVoice = voices.find(function(v){ return (v.voice_type || "private") === "private"; }) || voices[0];
+    const myVoiceId = myVoice.voice_id || myVoice.id || "";
+    if(myVoiceId){
+      presenterVoiceSelect.value = myVoiceId;
+      localStorage.setItem("vop_heygen_voice_id", myVoiceId);
     }
   }
 }
 
-function ensureSelectedAvatarDefaultVoice(){
-  const avatarId = presenterAvatarSelect.value || "";
-  const selectedAvatar = cachedHeyGenAvatars.find(function(a){
-    return (a.avatar_id || a.id || "") === avatarId;
-  });
-  const defaultVoiceId = selectedAvatar?.default_voice_id || "";
-  if(!defaultVoiceId) return false;
-
-  let option = Array.from(presenterVoiceSelect.options).find(function(v){
-    return v.value === defaultVoiceId;
-  });
-  if(!option){
-    option = document.createElement("option");
-    option.value = defaultVoiceId;
-    option.textContent = "Avatar default voice";
-    presenterVoiceSelect.appendChild(option);
+function clearWrongSavedVoice(){
+  const selected = presenterVoiceSelect.value || "";
+  const validIds = new Set(cachedHeyGenVoices.map(function(v){ return v.voice_id || v.id || ""; }).filter(Boolean));
+  if(selected && !validIds.has(selected)){
+    presenterVoiceSelect.value = "";
   }
-  if(!presenterVoiceSelect.value){
-    presenterVoiceSelect.value = defaultVoiceId;
-    localStorage.setItem("vop_heygen_voice_id", defaultVoiceId);
+  const saved = localStorage.getItem("vop_heygen_voice_id") || "";
+  if(saved && !validIds.has(saved)){
+    localStorage.removeItem("vop_heygen_voice_id");
   }
-  return true;
 }
+
 
 async function loadHeyGenOptions(){
   if(presenterOptionsLoading) return;
@@ -823,7 +819,6 @@ async function loadHeyGenOptions(){
     fillSelect(presenterAvatarSelect, avatars, "avatar");
     autoSelectPresenterOptions(avatars, []);
     renderAvatarGallery(avatars);
-    ensureSelectedAvatarDefaultVoice();
 
     if(presenterAvatarSelect.value){
       previewSelectedAvatar();
@@ -839,26 +834,24 @@ async function loadHeyGenOptions(){
       const voiceResult = await callHeyGenFunction({action:"voices"}, 15000);
       const voices = collectVoiceList(voiceResult);
       cachedHeyGenVoices = voices;
+      clearWrongSavedVoice();
       const currentVoice = presenterVoiceSelect.value || localStorage.getItem("vop_heygen_voice_id") || "";
       fillSelect(presenterVoiceSelect, voices, "voice");
       if(currentVoice && Array.from(presenterVoiceSelect.options).some(function(v){ return v.value === currentVoice; })){
         presenterVoiceSelect.value = currentVoice;
       }
       autoSelectPresenterOptions(avatars, voices);
-      ensureSelectedAvatarDefaultVoice();
-
+  
       setPresenterStatus(
         "✅ Connected to HeyGen. Showing " + avatars.length + " avatar(s) and " +
-        voices.length + " voice(s). Click an avatar picture to select it."
+        voices.length + " PRIVATE/CLONED voice(s). Your own HeyGen voice is selected when available."
       );
     }catch(voiceError){
       console.warn("HeyGen voices could not be loaded yet:", voiceError);
-      const hasDefault = ensureSelectedAvatarDefaultVoice();
+      presenterVoiceSelect.value = "";
+      localStorage.removeItem("vop_heygen_voice_id");
       setPresenterStatus(
-        "✅ HeyGen avatars loaded: " + avatars.length + ". " +
-        (hasDefault
-          ? "The full voice list is slow, so the selected avatar's default voice is ready. You can still present this story."
-          : "The voice list is taking too long. Your avatars are available; press CONNECT again later to retry voices.")
+        "✅ HeyGen avatars loaded: " + avatars.length + ". Your private/cloned voice list did not load yet. Press CONNECT again to retry before creating a presentation."
       );
     }
   }catch(error){
@@ -887,18 +880,6 @@ function previewSelectedAvatar(){
   const supportsAvatarV = Array.isArray(supportedEngines) && supportedEngines.includes("avatar_v");
   markSelectedAvatarCard();
 
-  // If HeyGen supplied a default voice for this avatar and the user has
-  // not chosen a voice yet, select that voice automatically when present.
-  if(defaultVoiceId && !presenterVoiceSelect.value){
-    const matchingVoice = Array.from(presenterVoiceSelect.options).find(function(v){
-      return v.value === defaultVoiceId;
-    });
-    if(matchingVoice){
-      presenterVoiceSelect.value = defaultVoiceId;
-      localStorage.setItem("vop_heygen_voice_id", defaultVoiceId);
-    }
-  }
-
   if(previewVideoUrl){
     if(presenterVideo){
       presenterVideo.muted = true;
@@ -912,7 +893,7 @@ function previewSelectedAvatar(){
       presenterBadge.textContent = "● HEYGEN AVATAR PREVIEW";
       presenterBadge.classList.add("show");
     }
-    setPresenterStatus("✅ Avatar preview loaded. " + (supportsAvatarV ? "AVATAR V is supported for this avatar. " : "This avatar will use Avatar IV. ") + "Choose a voice, then press PRESENT THIS STORY.");
+    setPresenterStatus("✅ Avatar preview loaded. " + (supportsAvatarV ? "AVATAR V is supported for this avatar. " : "This avatar will use Avatar IV. ") + "Your private/cloned voice is used for the presentation. Press PRESENT THIS STORY when ready.");
   }else if(previewImageUrl){
     if(presenterVideo){
       try{ presenterVideo.pause(); }catch(e){}
@@ -928,9 +909,9 @@ function previewSelectedAvatar(){
       presenterBadge.textContent = "● HEYGEN AVATAR PREVIEW";
       presenterBadge.classList.add("show");
     }
-    setPresenterStatus("✅ Avatar selected. " + (supportsAvatarV ? "AVATAR V is supported. " : "Avatar IV will be used. ") + "Choose a voice, then press PRESENT THIS STORY.");
+    setPresenterStatus("✅ Avatar selected. " + (supportsAvatarV ? "AVATAR V is supported. " : "Avatar IV will be used. ") + "Your private/cloned voice is used for the presentation. Press PRESENT THIS STORY when ready.");
   }else{
-    setPresenterStatus("✅ Avatar selected. Choose a voice and press PRESENT THIS STORY.");
+    setPresenterStatus("✅ Avatar selected. Your private/cloned voice will be used. Press PRESENT THIS STORY.");
   }
 }
 
@@ -1120,7 +1101,7 @@ async function generatePresenter(){
   }
 
   if(!avatarId || !voiceId){
-    setPresenterStatus("❌ HeyGen connected, but no usable avatar/voice could be selected. Click an avatar picture and choose a voice.");
+    setPresenterStatus("❌ No private/cloned HeyGen voice is selected. Voice of Peace will not use a stock female voice. Connect again and choose one of YOUR private voices.");
     return;
   }
 

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Voice of Peace - Live news, video reports and messages of peace.">
 <title>Voice of Peace</title>
+<link rel="icon" href="data:,">
 
 <style>
 *{box-sizing:border-box}
@@ -229,7 +230,7 @@ body{
       <div class="photo-section">
         <img src="many.jpeg" class="family-photo" alt="Voice of Peace">
         <img id="storyImage" class="story-image" alt="News story">
-        <video id="presenterVideo" class="presenter-video" playsinline controls preload="metadata"></video>
+        <video id="presenterVideo" class="presenter-video" playsinline controls autoplay preload="auto"></video>
         <div id="presenterBadge" class="presenter-badge">● AI PRESENTER — EMMANUEL • AVATAR V</div>
         <div class="media-gradient"><span class="live-label">● LIVE WORLD NEWS</span></div>
       </div>
@@ -304,7 +305,7 @@ body{
             Do not paste your HeyGen API key into this website. The API key stays in Supabase as
             <strong>HEYGEN_API_KEY</strong>. Paste only your 64-character
             <strong>HEYGEN_FUNCTION_TOKEN</strong> above. It is saved only in this browser on this computer.
-            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 13:25 INSTANT-PREVIEW</strong>
+            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 13:45 SOUND-ON-AUTOPLAY</strong>
           </div>
         </details>
 
@@ -488,6 +489,45 @@ const HEYGEN_FUNCTION_URL =
   "https://pqaqbpxrygveahwhoobt.supabase.co/functions/v1/heygen-video";
 
 const presenterVideo = document.getElementById("presenterVideo");
+
+// Voice of Peace prefers speaker audio ON. Browsers still require a real user
+// interaction before reliable audible autoplay; PRESENT THIS STORY provides it.
+let presenterAudioUnlocked = localStorage.getItem("vop_presenter_audio_on") === "1";
+
+function applyPresenterAudioOn(){
+  if(!presenterVideo) return;
+  presenterVideo.defaultMuted = false;
+  presenterVideo.muted = false;
+  presenterVideo.volume = 1;
+}
+
+function unlockPresenterAudio(){
+  presenterAudioUnlocked = true;
+  localStorage.setItem("vop_presenter_audio_on", "1");
+  applyPresenterAudioOn();
+  if(presenterVideo && presenterVideo.src){
+    presenterVideo.play().catch(function(){});
+  }
+}
+
+applyPresenterAudioOn();
+
+// Browsers do not allow guaranteed audible autoplay before the visitor interacts
+// with the page. The first click/tap/key press unlocks speaker audio for all
+// subsequent HeyGen preview and generated videos in this tab.
+function installPresenterAudioUnlock(){
+  const unlockOnce = function(){
+    unlockPresenterAudio();
+    document.removeEventListener("pointerdown", unlockOnce, true);
+    document.removeEventListener("touchstart", unlockOnce, true);
+    document.removeEventListener("keydown", unlockOnce, true);
+  };
+  document.addEventListener("pointerdown", unlockOnce, true);
+  document.addEventListener("touchstart", unlockOnce, true);
+  document.addEventListener("keydown", unlockOnce, true);
+}
+installPresenterAudioUnlock();
+
 const presenterBadge = document.getElementById("presenterBadge");
 const presenterStatus = document.getElementById("presenterStatus");
 const presenterAvatarSelect = document.getElementById("presenterAvatarSelect");
@@ -702,23 +742,31 @@ function renderAvatarGallery(avatars){
       card.appendChild(vBadge);
     }
 
-    if(imageUrl){
+    // If HeyGen supplies a preview video, show the moving preview directly in
+    // the avatar tile. Tile previews stay muted so 10+ avatars do not all talk
+    // at once; clicking a tile opens that avatar in the large player with sound.
+    if(videoUrl){
+      const vid = document.createElement("video");
+      vid.src = videoUrl;
+      if(imageUrl) vid.poster = imageUrl;
+      vid.muted = true;
+      vid.defaultMuted = true;
+      vid.loop = true;
+      vid.autoplay = true;
+      vid.playsInline = true;
+      vid.preload = "metadata";
+      vid.setAttribute("playsinline", "");
+      card.appendChild(vid);
+      const startTilePreview = function(){ vid.play().catch(function(){}); };
+      vid.addEventListener("canplay", startTilePreview, {once:true});
+      startTilePreview();
+    }else if(imageUrl){
       const img = document.createElement("img");
       img.src = imageUrl;
       img.alt = name;
       img.loading = "lazy";
       img.referrerPolicy = "no-referrer";
       card.appendChild(img);
-    }else if(videoUrl){
-      const vid = document.createElement("video");
-      vid.src = videoUrl;
-      vid.muted = true;
-      vid.loop = true;
-      vid.playsInline = true;
-      vid.preload = "metadata";
-      card.appendChild(vid);
-      card.addEventListener("mouseenter", function(){ vid.play().catch(function(){}); });
-      card.addEventListener("mouseleave", function(){ try{ vid.pause(); }catch(e){} });
     }else{
       const blank = document.createElement("div");
       blank.style.aspectRatio = "1/1";
@@ -741,6 +789,7 @@ function renderAvatarGallery(avatars){
     card.appendChild(check);
 
     card.addEventListener("click", function(){
+      unlockPresenterAudio();
       presenterAvatarSelect.value = id;
       localStorage.setItem("vop_heygen_avatar_id", id);
       markSelectedAvatarCard();
@@ -882,18 +931,31 @@ function previewSelectedAvatar(){
 
   if(previewVideoUrl){
     if(presenterVideo){
-      presenterVideo.muted = true;
       presenterVideo.loop = true;
+      presenterVideo.autoplay = true;
+      if(previewImageUrl) presenterVideo.poster = previewImageUrl;
       presenterVideo.src = previewVideoUrl;
       presenterVideo.classList.add("show");
+      applyPresenterAudioOn();
       try{ presenterVideo.load(); }catch(e){}
-      presenterVideo.play().catch(function(){});
+      const startPreview = function(){
+        applyPresenterAudioOn();
+        const playPromise = presenterVideo.play();
+        if(playPromise && typeof playPromise.catch === "function"){
+          playPromise.catch(function(){
+            setPresenterStatus("▶ Avatar preview is ready. Click anywhere once to enable speaker audio, then the preview will continue automatically.");
+          });
+        }
+      };
+      presenterVideo.oncanplay = startPreview;
+      presenterVideo.onloadeddata = startPreview;
+      startPreview();
     }
     if(presenterBadge){
-      presenterBadge.textContent = "● HEYGEN AVATAR PREVIEW";
+      presenterBadge.textContent = "● HEYGEN AVATAR PREVIEW • 🔊 SOUND ON";
       presenterBadge.classList.add("show");
     }
-    setPresenterStatus("✅ Avatar preview loaded. " + (supportsAvatarV ? "AVATAR V is supported for this avatar. " : "This avatar will use Avatar IV. ") + "Your private/cloned voice is used for the presentation. Press PRESENT THIS STORY when ready.");
+    setPresenterStatus("✅ Avatar preview loaded. " + (supportsAvatarV ? "AVATAR V is supported for this avatar. " : "This avatar will use Avatar IV. ") + "Speaker audio is ON after the first click/tap on the page. Your private/cloned voice is used for the presentation.");
   }else if(previewImageUrl){
     if(presenterVideo){
       try{ presenterVideo.pause(); }catch(e){}
@@ -916,6 +978,7 @@ function previewSelectedAvatar(){
 }
 
 presenterAvatarSelect.addEventListener("change", function(){
+  unlockPresenterAudio();
   localStorage.setItem("vop_heygen_avatar_id", this.value || "");
   previewSelectedAvatar();
 });
@@ -1015,17 +1078,31 @@ function currentNewsScript(){
 function showPresenterVideo(url){
   if(!presenterVideo || !url) return;
   presenterVideo.loop = false;
+  presenterVideo.autoplay = true;
+  presenterVideo.defaultMuted = false;
   presenterVideo.muted = false;
+  presenterVideo.volume = 1;
   presenterVideo.src = url;
   presenterVideo.classList.add("show");
   if(presenterBadge){
-    presenterBadge.textContent = "● AI PRESENTER — EMMANUEL";
+    presenterBadge.textContent = "● AI PRESENTER — EMMANUEL • 🔊 SOUND ON";
     presenterBadge.classList.add("show");
   }
+
+  const startWithSound = function(){
+    applyPresenterAudioOn();
+    const promise = presenterVideo.play();
+    if(promise && typeof promise.catch === "function"){
+      promise.catch(function(){
+        setPresenterStatus("✅ Presentation ready. 🔊 Sound is ON, but the browser blocked automatic audible playback. Click the video once to start.");
+      });
+    }
+  };
+
+  presenterVideo.onloadeddata = startWithSound;
+  presenterVideo.oncanplay = startWithSound;
   try{ presenterVideo.load(); }catch(e){}
-  presenterVideo.play().catch(function(){
-    setPresenterStatus("✅ Emmanuel's AI news presentation is ready. Press Play on the video to start it.");
-  });
+  startWithSound();
 }
 
 function showNewsImage(){
@@ -1090,6 +1167,8 @@ async function pollPresenterVideo(videoId, attempt){
 }
 
 async function generatePresenter(){
+  // Use the PRESENT THIS STORY click to unlock audible media before HeyGen rendering starts.
+  unlockPresenterAudio();
   let avatarId = presenterAvatarSelect.value || localStorage.getItem("vop_heygen_avatar_id") || "";
   let voiceId = presenterVoiceSelect.value || localStorage.getItem("vop_heygen_voice_id") || "";
 
@@ -1122,11 +1201,11 @@ async function generatePresenter(){
   presentStoryBtn.disabled = true;
 
   // Show the selected HeyGen avatar immediately while the final talking video renders.
-  // This removes the blank 1-2 minute wait. The preview is muted because it is only
-  // the avatar preview; the real generated presentation will replace it automatically.
+  // This removes the blank render wait. Audio is requested ON; the user click above
+  // unlocks audible media before the final generated presentation is ready.
   previewSelectedAvatar();
   if(presenterBadge){
-    presenterBadge.textContent = "● AVATAR PREVIEW — FINAL VIDEO RENDERING";
+    presenterBadge.textContent = "● AVATAR PREVIEW • 🔊 SOUND ON — FINAL VIDEO RENDERING";
     presenterBadge.classList.add("show");
   }
   setPresenterStatus(
@@ -1165,7 +1244,7 @@ async function generatePresenter(){
 savePresenterToken.addEventListener("click", saveToken);
 testPresenterConnection.addEventListener("click", testHeyGenConnection);
 loadPresenterOptions.addEventListener("click", loadHeyGenOptions);
-presentStoryBtn.addEventListener("click", generatePresenter);
+presentStoryBtn.addEventListener("click", function(){ unlockPresenterAudio(); generatePresenter(); });
 showStoryImageBtn.addEventListener("click", showNewsImage);
 
 if(showMyAvatarsBtn){
@@ -1179,7 +1258,10 @@ if(showMyAvatarsBtn){
   });
 }
 if(loadHeyGenVideosBtn){
-  loadHeyGenVideosBtn.addEventListener("click", loadHeyGenVideoLibrary);
+  loadHeyGenVideosBtn.addEventListener("click", function(){
+    unlockPresenterAudio();
+    loadHeyGenVideoLibrary();
+  });
 }
 if(jumpToNewsBtn){
   jumpToNewsBtn.addEventListener("click", function(){
@@ -1197,6 +1279,14 @@ if(savedFunctionToken){
 }else{
   setPresenterStatus("Paste your 64-character HEYGEN_FUNCTION_TOKEN, save it, then click CONNECT TO HEYGEN & SHOW AVATARS.");
 }
+if(presenterVideo){
+  presenterVideo.addEventListener("click", function(){
+    unlockPresenterAudio();
+    applyPresenterAudioOn();
+    presenterVideo.play().catch(function(){});
+  });
+}
+
 if(savedPresenterVideo){
   // Do not autoplay an old report. Keep it available only as a saved reference.
 }

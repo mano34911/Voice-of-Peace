@@ -176,6 +176,9 @@ body{
 .presenter-avatar-card.selected{border-color:var(--gold);box-shadow:0 0 0 2px #ffd34f33}
 .presenter-avatar-card img,.presenter-avatar-card video{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:7px;background:#00101f}
 .presenter-avatar-card .avatar-name{display:block;margin-top:5px;font-size:10px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.presenter-avatar-card .avatar-news-title{display:block;margin-top:3px;font-size:8px;line-height:1.2;color:#9fe3ff;height:20px;overflow:hidden}
+.presenter-avatar-card .avatar-news-state{display:inline-block;margin-top:4px;padding:2px 5px;border-radius:999px;background:#0b5689;color:#fff;font-size:8px;font-weight:900}
+.presenter-avatar-card .avatar-news-state.ready{background:#087247}.presenter-avatar-card .avatar-news-state.processing{background:#a36a00}.presenter-avatar-card .avatar-news-state.needed{background:#8b2f3c}
 .presenter-avatar-card .avatar-check{display:none;position:absolute;right:7px;top:7px;background:var(--green);border-radius:999px;padding:2px 5px;font-size:10px;font-weight:900}
 .presenter-avatar-card.selected .avatar-check{display:block}
 .presenter-avatar-card .avatar-v-badge{position:absolute;left:7px;top:7px;background:#7b42ff;color:#fff;border-radius:999px;padding:2px 6px;font-size:9px;font-weight:900;box-shadow:0 2px 8px #0008}
@@ -298,7 +301,7 @@ body{
             <button id="savePresenterToken" class="save-token" type="button">💾 SAVE PRIVATE TOKEN</button>
             <button id="testPresenterConnection" class="test-connection" type="button">✓ TEST CONNECTION</button>
             <button id="loadPresenterOptions" type="button">🔗 CONNECT TO HEYGEN &amp; SHOW AVATARS</button>
-            <button id="prepareAllAvatarPreviewsBtn" type="button">⚡ PREPARE ALL AVATAR VIDEOS</button>
+            <button id="prepareAllAvatarPreviewsBtn" type="button">⚡ PREPARE ALL AVATAR NEWS VIDEOS</button>
           </div>
 
           <div class="presenter-note">
@@ -306,8 +309,8 @@ body{
             Do not paste your HeyGen API key into this website. The API key stays in Supabase as
             <strong>HEYGEN_API_KEY</strong>. Paste only your 64-character
             <strong>HEYGEN_FUNCTION_TOKEN</strong> above. It is saved only in this browser on this computer.
-            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 14:20 ALL-AVATARS-ROBUST</strong>
-            <br><span style="color:#ffd34f">PREPARE ALL AVATAR VIDEOS creates one short HeyGen preview for each avatar that does not already have one. This uses HeyGen credits, so it runs only when you press the button.</span>
+            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 15:10 DIFFERENT-NEWS-PER-AVATAR</strong>
+            <br><span style="color:#ffd34f">PREPARE ALL AVATAR NEWS VIDEOS assigns a different live news story to each avatar and creates a talking HeyGen report with your private voice. Existing old “Hello, this is Emmanuel” previews are ignored. This uses HeyGen credits, so it runs only when you press the button.</span>
           </div>
         </details>
 
@@ -718,12 +721,165 @@ function markSelectedAvatarCard(){
   });
 }
 
-const AVATAR_PREVIEW_CACHE_PREFIX = "vop_avatar_preview_v3_";
+const AVATAR_PREVIEW_CACHE_PREFIX = "vop_avatar_news_v4_";
 const avatarPreviewJobs = new Map();
 const avatarPreviewState = new Map();
+let avatarNewsStories = [];
+let avatarNewsStoriesPromise = null;
 
 function avatarPreviewCacheKey(avatarId){
   return AVATAR_PREVIEW_CACHE_PREFIX + String(avatarId || "");
+}
+
+function normalizeAvatarNewsStory(story){
+  if(!story || typeof story !== "object") return null;
+  const headline = String(story.headline || story.title || "").trim();
+  const summary = String(story.summary || story.description || story.text || "").trim();
+  const source = String(story.source_line || story.source || story.publisher || "").trim();
+  const url = String(story.url || story.link || "").trim();
+  if(!headline && !summary) return null;
+  return {headline, summary, source, url};
+}
+
+function currentUiNewsStory(){
+  return normalizeAvatarNewsStory({
+    headline: document.getElementById("headline")?.textContent || "",
+    summary: document.getElementById("summary")?.textContent || "",
+    source: document.getElementById("sourceLine")?.textContent || ""
+  });
+}
+
+function uniqueNewsStories(items){
+  const out = [];
+  const seen = new Set();
+  (items || []).forEach(function(raw){
+    const story = normalizeAvatarNewsStory(raw);
+    if(!story) return;
+    const key = (story.headline + "|" + story.summary).toLowerCase().replace(/\s+/g," ").trim();
+    if(!key || seen.has(key)) return;
+    seen.add(key);
+    out.push(story);
+  });
+  return out;
+}
+
+function storySignature(story){
+  const text = ((story?.headline || "") + "|" + (story?.summary || "") + "|" + (story?.source || ""));
+  let hash = 2166136261;
+  for(let i=0;i<text.length;i++){
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return "s" + (hash >>> 0).toString(36);
+}
+
+function buildAvatarNewsScript(story){
+  story = normalizeAvatarNewsStory(story) || currentUiNewsStory();
+  if(!story) return "";
+  const sourcePart = story.source ? " According to " + story.source.replace(/^LIVE\s*[-–:]?\s*/i, "") + ", " : " ";
+  let script =
+    "This is Emmanuel with Voice of Peace." + sourcePart +
+    (story.headline ? story.headline + ". " : "") +
+    (story.summary ? story.summary + " " : "") +
+    "We share the facts with respect and encourage understanding and peace.";
+  script = script.replace(/\s+/g," ").trim();
+  if(script.length > 1800) script = script.slice(0,1797) + "...";
+  return script;
+}
+
+async function collectStoriesFromVisibleNews(requiredCount){
+  const found = [];
+  const next = document.getElementById("nextBtn");
+  const prev = document.getElementById("prevBtn");
+  const original = currentUiNewsStory();
+  if(original) found.push(original);
+  if(!next || !prev || requiredCount <= 1) return uniqueNewsStories(found);
+
+  let moves = 0;
+  try{
+    for(let i=0;i<Math.max(requiredCount * 2, 12);i++){
+      next.click();
+      moves++;
+      await new Promise(function(resolve){ setTimeout(resolve, 55); });
+      const story = currentUiNewsStory();
+      if(story) found.push(story);
+      if(uniqueNewsStories(found).length >= requiredCount) break;
+    }
+  }finally{
+    for(let i=0;i<moves;i++){
+      prev.click();
+      await new Promise(function(resolve){ setTimeout(resolve, 12); });
+    }
+  }
+  return uniqueNewsStories(found);
+}
+
+async function loadAvatarNewsStories(requiredCount){
+  requiredCount = Math.max(1, Number(requiredCount || cachedHeyGenAvatars.length || 1));
+  if(avatarNewsStories.length >= Math.min(requiredCount, 3)) return avatarNewsStories;
+  if(avatarNewsStoriesPromise) return avatarNewsStoriesPromise;
+
+  avatarNewsStoriesPromise = (async function(){
+    let pool = [];
+
+    // If app.js exposes its story array as a classic-script global, use it first.
+    try{
+      if(typeof stories !== "undefined" && Array.isArray(stories)) pool = pool.concat(stories);
+    }catch(e){}
+
+    // Older Voice of Peace builds keep the full feed here. Use it when available.
+    if(uniqueNewsStories(pool).length < requiredCount){
+      try{
+        const response = await fetch("data/live-news.json?v=" + Date.now(), {cache:"no-store"});
+        if(response.ok){
+          const data = await response.json();
+          if(Array.isArray(data?.stories)) pool = pool.concat(data.stories);
+        }
+      }catch(e){
+        console.warn("Could not read data/live-news.json for avatar news assignments", e);
+      }
+    }
+
+    pool = uniqueNewsStories(pool);
+
+    // Final fallback: walk the already-working on-page news carousel and collect
+    // the same live stories the visitor can see. This avoids depending on a
+    // private variable inside app.js.
+    if(pool.length < requiredCount){
+      try{
+        pool = uniqueNewsStories(pool.concat(await collectStoriesFromVisibleNews(requiredCount)));
+      }catch(e){
+        console.warn("Could not collect stories from the visible news carousel", e);
+      }
+    }
+
+    if(!pool.length){
+      const current = currentUiNewsStory();
+      if(current) pool = [current];
+    }
+
+    avatarNewsStories = pool;
+    return pool;
+  })();
+
+  try{
+    return await avatarNewsStoriesPromise;
+  }finally{
+    avatarNewsStoriesPromise = null;
+  }
+}
+
+function assignedStoryForAvatarSync(item){
+  if(!item || !avatarNewsStories.length || !cachedHeyGenAvatars.length) return avatarNewsStories[0] || currentUiNewsStory();
+  const id = item.avatar_id || item.id || "";
+  let index = cachedHeyGenAvatars.findIndex(function(a){ return (a.avatar_id || a.id || "") === id; });
+  if(index < 0) index = 0;
+  return avatarNewsStories[index % avatarNewsStories.length] || avatarNewsStories[0] || currentUiNewsStory();
+}
+
+async function assignedStoryForAvatar(item){
+  await loadAvatarNewsStories(cachedHeyGenAvatars.length || 1);
+  return assignedStoryForAvatarSync(item);
 }
 
 function getAvatarPreviewRecord(avatarId){
@@ -737,12 +893,17 @@ function getAvatarPreviewRecord(avatarId){
   return null;
 }
 
-function saveAvatarPreviewRecord(avatarId, videoId, videoUrl){
+function saveAvatarPreviewRecord(avatarId, videoId, videoUrl, story){
   if(!avatarId) return;
+  const normalized = normalizeAvatarNewsStory(story);
   try{
     localStorage.setItem(avatarPreviewCacheKey(avatarId), JSON.stringify({
       video_id: videoId || "",
       video_url: videoUrl || "",
+      story_signature: normalized ? storySignature(normalized) : "",
+      headline: normalized?.headline || "",
+      summary: normalized?.summary || "",
+      source: normalized?.source || "",
       saved_at: Date.now()
     }));
   }catch(e){}
@@ -753,13 +914,17 @@ function clearAvatarPreviewRecord(avatarId){
   try{ localStorage.removeItem(avatarPreviewCacheKey(avatarId)); }catch(e){}
 }
 
-// Backward compatibility with the earlier cache format.
+function recordMatchesStory(record, story){
+  if(!record || !story) return false;
+  return Boolean(record.story_signature) && record.story_signature === storySignature(story);
+}
+
 function getCachedTalkingPreview(avatarId){
   const record = getAvatarPreviewRecord(avatarId);
-  if(record && record.video_url) return record.video_url;
-  try{
-    return localStorage.getItem("vop_avatar_talking_preview_" + String(avatarId || "")) || "";
-  }catch(e){ return ""; }
+  const item = cachedHeyGenAvatars.find(function(a){ return (a.avatar_id || a.id || "") === avatarId; });
+  const story = item ? assignedStoryForAvatarSync(item) : null;
+  if(record && record.video_url && recordMatchesStory(record, story)) return record.video_url;
+  return "";
 }
 
 function previewStateFor(avatarId){
@@ -772,13 +937,15 @@ function setPreviewState(avatarId, status, message){
 
 async function refreshGeneratedPreviewUrl(avatarId){
   const record = getAvatarPreviewRecord(avatarId);
-  if(!record || !record.video_id) return record?.video_url || "";
+  const item = cachedHeyGenAvatars.find(function(a){ return (a.avatar_id || a.id || "") === avatarId; });
+  const story = item ? assignedStoryForAvatarSync(item) : null;
+  if(!record || !record.video_id || !recordMatchesStory(record, story)) return "";
   try{
     const result = await callHeyGenFunction({action:"status", video_id:record.video_id}, 20000);
     const status = String(result.status || result?.data?.status || "").toLowerCase();
     const url = result.video_url || result?.data?.video_url || "";
     if(status === "completed" && url){
-      saveAvatarPreviewRecord(avatarId, record.video_id, url);
+      saveAvatarPreviewRecord(avatarId, record.video_id, url, story);
       const option = Array.from(presenterAvatarSelect.options).find(function(o){ return o.value === avatarId; });
       if(option) option.dataset.generatedPreviewUrl = url;
       return url;
@@ -788,15 +955,13 @@ async function refreshGeneratedPreviewUrl(avatarId){
       return "";
     }
   }catch(e){
-    console.warn("Could not refresh cached HeyGen preview URL", e);
+    console.warn("Could not refresh cached HeyGen news URL", e);
   }
   return record.video_url || "";
 }
 
-async function pollTalkingAvatarPreview(videoId, avatarId, avatarName, attempt){
-  if(attempt > 72){
-    throw new Error("The talking preview took too long to finish.");
-  }
+async function pollTalkingAvatarPreview(videoId, avatarId, avatarName, attempt, story){
+  if(attempt > 72) throw new Error("The avatar news video took too long to finish.");
 
   const result = await callHeyGenFunction({action:"status", video_id:videoId}, 20000);
   const status = String(result.status || result?.data?.status || "").toLowerCase();
@@ -804,28 +969,28 @@ async function pollTalkingAvatarPreview(videoId, avatarId, avatarName, attempt){
   const failureMessage = result.failure_message || result?.data?.failure_message || "";
 
   if(status === "completed" && videoUrl){
-    saveAvatarPreviewRecord(avatarId, videoId, videoUrl);
-    setPreviewState(avatarId, "ready", "Talking preview ready");
+    saveAvatarPreviewRecord(avatarId, videoId, videoUrl, story);
+    setPreviewState(avatarId, "ready", "News report ready");
     const option = Array.from(presenterAvatarSelect.options).find(function(o){ return o.value === avatarId; });
     if(option) option.dataset.generatedPreviewUrl = videoUrl;
     renderAvatarGallery(cachedHeyGenAvatars);
     if((presenterAvatarSelect.value || "") === avatarId){
       previewSelectedAvatar();
-      setPresenterStatus("✅ Talking preview ready for " + avatarName + ". Speaker is ON.");
+      setPresenterStatus("✅ News report ready for " + avatarName + ": " + (story?.headline || "Voice of Peace News") + ".");
     }
     return videoUrl;
   }
 
   if(status === "failed"){
-    setPreviewState(avatarId, "failed", failureMessage || "HeyGen preview failed");
-    throw new Error(failureMessage || "HeyGen could not create this avatar preview.");
+    setPreviewState(avatarId, "failed", failureMessage || "HeyGen news video failed");
+    throw new Error(failureMessage || "HeyGen could not create this avatar news video.");
   }
 
-  setPreviewState(avatarId, "processing", "HeyGen is rendering this preview");
+  setPreviewState(avatarId, "processing", "HeyGen is rendering this news report");
   renderAvatarGallery(cachedHeyGenAvatars);
-  setPresenterStatus("⏳ Creating a talking preview for " + avatarName + "... Status: " + (status || "processing") + ".");
+  setPresenterStatus("⏳ Creating " + avatarName + " news report: " + (story?.headline || "Voice of Peace News") + " — " + (status || "processing") + ".");
   await new Promise(function(resolve){ setTimeout(resolve, 2500); });
-  return pollTalkingAvatarPreview(videoId, avatarId, avatarName, attempt + 1);
+  return pollTalkingAvatarPreview(videoId, avatarId, avatarName, attempt + 1, story);
 }
 
 async function ensureTalkingAvatarPreview(item, options){
@@ -833,31 +998,21 @@ async function ensureTalkingAvatarPreview(item, options){
   const avatarId = item && (item.avatar_id || item.id || "");
   if(!avatarId) return "";
 
-  const nativePreview = item.preview_video_url || "";
-  if(nativePreview){
-    setPreviewState(avatarId, "native", "HeyGen preview video");
-    return nativePreview;
-  }
-
   const status = String(item.status || "").toLowerCase();
-  if(status && status !== "completed"){
-    throw new Error("This avatar is not ready in HeyGen yet. Status: " + status + ".");
-  }
+  if(status && status !== "completed") throw new Error("This avatar is not ready in HeyGen yet. Status: " + status + ".");
+
+  const story = options.story || await assignedStoryForAvatar(item);
+  if(!story) throw new Error("No live news story is available for this avatar yet.");
 
   const record = getAvatarPreviewRecord(avatarId);
-  if(record){
+  if(record && recordMatchesStory(record, story)){
     const refreshed = await refreshGeneratedPreviewUrl(avatarId);
     if(refreshed){
-      setPreviewState(avatarId, "ready", "Cached talking preview");
+      setPreviewState(avatarId, "ready", "News report ready");
       return refreshed;
     }
-  }
-
-  // Migrate an older cached URL if it still exists.
-  const legacyUrl = getCachedTalkingPreview(avatarId);
-  if(legacyUrl){
-    setPreviewState(avatarId, "ready", "Older cached preview");
-    return legacyUrl;
+  }else if(record){
+    clearAvatarPreviewRecord(avatarId);
   }
 
   if(avatarPreviewJobs.has(avatarId)) return avatarPreviewJobs.get(avatarId);
@@ -877,33 +1032,36 @@ async function ensureTalkingAvatarPreview(item, options){
     else if(supported.includes("avatar_iii")) requestedEngine = "avatar_iii";
 
     const avatarName = item.avatar_name || item.name || "this avatar";
-    setPreviewState(avatarId, "starting", "Starting preview render");
+    const script = buildAvatarNewsScript(story);
+    if(!script) throw new Error("Could not build the news script for this avatar.");
+
+    setPreviewState(avatarId, "starting", "Starting news render");
     renderAvatarGallery(cachedHeyGenAvatars);
     if(!options.quiet){
-      setPresenterStatus("⏳ Creating a short talking preview for " + avatarName + " with YOUR private voice...");
+      setPresenterStatus("⏳ Creating a DIFFERENT news report for " + avatarName + ": " + story.headline);
     }
 
     const result = await callHeyGenFunction({
       action:"generate",
       avatar_id:avatarId,
       voice_id:voiceId,
-      text:"Hello. This is Emmanuel from Voice of Peace.",
-      title:"Voice of Peace Avatar Preview - " + avatarName,
+      text:script,
+      title:"Voice of Peace - " + (story.headline || avatarName),
       engine_type:requestedEngine,
       preview_mode:true
     }, 35000);
 
     const videoId = result.video_id || result?.data?.video_id || "";
-    if(!videoId) throw new Error("HeyGen did not return a preview video ID.");
-    saveAvatarPreviewRecord(avatarId, videoId, "");
-    return pollTalkingAvatarPreview(videoId, avatarId, avatarName, 0);
+    if(!videoId) throw new Error("HeyGen did not return a news video ID.");
+    saveAvatarPreviewRecord(avatarId, videoId, "", story);
+    return pollTalkingAvatarPreview(videoId, avatarId, avatarName, 0, story);
   })();
 
   avatarPreviewJobs.set(avatarId, job);
   try{
     return await job;
   }catch(error){
-    setPreviewState(avatarId, "failed", error.message || "Preview failed");
+    setPreviewState(avatarId, "failed", error.message || "News video failed");
     renderAvatarGallery(cachedHeyGenAvatars);
     throw error;
   }finally{
@@ -926,9 +1084,10 @@ function renderAvatarGallery(avatars){
     const name = item.avatar_name || item.name || item.display_name || id;
     const imageUrl = item.preview_image_url || "";
     const nativeVideoUrl = item.preview_video_url || "";
+    const story = assignedStoryForAvatarSync(item);
     const cachedRecord = getAvatarPreviewRecord(id);
-    const cachedVideoUrl = (cachedRecord && cachedRecord.video_url) || "";
-    const videoUrl = nativeVideoUrl || cachedVideoUrl;
+    const cachedVideoUrl = cachedRecord && recordMatchesStory(cachedRecord, story) ? (cachedRecord.video_url || "") : "";
+    const videoUrl = cachedVideoUrl || nativeVideoUrl;
     const state = previewStateFor(id);
 
     const card = document.createElement("button");
@@ -958,46 +1117,38 @@ function renderAvatarGallery(avatars){
       card.appendChild(vid);
       const startTilePreview = function(){ vid.play().catch(function(){}); };
       vid.addEventListener("canplay", startTilePreview, {once:true});
-      vid.addEventListener("error", async function(){
-        if(cachedRecord && cachedRecord.video_id){
-          const fresh = await refreshGeneratedPreviewUrl(id);
-          if(fresh && fresh !== vid.src){ vid.src = fresh; startTilePreview(); }
-        }
-      }, {once:true});
       startTilePreview();
-      card.title = nativeVideoUrl ? "HeyGen ready preview - " + name : "Generated talking preview - " + name;
     }else if(imageUrl){
       const img = document.createElement("img");
       img.src = imageUrl;
       img.alt = name;
       img.loading = "lazy";
-      img.referrerPolicy = "no-referrer";
       card.appendChild(img);
-      card.title = "Click to create a talking preview for " + name;
-    }else{
-      const blank = document.createElement("div");
-      blank.style.aspectRatio = "1/1";
-      blank.style.display = "grid";
-      blank.style.placeItems = "center";
-      blank.style.background = "#082e51";
-      blank.style.borderRadius = "7px";
-      blank.textContent = "👤";
-      card.appendChild(blank);
     }
 
-    const stateBadge = document.createElement("span");
-    stateBadge.style.cssText = "position:absolute;right:5px;bottom:22px;padding:2px 5px;border-radius:999px;background:#03182ddd;color:#fff;font-size:8px;font-weight:900;max-width:80%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap";
-    if(nativeVideoUrl) stateBadge.textContent = "READY VIDEO";
-    else if(videoUrl) stateBadge.textContent = "READY TALKING";
-    else if(["starting","processing"].includes(state.status)) stateBadge.textContent = "PROCESSING";
-    else if(state.status === "failed") stateBadge.textContent = "RETRY";
-    else stateBadge.textContent = "CREATE VIDEO";
-    card.appendChild(stateBadge);
+    const nameSpan = document.createElement("span");
+    nameSpan.className = "avatar-name";
+    nameSpan.textContent = name;
+    card.appendChild(nameSpan);
 
-    const label = document.createElement("span");
-    label.className = "avatar-name";
-    label.textContent = name;
-    card.appendChild(label);
+    const storySpan = document.createElement("span");
+    storySpan.className = "avatar-news-title";
+    storySpan.textContent = story?.headline || "Assigning live news...";
+    card.appendChild(storySpan);
+
+    const newsState = document.createElement("span");
+    newsState.className = "avatar-news-state ";
+    if(cachedVideoUrl){
+      newsState.className += "ready";
+      newsState.textContent = "NEWS READY";
+    }else if(["starting","processing"].includes(state.status)){
+      newsState.className += "processing";
+      newsState.textContent = "PROCESSING";
+    }else{
+      newsState.className += "needed";
+      newsState.textContent = "CREATE NEWS";
+    }
+    card.appendChild(newsState);
 
     const check = document.createElement("span");
     check.className = "avatar-check";
@@ -1010,13 +1161,14 @@ function renderAvatarGallery(avatars){
       localStorage.setItem("vop_heygen_avatar_id", id);
       markSelectedAvatarCard();
       previewSelectedAvatar();
-      if(!nativeVideoUrl && !cachedVideoUrl){
+      const currentRecord = getAvatarPreviewRecord(id);
+      if(!recordMatchesStory(currentRecord, story) || !currentRecord?.video_url){
         try{
-          const url = await ensureTalkingAvatarPreview(item);
+          const url = await ensureTalkingAvatarPreview(item, {story});
           if(url) previewSelectedAvatar();
         }catch(error){
           console.error(error);
-          setPresenterStatus("❌ Could not create talking preview for " + name + ": " + error.message);
+          setPresenterStatus("❌ Could not create the news report for " + name + ": " + error.message);
         }
       }
     });
@@ -1035,36 +1187,42 @@ async function prepareAllAvatarPreviews(){
     let voiceId = presenterVoiceSelect.value || localStorage.getItem("vop_heygen_voice_id") || "";
     if(!voiceId) throw new Error("Your private/cloned voice must be loaded first.");
 
-    const missing = cachedHeyGenAvatars.filter(function(item){
+    const pool = await loadAvatarNewsStories(cachedHeyGenAvatars.length);
+    if(!pool.length) throw new Error("No live news stories were available.");
+    renderAvatarGallery(cachedHeyGenAvatars);
+
+    const needsNews = cachedHeyGenAvatars.filter(function(item){
       const id = item.avatar_id || item.id || "";
+      const story = assignedStoryForAvatarSync(item);
       const record = getAvatarPreviewRecord(id);
-      return id && !item.preview_video_url && !(record && record.video_url) && String(item.status || "completed").toLowerCase() === "completed";
+      return id && story && (!recordMatchesStory(record, story) || !record?.video_url) && String(item.status || "completed").toLowerCase() === "completed";
     });
 
-    if(!missing.length){
-      setPresenterStatus("✅ All available HeyGen avatars already have a video preview.");
+    if(!needsNews.length){
+      setPresenterStatus("✅ Every avatar already has its own assigned Voice of Peace news report.");
       return;
     }
 
     let ready = 0;
     let failed = 0;
-    for(let i=0;i<missing.length;i++){
-      const item = missing[i];
+    for(let i=0;i<needsNews.length;i++){
+      const item = needsNews[i];
       const name = item.avatar_name || item.name || "Avatar";
-      setPresenterStatus("⚡ Preparing avatar video " + (i+1) + " of " + missing.length + ": " + name + ". HeyGen renders these one at a time.");
+      const story = assignedStoryForAvatarSync(item);
+      setPresenterStatus("⚡ Creating DIFFERENT NEWS video " + (i+1) + " of " + needsNews.length + " — " + name + ": " + (story?.headline || "Voice of Peace News"));
       try{
-        await ensureTalkingAvatarPreview(item, {quiet:true});
+        await ensureTalkingAvatarPreview(item, {quiet:true, story});
         ready++;
       }catch(error){
-        console.error("Avatar preview failed", name, error);
+        console.error("Avatar news video failed", name, error);
         failed++;
       }
     }
     renderAvatarGallery(cachedHeyGenAvatars);
-    setPresenterStatus("✅ Avatar preparation finished. " + ready + " new talking preview(s) ready" + (failed ? "; " + failed + " could not be generated and are marked RETRY." : ".") );
+    setPresenterStatus("✅ Different-news preparation finished. " + ready + " avatar news video(s) ready" + (failed ? "; " + failed + " failed and are marked CREATE NEWS." : ".") );
   }catch(error){
     console.error(error);
-    setPresenterStatus("❌ Could not prepare all avatar videos: " + error.message);
+    setPresenterStatus("❌ Could not prepare avatar news videos: " + error.message);
   }finally{
     if(prepareAllAvatarPreviewsBtn) prepareAllAvatarPreviewsBtn.disabled = false;
   }
@@ -1135,6 +1293,7 @@ async function loadHeyGenOptions(){
 
     fillSelect(presenterAvatarSelect, avatars, "avatar");
     autoSelectPresenterOptions(avatars, []);
+    await loadAvatarNewsStories(avatars.length || 1);
     renderAvatarGallery(avatars);
 
     if(presenterAvatarSelect.value){
@@ -1185,24 +1344,23 @@ async function loadHeyGenOptions(){
 
 function previewSelectedAvatar(){
   const option = presenterAvatarSelect.selectedOptions && presenterAvatarSelect.selectedOptions[0];
-  if(!option || !option.value){
-    return;
-  }
+  if(!option || !option.value) return;
 
+  const item = cachedHeyGenAvatars.find(function(a){ return (a.avatar_id || a.id || "") === option.value; });
+  const story = item ? assignedStoryForAvatarSync(item) : null;
+  const record = getAvatarPreviewRecord(option.value);
+  const generatedNewsUrl = record && recordMatchesStory(record, story) ? (record.video_url || "") : "";
   const nativePreviewVideoUrl = option.dataset.previewVideoUrl || "";
-  const generatedPreviewVideoUrl = option.dataset.generatedPreviewUrl || getCachedTalkingPreview(option.value) || "";
-  const previewVideoUrl = nativePreviewVideoUrl || generatedPreviewVideoUrl;
+  // Voice of Peace news videos ALWAYS win over HeyGen sample previews.
+  const previewVideoUrl = generatedNewsUrl || nativePreviewVideoUrl;
   const previewImageUrl = option.dataset.previewImageUrl || "";
-  const cachedRecordForSelection = getAvatarPreviewRecord(option.value);
-  if(!previewVideoUrl && cachedRecordForSelection && cachedRecordForSelection.video_id){
+
+  if(!generatedNewsUrl && record && record.video_id && recordMatchesStory(record, story)){
     refreshGeneratedPreviewUrl(option.value).then(function(freshUrl){
-      if(freshUrl){
-        option.dataset.generatedPreviewUrl = freshUrl;
-        if((presenterAvatarSelect.value || "") === option.value) previewSelectedAvatar();
-      }
+      if(freshUrl && (presenterAvatarSelect.value || "") === option.value) previewSelectedAvatar();
     });
   }
-  const defaultVoiceId = option.dataset.defaultVoiceId || "";
+
   let supportedEngines = [];
   try{ supportedEngines = JSON.parse(option.dataset.supportedEngines || "[]"); }catch(e){}
   const supportsAvatarV = Array.isArray(supportedEngines) && supportedEngines.includes("avatar_v");
@@ -1220,21 +1378,21 @@ function previewSelectedAvatar(){
       const startPreview = function(){
         applyPresenterAudioOn();
         const playPromise = presenterVideo.play();
-        if(playPromise && typeof playPromise.catch === "function"){
-          playPromise.catch(function(){
-            setPresenterStatus("▶ Avatar preview is ready. Click anywhere once to enable speaker audio, then the preview will continue automatically.");
-          });
-        }
+        if(playPromise && typeof playPromise.catch === "function") playPromise.catch(function(){});
       };
       presenterVideo.oncanplay = startPreview;
       presenterVideo.onloadeddata = startPreview;
       startPreview();
     }
     if(presenterBadge){
-      presenterBadge.textContent = "● HEYGEN AVATAR PREVIEW • 🔊 SOUND ON";
+      presenterBadge.textContent = generatedNewsUrl ? "● AI NEWS — EMMANUEL • 🔊 SOUND ON" : "● HEYGEN SAMPLE PREVIEW • 🔊 SOUND ON";
       presenterBadge.classList.add("show");
     }
-    setPresenterStatus("✅ Avatar preview loaded. " + (supportsAvatarV ? "AVATAR V is supported for this avatar. " : "This avatar will use Avatar IV. ") + "Speaker audio is ON after the first click/tap on the page. Your private/cloned voice is used for the presentation.");
+    if(generatedNewsUrl){
+      setPresenterStatus("✅ This avatar is reporting: " + (story?.headline || "Voice of Peace News") + ". " + (story?.source ? "Source: " + story.source + ". " : "") + "Speaker is ON.");
+    }else{
+      setPresenterStatus("▶ This is only HeyGen's sample preview for this avatar. Its assigned news story is: " + (story?.headline || "Voice of Peace News") + ". Click the avatar or press PREPARE ALL AVATAR NEWS VIDEOS to create the real news report.");
+    }
   }else if(previewImageUrl){
     if(presenterVideo){
       try{ presenterVideo.pause(); }catch(e){}
@@ -1247,12 +1405,12 @@ function previewSelectedAvatar(){
       storyImage.style.display = "block";
     }
     if(presenterBadge){
-      presenterBadge.textContent = "● HEYGEN AVATAR PREVIEW";
+      presenterBadge.textContent = "● HEYGEN AVATAR — NEWS VIDEO NEEDED";
       presenterBadge.classList.add("show");
     }
-    setPresenterStatus("✅ Avatar selected. " + (supportsAvatarV ? "AVATAR V is supported. " : "Avatar IV will be used. ") + "Your private/cloned voice is used for the presentation. Press PRESENT THIS STORY when ready.");
+    setPresenterStatus("✅ Avatar selected. Assigned story: " + (story?.headline || "Voice of Peace News") + ". Click this avatar or PREPARE ALL AVATAR NEWS VIDEOS to generate it with your private voice.");
   }else{
-    setPresenterStatus("✅ Avatar selected. Your private/cloned voice will be used. Press PRESENT THIS STORY.");
+    setPresenterStatus("✅ Avatar selected. Assigned story: " + (story?.headline || "Voice of Peace News") + ".");
   }
 }
 
@@ -1267,12 +1425,16 @@ presenterAvatarSelect.addEventListener("change", async function(){
   localStorage.setItem("vop_heygen_avatar_id", id);
   previewSelectedAvatar();
   const item = cachedHeyGenAvatars.find(function(a){ return (a.avatar_id || a.id || "") === id; });
-  if(item && !(item.preview_video_url || getCachedTalkingPreview(id))){
-    try{
-      await ensureTalkingAvatarPreview(item);
-    }catch(error){
-      console.error(error);
-      setPresenterStatus("❌ Could not create talking preview: " + error.message);
+  if(item){
+    const story = await assignedStoryForAvatar(item);
+    const record = getAvatarPreviewRecord(id);
+    if(!recordMatchesStory(record, story) || !record?.video_url){
+      try{
+        await ensureTalkingAvatarPreview(item, {story});
+      }catch(error){
+        console.error(error);
+        setPresenterStatus("❌ Could not create avatar news report: " + error.message);
+      }
     }
   }
 });

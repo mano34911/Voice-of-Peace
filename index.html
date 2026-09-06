@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -169,11 +169,40 @@ body{
 .presenter-grid .token-input{grid-column:1/-1}
 .presenter-note{margin-top:9px;color:#9fc0d5;font-size:11px;line-height:1.45}
 .presenter-secure{color:#7fe2a8;font-weight:800}
+.presenter-avatar-gallery{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:12px}
+.presenter-avatar-card{position:relative;min-width:0;border:2px solid #28577a;border-radius:10px;background:#031a31;color:#fff;padding:5px;cursor:pointer;overflow:hidden;text-align:left}
+.presenter-avatar-card:hover{border-color:var(--cyan);transform:translateY(-1px)}
+.presenter-avatar-card.selected{border-color:var(--gold);box-shadow:0 0 0 2px #ffd34f33}
+.presenter-avatar-card img,.presenter-avatar-card video{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:7px;background:#00101f}
+.presenter-avatar-card .avatar-name{display:block;margin-top:5px;font-size:10px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.presenter-avatar-card .avatar-check{display:none;position:absolute;right:7px;top:7px;background:var(--green);border-radius:999px;padding:2px 5px;font-size:10px;font-weight:900}
+.presenter-avatar-card.selected .avatar-check{display:block}
+.presenter-avatar-card .avatar-v-badge{position:absolute;left:7px;top:7px;background:#7b42ff;color:#fff;border-radius:999px;padding:2px 6px;font-size:9px;font-weight:900;box-shadow:0 2px 8px #0008}
+.presenter-gallery-message{grid-column:1/-1;padding:12px;border:1px dashed #3a739b;border-radius:9px;color:#b9cfdf;font-size:11px;text-align:center}
+@media(max-width:900px){.presenter-avatar-gallery{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:550px){.presenter-avatar-gallery{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:550px){
   .presenter-grid{grid-template-columns:1fr}
   .presenter-grid .token-input{grid-column:auto}
   .presenter-actions button{flex:1 1 45%}
 }
+
+
+/* ===== HEYGEN ACCESS DESK ===== */
+.heygen-access-desk{margin-top:14px;padding:13px;border:1px solid #2a6b98;border-radius:12px;background:#021a31}
+.heygen-access-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;color:#4bd0ff;font-weight:900;font-size:12px;letter-spacing:.8px}
+.heygen-access-actions{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.heygen-access-actions button{border:1px solid #397da9;border-radius:8px;background:#0b4e7a;color:#fff;padding:9px 12px;font-size:11px;font-weight:900;cursor:pointer}
+.heygen-access-actions button:hover{background:#1474ad}
+.heygen-library-status{padding:9px 10px;border-radius:8px;background:#041d35;border:1px solid #28577a;color:#c9eaff;font-size:11px;line-height:1.4;margin-bottom:10px}
+.heygen-video-library{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.heygen-video-card{border:1px solid #2b658e;border-radius:10px;overflow:hidden;background:#03182d}
+.heygen-video-card img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:#00111f}
+.heygen-video-card-body{padding:8px}
+.heygen-video-card-title{font-size:11px;font-weight:900;line-height:1.3;margin-bottom:6px}
+.heygen-video-card-meta{font-size:10px;color:#9fc3dc;margin-bottom:7px}
+.heygen-video-card button{width:100%;border:1px solid #3c8ab9;border-radius:7px;background:#0d5f92;color:#fff;padding:7px 8px;font-size:10px;font-weight:900;cursor:pointer}
+@media(max-width:550px){.heygen-video-library{grid-template-columns:1fr}}
 
 </style>
 </head>
@@ -201,7 +230,7 @@ body{
         <img src="many.jpeg" class="family-photo" alt="Voice of Peace">
         <img id="storyImage" class="story-image" alt="News story">
         <video id="presenterVideo" class="presenter-video" playsinline controls preload="metadata"></video>
-        <div id="presenterBadge" class="presenter-badge">● AI PRESENTER — EMMANUEL</div>
+        <div id="presenterBadge" class="presenter-badge">● AI PRESENTER — EMMANUEL • AVATAR V</div>
         <div class="media-gradient"><span class="live-label">● LIVE WORLD NEWS</span></div>
       </div>
     </section>
@@ -228,7 +257,7 @@ body{
       <section class="card presenter-card">
         <div class="presenter-title">
           <strong>🎙 AI PRESENTER — EMMANUEL</strong>
-          <span class="live-label">HEYGEN</span>
+          <span class="live-label">HEYGEN • AVATAR V</span>
         </div>
 
         <div id="presenterStatus" class="presenter-status">
@@ -260,10 +289,14 @@ body{
             </select>
           </div>
 
+          <div id="presenterAvatarGallery" class="presenter-avatar-gallery">
+            <div class="presenter-gallery-message">Connect to HeyGen to view your avatars here.</div>
+          </div>
+
           <div class="presenter-actions" style="margin-top:9px">
             <button id="savePresenterToken" class="save-token" type="button">💾 SAVE PRIVATE TOKEN</button>
             <button id="testPresenterConnection" class="test-connection" type="button">✓ TEST CONNECTION</button>
-            <button id="loadPresenterOptions" type="button">↻ LOAD MY AVATARS &amp; VOICES</button>
+            <button id="loadPresenterOptions" type="button">🔗 CONNECT TO HEYGEN &amp; SHOW AVATARS</button>
           </div>
 
           <div class="presenter-note">
@@ -271,8 +304,25 @@ body{
             Do not paste your HeyGen API key into this website. The API key stays in Supabase as
             <strong>HEYGEN_API_KEY</strong>. Paste only your 64-character
             <strong>HEYGEN_FUNCTION_TOKEN</strong> above. It is saved only in this browser on this computer.
+            <br><strong style="color:#4bd0ff">VOP HEYGEN BUILD 2026-09-06 13:10 AVATARS-VIDEOS-NEWS</strong>
           </div>
         </details>
+
+        <div class="heygen-access-desk">
+          <div class="heygen-access-title">
+            <span>HEYGEN ACCESS DESK</span>
+            <span>AVATARS • VIDEOS • NEWS</span>
+          </div>
+          <div class="heygen-access-actions">
+            <button id="showMyAvatarsBtn" type="button">👤 SHOW MY HEYGEN AVATARS</button>
+            <button id="loadHeyGenVideosBtn" type="button">🎞 SHOW MY HEYGEN VIDEOS</button>
+            <button id="jumpToNewsBtn" type="button">📰 GO TO LIVE NEWS &amp; VIDEO</button>
+          </div>
+          <div id="heygenLibraryStatus" class="heygen-library-status">
+            Your HeyGen account is connected. Use the buttons above to open your avatars, generated videos, or the live news desk.
+          </div>
+          <div id="heygenVideoLibrary" class="heygen-video-library"></div>
+        </div>
       </section>
     </div>
   </div>
@@ -442,14 +492,23 @@ const presenterBadge = document.getElementById("presenterBadge");
 const presenterStatus = document.getElementById("presenterStatus");
 const presenterAvatarSelect = document.getElementById("presenterAvatarSelect");
 const presenterVoiceSelect = document.getElementById("presenterVoiceSelect");
+const presenterAvatarGallery = document.getElementById("presenterAvatarGallery");
 const presenterFunctionToken = document.getElementById("presenterFunctionToken");
 const savePresenterToken = document.getElementById("savePresenterToken");
 const testPresenterConnection = document.getElementById("testPresenterConnection");
 const loadPresenterOptions = document.getElementById("loadPresenterOptions");
 const presentStoryBtn = document.getElementById("presentStoryBtn");
 const showStoryImageBtn = document.getElementById("showStoryImageBtn");
+const showMyAvatarsBtn = document.getElementById("showMyAvatarsBtn");
+const loadHeyGenVideosBtn = document.getElementById("loadHeyGenVideosBtn");
+const jumpToNewsBtn = document.getElementById("jumpToNewsBtn");
+const heygenLibraryStatus = document.getElementById("heygenLibraryStatus");
+const heygenVideoLibrary = document.getElementById("heygenVideoLibrary");
 
 let presenterPollTimer = null;
+let cachedHeyGenAvatars = [];
+let cachedHeyGenVoices = [];
+let presenterOptionsLoading = false;
 
 function setPresenterStatus(message){
   if(presenterStatus) presenterStatus.textContent = message;
@@ -475,7 +534,8 @@ function saveToken(){
     return false;
   }
   localStorage.setItem("vop_heygen_function_token", token);
-  setPresenterStatus("✅ Private function token saved on this computer. Your HeyGen API key remains hidden in Supabase.");
+  setPresenterStatus("✅ Private function token saved. Connecting to HeyGen and loading avatars now...");
+  setTimeout(function(){ testHeyGenConnection(); }, 100);
   return true;
 }
 
@@ -484,20 +544,34 @@ if(savedFunctionToken){
   presenterFunctionToken.value = savedFunctionToken;
 }
 
-async function callHeyGenFunction(payload){
+async function callHeyGenFunction(payload, timeoutMs = 30000){
   const token = getPresenterToken();
   if(!token){
     throw new Error("Paste and save your HEYGEN_FUNCTION_TOKEN in Presenter Setup first.");
   }
 
-  const response = await fetch(HEYGEN_FUNCTION_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-function-token": token
-    },
-    body: JSON.stringify(payload)
-  });
+  const controller = new AbortController();
+  const timer = setTimeout(function(){ controller.abort(); }, timeoutMs);
+
+  let response;
+  try{
+    response = await fetch(HEYGEN_FUNCTION_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-function-token": token
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+  }catch(error){
+    if(error && error.name === "AbortError"){
+      throw new Error("HeyGen request timed out after " + Math.round(timeoutMs / 1000) + " seconds.");
+    }
+    throw error;
+  }finally{
+    clearTimeout(timer);
+  }
 
   let result = {};
   try{
@@ -523,7 +597,8 @@ async function testHeyGenConnection(){
   setPresenterStatus("Testing Voice of Peace → Supabase → HeyGen...");
   try{
     const result = await callHeyGenFunction({action:"test"});
-    setPresenterStatus("✅ " + (result.message || "Voice of Peace is securely connected to HeyGen."));
+    setPresenterStatus("✅ " + (result.message || "Voice of Peace is securely connected to HeyGen.") + " Loading your avatars...");
+    await loadHeyGenOptions();
   }catch(error){
     console.error(error);
     setPresenterStatus("❌ Connection error: " + error.message);
@@ -569,6 +644,7 @@ function fillSelect(select, items, kind){
       option.dataset.previewVideoUrl = item.preview_video_url || "";
       option.dataset.previewImageUrl = item.preview_image_url || "";
       option.dataset.defaultVoiceId = item.default_voice_id || "";
+      option.dataset.supportedEngines = JSON.stringify(item.supported_api_engines || []);
     }
 
     if(id === saved) option.selected = true;
@@ -576,35 +652,223 @@ function fillSelect(select, items, kind){
   });
 }
 
+
+function escapePresenterHtml(value){
+  return String(value ?? "").replace(/[&<>"']/g, function(ch){
+    return ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"})[ch];
+  });
+}
+
+function markSelectedAvatarCard(){
+  if(!presenterAvatarGallery) return;
+  const selectedId = presenterAvatarSelect.value || "";
+  presenterAvatarGallery.querySelectorAll(".presenter-avatar-card").forEach(function(card){
+    card.classList.toggle("selected", card.dataset.avatarId === selectedId);
+  });
+}
+
+function renderAvatarGallery(avatars){
+  if(!presenterAvatarGallery) return;
+  if(!avatars.length){
+    presenterAvatarGallery.innerHTML = '<div class="presenter-gallery-message">No HeyGen avatars were returned for this account.</div>';
+    return;
+  }
+
+  presenterAvatarGallery.innerHTML = "";
+
+  avatars.forEach(function(item){
+    const id = item.avatar_id || item.id || "";
+    if(!id) return;
+    const name = item.avatar_name || item.name || item.display_name || id;
+    const imageUrl = item.preview_image_url || "";
+    const videoUrl = item.preview_video_url || "";
+
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "presenter-avatar-card";
+    card.dataset.avatarId = id;
+    card.title = "Use " + name;
+
+    const supportedEngines = Array.isArray(item.supported_api_engines) ? item.supported_api_engines : [];
+    if(supportedEngines.includes("avatar_v")){
+      const vBadge = document.createElement("span");
+      vBadge.className = "avatar-v-badge";
+      vBadge.textContent = "AVATAR V";
+      card.appendChild(vBadge);
+    }
+
+    if(imageUrl){
+      const img = document.createElement("img");
+      img.src = imageUrl;
+      img.alt = name;
+      img.loading = "lazy";
+      img.referrerPolicy = "no-referrer";
+      card.appendChild(img);
+    }else if(videoUrl){
+      const vid = document.createElement("video");
+      vid.src = videoUrl;
+      vid.muted = true;
+      vid.loop = true;
+      vid.playsInline = true;
+      vid.preload = "metadata";
+      card.appendChild(vid);
+      card.addEventListener("mouseenter", function(){ vid.play().catch(function(){}); });
+      card.addEventListener("mouseleave", function(){ try{ vid.pause(); }catch(e){} });
+    }else{
+      const blank = document.createElement("div");
+      blank.style.aspectRatio = "1/1";
+      blank.style.display = "grid";
+      blank.style.placeItems = "center";
+      blank.style.background = "#082e51";
+      blank.style.borderRadius = "7px";
+      blank.textContent = "👤";
+      card.appendChild(blank);
+    }
+
+    const label = document.createElement("span");
+    label.className = "avatar-name";
+    label.textContent = name;
+    card.appendChild(label);
+
+    const check = document.createElement("span");
+    check.className = "avatar-check";
+    check.textContent = "✓";
+    card.appendChild(check);
+
+    card.addEventListener("click", function(){
+      presenterAvatarSelect.value = id;
+      localStorage.setItem("vop_heygen_avatar_id", id);
+      markSelectedAvatarCard();
+      previewSelectedAvatar();
+    });
+
+    presenterAvatarGallery.appendChild(card);
+  });
+
+  markSelectedAvatarCard();
+}
+
+function autoSelectPresenterOptions(avatars, voices){
+  if(!presenterAvatarSelect.value && avatars.length){
+    const preferredAvatar = avatars.find(function(a){
+      return Array.isArray(a.supported_api_engines) && a.supported_api_engines.includes("avatar_v");
+    }) || avatars[0];
+    const firstAvatarId = preferredAvatar.avatar_id || preferredAvatar.id || "";
+    if(firstAvatarId){
+      presenterAvatarSelect.value = firstAvatarId;
+      localStorage.setItem("vop_heygen_avatar_id", firstAvatarId);
+    }
+  }
+
+  const selectedAvatar = avatars.find(function(a){
+    return (a.avatar_id || a.id || "") === presenterAvatarSelect.value;
+  });
+  const defaultVoiceId = selectedAvatar?.default_voice_id || "";
+
+  if(!presenterVoiceSelect.value && defaultVoiceId){
+    const hasDefault = Array.from(presenterVoiceSelect.options).some(function(opt){ return opt.value === defaultVoiceId; });
+    if(hasDefault){
+      presenterVoiceSelect.value = defaultVoiceId;
+      localStorage.setItem("vop_heygen_voice_id", defaultVoiceId);
+    }
+  }
+
+  if(!presenterVoiceSelect.value && voices.length){
+    const firstVoiceId = voices[0].voice_id || voices[0].id || "";
+    if(firstVoiceId){
+      presenterVoiceSelect.value = firstVoiceId;
+      localStorage.setItem("vop_heygen_voice_id", firstVoiceId);
+    }
+  }
+}
+
+function ensureSelectedAvatarDefaultVoice(){
+  const avatarId = presenterAvatarSelect.value || "";
+  const selectedAvatar = cachedHeyGenAvatars.find(function(a){
+    return (a.avatar_id || a.id || "") === avatarId;
+  });
+  const defaultVoiceId = selectedAvatar?.default_voice_id || "";
+  if(!defaultVoiceId) return false;
+
+  let option = Array.from(presenterVoiceSelect.options).find(function(v){
+    return v.value === defaultVoiceId;
+  });
+  if(!option){
+    option = document.createElement("option");
+    option.value = defaultVoiceId;
+    option.textContent = "Avatar default voice";
+    presenterVoiceSelect.appendChild(option);
+  }
+  if(!presenterVoiceSelect.value){
+    presenterVoiceSelect.value = defaultVoiceId;
+    localStorage.setItem("vop_heygen_voice_id", defaultVoiceId);
+  }
+  return true;
+}
+
 async function loadHeyGenOptions(){
+  if(presenterOptionsLoading) return;
+  presenterOptionsLoading = true;
   loadPresenterOptions.disabled = true;
-  setPresenterStatus("Loading your HeyGen avatars and voices...");
+  setPresenterStatus("Connecting to HeyGen and loading your avatars...");
 
   try{
-    const results = await Promise.all([
-      callHeyGenFunction({action:"looks"}),
-      callHeyGenFunction({action:"voices"})
-    ]);
-
-    const avatars = collectAvatarList(results[0]);
-    const voices = collectVoiceList(results[1]);
+    // IMPORTANT: Load avatars FIRST. Do not make avatar display wait for the
+    // much larger voice list. This lets Voice of Peace show your HeyGen
+    // avatars even if the voices endpoint is slow or temporarily unavailable.
+    const avatarResult = await callHeyGenFunction({action:"looks"}, 20000);
+    const avatars = collectAvatarList(avatarResult);
+    cachedHeyGenAvatars = avatars;
 
     fillSelect(presenterAvatarSelect, avatars, "avatar");
-    fillSelect(presenterVoiceSelect, voices, "voice");
+    autoSelectPresenterOptions(avatars, []);
+    renderAvatarGallery(avatars);
+    ensureSelectedAvatarDefaultVoice();
 
-    setPresenterStatus(
-      "✅ Connected. Found " + avatars.length + " avatar(s) and " +
-      voices.length + " voice(s). Choose an avatar below to see its HeyGen preview, then choose a voice."
-    );
-
-    // If a previously saved avatar was restored, show its preview now.
     if(presenterAvatarSelect.value){
       previewSelectedAvatar();
     }
+
+    setPresenterStatus(
+      "✅ Connected to HeyGen. Showing " + avatars.length +
+      " avatar(s). Loading voices separately..."
+    );
+
+    // Load voices second. A slow voice request must never hide the avatars.
+    try{
+      const voiceResult = await callHeyGenFunction({action:"voices"}, 15000);
+      const voices = collectVoiceList(voiceResult);
+      cachedHeyGenVoices = voices;
+      const currentVoice = presenterVoiceSelect.value || localStorage.getItem("vop_heygen_voice_id") || "";
+      fillSelect(presenterVoiceSelect, voices, "voice");
+      if(currentVoice && Array.from(presenterVoiceSelect.options).some(function(v){ return v.value === currentVoice; })){
+        presenterVoiceSelect.value = currentVoice;
+      }
+      autoSelectPresenterOptions(avatars, voices);
+      ensureSelectedAvatarDefaultVoice();
+
+      setPresenterStatus(
+        "✅ Connected to HeyGen. Showing " + avatars.length + " avatar(s) and " +
+        voices.length + " voice(s). Click an avatar picture to select it."
+      );
+    }catch(voiceError){
+      console.warn("HeyGen voices could not be loaded yet:", voiceError);
+      const hasDefault = ensureSelectedAvatarDefaultVoice();
+      setPresenterStatus(
+        "✅ HeyGen avatars loaded: " + avatars.length + ". " +
+        (hasDefault
+          ? "The full voice list is slow, so the selected avatar's default voice is ready. You can still present this story."
+          : "The voice list is taking too long. Your avatars are available; press CONNECT again later to retry voices.")
+      );
+    }
   }catch(error){
     console.error(error);
-    setPresenterStatus("❌ Presenter setup error: " + error.message);
+    setPresenterStatus("❌ Could not load HeyGen avatars: " + error.message);
+    if(presenterAvatarGallery){
+      presenterAvatarGallery.innerHTML = '<div class="presenter-gallery-message">Could not load avatars: ' + escapePresenterHtml(error.message) + '</div>';
+    }
   }finally{
+    presenterOptionsLoading = false;
     loadPresenterOptions.disabled = false;
   }
 }
@@ -616,7 +880,12 @@ function previewSelectedAvatar(){
   }
 
   const previewVideoUrl = option.dataset.previewVideoUrl || "";
+  const previewImageUrl = option.dataset.previewImageUrl || "";
   const defaultVoiceId = option.dataset.defaultVoiceId || "";
+  let supportedEngines = [];
+  try{ supportedEngines = JSON.parse(option.dataset.supportedEngines || "[]"); }catch(e){}
+  const supportsAvatarV = Array.isArray(supportedEngines) && supportedEngines.includes("avatar_v");
+  markSelectedAvatarCard();
 
   // If HeyGen supplied a default voice for this avatar and the user has
   // not chosen a voice yet, select that voice automatically when present.
@@ -643,9 +912,25 @@ function previewSelectedAvatar(){
       presenterBadge.textContent = "● HEYGEN AVATAR PREVIEW";
       presenterBadge.classList.add("show");
     }
-    setPresenterStatus("✅ Avatar preview loaded. Choose a voice, then press PRESENT THIS STORY to create the news video.");
+    setPresenterStatus("✅ Avatar preview loaded. " + (supportsAvatarV ? "AVATAR V is supported for this avatar. " : "This avatar will use Avatar IV. ") + "Choose a voice, then press PRESENT THIS STORY.");
+  }else if(previewImageUrl){
+    if(presenterVideo){
+      try{ presenterVideo.pause(); }catch(e){}
+      presenterVideo.classList.remove("show");
+      presenterVideo.removeAttribute("src");
+    }
+    const storyImage = document.getElementById("storyImage");
+    if(storyImage){
+      storyImage.src = previewImageUrl;
+      storyImage.style.display = "block";
+    }
+    if(presenterBadge){
+      presenterBadge.textContent = "● HEYGEN AVATAR PREVIEW";
+      presenterBadge.classList.add("show");
+    }
+    setPresenterStatus("✅ Avatar selected. " + (supportsAvatarV ? "AVATAR V is supported. " : "Avatar IV will be used. ") + "Choose a voice, then press PRESENT THIS STORY.");
   }else{
-    setPresenterStatus("✅ Avatar selected. HeyGen did not provide a preview video for this look. Choose a voice and press PRESENT THIS STORY.");
+    setPresenterStatus("✅ Avatar selected. Choose a voice and press PRESENT THIS STORY.");
   }
 }
 
@@ -660,6 +945,75 @@ presenterVoiceSelect.addEventListener("change", function(){
     setPresenterStatus("✅ Avatar and voice selected. Press PRESENT THIS STORY to generate the HeyGen video.");
   }
 });
+
+function setHeyGenLibraryStatus(message){
+  if(heygenLibraryStatus) heygenLibraryStatus.textContent = message;
+}
+
+function renderHeyGenVideos(videos){
+  if(!heygenVideoLibrary) return;
+  heygenVideoLibrary.innerHTML = "";
+  if(!videos.length){
+    heygenVideoLibrary.innerHTML = '<div class="presenter-gallery-message">No HeyGen videos were returned yet.</div>';
+    return;
+  }
+
+  videos.forEach(function(item){
+    const card = document.createElement("div");
+    card.className = "heygen-video-card";
+
+    const thumb = document.createElement("img");
+    thumb.src = item.thumbnail_url || "many.jpeg";
+    thumb.alt = item.title || "HeyGen video";
+    thumb.loading = "lazy";
+    card.appendChild(thumb);
+
+    const body = document.createElement("div");
+    body.className = "heygen-video-card-body";
+
+    const title = document.createElement("div");
+    title.className = "heygen-video-card-title";
+    title.textContent = item.title || "HeyGen Video";
+    body.appendChild(title);
+
+    const meta = document.createElement("div");
+    meta.className = "heygen-video-card-meta";
+    meta.textContent = item.duration ? ("Duration: " + Math.round(Number(item.duration)) + " sec") : "HeyGen generated video";
+    body.appendChild(meta);
+
+    const play = document.createElement("button");
+    play.type = "button";
+    play.textContent = item.video_url ? "▶ PLAY IN VOICE OF PEACE" : "OPEN IN HEYGEN";
+    play.addEventListener("click", function(){
+      if(item.video_url){
+        showPresenterVideo(item.video_url);
+        setPresenterStatus("✅ Playing your saved HeyGen video inside Voice of Peace.");
+        document.querySelector(".media-panel")?.scrollIntoView({behavior:"smooth", block:"center"});
+      }else if(item.video_page_url){
+        window.open(item.video_page_url, "_blank", "noopener,noreferrer");
+      }
+    });
+    body.appendChild(play);
+    card.appendChild(body);
+    heygenVideoLibrary.appendChild(card);
+  });
+}
+
+async function loadHeyGenVideoLibrary(){
+  if(loadHeyGenVideosBtn) loadHeyGenVideosBtn.disabled = true;
+  setHeyGenLibraryStatus("Loading your HeyGen generated videos...");
+  try{
+    const result = await callHeyGenFunction({action:"videos"}, 20000);
+    const videos = result?.data?.videos || result?.videos || [];
+    renderHeyGenVideos(videos);
+    setHeyGenLibraryStatus("✅ Loaded " + videos.length + " HeyGen video(s). Click PLAY to show a video in Voice of Peace.");
+  }catch(error){
+    console.error(error);
+    setHeyGenLibraryStatus("❌ Could not load HeyGen videos: " + error.message);
+  }finally{
+    if(loadHeyGenVideosBtn) loadHeyGenVideosBtn.disabled = false;
+  }
+}
 
 function currentNewsScript(){
   const headline = (document.getElementById("headline")?.textContent || "").trim();
@@ -755,11 +1109,18 @@ async function pollPresenterVideo(videoId, attempt){
 }
 
 async function generatePresenter(){
-  const avatarId = presenterAvatarSelect.value || localStorage.getItem("vop_heygen_avatar_id") || "";
-  const voiceId = presenterVoiceSelect.value || localStorage.getItem("vop_heygen_voice_id") || "";
+  let avatarId = presenterAvatarSelect.value || localStorage.getItem("vop_heygen_avatar_id") || "";
+  let voiceId = presenterVoiceSelect.value || localStorage.getItem("vop_heygen_voice_id") || "";
 
   if(!avatarId || !voiceId){
-    setPresenterStatus("First press LOAD MY AVATARS & VOICES, then choose an avatar and voice.");
+    setPresenterStatus("Loading your HeyGen avatars and voices automatically...");
+    await loadHeyGenOptions();
+    avatarId = presenterAvatarSelect.value || localStorage.getItem("vop_heygen_avatar_id") || "";
+    voiceId = presenterVoiceSelect.value || localStorage.getItem("vop_heygen_voice_id") || "";
+  }
+
+  if(!avatarId || !voiceId){
+    setPresenterStatus("❌ HeyGen connected, but no usable avatar/voice could be selected. Click an avatar picture and choose a voice.");
     return;
   }
 
@@ -769,8 +1130,16 @@ async function generatePresenter(){
     return;
   }
 
+  const selectedAvatar = cachedHeyGenAvatars.find(function(a){
+    return (a.avatar_id || a.id || "") === avatarId;
+  });
+  const supportedEngines = selectedAvatar && Array.isArray(selectedAvatar.supported_api_engines)
+    ? selectedAvatar.supported_api_engines
+    : [];
+  const engineType = supportedEngines.includes("avatar_v") ? "avatar_v" : "avatar_iv";
+
   presentStoryBtn.disabled = true;
-  setPresenterStatus("Sending the current Voice of Peace story securely to HeyGen...");
+  setPresenterStatus("Sending the current Voice of Peace story to HeyGen using " + (engineType === "avatar_v" ? "AVATAR V" : "Avatar IV") + "...");
 
   try{
     const result = await callHeyGenFunction({
@@ -778,13 +1147,14 @@ async function generatePresenter(){
       avatar_id: avatarId,
       voice_id: voiceId,
       text: script,
-      title: "Voice of Peace News"
+      title: "Voice of Peace News",
+      engine_type: engineType
     });
 
     const videoId = result.video_id || result?.data?.video_id || "";
     if(!videoId) throw new Error("HeyGen accepted the request but no video ID was returned.");
 
-    setPresenterStatus("✅ HeyGen started the presentation. Creating the video now...");
+    setPresenterStatus("✅ HeyGen started the presentation with " + (engineType === "avatar_v" ? "AVATAR V" : "Avatar IV") + ". Creating the video now...");
     pollPresenterVideo(videoId, 0);
 
   }catch(error){
@@ -800,9 +1170,34 @@ loadPresenterOptions.addEventListener("click", loadHeyGenOptions);
 presentStoryBtn.addEventListener("click", generatePresenter);
 showStoryImageBtn.addEventListener("click", showNewsImage);
 
+if(showMyAvatarsBtn){
+  showMyAvatarsBtn.addEventListener("click", async function(){
+    setHeyGenLibraryStatus("Loading your HeyGen avatars...");
+    await loadHeyGenOptions();
+    if(presenterAvatarGallery){
+      presenterAvatarGallery.scrollIntoView({behavior:"smooth", block:"center"});
+    }
+    setHeyGenLibraryStatus("✅ HeyGen avatars are loaded above. Click an avatar picture to use it.");
+  });
+}
+if(loadHeyGenVideosBtn){
+  loadHeyGenVideosBtn.addEventListener("click", loadHeyGenVideoLibrary);
+}
+if(jumpToNewsBtn){
+  jumpToNewsBtn.addEventListener("click", function(){
+    document.querySelector(".video-section")?.scrollIntoView({behavior:"smooth", block:"start"});
+    setHeyGenLibraryStatus("Live News & Video desk is directly below the AI Presenter.");
+  });
+}
+
 const savedPresenterVideo = localStorage.getItem("vop_last_presenter_video") || "";
 if(savedFunctionToken){
-  setPresenterStatus("Private function token is saved on this computer. Press TEST CONNECTION.");
+  setPresenterStatus("Private token found. Connecting to HeyGen automatically...");
+  setTimeout(function(){
+    testHeyGenConnection();
+  }, 350);
+}else{
+  setPresenterStatus("Paste your 64-character HEYGEN_FUNCTION_TOKEN, save it, then click CONNECT TO HEYGEN & SHOW AVATARS.");
 }
 if(savedPresenterVideo){
   // Do not autoplay an old report. Keep it available only as a saved reference.

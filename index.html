@@ -3,1390 +3,818 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
 <title>Voice of Peace TV</title>
+
 <meta name="theme-color" content="#02182e">
 
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
 
 html,body{
   margin:0;
   min-height:100%;
-  background:#02182e;
-  color:#fff;
-  font-family:Arial,Helvetica,sans-serif
 }
 
 body{
+  font-family:Arial,Helvetica,sans-serif;
+  color:#fff;
+
   background:
-  radial-gradient(circle at top,#0c4f7e 0,#062c4f 32%,#02182e 68%,#010b15 100%)
+  radial-gradient(circle at top,
+  #0d598e 0%,
+  #07375f 25%,
+  #032440 50%,
+  #011426 75%,
+  #010b15 100%);
 }
+
+
+/* =====================================================
+   MAIN CONTAINER
+===================================================== */
 
 .wrap{
-  width:min(980px,96%);
+  width:min(1050px,96%);
   margin:auto;
-  padding:18px 0 34px
+  padding:18px 0 40px;
 }
 
-.top{
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+.header{
   text-align:center;
-  margin-bottom:14px
+  padding:18px 10px 20px;
 }
 
-.kicker{
-  color:#4bd0ff;
+.logo{
+  font-size:44px;
+}
+
+.header h1{
+  margin:4px 0;
+  font-size:clamp(32px,7vw,60px);
+  font-weight:1000;
+  letter-spacing:2px;
+
+  background:linear-gradient(
+    90deg,
+    #fff,
+    #50d8ff,
+    #ffd84e,
+    #fff
+  );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.subtitle{
+  color:#a9dffc;
+  font-size:18px;
+  margin-top:8px;
+}
+
+.tagline{
+  color:#ffd84e;
+  margin-top:8px;
+  font-weight:bold;
+}
+
+
+/* =====================================================
+   PAGE NAVIGATION TITLE
+===================================================== */
+
+.pageTitle{
+  margin-top:10px;
+  margin-bottom:12px;
+  text-align:center;
+  font-size:20px;
+  color:#ffd84e;
   font-weight:900;
-  letter-spacing:4px;
-  font-size:11px
+  letter-spacing:1px;
 }
 
-.top h1{
-  margin:5px 0 2px;
-  font-size:clamp(28px,7vw,52px)
-}
 
-.byline{
-  color:#ffd34f;
-  font-size:13px;
-  font-weight:800
-}
+/* =====================================================
+   PAGE BUTTON GRID
+===================================================== */
 
-.card{
-  background:linear-gradient(145deg,#082e51,#03182e);
-  border:1px solid #286187;
-  border-radius:18px;
-  padding:16px;
-  box-shadow:0 12px 35px #0006
-}
+.pageGrid{
 
-.channels{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
+
+  grid-template-columns:
+  repeat(5,1fr);
+
   gap:10px;
-  margin-bottom:14px
+
+  margin-bottom:24px;
 }
 
-.ch{
-  min-height:80px;
-  border:1px solid #4088b6;
-  border-radius:15px;
-  background:linear-gradient(145deg,#0a416b,#041d36);
-  color:#fff;
+
+/* =====================================================
+   PAGE BUTTON
+===================================================== */
+
+.pageBtn{
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-decoration:none;
+
+  min-height:76px;
+
+  border-radius:17px;
+
+  border:2px solid #2689c1;
+
+  background:
+  linear-gradient(
+    145deg,
+    #0a456f,
+    #042b4c
+  );
+
+  color:white;
+
+  font-size:18px;
+
   font-weight:900;
-  padding:12px;
-  cursor:pointer;
-  text-align:left
+
+  transition:.2s;
+
+  box-shadow:
+  inset 0 0 15px rgba(55,187,255,.1),
+  0 5px 15px rgba(0,0,0,.25);
 }
 
-.ch b{
-  display:block;
-  color:#ffd34f;
+
+.pageBtn span{
+
+  color:#ffd84e;
+
   font-size:12px;
-  margin-bottom:6px
+
+  margin-bottom:5px;
 }
 
-.ch span{
-  font-size:16px;
-  line-height:1.25
+
+.pageBtn:hover,
+.pageBtn:active{
+
+  transform:scale(1.04);
+
+  border-color:#ffd84e;
+
+  box-shadow:
+  0 0 20px rgba(255,216,78,.5);
 }
 
-.ch.active{
-  border:3px solid #ffd34f;
-  background:linear-gradient(145deg,#126ba3,#07345b);
-  box-shadow:0 0 18px #ffd34f66
-}
 
-/* THE VOICE OF PEACE TV BOX */
+/* =====================================================
+   FEATURE BOX
+===================================================== */
 
-.playerbox{
-  position:relative;
-  width:100%;
-  aspect-ratio:16/9;
-  background:#000;
-  border-radius:16px;
+.mainBox{
+
+  border:2px solid #2378a7;
+
+  border-radius:24px;
+
   overflow:hidden;
-  border:1px solid #4088b6
+
+  background:
+  rgba(0,18,35,.86);
+
+  box-shadow:
+  0 15px 40px rgba(0,0,0,.35);
 }
 
-#player{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%
-}
 
-.now{
-  padding:12px 2px 4px;
-  text-align:center;
-  font-size:18px
-}
+/* =====================================================
+   TV SCREEN
+===================================================== */
 
-.now strong{
-  color:#ffd34f
-}
+.screen{
 
-.status{
-  text-align:center;
-  color:#aedadf;
-  font-size:12px;
-  min-height:18px;
-  margin-bottom:10px
-}
+  min-height:350px;
 
-.controls{
   display:flex;
-  gap:9px;
+
   align-items:center;
-  flex-wrap:wrap;
-  justify-content:center
+
+  justify-content:center;
+
+  text-align:center;
+
+  padding:30px;
+
+  background:
+  radial-gradient(
+  circle at center,
+  #12304b,
+  #050b10 72%
+  );
+
 }
 
-.controls button{
-  border:0;
-  border-radius:12px;
-  padding:12px 16px;
-  background:#167ab4;
-  color:#fff;
-  font-size:15px;
+
+.screenContent{
+
+  max-width:700px;
+
+}
+
+
+.screenIcon{
+
+  font-size:70px;
+
+}
+
+
+.screen h2{
+
+  font-size:34px;
+
+  margin:12px 0;
+
+}
+
+
+.screen p{
+
+  color:#c4d9e7;
+
+  font-size:18px;
+
+  line-height:1.5;
+
+}
+
+
+/* =====================================================
+   BIG PAGE BUTTONS
+===================================================== */
+
+.quickArea{
+
+  padding:20px;
+
+  background:#031d35;
+
+}
+
+
+.quickTitle{
+
+  text-align:center;
+
+  color:#ffd84e;
+
+  font-size:21px;
+
   font-weight:900;
-  cursor:pointer
+
+  margin-bottom:15px;
+
 }
 
-.controls .mute{
-  background:#6a4aa3
-}
 
-.volume{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  background:#071d33;
-  padding:9px 12px;
-  border-radius:12px;
-  border:1px solid #326c92;
-  min-width:260px
-}
+.bigPages{
 
-.volume input{
-  width:170px
-}
-
-.volnum{
-  font-weight:900;
-  color:#ffd34f;
-  min-width:38px;
-  text-align:right
-}
-
-.custom{
-  margin-top:16px
-}
-
-.custom h2{
-  margin:0 0 7px;
-  font-size:20px
-}
-
-.custom p{
-  margin:0 0 10px;
-  color:#b9cfdf;
-  font-size:13px;
-  line-height:1.45
-}
-
-.searchrow{
   display:grid;
-  grid-template-columns:1fr auto;
-  gap:8px
+
+  grid-template-columns:
+  repeat(2,1fr);
+
+  gap:13px;
+
 }
 
-.searchrow input{
-  min-width:0;
-  padding:14px;
-  border-radius:12px;
-  border:1px solid #4d8bb2;
-  background:#fff;
-  color:#111;
-  font-size:16px
-}
 
-.searchrow button{
-  border:0;
-  border-radius:12px;
-  padding:12px 14px;
-  background:#0f9c5c;
+.bigBtn{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  text-align:center;
+
+  min-height:70px;
+
+  border-radius:18px;
+
+  text-decoration:none;
+
   color:#fff;
-  font-weight:900
+
+  font-size:18px;
+
+  font-weight:900;
+
+  background:
+  linear-gradient(
+  145deg,
+  #0b70ab,
+  #07436c
+  );
+
+  border:2px solid #2cb9ff;
+
 }
 
-.examples{
-  font-size:11px;
-  color:#8fafc3;
-  margin-top:8px
+
+.bigBtn:active{
+
+  transform:scale(.97);
+
 }
+
+
+/* =====================================================
+   PREVIOUS / NEXT
+===================================================== */
+
+.bottomNav{
+
+  display:grid;
+
+  grid-template-columns:
+  1fr 1fr;
+
+  gap:14px;
+
+  margin-top:20px;
+
+}
+
+
+.navButton{
+
+  display:block;
+
+  text-align:center;
+
+  text-decoration:none;
+
+  padding:18px;
+
+  border-radius:18px;
+
+  font-weight:900;
+
+  font-size:20px;
+
+  color:white;
+
+  background:
+  linear-gradient(
+  135deg,
+  #158fd0,
+  #07588c
+  );
+
+  border:2px solid #49caff;
+
+}
+
+
+.next{
+
+  background:
+  linear-gradient(
+  135deg,
+  #e7b62d,
+  #b97b05
+  );
+
+  border-color:#ffe37a;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
 
 .footer{
+
   text-align:center;
-  color:#7897ac;
-  font-size:12px;
-  padding:26px 0 4px
+
+  padding:30px 10px 10px;
+
+  color:#8fb4ca;
+
+  font-size:14px;
+
 }
 
-@media(min-width:760px){
-  .channels{
-    grid-template-columns:repeat(4,minmax(0,1fr))
-  }
+
+.footer strong{
+
+  color:#ffd84e;
+
 }
 
-@media(max-width:620px){
 
-  .searchrow{
-    grid-template-columns:1fr
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width:700px){
+
+  .pageGrid{
+
+    grid-template-columns:
+    repeat(2,1fr);
+
   }
 
-  .controls button{
-    flex:1
+  .screen{
+
+    min-height:260px;
+
   }
 
-  .volume{
-    width:100%;
-    justify-content:center
+  .screen h2{
+
+    font-size:27px;
+
   }
 
-  .volume input{
-    width:min(58vw,240px)
-  }
 }
+
+
+@media(max-width:420px){
+
+  .pageBtn{
+
+    min-height:68px;
+
+  }
+
+  .bigPages{
+
+    grid-template-columns:1fr;
+
+  }
+
+}
+
 </style>
 </head>
+
 
 <body>
 
 <div class="wrap">
 
-<div class="top">
 
-<div class="kicker">
-THIS IS THE
-</div>
+<!-- =================================================
+     HEADER
+================================================== -->
 
-<h1>
-VOICE OF PEACE TV
-</h1>
+<div class="header">
 
-<div class="byline">
-By Emmanuel &amp; Camili Hileah
-</div>
+  <div class="logo">
+    🕊️
+  </div>
 
-</div>
+  <h1>
+    VOICE OF PEACE
+  </h1>
 
+  <div class="subtitle">
+    News • Israel • Health • Technology • Travel • Faith
+  </div>
 
-<div class="card">
-
-<div class="channels" id="channels"></div>
-
-
-<div class="playerbox">
-
-<div id="player"></div>
+  <div class="tagline">
+    ❤️ Love Your Neighbor As Yourself
+  </div>
 
 </div>
 
 
-<div class="now">
+<!-- =================================================
+     PAGE NAVIGATION
+================================================== -->
 
-NOW PLAYING:
+<div class="pageTitle">
+📺 SELECT A VOICE OF PEACE PAGE
+</div>
 
-<strong id="nowPlaying">
-Israel News — ILTV
-</strong>
+
+<div class="pageGrid">
+
+
+<a class="pageBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index1.html">
+
+<span>VOICE OF PEACE</span>
+📺 PAGE 1
+
+</a>
+
+
+
+<a class="pageBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index2.html">
+
+<span>VOICE OF PEACE</span>
+📺 PAGE 2
+
+</a>
+
+
+
+<a class="pageBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index3.html">
+
+<span>VOICE OF PEACE</span>
+📺 PAGE 3
+
+</a>
+
+
+
+<a class="pageBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index4.html">
+
+<span>VOICE OF PEACE</span>
+📺 PAGE 4
+
+</a>
+
+
+
+<a class="pageBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index5.html">
+
+<span>VOICE OF PEACE</span>
+📺 PAGE 5
+
+</a>
+
+
+
+<a class="pageBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index6.html">
+
+<span>VOICE OF PEACE</span>
+📺 PAGE 6
+
+</a>
+
+
+
+<a class="pageBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index7.html">
+
+<span>VOICE OF PEACE</span>
+📺 PAGE 7
+
+</a>
+
+
+
+<a class="pageBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index8.html">
+
+<span>VOICE OF PEACE</span>
+📺 PAGE 8
+
+</a>
+
+
+
+<a class="pageBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index9.html">
+
+<span>VOICE OF PEACE</span>
+📺 PAGE 9
+
+</a>
+
+
+
+<a class="pageBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index10.html">
+
+<span>VOICE OF PEACE</span>
+📺 PAGE 10
+
+</a>
+
 
 </div>
 
 
-<div class="status" id="status">
 
-Choose a channel above.
+<!-- =================================================
+     MAIN TV BOX
+================================================== -->
 
-Everything plays inside Voice of Peace TV.
+<div class="mainBox">
 
+
+<div class="screen">
+
+<div class="screenContent">
+
+<div class="screenIcon">
+🌎🕊️
 </div>
-
-
-<div class="controls">
-
-<button id="prevBtn">
-◀ Previous
-</button>
-
-<button id="playBtn">
-▶ Play
-</button>
-
-<button id="pauseBtn">
-⏸ Pause
-</button>
-
-<button id="nextBtn">
-Next ▶
-</button>
-
-<button id="muteBtn" class="mute">
-🔇 Mute
-</button>
-
-
-<div class="volume">
-
-<span>
-🔊 Volume
-</span>
-
-<input
-id="volume"
-type="range"
-min="0"
-max="100"
-value="80"
->
-
-<span id="volNum" class="volnum">
-80%
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<div class="card custom">
 
 <h2>
-🔎 Play your own YouTube video
+Welcome to Voice of Peace TV
 </h2>
 
 <p>
-Paste any YouTube video or playlist URL.
-The video will play directly inside the Voice of Peace TV box above.
-You will NOT leave this website.
+
+Choose one of our television pages above.
+
+Watch news, Israel coverage,
+health programs,
+technology,
+travel,
+nature,
+faith,
+business,
+and special Voice of Peace programming.
+
 </p>
 
-
-<div class="searchrow">
-
-<input
-id="customInput"
-type="search"
-placeholder="Paste YouTube video or playlist URL"
-autocomplete="off"
->
-
-<button id="playUrlBtn">
-▶ Play Inside TV
-</button>
-
-</div>
-
-
-<div class="examples">
-
-Examples:
-
-youtube.com/watch?v=...
-
-youtu.be/...
-
-youtube.com/live/...
-
-youtube.com/shorts/...
-
-YouTube playlist URLs
-
 </div>
 
 </div>
 
+
+
+<!-- =================================================
+     QUICK LINKS
+================================================== -->
+
+<div class="quickArea">
+
+<div class="quickTitle">
+⭐ QUICK ACCESS
+</div>
+
+
+<div class="bigPages">
+
+
+<a class="bigBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index1.html">
+
+🏠 Main TV
+
+</a>
+
+
+<a class="bigBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index2.html">
+
+📰 News
+
+</a>
+
+
+<a class="bigBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index3.html">
+
+🇮🇱 Israel
+
+</a>
+
+
+<a class="bigBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index4.html">
+
+❤️ Health
+
+</a>
+
+
+<a class="bigBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index5.html">
+
+🤖 Technology
+
+</a>
+
+
+<a class="bigBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index6.html">
+
+✡️ Jewish TV
+
+</a>
+
+
+<a class="bigBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index7.html">
+
+🌊 Nature
+
+</a>
+
+
+<a class="bigBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index8.html">
+
+✈️ Travel
+
+</a>
+
+
+<a class="bigBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index9.html">
+
+💰 Business
+
+</a>
+
+
+<a class="bigBtn"
+href="https://mano34911.github.io/Voice-of-Peace/index10.html">
+
+🕊️ Special TV
+
+</a>
+
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =================================================
+     BOTTOM NAVIGATION
+================================================== -->
+
+<div class="bottomNav">
+
+<a class="navButton"
+href="https://mano34911.github.io/Voice-of-Peace/index1.html">
+
+◀ PAGE 1
+
+</a>
+
+
+<a class="navButton next"
+href="https://mano34911.github.io/Voice-of-Peace/index2.html">
+
+PAGE 2 ▶
+
+</a>
+
+</div>
+
+
+
+<!-- =================================================
+     FOOTER
+================================================== -->
 
 <div class="footer">
 
-Voice of Peace • Embedded Television
+🕊️ <strong>VOICE OF PEACE</strong>
+
+<br><br>
+
+By Emmanuel & Camili Hileah
+
+<br>
+
+Created by CEE LTD Emmanuel Hileah Innovations
 
 </div>
 
+
 </div>
-
-
-
-<script>
-
-/*
-===========================================================
-VOICE OF PEACE TV
-===========================================================
-
-IMPORTANT:
-
-We are using REAL YOUTUBE CHANNEL IDs.
-
-We then generate the channel's UPLOAD PLAYLIST.
-
-That means we do NOT depend on temporary live video IDs.
-
-When the channel uploads new material,
-the playlist automatically updates.
-
-===========================================================
-*/
-
-
-const PRESETS = [
-
-{
-name:"🇮🇱 Israel News",
-station:"ILTV Israel News",
-channel:"UCuxgEyMeaks7HS5gAw6Tt7w"
-},
-
-{
-name:"🇺🇸 U.S. News",
-station:"ABC News",
-channel:"UCBi2mrWuNuyYy4gbM6fU18Q"
-},
-
-{
-name:"😂 Comedy TV",
-station:"Comedy Central",
-channel:"UCUsN5ZwHx2kILm84-jPDeXw"
-},
-
-{
-name:"🎬 Movies",
-station:"Rotten Tomatoes Movieclips",
-channel:"UC3gNmTGu-TTbFPpfSs5kNkg"
-},
-
-{
-name:"📱 Shorts",
-station:"BBC Earth Shorts",
-channel:"UCwmZiChSryoWQCZMIQezgTg",
-shorts:true
-},
-
-{
-name:"✈️ Travel",
-station:"Rick Steves Europe",
-channel:"UCchgIh8Tc4sTmBfnMQ5pDdg"
-},
-
-{
-name:"🐘 Animals",
-station:"Nat Geo Animals",
-channel:"UCDPk9MG2RexnOMGTD-YnSnA"
-},
-
-{
-name:"🌊 Nature & Ocean",
-station:"BBC Earth",
-channel:"UCwmZiChSryoWQCZMIQezgTg"
-},
-
-{
-name:"📰 Breaking U.S. News",
-station:"ABC News",
-channel:"UCBi2mrWuNuyYy4gbM6fU18Q"
-},
-
-{
-name:"💰 Make Money",
-station:"CNBC Make It",
-channel:"UCH5_L3ytGbBziX0CLuYdQ1Q"
-},
-
-{
-name:"🤖 Today's Technology",
-station:"MKBHD",
-channel:"UCBJycsmduvYEL83R_U4JriQ"
-},
-
-{
-name:"🇮🇱 Israel Security",
-station:"i24NEWS English",
-channel:"UCvHDpsWKADrDia0c99X37vg"
-},
-
-{
-name:"❤️ Health",
-station:"Mayo Clinic",
-channel:"UC8fQzKHIhSoZeSq3bwQx4mw"
-},
-
-{
-name:"✡️ הרב זמיר כהן",
-station:"Hidabroot / Rabbi Zamir Cohen",
-channel:"UCzqiIOm_TUH0lG3pwlbMkyA"
-}
-
-];
-
-
-let currentIndex = 0;
-
-let ytPlayer = null;
-
-let ready = false;
-
-let wantedVolume =
-Number(
-localStorage.getItem("vop_volume") || 80
-);
-
-
-const channelsEl =
-document.getElementById("channels");
-
-const nowEl =
-document.getElementById("nowPlaying");
-
-const statusEl =
-document.getElementById("status");
-
-const volumeEl =
-document.getElementById("volume");
-
-const volNumEl =
-document.getElementById("volNum");
-
-const muteBtn =
-document.getElementById("muteBtn");
-
-
-volumeEl.value =
-wantedVolume;
-
-volNumEl.textContent =
-wantedVolume + "%";
-
-
-
-/*
-================================================
-CONVERT CHANNEL ID TO UPLOAD PLAYLIST
-================================================
-
-YouTube upload playlist:
-
-UCxxxxxxxx
-
-becomes
-
-UUxxxxxxxx
-
-================================================
-*/
-
-function uploadPlaylist(channelId){
-
-return "UU" + channelId.substring(2);
-
-}
-
-
-
-/*
-================================================
-SHORTS PLAYLIST
-================================================
-*/
-
-function shortsPlaylist(channelId){
-
-return "UUSH" + channelId.substring(2);
-
-}
-
-
-
-/*
-================================================
-CREATE CHANNEL BUTTONS
-================================================
-*/
-
-function renderButtons(){
-
-channelsEl.innerHTML = "";
-
-
-PRESETS.forEach((channel,index)=>{
-
-const button =
-document.createElement("button");
-
-
-button.className =
-"ch" +
-(index === currentIndex ? " active" : "");
-
-
-button.innerHTML =
-
-"<b>CHANNEL " +
-(index + 1) +
-"</b>" +
-
-"<span>" +
-channel.name +
-"</span>";
-
-
-button.onclick = function(){
-
-playChannel(index);
-
-};
-
-
-channelsEl.appendChild(button);
-
-});
-
-}
-
-
-
-/*
-================================================
-ACTIVE BUTTON
-================================================
-*/
-
-function markActive(){
-
-[...channelsEl.children]
-.forEach((button,index)=>{
-
-button.classList.toggle(
-"active",
-index === currentIndex
-);
-
-});
-
-}
-
-
-
-/*
-================================================
-STATUS MESSAGE
-================================================
-*/
-
-function setStatus(message){
-
-statusEl.textContent = message;
-
-}
-
-
-
-/*
-================================================
-YOUTUBE PLAYER
-================================================
-*/
-
-window.onYouTubeIframeAPIReady = function(){
-
-const firstPlaylist =
-uploadPlaylist(PRESETS[0].channel);
-
-
-ytPlayer =
-new YT.Player("player",{
-
-height:"100%",
-
-width:"100%",
-
-playerVars:{
-
-autoplay:0,
-
-controls:1,
-
-playsinline:1,
-
-rel:0,
-
-modestbranding:1,
-
-listType:"playlist",
-
-list:firstPlaylist
-
-},
-
-events:{
-
-onReady:function(){
-
-ready = true;
-
-ytPlayer.setVolume(wantedVolume);
-
-setStatus(
-"Ready — choose any channel above."
-);
-
-},
-
-
-onStateChange:function(event){
-
-if(event.data ===
-YT.PlayerState.PLAYING){
-
-setStatus(
-"● Playing inside Voice of Peace TV"
-);
-
-}
-
-
-if(event.data ===
-YT.PlayerState.PAUSED){
-
-setStatus(
-"Paused"
-);
-
-}
-
-
-if(event.data ===
-YT.PlayerState.ENDED){
-
-setStatus(
-"Video finished — loading the next video from this channel."
-);
-
-}
-
-},
-
-
-onError:function(event){
-
-console.log(
-"YouTube error:",
-event.data
-);
-
-setStatus(
-"This individual video cannot be embedded. Trying the next video..."
-);
-
-try{
-
-ytPlayer.nextVideo();
-
-}catch(e){}
-
-}
-
-}
-
-});
-
-};
-
-
-
-/*
-================================================
-PLAY CHANNEL
-================================================
-*/
-
-function playChannel(index){
-
-currentIndex = index;
-
-markActive();
-
-
-const channel =
-PRESETS[index];
-
-
-nowEl.textContent =
-channel.name +
-" — " +
-channel.station;
-
-
-if(!ready){
-
-setStatus(
-"Player is still loading..."
-);
-
-return;
-
-}
-
-
-let playlist;
-
-
-if(channel.shorts){
-
-playlist =
-shortsPlaylist(
-channel.channel
-);
-
-}else{
-
-playlist =
-uploadPlaylist(
-channel.channel
-);
-
-}
-
-
-setStatus(
-"Loading " +
-channel.station +
-"..."
-);
-
-
-ytPlayer.loadPlaylist({
-
-list:playlist,
-
-listType:"playlist",
-
-index:0,
-
-startSeconds:0
-
-});
-
-
-ytPlayer.setLoop(true);
-
-ytPlayer.setShuffle(false);
-
-ytPlayer.setVolume(wantedVolume);
-
-}
-
-
-
-/*
-================================================
-PREVIOUS CHANNEL
-================================================
-*/
-
-function previousChannel(){
-
-currentIndex--;
-
-if(currentIndex < 0){
-
-currentIndex =
-PRESETS.length - 1;
-
-}
-
-playChannel(currentIndex);
-
-}
-
-
-
-/*
-================================================
-NEXT CHANNEL
-================================================
-*/
-
-function nextChannel(){
-
-currentIndex++;
-
-if(currentIndex >=
-PRESETS.length){
-
-currentIndex = 0;
-
-}
-
-playChannel(currentIndex);
-
-}
-
-
-
-/*
-================================================
-CONTROL BUTTONS
-================================================
-*/
-
-document
-.getElementById("nextBtn")
-.onclick =
-nextChannel;
-
-
-document
-.getElementById("prevBtn")
-.onclick =
-previousChannel;
-
-
-document
-.getElementById("playBtn")
-.onclick =
-function(){
-
-if(ready){
-
-ytPlayer.playVideo();
-
-}
-
-};
-
-
-document
-.getElementById("pauseBtn")
-.onclick =
-function(){
-
-if(ready){
-
-ytPlayer.pauseVideo();
-
-}
-
-};
-
-
-
-/*
-================================================
-VOLUME
-================================================
-*/
-
-volumeEl.oninput =
-function(){
-
-wantedVolume =
-Number(
-volumeEl.value
-);
-
-
-volNumEl.textContent =
-wantedVolume + "%";
-
-
-localStorage.setItem(
-"vop_volume",
-wantedVolume
-);
-
-
-if(ready){
-
-ytPlayer.unMute();
-
-ytPlayer.setVolume(
-wantedVolume
-);
-
-}
-
-
-muteBtn.textContent =
-"🔇 Mute";
-
-};
-
-
-
-/*
-================================================
-MUTE
-================================================
-*/
-
-muteBtn.onclick =
-function(){
-
-if(!ready)return;
-
-
-if(ytPlayer.isMuted()){
-
-ytPlayer.unMute();
-
-ytPlayer.setVolume(
-wantedVolume
-);
-
-muteBtn.textContent =
-"🔇 Mute";
-
-}else{
-
-ytPlayer.mute();
-
-muteBtn.textContent =
-"🔊 Unmute";
-
-}
-
-};
-
-
-
-/*
-================================================
-READ CUSTOM YOUTUBE URL
-================================================
-*/
-
-function parseYouTube(value){
-
-const text =
-value.trim();
-
-
-if(!text){
-
-return null;
-
-}
-
-
-try{
-
-const url =
-new URL(
-text.startsWith("http")
-? text
-: "https://" + text
-);
-
-
-const hostname =
-url.hostname.replace(
-/^www\./,
-""
-);
-
-
-/*
-youtu.be
-*/
-
-if(hostname === "youtu.be"){
-
-const id =
-url.pathname
-.split("/")
-.filter(Boolean)[0];
-
-
-if(id){
-
-return{
-
-type:"video",
-
-id:id
-
-};
-
-}
-
-}
-
-
-
-/*
-youtube.com
-*/
-
-if(hostname.endsWith(
-"youtube.com"
-)){
-
-const playlist =
-url.searchParams.get(
-"list"
-);
-
-
-const video =
-url.searchParams.get(
-"v"
-);
-
-
-if(video){
-
-return{
-
-type:"video",
-
-id:video
-
-};
-
-}
-
-
-if(playlist){
-
-return{
-
-type:"playlist",
-
-id:playlist
-
-};
-
-}
-
-
-const parts =
-url.pathname
-.split("/")
-.filter(Boolean);
-
-
-if(
-["live","shorts","embed"]
-.includes(parts[0])
-&&
-parts[1]
-){
-
-return{
-
-type:"video",
-
-id:parts[1]
-
-};
-
-}
-
-}
-
-}catch(error){}
-
-
-/*
-Raw 11-character video ID
-*/
-
-if(
-/^[A-Za-z0-9_-]{11}$/
-.test(text)
-){
-
-return{
-
-type:"video",
-
-id:text
-
-};
-
-}
-
-
-return null;
-
-}
-
-
-
-/*
-================================================
-PLAY CUSTOM URL
-================================================
-*/
-
-function playCustom(){
-
-const raw =
-document
-.getElementById("customInput")
-.value;
-
-
-const parsed =
-parseYouTube(raw);
-
-
-if(!parsed){
-
-setStatus(
-"Please paste a YouTube video or playlist URL."
-);
-
-return;
-
-}
-
-
-if(!ready){
-
-setStatus(
-"Player is still loading..."
-);
-
-return;
-
-}
-
-
-/*
-Nothing navigates away.
-Everything remains in the TV player.
-*/
-
-if(parsed.type ===
-"playlist"){
-
-nowEl.textContent =
-"Custom YouTube Playlist";
-
-
-ytPlayer.loadPlaylist({
-
-list:parsed.id,
-
-listType:"playlist",
-
-index:0
-
-});
-
-
-ytPlayer.setLoop(true);
-
-
-setStatus(
-"Custom playlist loaded inside Voice of Peace."
-);
-
-
-}else{
-
-
-nowEl.textContent =
-"Custom YouTube Video";
-
-
-ytPlayer.loadVideoById(
-parsed.id
-);
-
-
-setStatus(
-"Custom video loaded inside Voice of Peace."
-);
-
-}
-
-
-ytPlayer.setVolume(
-wantedVolume
-);
-
-}
-
-
-
-/*
-================================================
-CUSTOM BUTTON
-================================================
-*/
-
-document
-.getElementById("playUrlBtn")
-.onclick =
-playCustom;
-
-
-
-/*
-ENTER KEY
-*/
-
-document
-.getElementById("customInput")
-.addEventListener(
-"keydown",
-function(event){
-
-if(event.key ===
-"Enter"){
-
-event.preventDefault();
-
-playCustom();
-
-}
-
-});
-
-
-
-/*
-================================================
-START
-================================================
-*/
-
-renderButtons();
-
-
-
-/*
-LOAD YOUTUBE IFRAME API
-*/
-
-const tag =
-document.createElement(
-"script"
-);
-
-tag.src =
-"https://www.youtube.com/iframe_api";
-
-document.head.appendChild(
-tag
-);
-
-</script>
 
 </body>
 </html>

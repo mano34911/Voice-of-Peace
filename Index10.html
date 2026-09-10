@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Voice of Peace Live TV</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(#08385f,#031d33);color:#fff;font-family:Arial,sans-serif}
+.header{padding:24px;border-bottom:3px solid #2377aa;background:#07385d}
+.row{display:flex;justify-content:space-between;align-items:center;gap:16px;max-width:900px;margin:auto}
+.kicker{color:#5ad7ff;font-weight:900;letter-spacing:8px;font-size:15px}
+.title{font-size:35px;font-weight:1000;margin-top:7px}
+.by{color:#ffd84f;font-size:18px;font-weight:900;margin-top:6px}
+.live{background:#10c66d;border-radius:999px;padding:16px 25px;font-weight:1000}
+.wrap{width:min(900px,96%);margin:36px auto}
+.card{border:2px solid #2b648b;border-radius:28px;background:#083453;padding:30px}
+.head{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:26px}
+.head h1{margin:0;font-size:38px}.badge{background:#a83246;border-radius:999px;padding:13px 18px;font-weight:1000}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.ch{border:2px solid #317faf;border-radius:20px;background:linear-gradient(145deg,#0a4b78,#073555);color:white;min-height:112px;padding:14px 10px;text-align:center;cursor:pointer}
+.ch b{display:block;color:#ffd84f;font-size:17px;margin-bottom:8px}.ch span{font-size:20px;font-weight:1000}
+.ch.active{border:4px solid #ffd84f;box-shadow:0 0 0 5px rgba(255,216,79,.16)}
+.player{margin-top:26px;aspect-ratio:16/9;background:#000;border-radius:22px;overflow:hidden;border:2px solid #14557c}
+.player iframe,.player video{width:100%;height:100%;border:0;display:block}
+.placeholder{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:25px}
+.open{display:inline-block;margin-top:12px;background:#ffd84f;color:#10263b;text-decoration:none;padding:12px 18px;border-radius:12px;font-weight:1000}
+.now{text-align:center;font-size:19px;font-weight:900;margin-top:17px}.note{text-align:center;color:#c7deee;margin-top:7px}
+@media(max-width:650px){
+ .header{padding:20px 18px}.title{font-size:29px}.kicker{font-size:13px;letter-spacing:7px}.by{font-size:16px}
+ .live{padding:14px 18px}.card{padding:26px 14px}.head h1{font-size:29px}.ch{min-height:108px}.ch span{font-size:17px}.ch b{font-size:15px}
+}
+</style>
+</head>
+<body>
+<header class="header"><div class="row">
+<div><div class="kicker">THIS IS THE</div><div class="title">VOICE OF PEACE</div><div class="by">By Emmanuel &amp; Camili Hileah</div></div>
+<div class="live">LIVE</div>
+</div></header>
+
+<main class="wrap">
+<section class="card">
+<div class="head"><h1>📺 Voice of Peace Live TV</h1><div class="badge" id="badge">SELECT</div></div>
+<div class="grid" id="grid"></div>
+<div class="player" id="player"><div class="placeholder"><h2>Select a channel</h2><p>Tap one of the 12 channels above.</p></div></div>
+<div class="now">NOW PLAYING: <strong id="now">Choose a channel</strong></div>
+<div class="note" id="note">12 channels ready.</div>
+</section>
+</main>
+
+<script>
+const channels=[
+{name:"✡️ Rabbi Zamir Cohen",type:"link",url:"https://www.hidabroot.com/vod/lecturer/23"},
+{name:"🇮🇱 Hebrew News — Channel 14",type:"link",url:"https://www.c14.co.il/"},
+{name:"🇺🇸 Fox News",type:"link",url:"https://www.fox.com/stream/fox-news"},
+{name:"🌎 Discovery Channel",type:"link",url:"https://www.discovery.com/shows"},
+{name:"😂 Comedy",type:"youtube",id:"ZvdiJUYGBis"},
+{name:"💡 Inventions",type:"youtube",id:"P11y8N22Rq0"},
+{name:"💰 Business Ideas",type:"youtube",id:"oPtapPqfO_0"},
+{name:"🇮🇱 Israel History",type:"youtube",id:"kNuwCiuDz4E"},
+{name:"🎵 Israel 80th Music",type:"search",q:"Israel 80th music"},
+{name:"🤠 Old Western — Full Length",type:"video",url:"https://upload.wikimedia.org/wikipedia/commons/transcoded/7/70/The_Man_From_Utah_%281934%29.webm/The_Man_From_Utah_%281934%29.webm.720p.vp9.webm"},
+{name:"❤️ Health",type:"youtube",id:"JCaa0Xp60Po"},
+{name:"🌊 Nature & Ocean",type:"youtube",id:"4tbh25K-vO8"}
+];
+
+const grid=document.getElementById("grid"),player=document.getElementById("player"),now=document.getElementById("now"),note=document.getElementById("note"),badge=document.getElementById("badge");
+
+channels.forEach((c,i)=>{
+ const b=document.createElement("button");
+ b.className="ch";
+ b.innerHTML="<b>CHANNEL "+(i+1)+"</b><span>"+c.name+"</span>";
+ b.onclick=()=>play(i);
+ grid.appendChild(b);
+});
+
+function play(i){
+ const c=channels[i];
+ [...grid.children].forEach((b,n)=>b.classList.toggle("active",n===i));
+ now.textContent=c.name;
+ note.textContent=c.name;
+ if(c.type==="youtube"){
+   player.innerHTML='<iframe allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen src="https://www.youtube-nocookie.com/embed/'+c.id+'?autoplay=1&playsinline=1&rel=0"></iframe>';
+   badge.textContent="PLAYING";
+ }else if(c.type==="video"){
+   player.innerHTML='<video controls autoplay playsinline src="'+c.url+'"></video>';
+   badge.textContent="PLAYING";
+ }else{
+   const u=c.type==="search" ? "https://www.youtube.com/results?search_query="+encodeURIComponent(c.q) : c.url;
+   player.innerHTML='<div class="placeholder"><h2>'+c.name+'</h2><p>This channel uses its official player.</p><a class="open" href="'+u+'" target="_blank" rel="noopener">Open Channel</a></div>';
+   badge.textContent="OPEN";
+ }
+}
+</script>
+</body>
+</html>

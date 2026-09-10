@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Voice of Peace TV</title>
+<meta name="theme-color" content="#02182e">
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#02182e;color:#fff;font-family:Arial,Helvetica,sans-serif}
+body{background:radial-gradient(circle at top,#0c4f7e 0,#062c4f 32%,#02182e 68%,#010b15 100%)}
+.wrap{width:min(980px,96%);margin:auto;padding:18px 0 34px}
+.top{text-align:center;margin-bottom:14px}
+.kicker{color:#4bd0ff;font-weight:900;letter-spacing:4px;font-size:11px}
+.top h1{margin:5px 0 2px;font-size:clamp(28px,7vw,52px)}
+.byline{color:#ffd34f;font-size:13px;font-weight:800}
+.card{background:linear-gradient(145deg,#082e51,#03182e);border:1px solid #286187;border-radius:18px;padding:16px;box-shadow:0 12px 35px #0006}
+.channels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.ch{min-height:80px;border:1px solid #4088b6;border-radius:15px;background:linear-gradient(145deg,#0a416b,#041d36);color:#fff;font-weight:900;padding:12px;cursor:pointer;text-align:left}
+.ch b{display:block;color:#ffd34f;font-size:12px;margin-bottom:6px}
+.ch span{font-size:16px;line-height:1.25}
+.ch.active{border:3px solid #ffd34f;background:linear-gradient(145deg,#126ba3,#07345b);box-shadow:0 0 18px #ffd34f66}
+.playerbox{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:16px;overflow:hidden;border:1px solid #4088b6}
+#player{position:absolute;inset:0;width:100%;height:100%}
+.now{padding:12px 2px 4px;text-align:center;font-size:18px}
+.now strong{color:#ffd34f}
+.status{text-align:center;color:#aedadf;font-size:12px;min-height:18px;margin-bottom:10px}
+.controls{display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:center}
+.controls button{border:0;border-radius:12px;padding:12px 16px;background:#167ab4;color:#fff;font-size:15px;font-weight:900;cursor:pointer}
+.controls .mute{background:#6a4aa3}
+.volume{display:flex;align-items:center;gap:8px;background:#071d33;padding:9px 12px;border-radius:12px;border:1px solid #326c92;min-width:260px}
+.volume input{width:170px}
+.volnum{font-weight:900;color:#ffd34f;min-width:38px;text-align:right}
+.custom{margin-top:16px}
+.custom h2{margin:0 0 7px;font-size:20px}
+.custom p{margin:0 0 10px;color:#b9cfdf;font-size:13px;line-height:1.45}
+.searchrow{display:grid;grid-template-columns:1fr auto;gap:8px}
+.searchrow input{min-width:0;padding:14px;border-radius:12px;border:1px solid #4d8bb2;background:#fff;color:#111;font-size:16px}
+.searchrow button{border:0;border-radius:12px;padding:12px 14px;background:#0f9c5c;color:#fff;font-weight:900}
+.examples{font-size:11px;color:#8fafc3;margin-top:8px}
+.footer{text-align:center;color:#7897ac;font-size:12px;padding:26px 0 4px}
+@media(min-width:760px){.channels{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:620px){
+  .searchrow{grid-template-columns:1fr}
+  .controls button{flex:1}
+  .volume{width:100%;justify-content:center}
+  .volume input{width:min(58vw,240px)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="kicker">THIS IS THE</div>
+    <h1>VOICE OF PEACE TV</h1>
+    <div class="byline">By Emmanuel &amp; Camili Hileah</div>
+  </div>
+
+  <div class="card">
+    <div class="channels" id="channels"></div>
+
+    <div class="playerbox"><div id="player"></div></div>
+
+    <div class="now">NOW PLAYING: <strong id="nowPlaying">Choose a channel</strong></div>
+    <div class="status" id="status">Tap a channel. Everything stays inside Voice of Peace.</div>
+
+    <div class="controls">
+      <button id="prevBtn">◀ Previous</button>
+      <button id="playBtn">▶ Play</button>
+      <button id="pauseBtn">⏸ Pause</button>
+      <button id="nextBtn">Next ▶</button>
+      <button id="muteBtn" class="mute">🔇 Mute</button>
+      <div class="volume">
+        <span>🔊 Volume</span>
+        <input id="volume" type="range" min="0" max="100" value="80">
+        <span id="volNum" class="volnum">80%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card custom">
+    <h2>📺 Play your own YouTube video</h2>
+    <p>Paste a YouTube video or playlist URL. It plays inside the Voice of Peace TV box above. This page never opens YouTube in a new tab.</p>
+    <div class="searchrow">
+      <input id="customInput" type="search" placeholder="Paste YouTube URL here" autocomplete="off">
+      <button id="playUrlBtn">▶ Play Inside TV</button>
+    </div>
+    <div class="examples">Supports youtube.com/watch?v=..., youtu.be/..., youtube.com/live/..., youtube.com/shorts/... and playlist URLs.</div>
+  </div>
+
+  <div class="footer">Voice of Peace • Embedded YouTube television</div>
+</div>
+
+<script>
+/*
+  IMPORTANT:
+  Each subject has its OWN source list.
+  If a video is blocked/unavailable, the player automatically tries the next
+  source for THAT SAME subject. It does not jump to an unrelated subject.
+*/
+const PRESETS = [
+  {
+    name:"🇮🇱 Israel News",
+    station:"ILTV Israel News",
+    videos:["C2c9aUTW2uE","xiuIidBLeLo"]
+  },
+  {
+    name:"🇺🇸 U.S. News Live",
+    station:"ABC News / NBC News",
+    videos:["-mvUkiILTqI","hHpdHz5i3z4"]
+  },
+  {
+    name:"😂 Comedy TV",
+    station:"Comedy Central",
+    videos:["VDEuS5wIk5Q","gODZzSOelss"]
+  },
+  {
+    name:"🎬 Comedy Movies",
+    station:"Comedy Central",
+    videos:["gODZzSOelss","VDEuS5wIk5Q"]
+  },
+  {
+    name:"📱 Shorts TV",
+    station:"Short-form comedy",
+    videos:["VDEuS5wIk5Q","gODZzSOelss"]
+  },
+  {
+    name:"✈️ Travel TV",
+    station:"Rick Steves' Europe",
+    videos:["ugFmDGDzExY","xFzLR8fF-7A"]
+  },
+  {
+    name:"🐘 Animal TV",
+    station:"BBC Earth",
+    videos:["PkcnAB09ZXU","29qW_dWBbCk"]
+  },
+  {
+    name:"🌊 Nature & Ocean",
+    station:"BBC Earth",
+    videos:["AgpWX18dby4","EF8C4v7JIbA"]
+  },
+  {
+    name:"📰 U.S. Politics & Trump News",
+    station:"ABC News / NBC News",
+    videos:["-mvUkiILTqI","hHpdHz5i3z4"]
+  },
+  {
+    name:"💰 Make Money",
+    station:"CNBC Make It",
+    videos:["wRaDQJihaQU"]
+  },
+  {
+    name:"🤖 Today's Technology",
+    station:"MKBHD",
+    videos:["c347oYQO57A","6uS5F1MSzaQ"]
+  },
+  {
+    name:"🇮🇱 Israel War & Security",
+    station:"ILTV Israel News",
+    videos:["C2c9aUTW2uE","xiuIidBLeLo"]
+  },
+  {
+    name:"❤️ Health Channel",
+    station:"Mayo Clinic",
+    videos:[],
+    playlist:"UU8fQzKHIhSoZeSq3bwQx4mw"
+  },
+  {
+    name:"✡️ הרב זמיר כהן",
+    station:"Rabbi Zamir Cohen",
+    videos:["-FaTChH9LrQ","2u_XwaRaH-k"]
+  }
+];
+
+let currentIndex = -1;
+let sourceIndex = 0;
+let ytPlayer = null;
+let ready = false;
+let changingBecauseOfError = false;
+let wantedVolume = Number(localStorage.getItem("vop_volume") || 80);
+
+const channelsEl = document.getElementById("channels");
+const nowEl = document.getElementById("nowPlaying");
+const statusEl = document.getElementById("status");
+const volumeEl = document.getElementById("volume");
+const volNumEl = document.getElementById("volNum");
+const muteBtn = document.getElementById("muteBtn");
+
+volumeEl.value = wantedVolume;
+volNumEl.textContent = wantedVolume + "%";
+
+function setStatus(t){ statusEl.textContent = t; }
+
+function renderButtons(){
+  channelsEl.innerHTML = "";
+  PRESETS.forEach((c,i)=>{
+    const b = document.createElement("button");
+    b.className = "ch" + (i === currentIndex ? " active" : "");
+    b.innerHTML = "<b>CHANNEL " + (i+1) + "</b><span>" + c.name + "</span>";
+    b.onclick = ()=>playPreset(i);
+    channelsEl.appendChild(b);
+  });
+}
+
+function markActive(){
+  [...channelsEl.children].forEach((b,i)=>{
+    b.classList.toggle("active", i === currentIndex);
+  });
+}
+
+window.onYouTubeIframeAPIReady = function(){
+  ytPlayer = new YT.Player("player",{
+    width:"100%",
+    height:"100%",
+    playerVars:{
+      autoplay:0,
+      controls:1,
+      playsinline:1,
+      rel:0
+    },
+    events:{
+      onReady:function(){
+        ready = true;
+        ytPlayer.setVolume(wantedVolume);
+        setStatus("Ready — choose a channel.");
+      },
+      onStateChange:function(e){
+        if(e.data === YT.PlayerState.PLAYING){
+          changingBecauseOfError = false;
+          setStatus("● Playing inside Voice of Peace TV");
+        }
+        if(e.data === YT.PlayerState.PAUSED){
+          setStatus("Paused");
+        }
+        if(e.data === YT.PlayerState.ENDED){
+          setStatus("Video ended — playing the next video in this same subject.");
+          setTimeout(tryNextSource,400);
+        }
+      },
+      onError:function(e){
+        if(changingBecauseOfError) return;
+        changingBecauseOfError = true;
+        setStatus("This YouTube item is unavailable for embedding — trying the next source in the same subject…");
+        setTimeout(()=>{
+          changingBecauseOfError = false;
+          tryNextSource();
+        },650);
+      }
+    }
+  });
+};
+
+function loadCurrentSource(){
+  const c = PRESETS[currentIndex];
+  if(!c || !ready) return;
+
+  if(c.videos && c.videos.length){
+    const id = c.videos[sourceIndex % c.videos.length];
+    ytPlayer.loadVideoById(id);
+    ytPlayer.setVolume(wantedVolume);
+    return;
+  }
+
+  if(c.playlist){
+    ytPlayer.loadPlaylist({
+      listType:"playlist",
+      list:c.playlist,
+      index:sourceIndex || 0
+    });
+    ytPlayer.setVolume(wantedVolume);
+  }
+}
+
+function playPreset(i){
+  currentIndex = (i + PRESETS.length) % PRESETS.length;
+  sourceIndex = 0;
+  const c = PRESETS[currentIndex];
+
+  nowEl.textContent = c.name + " — " + c.station;
+  markActive();
+
+  if(!ready){
+    setStatus("YouTube player is still loading…");
+    return;
+  }
+
+  setStatus("Loading " + c.station + "…");
+  loadCurrentSource();
+}
+
+function tryNextSource(){
+  if(currentIndex < 0) return;
+  const c = PRESETS[currentIndex];
+
+  if(c.videos && c.videos.length){
+    sourceIndex++;
+    if(sourceIndex >= c.videos.length){
+      sourceIndex = 0;
+      setStatus("No other source in this subject is available right now. Tap another channel.");
+      return;
+    }
+    setStatus("Trying backup source " + (sourceIndex+1) + " for " + c.name + "…");
+    loadCurrentSource();
+    return;
+  }
+
+  if(c.playlist){
+    try{
+      ytPlayer.nextVideo();
+      setStatus("Trying the next video from " + c.station + "…");
+    }catch(err){
+      setStatus("This channel is not available for embedding right now.");
+    }
+  }
+}
+
+function nextChannel(){
+  if(currentIndex < 0) return playPreset(0);
+  playPreset((currentIndex + 1) % PRESETS.length);
+}
+function prevChannel(){
+  if(currentIndex < 0) return playPreset(PRESETS.length - 1);
+  playPreset((currentIndex - 1 + PRESETS.length) % PRESETS.length);
+}
+
+document.getElementById("nextBtn").onclick = nextChannel;
+document.getElementById("prevBtn").onclick = prevChannel;
+document.getElementById("playBtn").onclick = ()=>{ if(ready) ytPlayer.playVideo(); };
+document.getElementById("pauseBtn").onclick = ()=>{ if(ready) ytPlayer.pauseVideo(); };
+
+volumeEl.oninput = ()=>{
+  wantedVolume = Number(volumeEl.value);
+  volNumEl.textContent = wantedVolume + "%";
+  localStorage.setItem("vop_volume", wantedVolume);
+  if(ready){
+    ytPlayer.unMute();
+    ytPlayer.setVolume(wantedVolume);
+  }
+  muteBtn.textContent = "🔇 Mute";
+};
+
+muteBtn.onclick = ()=>{
+  if(!ready) return;
+  if(ytPlayer.isMuted()){
+    ytPlayer.unMute();
+    ytPlayer.setVolume(wantedVolume);
+    muteBtn.textContent = "🔇 Mute";
+  }else{
+    ytPlayer.mute();
+    muteBtn.textContent = "🔊 Unmute";
+  }
+};
+
+function parseYouTube(value){
+  const s = value.trim();
+  if(!s) return null;
+
+  try{
+    const u = new URL(s.startsWith("http") ? s : "https://" + s);
+    const host = u.hostname.replace(/^www\./,"");
+
+    if(host === "youtu.be"){
+      const id = u.pathname.split("/").filter(Boolean)[0];
+      return id ? {type:"video",id} : null;
+    }
+
+    if(host.endsWith("youtube.com")){
+      const v = u.searchParams.get("v");
+      const list = u.searchParams.get("list");
+
+      if(v) return {type:"video",id:v};
+      if(list) return {type:"playlist",id:list};
+
+      const parts = u.pathname.split("/").filter(Boolean);
+      if(["live","shorts","embed"].includes(parts[0]) && parts[1]){
+        return {type:"video",id:parts[1]};
+      }
+    }
+  }catch(e){}
+
+  if(/^[A-Za-z0-9_-]{11}$/.test(s)){
+    return {type:"video",id:s};
+  }
+
+  return null;
+}
+
+function playCustom(){
+  const raw = document.getElementById("customInput").value;
+  const parsed = parseYouTube(raw);
+
+  if(!parsed){
+    setStatus("Paste a direct YouTube video or playlist URL. Keyword search cannot stay embedded without the YouTube Data API.");
+    return;
+  }
+
+  currentIndex = -1;
+  markActive();
+  nowEl.textContent = "Custom YouTube";
+
+  if(!ready){
+    setStatus("YouTube player is still loading…");
+    return;
+  }
+
+  if(parsed.type === "playlist"){
+    ytPlayer.loadPlaylist({
+      listType:"playlist",
+      list:parsed.id,
+      index:0
+    });
+    setStatus("Custom playlist loaded inside Voice of Peace.");
+  }else{
+    ytPlayer.loadVideoById(parsed.id);
+    setStatus("Custom video loaded inside Voice of Peace.");
+  }
+
+  ytPlayer.setVolume(wantedVolume);
+}
+
+document.getElementById("playUrlBtn").onclick = playCustom;
+document.getElementById("customInput").addEventListener("keydown",e=>{
+  if(e.key === "Enter"){
+    e.preventDefault();
+    playCustom();
+  }
+});
+
+renderButtons();
+
+const tag = document.createElement("script");
+tag.src = "https://www.youtube.com/iframe_api";
+document.head.appendChild(tag);
+</script>
+</body>
+</html>

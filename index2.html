@@ -40,6 +40,51 @@ input{width:100%;border:1px solid #2b719d;background:#021323;color:#fff;border-r
 @media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:430px){.grid{grid-template-columns:1fr}.top{display:block}.status{margin-top:5px}}
+
+.memorialWrap{
+  overflow:hidden;
+  white-space:nowrap;
+  background:#07182a;
+  border-top:1px solid #285f82;
+  border-bottom:1px solid #285f82;
+  padding:10px 0;
+  direction:ltr;
+}
+.memorialText{
+  display:inline-block;
+  min-width:100%;
+  padding-left:100%;
+  animation:memorialScroll 28s linear infinite;
+  color:#ffd34f;
+  font-weight:900;
+  font-size:clamp(15px,2.3vw,22px);
+  direction:rtl;
+}
+@keyframes memorialScroll{
+  from{transform:translateX(0)}
+  to{transform:translateX(-100%)}
+}
+.donateRow{
+  display:flex;
+  justify-content:center;
+  padding:12px;
+  background:#04182b;
+  border-top:1px solid #1b4d70;
+}
+.donateBtn{
+  display:inline-block;
+  text-decoration:none;
+  background:linear-gradient(180deg,#ffe16b,#efb522);
+  color:#1d1600;
+  border:1px solid #ffdf65;
+  border-radius:999px;
+  padding:12px 24px;
+  font-weight:900;
+  font-size:16px;
+  box-shadow:0 6px 18px #0005;
+}
+.donateBtn:active{transform:scale(.98)}
+
 </style>
 <script src="https://www.youtube.com/iframe_api"></script>
 </head>
@@ -57,6 +102,12 @@ input{width:100%;border:1px solid #2b719d;background:#021323;color:#fff;border-r
 <div class="status" id="status">מכין את הנגן…</div>
 </div>
 <div class="video"><div id="player"></div></div>
+<div class="memorialWrap" aria-label="Memorial dedication">
+  <div class="memorialText">לעילוי נשמות זהבה חלא בת דינה - זצ״ל - דינה חלא בת ורד זצ״ל - חיים חלא בן יצחק זצ״ל תנצבג״ה</div>
+</div>
+<div class="donateRow">
+  <a class="donateBtn" href="https://www.paypal.me/payfortransport" target="_blank" rel="noopener noreferrer">💛 Donate</a>
+</div>
 <div class="controls">
 <button id="prevChannel">◀ ערוץ קודם</button>
 <button id="nextChannel">ערוץ הבא ▶</button>
@@ -99,10 +150,16 @@ const YEMENITE=[{"name": "מוזיקה תימנית יהודית", "query": "מ�
 const SOURCES=[
  "https://inv.nadeko.net",
  "https://invidious.nerdvpn.de",
- "https://yt.chocolatemoo53.com"
+ "https://yt.chocolatemoo53.com",
+ "https://invidious.privacyredirect.com"
+];
+const CORS_PROXIES=[
+ "",
+ "https://api.allorigins.win/raw?url="
 ];
 
 let player=null, currentGroup="rabbis", currentIndex=0, queue=[], qIndex=0, apiReady=false, loadingToken=0;
+let consecutiveErrors=0;
 
 function setStatus(s){document.getElementById("status").textContent=s}
 function currentItem(){
@@ -114,55 +171,104 @@ function label(){
  return (currentGroup==="rabbis"?"רב ":"יהדות תימן — ")+item.name;
 }
 
+async function fetchWithTimeout(url, ms=6000){
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),ms);
+ try{
+   const r=await fetch(url,{
+     signal:controller.signal,
+     cache:"no-store",
+     headers:{"Accept":"application/json"}
+   });
+   if(!r.ok) throw new Error("HTTP "+r.status);
+   return await r.json();
+ }finally{
+   clearTimeout(timer);
+ }
+}
+
 async function searchVideos(query){
  const token=++loadingToken;
  setStatus("מחפש סרטונים…");
- for(const base of SOURCES){
-   try{
-     const url=base+"/api/v1/search?q="+encodeURIComponent(query)+"&type=video&sort_by=upload_date&region=IL";
-     const r=await fetch(url,{headers:{"Accept":"application/json"}});
-     if(!r.ok) throw new Error("HTTP "+r.status);
-     const data=await r.json();
-     if(token!==loadingToken) return [];
-     const vids=(Array.isArray(data)?data:[])
-       .filter(x=>x && x.type==="video" && x.videoId && /^[A-Za-z0-9_-]{11}$/.test(x.videoId))
-       .map(x=>({id:x.videoId,title:x.title||"",author:x.author||""}));
-     if(vids.length){
-       // Prefer results actually mentioning the rabbi/topic words.
-       const words=query.replace(/הרב|שיעור|תורה/g," ").split(/\s+/).filter(w=>w.length>2);
-       vids.sort((a,b)=>{
-         const sa=words.reduce((n,w)=>n+((a.title+" "+a.author).includes(w)?1:0),0);
-         const sb=words.reduce((n,w)=>n+((b.title+" "+b.author).includes(w)?1:0),0);
-         return sb-sa;
-       });
-       return vids.slice(0,20);
+
+ for(const proxy of CORS_PROXIES){
+   for(const base of SOURCES){
+     try{
+       const api=base+"/api/v1/search?q="+encodeURIComponent(query)
+         +"&type=video&sort_by=relevance&region=IL";
+       const url=proxy ? proxy+encodeURIComponent(api) : api;
+       const data=await fetchWithTimeout(url,6000);
+       if(token!==loadingToken) return [];
+
+       const vids=(Array.isArray(data)?data:[])
+         .filter(x=>{
+           if(!x || x.type!=="video" || !x.videoId) return false;
+           if(!/^[A-Za-z0-9_-]{11}$/.test(x.videoId)) return false;
+           const len=Number(x.lengthSeconds||0);
+           // Prefer real shiurim/lectures rather than Shorts.
+           if(len>0 && len<180) return false;
+           return true;
+         })
+         .map(x=>({
+           id:x.videoId,
+           title:x.title||"",
+           author:x.author||"",
+           lengthSeconds:Number(x.lengthSeconds||0)
+         }));
+
+       if(vids.length){
+         const words=query
+           .replace(/הרב|שיעור|תורה/g," ")
+           .split(/\s+/).filter(w=>w.length>2);
+
+         vids.sort((a,b)=>{
+           const at=(a.title+" "+a.author);
+           const bt=(b.title+" "+b.author);
+           const sa=words.reduce((n,w)=>n+(at.includes(w)?2:0),0)
+                    +(a.lengthSeconds>=600?1:0);
+           const sb=words.reduce((n,w)=>n+(bt.includes(w)?2:0),0)
+                    +(b.lengthSeconds>=600?1:0);
+           return sb-sa;
+         });
+
+         return vids.slice(0,25);
+       }
+     }catch(e){
+       console.warn("Video search source failed",proxy,base,e);
      }
-   }catch(e){ console.warn("Search source failed",base,e); }
+   }
  }
  return [];
 }
-
 async function loadCurrent(){
  const item=currentItem();
  document.getElementById("title").textContent=label();
  queue=[]; qIndex=0;
+
+ // Remove any previous YouTube error screen while a new channel is loading.
+ try{ if(player && apiReady) player.stopVideo(); }catch(e){}
+ setStatus("מחפש סרטונים…");
+
  const vids=await searchVideos(item.query);
  if(!vids.length){
-   setStatus("לא נמצאו סרטונים כרגע — נסה רענן");
+   setStatus("לא הצלחתי לקבל סרטונים מהשרת. לחץ רענן כדי לנסות שוב.");
    return;
  }
  queue=vids;
- setStatus("נמצאו "+queue.length+" סרטונים • מנגן בתוך האפליקציה");
+ setStatus("נמצאו "+queue.length+" סרטונים • בודק ומנגן…");
  playQueue(0);
  render();
 }
-
 function playQueue(i){
  if(!queue.length || !player || !apiReady) return;
  qIndex=(i+queue.length)%queue.length;
  const v=queue[qIndex];
- setStatus("סרטון "+(qIndex+1)+" מתוך "+queue.length+(v.author?" • "+v.author:""));
- player.loadVideoById({videoId:v.id,suggestedQuality:"large"});
+ setStatus("בודק סרטון "+(qIndex+1)+" מתוך "+queue.length+(v.author?" • "+v.author:""));
+ try{
+   player.loadVideoById({videoId:v.id});
+ }catch(e){
+   setTimeout(nextPlayable,400);
+ }
 }
 
 function nextPlayable(){
@@ -180,11 +286,28 @@ window.onYouTubeIframeAPIReady=function(){
    playerVars:{autoplay:1,playsinline:1,rel:0,modestbranding:1,fs:1},
    events:{
      onReady:function(){apiReady=true;setStatus("הנגן מוכן");loadCurrent();},
-     onStateChange:function(e){if(e.data===YT.PlayerState.ENDED) nextPlayable();},
+     onStateChange:function(e){
+       if(e.data===YT.PlayerState.PLAYING){
+         consecutiveErrors=0;
+         setStatus("▶ מנגן בתוך האפליקציה • סרטון "+(qIndex+1)+" מתוך "+queue.length);
+       }
+       if(e.data===YT.PlayerState.ENDED){
+         consecutiveErrors=0;
+         nextPlayable();
+       }
+     },
      onError:function(e){
-       // 100 removed/private; 101/150 embedding blocked.
-       setStatus("הסרטון חסום/הוסר — מדלג לבא…");
-       setTimeout(nextPlayable,700);
+       consecutiveErrors++;
+       setStatus("הסרטון הזה לא מאפשר הטמעה — מדלג אוטומטית…");
+       if(consecutiveErrors>=Math.max(queue.length,5)){
+         consecutiveErrors=0;
+         setStatus("כל הסרטונים שנבדקו חסומים. נסה רענן לקבלת רשימה חדשה.");
+         return;
+       }
+       setTimeout(nextPlayable,450);
+     },
+     onAutoplayBlocked:function(){
+       setStatus("לחץ ▶ בתוך הווידאו פעם אחת כדי לאפשר ניגון באייפון");
      }
    }
  });

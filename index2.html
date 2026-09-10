@@ -1,108 +1,49 @@
-<!DOCTYPE html>
-<html lang="he" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Voice of Peace • ערוצי רבנים</title>
+<!doctype html>
+<html lang="he" dir="rtl"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Voice of Peace — 30 רבנים ספרדים</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#020d18;color:white;font-family:Arial,Helvetica,sans-serif}
-body{background:radial-gradient(circle at top,#0d527e 0,#062e51 30%,#02182d 67%,#010812 100%)}
-.wrap{width:min(1120px,96%);margin:auto;padding:18px 0 36px}header{text-align:center;margin-bottom:14px}
-.kicker{font-size:11px;letter-spacing:3px;color:#4bd0ff;font-weight:900}h1{margin:5px 0 3px;font-size:clamp(29px,6vw,52px)}
-.sub{font-size:13px;color:#bad1df}.card{background:linear-gradient(180deg,#072947,#031a30);border:1px solid #256992;border-radius:18px;overflow:hidden;box-shadow:0 15px 45px #0008}
-.top{padding:12px 14px;display:flex;justify-content:space-between;gap:8px;align-items:center;border-bottom:1px solid #195477}
-.now{font-size:18px;font-weight:900}.mode{font-size:11px;color:#bff2ff}.video{position:relative;aspect-ratio:16/9;background:#000}
-iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.controls{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:10px}
-button,.pagebtn{border:1px solid #286d97;background:linear-gradient(180deg,#10507f,#082f50);color:white;border-radius:11px;padding:11px 8px;font-weight:900;cursor:pointer}
-.gold{color:#1d1600;background:linear-gradient(180deg,#ffe16d,#efb521);border-color:#ffe06c}.red{background:linear-gradient(180deg,#b63a4a,#74202d)}
-.note{padding:10px 14px;background:#031426;color:#b9d2e2;border-top:1px solid #143c59;font-size:12px;text-align:center;line-height:1.55}
-h2{font-size:16px;margin:18px 2px 8px}.channels{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
-.ch{min-height:62px;text-align:right;padding:10px 12px}.num{display:inline-flex;width:27px;height:27px;align-items:center;justify-content:center;border-radius:8px;background:#02172a;color:#ffd34f;margin-left:7px}
-.ch small{display:block;margin:5px 34px 0 0;color:#afd1e6}.ch.active{outline:2px solid #ffd34f;border-color:#ffd34f}
-.pageNav{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-top:18px;direction:ltr}.pagebtn{text-decoration:none;padding:8px 11px;font-size:12px}
-.footer{text-align:center;color:#759bb7;font-size:10px;margin-top:16px}
-@media(max-width:760px){.channels{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:430px){.channels{grid-template-columns:1fr}.top{display:block}}
-</style>
-</head>
-<body>
-<div class="wrap">
-<header>
-<div class="kicker">VOICE OF PEACE • TORAH TV</div>
-<h1>ערוצי הרבנים</h1>
-<div class="sub">12 ערוצי תורה • הסרטון הבא מתחיל אוטומטית באותו ערוץ</div>
-</header>
-
-<section class="card">
-<div class="top">
-<div class="now" id="now">ערוץ 1 — הרב זמיר כהן</div>
-<div class="mode">▶ נשארים אצל אותו רב</div>
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#0d527e,#041f38 45%,#010b15);color:#fff;font-family:Arial,sans-serif}
+.wrap{width:min(1180px,96%);margin:auto;padding:18px 0 35px}header{text-align:center}h1{font-size:clamp(30px,6vw,56px);margin:5px}
+.k{color:#4bd0ff;font-size:11px;letter-spacing:3px;font-weight:900}.sub{color:#bfd7e6;font-size:13px;margin-bottom:14px}
+.card{background:#041c33;border:1px solid #24658f;border-radius:18px;overflow:hidden;box-shadow:0 15px 40px #0008}
+.top{padding:12px 14px;font-weight:900;font-size:19px}.video{aspect-ratio:16/9;background:#000;position:relative}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px}
+button{border:1px solid #2a709c;border-radius:11px;padding:11px 8px;background:linear-gradient(#10517f,#082d4c);color:#fff;font-weight:900;cursor:pointer}
+button.active{outline:2px solid #ffd34f;border-color:#ffd34f}button.stop{background:#8c2835}
+.note{background:#031426;padding:9px;text-align:center;color:#bcd5e5;font-size:11px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}.rabbi{text-align:right;min-height:55px}
+.num{display:inline-flex;width:27px;height:27px;align-items:center;justify-content:center;background:#021426;color:#ffd34f;border-radius:8px;margin-left:7px}
+small{display:block;color:#a8cce1;margin:4px 34px 0 0}.footer{text-align:center;color:#779bb4;font-size:10px;margin-top:15px}
+@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:430px){.grid{grid-template-columns:1fr}}
+</style></head><body><div class="wrap">
+<header><div class="k">VOICE OF PEACE • TORAH TV</div><h1>30 רבנים ספרדים</h1>
+<div class="sub">הסרטונים נשארים בתוך האפליקציה • בסיום שיעור עוברים לשיעור הבא של אותו רב</div></header>
+<section class="card"><div class="top" id="title"></div>
+<div class="video"><iframe id="player" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+<div class="controls"><button id="prev">◀ רב קודם</button><button id="next">רב הבא ▶</button><button id="reload">↻ רענן</button><button id="stop" class="stop">■ עצור</button></div>
+<div class="note">אין כפתור יציאה ל־YouTube. הנגן נשאר בתוך Voice of Peace.</div></section>
+<div class="grid" id="grid"></div><div class="footer">Created by CEE LTD • Emmanuel Hileah Innovations</div>
 </div>
-<div class="video"><iframe id="tv" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
-<div class="controls">
-<button id="prevRabbi">◀ רב קודם</button>
-<button id="nextRabbi">רב הבא ▶</button>
-<button id="reload">↻ רענן</button>
-<button id="source" class="gold">פתח YouTube</button>
-<button id="stop" class="red">■ עצור</button>
-</div>
-<div class="note">כל כפתור טוען את רשימת ה־Uploads של הערוץ. בסיום סרטון, YouTube ממשיך אוטומטית לסרטון הבא באותו ערוץ.</div>
-</section>
-
-<h2>בחר רב</h2>
-<div class="channels" id="channels"></div>
-
-<div class="pageNav">
-<a class="pagebtn" href="index.html">HOME</a>
-<a class="pagebtn" href="index1.html">1</a><a class="pagebtn" href="index2.html">2</a>
-<a class="pagebtn" href="index3.html">3</a><a class="pagebtn" href="index4.html">4</a>
-<a class="pagebtn" href="index5.html">5</a><a class="pagebtn" href="index6.html">6</a>
-<a class="pagebtn" href="index7.html">7</a><a class="pagebtn" href="index8.html">8</a>
-<a class="pagebtn" href="index9.html">9</a><a class="pagebtn" href="index10.html">10</a>
-</div>
-<div class="footer">Created by CEE LTD • Emmanuel Hileah Innovations</div>
-</div>
-
 <script>
-(function(){
-const CHANNELS=[{name:"הרב זמיר כהן",channelId:"UCQDDeGFnMl4Wj7QogO_5Gvg"},
-{name:"הרב מאיר אליהו",channelId:"UCLlBotitx4zAGffm_Wdh7Bg"},
-{name:"הרב שניר גואטה",channelId:"UCXoovWO8gIYhYh3hCKiZmIg"},
-{name:"הרב יגאל כהן",channelId:"UCJj9rLYpGAVZm8ZJHB46Tmw"},
-{name:"הרב יצחק פנגר",channelId:"UC-YZn7tIQ4nkBwXkC0QA9Fg"},
-{name:"הרב שניאור אשכנזי",channelId:"UC1BIlJW-jVw_EUnj0p-LIgQ"},
-{name:"הרב רונן שאולוב",channelId:"UCytyrwflcmNtHUpRbL1FIGw"},
-{name:"הרב שלום ארוש",channelId:"UCSzgpXBkBeQEI7gE_KoTMhQ"},
-{name:"הרב אייל עמרמי",channelId:"UCVKdoE8HkZpgsxEzIebsbiQ"},
-{name:"הרב ברוך רוזנבלום",channelId:"UCJ3fCI2FnNMEeU2y-TcdU4Q"},
-{name:"הרב אמנון יצחק",channelId:"UCWhpaPTM8butPDcahewZ-1w"},
-{name:"הרב נפתלי ניסים",channelId:"UCBgeEz7LRlo5p1Oeog7D0gg"}];
-const tv=document.getElementById("tv"),list=document.getElementById("channels"),now=document.getElementById("now");
-let current=0;
-function playlist(id){return "UU"+id.substring(2)}
-function embed(id){return "https://www.youtube-nocookie.com/embed/videoseries?list="+playlist(id)+"&autoplay=1&loop=1&rel=0&playsinline=1&modestbranding=1"}
+const RABBIS=[{"name": "‏הרב זמיר כהן", "channelId": "UCzqiIOm_TUH0lG3pwlbMkyA", "query": "‏הרב זמיר כהן שיעורי תורה"}, {"name": "הרב מאיר אליהו", "channelId": "UCLlBotitx4zAGffm_Wdh7Bg", "query": "הרב מאיר אליהו שיעורי תורה"}, {"name": "הרב יגאל כהן", "channelId": "UCJj9rLYpGAVZm8ZJHB46Tmw", "query": "הרב יגאל כהן שיעורי תורה"}, {"name": "הרב שניר גואטה", "channelId": "UCXoovWO8gIYhYh3hCKiZmIg", "query": "הרב שניר גואטה שיעורי תורה"}, {"name": "הרב רונן שאולוב", "channelId": "UCytyrwflcmNtHUpRbL1FIGw", "query": "הרב רונן שאולוב שיעורי תורה"}, {"name": "הרב אייל עמרמי", "channelId": "", "query": "הרב אייל עמרמי שיעורי תורה"}, {"name": "הרב שלום ארוש", "channelId": "UCSzgpXBkBeQEI7gE_KoTMhQ", "query": "הרב שלום ארוש שיעורי תורה"}, {"name": "הרב יצחק פנגר", "channelId": "UC-YZn7tIQ4nkBwXkC0QA9Fg", "query": "הרב יצחק פנגר שיעורי תורה"}, {"name": "הרב בן ציון מוצפי", "channelId": "", "query": "הרב בן ציון מוצפי שיעורי תורה"}, {"name": "הרב יצחק יוסף", "channelId": "", "query": "הרב יצחק יוסף שיעורי תורה"}, {"name": "הרב דוד יוסף", "channelId": "", "query": "הרב דוד יוסף שיעורי תורה"}, {"name": "הרב ראובן אלבז", "channelId": "", "query": "הרב ראובן אלבז שיעורי תורה"}, {"name": "הרב דניאל זר", "channelId": "", "query": "הרב דניאל זר שיעורי תורה"}, {"name": "הרב יוסף מזרחי", "channelId": "UCAxsXS0jvKqsixtCoH9ZLjQ", "query": "הרב יוסף מזרחי שיעורי תורה"}, {"name": "הרב אמנון יצחק", "channelId": "", "query": "הרב אמנון יצחק שיעורי תורה"}, {"name": "הרב דוד חנניה פינטו", "channelId": "", "query": "הרב דוד חנניה פינטו שיעורי תורה"}, {"name": "הרב יאשיהו פינטו", "channelId": "UC2AoJwj5kGdhrXjAJxsJzPA", "query": "הרב יאשיהו פינטו שיעורי תורה"}, {"name": "הרב יעקב ישראל לוגאסי", "channelId": "", "query": "הרב יעקב ישראל לוגאסי שיעורי תורה"}, {"name": "הרב דוד בצרי", "channelId": "", "query": "הרב דוד בצרי שיעורי תורה"}, {"name": "הרב יצחק בצרי", "channelId": "", "query": "הרב יצחק בצרי שיעורי תורה"}, {"name": "הרב בניהו שמואלי", "channelId": "", "query": "הרב בניהו שמואלי שיעורי תורה"}, {"name": "הרב משה מאיה", "channelId": "", "query": "הרב משה מאיה שיעורי תורה"}, {"name": "הרב שלמה בניזרי", "channelId": "", "query": "הרב שלמה בניזרי שיעורי תורה"}, {"name": "הרב יהודה יוספי", "channelId": "", "query": "הרב יהודה יוספי שיעורי תורה"}, {"name": "הרב יורם אברג׳ל זצ״ל", "channelId": "", "query": "הרב יורם אברג׳ל זצ״ל שיעורי תורה"}, {"name": "הרב עובדיה יוסף זצ״ל", "channelId": "", "query": "הרב עובדיה יוסף זצ״ל שיעורי תורה"}, {"name": "הרב שמעון בעדני זצ״ל", "channelId": "", "query": "הרב שמעון בעדני זצ״ל שיעורי תורה"}, {"name": "הרב יהודה דרעי זצ״ל", "channelId": "", "query": "הרב יהודה דרעי זצ״ל שיעורי תורה"}, {"name": "הרב ראובן זכאים", "channelId": "", "query": "הרב ראובן זכאים שיעורי תורה"}, {"name": "הרב ניסים יגן זצ״ל", "channelId": "", "query": "הרב ניסים יגן זצ״ל שיעורי תורה"}];
+let current=0; const p=document.getElementById("player"), grid=document.getElementById("grid"), title=document.getElementById("title");
+function uploadList(id){return id&&id.startsWith("UC")?"UU"+id.slice(2):""}
+function src(r){
+ const list=uploadList(r.channelId);
+ if(list) return "https://www.youtube-nocookie.com/embed/videoseries?list="+encodeURIComponent(list)+"&autoplay=1&loop=1&playsinline=1&rel=0";
+ // Internal search-playlist fallback for rabbis whose dedicated channel ID is not confirmed.
+ return "https://www.youtube.com/embed?listType=search&list="+encodeURIComponent(r.query)+"&autoplay=1&playsinline=1&rel=0";
+}
 function render(){
- list.innerHTML="";
- CHANNELS.forEach((ch,i)=>{
-  const b=document.createElement("button");
-  b.className="ch"+(i===current?" active":"");
-  b.innerHTML='<span class="num">'+(i+1)+'</span>'+ch.name+'<small>רשימת הסרטונים של הערוץ</small>';
-  b.onclick=()=>play(i);list.appendChild(b);
- });
+ grid.innerHTML="";
+ RABBIS.forEach((r,i)=>{const b=document.createElement("button");b.className="rabbi"+(i===current?" active":"");
+ b.innerHTML='<span class="num">'+(i+1)+'</span>'+r.name+'<small>'+(r.channelId?"ערוץ שיעורים רציף":"חיפוש שיעורים בתוך הנגן")+'</small>';
+ b.onclick=()=>play(i);grid.appendChild(b);});
 }
-function play(i){
- current=(i+CHANNELS.length)%CHANNELS.length;
- const ch=CHANNELS[current];
- now.textContent="ערוץ "+(current+1)+" — "+ch.name;
- tv.src=embed(ch.channelId);render();
-}
-document.getElementById("prevRabbi").onclick=()=>play(current-1);
-document.getElementById("nextRabbi").onclick=()=>play(current+1);
-document.getElementById("reload").onclick=()=>play(current);
-document.getElementById("stop").onclick=()=>tv.src="about:blank";
-document.getElementById("source").onclick=()=>window.open("https://www.youtube.com/channel/"+CHANNELS[current].channelId+"/videos","_blank","noopener");
+function play(i){current=(i+RABBIS.length)%RABBIS.length;let r=RABBIS[current];title.textContent="ערוץ "+(current+1)+" — "+r.name;p.src=src(r);render();}
+document.getElementById("prev").onclick=()=>play(current-1);document.getElementById("next").onclick=()=>play(current+1);
+document.getElementById("reload").onclick=()=>play(current);document.getElementById("stop").onclick=()=>p.src="about:blank";
 render();play(0);
-})();
-</script>
-</body>
-</html>
+</script></body></html>

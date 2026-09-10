@@ -86,7 +86,6 @@ input{width:100%;border:1px solid #2b719d;background:#021323;color:#fff;border-r
 .donateBtn:active{transform:scale(.98)}
 
 </style>
-<script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 <div class="wrap">
@@ -101,12 +100,22 @@ input{width:100%;border:1px solid #2b719d;background:#021323;color:#fff;border-r
 <div id="title">בחר רב</div>
 <div class="status" id="status">מכין את הנגן…</div>
 </div>
-<div class="video"><div id="player"></div></div>
+<div class="video" style="position:relative">
+      <div id="player"></div>
+      <button id="startPlayer" type="button" style="
+        position:absolute;inset:0;margin:auto;width:190px;height:64px;
+        border:0;border-radius:18px;background:#ffd34f;color:#07182a;
+        font-size:22px;font-weight:900;cursor:pointer;z-index:8;
+        box-shadow:0 8px 28px rgba(0,0,0,.45)">▶ PLAY / נגן</button>
+    </div>
 <div class="memorialWrap" aria-label="Memorial dedication">
   <div class="memorialText">לעילוי נשמות זהבה חלא בת דינה - זצ״ל - דינה חלא בת ורד זצ״ל - חיים חלא בן יצחק זצ״ל תנצבג״ה</div>
 </div>
-<div class="donateRow">
-  <a class="donateBtn" href="https://www.paypal.me/payfortransport" target="_blank" rel="noopener noreferrer">💛 Donate</a>
+<div class="donateRow" style="display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap">
+  <input id="donationAmount" inputmode="decimal" type="number" min="1" step="1"
+         placeholder="Donation amount $"
+         style="width:190px;padding:14px;border-radius:12px;border:2px solid #ffd34f;font-size:18px;text-align:center">
+  <button id="donateButton" class="donateBtn" type="button" style="cursor:pointer">💛 Donate with PayPal</button>
 </div>
 <div class="controls">
 <button id="prevChannel">◀ ערוץ קודם</button>
@@ -145,21 +154,15 @@ input{width:100%;border:1px solid #2b719d;background:#021323;color:#fff;border-r
 </div>
 
 <script>
-const RABBIS=[{"name": "הרב זמיר כהן", "query": "הרב זמיר כהן שיעור תורה"}, {"name": "הרב מאיר אליהו", "query": "הרב מאיר אליהו שיעור תורה"}, {"name": "הרב יגאל כהן", "query": "הרב יגאל כהן שיעור תורה"}, {"name": "הרב שניר גואטה", "query": "הרב שניר גואטה שיעור תורה"}, {"name": "הרב רונן שאולוב", "query": "הרב רונן שאולוב שיעור תורה"}, {"name": "הרב אייל עמרמי", "query": "הרב אייל עמרמי שיעור תורה"}, {"name": "הרב שלום ארוש", "query": "הרב שלום ארוש שיעור תורה"}, {"name": "הרב בן ציון מוצפי", "query": "הרב בן ציון מוצפי שיעור תורה"}, {"name": "הרב יצחק יוסף", "query": "הרב יצחק יוסף שיעור תורה"}, {"name": "הרב דוד יוסף", "query": "הרב דוד יוסף שיעור תורה"}, {"name": "הרב ראובן אלבז", "query": "הרב ראובן אלבז שיעור תורה"}, {"name": "הרב דניאל זר", "query": "הרב דניאל זר שיעור תורה"}, {"name": "הרב יוסף מזרחי", "query": "הרב יוסף מזרחי שיעור תורה"}, {"name": "הרב אמנון יצחק", "query": "הרב אמנון יצחק שיעור תורה"}, {"name": "הרב יאשיהו פינטו", "query": "הרב יאשיהו פינטו שיעור תורה"}, {"name": "הרב יעקב ישראל לוגאסי", "query": "הרב יעקב ישראל לוגאסי שיעור תורה"}, {"name": "הרב דוד בצרי", "query": "הרב דוד בצרי שיעור תורה"}, {"name": "הרב בניהו שמואלי", "query": "הרב בניהו שמואלי שיעור תורה"}, {"name": "הרב שלמה בניזרי", "query": "הרב שלמה בניזרי שיעור תורה"}, {"name": "הרב יהודה יוספי", "query": "הרב יהודה יוספי שיעור תורה"}, {"name": "הרב עובדיה יוסף", "query": "הרב עובדיה יוסף שיעור תורה"}, {"name": "הרב יורם אברג׳ל", "query": "הרב יורם אברג׳ל שיעור תורה"}, {"name": "הרב מרדכי אליהו", "query": "הרב מרדכי אליהו שיעור תורה"}, {"name": "הרב יוסף מוגרבי", "query": "הרב יוסף מוגרבי שיעור תורה"}, {"name": "הרב אבנר קוואס", "query": "הרב אבנר קוואס שיעור תורה"}, {"name": "הרב ליאור גלזר", "query": "הרב ליאור גלזר שיעור תורה"}, {"name": "הרב חיים רבי", "query": "הרב חיים רבי שיעור תורה"}, {"name": "הרב רפאל זר", "query": "הרב רפאל זר שיעור תורה"}, {"name": "הרב אברהם יוסף", "query": "הרב אברהם יוסף שיעור תורה"}, {"name": "הרב אופיר מלכה", "query": "הרב אופיר מלכה שיעור תורה"}, {"name": "הרב יעקב עדס", "query": "הרב יעקב עדס שיעור תורה"}, {"name": "הרב יוסף בן פורת", "query": "הרב יוסף בן פורת שיעור תורה"}, {"name": "הרב ניסים יגן", "query": "הרב ניסים יגן שיעור תורה"}, {"name": "הרב ברוך גזהיי", "query": "הרב ברוך גזהיי שיעור תורה"}, {"name": "הרב אליהו שירי", "query": "הרב אליהו שירי שיעור תורה"}, {"name": "הרב משה לוי", "query": "הרב משה לוי שיעור תורה"}, {"name": "הרב אהרן זכאי", "query": "הרב אהרן זכאי שיעור תורה"}, {"name": "הרב יעקב חיים סופר", "query": "הרב יעקב חיים סופר שיעור תורה"}, {"name": "הרב יצחק כהן", "query": "הרב יצחק כהן שיעור תורה"}, {"name": "הרב דוד שטרית", "query": "הרב דוד שטרית שיעור תורה"}, {"name": "הרב שלמה קורח", "query": "הרב שלמה קורח שיעור תורה"}, {"name": "הרב יצחק רצאבי", "query": "הרב יצחק רצאבי שיעור תורה"}, {"name": "הרב עזריה בסיס", "query": "הרב עזריה בסיס שיעור תורה"}, {"name": "הרב יחיא אלשיך", "query": "הרב יחיא אלשיך שיעור תורה"}, {"name": "הרב שלום צדוק", "query": "הרב שלום צדוק שיעור תורה"}, {"name": "הרב פנחס קורח", "query": "הרב פנחס קורח שיעור תורה"}, {"name": "הרב יוסף צוברי", "query": "הרב יוסף צוברי שיעור תורה"}, {"name": "הרב שלמה מחפוד", "query": "הרב שלמה מחפוד שיעור תורה"}, {"name": "הרב אביחי שרעבי", "query": "הרב אביחי שרעבי שיעור תורה"}, {"name": "הרב רצון ערוסי", "query": "הרב רצון ערוסי שיעור תורה"}];
+const RABBIS=[{"name": "הרב זמיר כהן", "seed": "aJc3Yx4T9T4", "query": "הרב זמיר כהן שיעור תורה"}, {"name": "הרב מאיר אליהו", "seed": "Osare62fHJs", "query": "הרב מאיר אליהו שיעור תורה"}, {"name": "הרב יגאל כהן", "query": "הרב יגאל כהן שיעור תורה"}, {"name": "הרב שניר גואטה", "query": "הרב שניר גואטה שיעור תורה"}, {"name": "הרב רונן שאולוב", "query": "הרב רונן שאולוב שיעור תורה"}, {"name": "הרב אייל עמרמי", "query": "הרב אייל עמרמי שיעור תורה"}, {"name": "הרב שלום ארוש", "query": "הרב שלום ארוש שיעור תורה"}, {"name": "הרב בן ציון מוצפי", "seed": "BXp6aEJ6T_U", "query": "הרב בן ציון מוצפי שיעור תורה"}, {"name": "הרב יצחק יוסף", "query": "הרב יצחק יוסף שיעור תורה"}, {"name": "הרב דוד יוסף", "query": "הרב דוד יוסף שיעור תורה"}, {"name": "הרב ראובן אלבז", "query": "הרב ראובן אלבז שיעור תורה"}, {"name": "הרב דניאל זר", "seed": "v-d_R8G7MBE", "query": "הרב דניאל זר שיעור תורה"}, {"name": "הרב יוסף מזרחי", "query": "הרב יוסף מזרחי שיעור תורה"}, {"name": "הרב אמנון יצחק", "query": "הרב אמנון יצחק שיעור תורה"}, {"name": "הרב יאשיהו פינטו", "query": "הרב יאשיהו פינטו שיעור תורה"}, {"name": "הרב יעקב ישראל לוגאסי", "seed": "z_Ng-WRpNHU", "query": "הרב יעקב ישראל לוגאסי שיעור תורה"}, {"name": "הרב דוד בצרי", "query": "הרב דוד בצרי שיעור תורה"}, {"name": "הרב בניהו שמואלי", "query": "הרב בניהו שמואלי שיעור תורה"}, {"name": "הרב שלמה בניזרי", "query": "הרב שלמה בניזרי שיעור תורה"}, {"name": "הרב יהודה יוספי", "query": "הרב יהודה יוספי שיעור תורה"}, {"name": "הרב עובדיה יוסף", "query": "הרב עובדיה יוסף שיעור תורה"}, {"name": "הרב יורם אברג׳ל", "query": "הרב יורם אברג׳ל שיעור תורה"}, {"name": "הרב מרדכי אליהו", "query": "הרב מרדכי אליהו שיעור תורה"}, {"name": "הרב יוסף מוגרבי", "query": "הרב יוסף מוגרבי שיעור תורה"}, {"name": "הרב אבנר קוואס", "query": "הרב אבנר קוואס שיעור תורה"}, {"name": "הרב ליאור גלזר", "query": "הרב ליאור גלזר שיעור תורה"}, {"name": "הרב חיים רבי", "query": "הרב חיים רבי שיעור תורה"}, {"name": "הרב רפאל זר", "query": "הרב רפאל זר שיעור תורה"}, {"name": "הרב אברהם יוסף", "query": "הרב אברהם יוסף שיעור תורה"}, {"name": "הרב אופיר מלכה", "query": "הרב אופיר מלכה שיעור תורה"}, {"name": "הרב יעקב עדס", "query": "הרב יעקב עדס שיעור תורה"}, {"name": "הרב יוסף בן פורת", "query": "הרב יוסף בן פורת שיעור תורה"}, {"name": "הרב ניסים יגן", "query": "הרב ניסים יגן שיעור תורה"}, {"name": "הרב ברוך גזהיי", "query": "הרב ברוך גזהיי שיעור תורה"}, {"name": "הרב אליהו שירי", "query": "הרב אליהו שירי שיעור תורה"}, {"name": "הרב משה לוי", "query": "הרב משה לוי שיעור תורה"}, {"name": "הרב אהרן זכאי", "query": "הרב אהרן זכאי שיעור תורה"}, {"name": "הרב יעקב חיים סופר", "query": "הרב יעקב חיים סופר שיעור תורה"}, {"name": "הרב יצחק כהן", "query": "הרב יצחק כהן שיעור תורה"}, {"name": "הרב דוד שטרית", "query": "הרב דוד שטרית שיעור תורה"}, {"name": "הרב שלמה קורח", "query": "הרב שלמה קורח שיעור תורה"}, {"name": "הרב יצחק רצאבי", "query": "הרב יצחק רצאבי שיעור תורה"}, {"name": "הרב עזריה בסיס", "query": "הרב עזריה בסיס שיעור תורה"}, {"name": "הרב יחיא אלשיך", "query": "הרב יחיא אלשיך שיעור תורה"}, {"name": "הרב שלום צדוק", "query": "הרב שלום צדוק שיעור תורה"}, {"name": "הרב פנחס קורח", "query": "הרב פנחס קורח שיעור תורה"}, {"name": "הרב יוסף צוברי", "query": "הרב יוסף צוברי שיעור תורה"}, {"name": "הרב שלמה מחפוד", "query": "הרב שלמה מחפוד שיעור תורה"}, {"name": "הרב אביחי שרעבי", "query": "הרב אביחי שרעבי שיעור תורה"}, {"name": "הרב רצון ערוסי", "query": "הרב רצון ערוסי שיעור תורה"}];
 const YEMENITE=[{"name": "מוזיקה תימנית יהודית", "query": "מוזיקה תימנית יהודית מסורתית"}, {"name": "שירי שבת תימניים", "query": "שירי שבת תימניים יהודיים"}, {"name": "נוסח תימן — שחרית", "query": "נוסח תימן תפילת שחרית"}, {"name": "נוסח תימן — מנחה", "query": "נוסח תימן תפילת מנחה"}, {"name": "נוסח תימן — ערבית", "query": "נוסח תימן תפילת ערבית"}, {"name": "סליחות בנוסח תימן", "query": "סליחות נוסח תימן"}, {"name": "קריאת התורה — תימן", "query": "קריאת התורה נוסח תימן"}, {"name": "פיוטים תימניים", "query": "פיוטים תימניים יהודיים"}];
 const SOURCES=[
  "https://inv.nadeko.net",
  "https://invidious.nerdvpn.de",
- "https://yt.chocolatemoo53.com",
- "https://invidious.privacyredirect.com"
-];
-const CORS_PROXIES=[
- "",
- "https://api.allorigins.win/raw?url="
+ "https://yt.chocolatemoo53.com"
 ];
 
-let player=null, currentGroup="rabbis", currentIndex=0, queue=[], qIndex=0, apiReady=false, loadingToken=0;
-let consecutiveErrors=0;
+let player=null, currentGroup="rabbis", currentIndex=0, queue=[], qIndex=0, apiReady=false, loadingToken=0, wantsPlay=false;
 
 function setStatus(s){document.getElementById("status").textContent=s}
 function currentItem(){
@@ -171,104 +174,65 @@ function label(){
  return (currentGroup==="rabbis"?"רב ":"יהדות תימן — ")+item.name;
 }
 
-async function fetchWithTimeout(url, ms=6000){
- const controller=new AbortController();
- const timer=setTimeout(()=>controller.abort(),ms);
- try{
-   const r=await fetch(url,{
-     signal:controller.signal,
-     cache:"no-store",
-     headers:{"Accept":"application/json"}
-   });
-   if(!r.ok) throw new Error("HTTP "+r.status);
-   return await r.json();
- }finally{
-   clearTimeout(timer);
- }
-}
-
 async function searchVideos(query){
  const token=++loadingToken;
  setStatus("מחפש סרטונים…");
-
- for(const proxy of CORS_PROXIES){
-   for(const base of SOURCES){
-     try{
-       const api=base+"/api/v1/search?q="+encodeURIComponent(query)
-         +"&type=video&sort_by=relevance&region=IL";
-       const url=proxy ? proxy+encodeURIComponent(api) : api;
-       const data=await fetchWithTimeout(url,6000);
-       if(token!==loadingToken) return [];
-
-       const vids=(Array.isArray(data)?data:[])
-         .filter(x=>{
-           if(!x || x.type!=="video" || !x.videoId) return false;
-           if(!/^[A-Za-z0-9_-]{11}$/.test(x.videoId)) return false;
-           const len=Number(x.lengthSeconds||0);
-           // Prefer real shiurim/lectures rather than Shorts.
-           if(len>0 && len<180) return false;
-           return true;
-         })
-         .map(x=>({
-           id:x.videoId,
-           title:x.title||"",
-           author:x.author||"",
-           lengthSeconds:Number(x.lengthSeconds||0)
-         }));
-
-       if(vids.length){
-         const words=query
-           .replace(/הרב|שיעור|תורה/g," ")
-           .split(/\s+/).filter(w=>w.length>2);
-
-         vids.sort((a,b)=>{
-           const at=(a.title+" "+a.author);
-           const bt=(b.title+" "+b.author);
-           const sa=words.reduce((n,w)=>n+(at.includes(w)?2:0),0)
-                    +(a.lengthSeconds>=600?1:0);
-           const sb=words.reduce((n,w)=>n+(bt.includes(w)?2:0),0)
-                    +(b.lengthSeconds>=600?1:0);
-           return sb-sa;
-         });
-
-         return vids.slice(0,25);
-       }
-     }catch(e){
-       console.warn("Video search source failed",proxy,base,e);
+ for(const base of SOURCES){
+   try{
+     const url=base+"/api/v1/search?q="+encodeURIComponent(query)+"&type=video&sort_by=upload_date&region=IL";
+     const r=await fetch(url,{headers:{"Accept":"application/json"}});
+     if(!r.ok) throw new Error("HTTP "+r.status);
+     const data=await r.json();
+     if(token!==loadingToken) return [];
+     const vids=(Array.isArray(data)?data:[])
+       .filter(x=>x && x.type==="video" && x.videoId && /^[A-Za-z0-9_-]{11}$/.test(x.videoId))
+       .map(x=>({id:x.videoId,title:x.title||"",author:x.author||""}));
+     if(vids.length){
+       // Prefer results actually mentioning the rabbi/topic words.
+       const words=query.replace(/הרב|שיעור|תורה/g," ").split(/\s+/).filter(w=>w.length>2);
+       vids.sort((a,b)=>{
+         const sa=words.reduce((n,w)=>n+((a.title+" "+a.author).includes(w)?1:0),0);
+         const sb=words.reduce((n,w)=>n+((b.title+" "+b.author).includes(w)?1:0),0);
+         return sb-sa;
+       });
+       return vids.slice(0,20);
      }
-   }
+   }catch(e){ console.warn("Search source failed",base,e); }
  }
  return [];
 }
+
 async function loadCurrent(){
  const item=currentItem();
  document.getElementById("title").textContent=label();
  queue=[]; qIndex=0;
 
- // Remove any previous YouTube error screen while a new channel is loading.
- try{ if(player && apiReady) player.stopVideo(); }catch(e){}
- setStatus("מחפש סרטונים…");
+ if(item.seed && player && apiReady){
+   queue=[{id:item.seed,title:item.name,author:item.name}];
+   playQueue(0);
+ }
 
  const vids=await searchVideos(item.query);
- if(!vids.length){
-   setStatus("לא הצלחתי לקבל סרטונים מהשרת. לחץ רענן כדי לנסות שוב.");
-   return;
+ if(vids.length){
+   const seen=new Set();
+   queue=[...(item.seed?[{id:item.seed,title:item.name,author:item.name}]:[]),...vids]
+     .filter(v=>v && v.id && !seen.has(v.id) && seen.add(v.id));
+   qIndex=0;
+   setStatus("מוכן • "+queue.length+" סרטונים • לחץ ▶ אם הניגון לא התחיל");
+   if(!item.seed) playQueue(0);
+ }else if(item.seed){
+   setStatus("מנגן סרטון שמור • שרת החיפוש לא זמין כרגע");
+ }else{
+   setStatus("שרת החיפוש לא זמין כרגע — לחץ רענן כדי לנסות שוב");
  }
- queue=vids;
- setStatus("נמצאו "+queue.length+" סרטונים • בודק ומנגן…");
- playQueue(0);
  render();
 }
 function playQueue(i){
  if(!queue.length || !player || !apiReady) return;
  qIndex=(i+queue.length)%queue.length;
  const v=queue[qIndex];
- setStatus("בודק סרטון "+(qIndex+1)+" מתוך "+queue.length+(v.author?" • "+v.author:""));
- try{
-   player.loadVideoById({videoId:v.id});
- }catch(e){
-   setTimeout(nextPlayable,400);
- }
+ setStatus("סרטון "+(qIndex+1)+" מתוך "+queue.length+(v.author?" • "+v.author:""));
+ player.loadVideoById({videoId:v.id,suggestedQuality:"large"});
 }
 
 function nextPlayable(){
@@ -283,37 +247,26 @@ function prevPlayable(){
 window.onYouTubeIframeAPIReady=function(){
  player=new YT.Player("player",{
    width:"100%",height:"100%",
-   playerVars:{autoplay:1,playsinline:1,rel:0,modestbranding:1,fs:1},
+   playerVars:{autoplay:0,playsinline:1,rel:0,controls:1,fs:1},
    events:{
-     onReady:function(){apiReady=true;setStatus("הנגן מוכן");loadCurrent();},
-     onStateChange:function(e){
-       if(e.data===YT.PlayerState.PLAYING){
-         consecutiveErrors=0;
-         setStatus("▶ מנגן בתוך האפליקציה • סרטון "+(qIndex+1)+" מתוך "+queue.length);
-       }
-       if(e.data===YT.PlayerState.ENDED){
-         consecutiveErrors=0;
-         nextPlayable();
-       }
+     onReady:function(){
+       apiReady=true;
+       setStatus("הנגן מוכן • בחר ערוץ או לחץ PLAY");
+       loadCurrent().then(()=>{if(wantsPlay && player && queue.length){try{player.playVideo();}catch(e){}}});
      },
+     onStateChange:function(e){if(e.data===YT.PlayerState.ENDED) nextPlayable();},
      onError:function(e){
-       consecutiveErrors++;
-       setStatus("הסרטון הזה לא מאפשר הטמעה — מדלג אוטומטית…");
-       if(consecutiveErrors>=Math.max(queue.length,5)){
-         consecutiveErrors=0;
-         setStatus("כל הסרטונים שנבדקו חסומים. נסה רענן לקבלת רשימה חדשה.");
-         return;
-       }
-       setTimeout(nextPlayable,450);
-     },
-     onAutoplayBlocked:function(){
-       setStatus("לחץ ▶ בתוך הווידאו פעם אחת כדי לאפשר ניגון באייפון");
+       // 100 removed/private; 101/150 embedding blocked.
+       setStatus("הסרטון חסום/הוסר — מדלג לבא…");
+       setTimeout(nextPlayable,700);
      }
    }
  });
 };
 
 function select(group,i){
+ const startBtn=document.getElementById("startPlayer");
+ if(startBtn) startBtn.style.display="none";
  currentGroup=group;
  const arr=group==="rabbis"?RABBIS:YEMENITE;
  currentIndex=(i+arr.length)%arr.length;
@@ -351,6 +304,43 @@ document.getElementById("customPlay").onclick=async()=>{
  qIndex=0;
  if(queue.length)playQueue(0);else setStatus("לא נמצאו סרטונים");
 };
+
+// iPhone/Safari-safe manual start button.
+document.getElementById("startPlayer").onclick=function(){
+ this.style.display="none";
+ wantsPlay=true;
+ if(player && apiReady){
+   if(queue.length){ try{player.playVideo();}catch(e){} }
+   else loadCurrent();
+ }else{
+   setStatus("טוען את נגן YouTube…");
+ }
+};
+
+// Donor chooses the amount. A blank amount opens PayPal.Me and PayPal asks for it there.
+document.getElementById("donateButton").onclick=function(){
+ const raw=document.getElementById("donationAmount").value.trim();
+ let url="https://www.paypal.me/payfortransport/";
+ if(raw){
+   const amount=Number(raw);
+   if(!Number.isFinite(amount) || amount<=0){
+     alert("Please enter a valid donation amount.");
+     return;
+   }
+   url += encodeURIComponent(amount.toFixed(2))+"USD";
+ }
+ window.open(url,"_blank","noopener,noreferrer");
+};
+
+// IMPORTANT: load YouTube API only AFTER the callback above has been defined.
+(function loadYouTubeAPI(){
+ const tag=document.createElement("script");
+ tag.src="https://www.youtube.com/iframe_api";
+ tag.async=true;
+ tag.onerror=function(){setStatus("לא ניתן לטעון את נגן YouTube. בדוק חיבור לאינטרנט ולחץ רענן.");};
+ document.body.appendChild(tag);
+})();
+
 render();
 </script>
 </body>

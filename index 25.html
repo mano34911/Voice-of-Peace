@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#03192f">
+<title>Voice of Peace TV</title>
+<style>
+*{box-sizing:border-box}
+:root{
+  --bg:#020d18;--bg2:#07345a;--panel:#051e35;--panel2:#082d4d;
+  --line:#1a5d8d;--cyan:#4bd0ff;--gold:#ffd34f;--green:#28d17c;
+  --red:#ff5364;--white:#fff;--muted:#bdd4e5;
+}
+html,body{margin:0;min-height:100%;background:var(--bg);color:#fff;font-family:Arial,Helvetica,sans-serif}
+body{background:radial-gradient(circle at top,#0c5181 0,#062f53 28%,#02182e 66%,#010812 100%)}
+button,input{font:inherit}
+.wrap{width:min(1120px,96%);margin:auto;padding:18px 0 40px}
+.header{text-align:center;margin-bottom:14px}
+.kicker{font-size:11px;letter-spacing:4px;color:var(--cyan);font-weight:900}
+h1{margin:5px 0 2px;font-size:clamp(28px,6vw,54px);line-height:1}
+.sub{color:var(--muted);font-size:13px}
+.statusline{margin:10px auto 0;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.badge{border:1px solid var(--line);background:#062845;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:900}
+.badge.live{color:#b9ffd5;border-color:#238c5a}
+.playerCard{background:linear-gradient(180deg,#072846,#031a30);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 15px 45px #0008}
+.playerTop{padding:11px 14px;display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid #1a547d}
+.now{font-weight:900}.source{color:var(--cyan);font-size:12px}
+.videoWrap{position:relative;aspect-ratio:16/9;background:#000}
+iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.notice{padding:10px 14px;background:#031426;border-top:1px solid #143c5a;color:var(--muted);font-size:12px;text-align:center}
+.controls{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:10px}
+.ctrl,.channel,.action,.pagebtn{
+  border:1px solid #246993;background:linear-gradient(180deg,#0d4774,#072b4a);color:#fff;
+  border-radius:11px;padding:11px 8px;font-weight:900;cursor:pointer
+}
+.ctrl:active,.channel:active,.action:active,.pagebtn:active{transform:scale(.98)}
+.ctrl.gold,.action.gold{color:#1b1500;background:linear-gradient(180deg,#ffe16c,#f4b91f);border-color:#ffe178}
+.ctrl.red{background:linear-gradient(180deg,#b83748,#79202c)}
+.sectionTitle{margin:18px 2px 8px;font-size:15px;color:#dff4ff}
+.channels{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.channel{min-height:62px;text-align:left;padding:10px 12px;position:relative}
+.channel .num{display:inline-flex;width:25px;height:25px;border-radius:8px;align-items:center;justify-content:center;background:#02172a;color:var(--gold);margin-right:7px}
+.channel .small{display:block;margin:5px 0 0 32px;color:#aed0e5;font-size:10px;font-weight:700}
+.channel.active{outline:2px solid var(--gold);border-color:var(--gold)}
+.customBox{margin-top:18px;background:#041d34;border:1px solid var(--line);border-radius:16px;padding:13px}
+.customRow{display:grid;grid-template-columns:1fr auto;gap:8px}
+input{width:100%;border:1px solid #2a6f9a;background:#021426;color:#fff;border-radius:10px;padding:12px}
+.help{color:var(--muted);font-size:11px;margin-top:8px;line-height:1.5}
+.editGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}
+.pageNav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:18px}
+.pagebtn{text-decoration:none;padding:9px 12px;font-size:12px}
+.footer{text-align:center;color:#759bb7;font-size:10px;margin-top:18px}
+@media(max-width:760px){
+  .controls{grid-template-columns:repeat(3,1fr)}
+  .channels{grid-template-columns:repeat(2,1fr)}
+  .playerTop{display:block}.source{margin-top:4px}
+}
+@media(max-width:430px){
+  .channels{grid-template-columns:1fr}
+  .editGrid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="header">
+    <div class="kicker">EMMANUEL & CAMILI HILEAH</div>
+    <h1>VOICE OF PEACE TV</h1>
+    <div class="sub">Verified-source edition • Tap a channel and watch</div>
+    <div class="statusline">
+      <span class="badge live">● PLAYER READY</span>
+      <span class="badge">12 CHANNEL BUTTONS</span>
+      <span class="badge">CUSTOM URL</span>
+    </div>
+  </header>
+
+  <section class="playerCard">
+    <div class="playerTop">
+      <div class="now" id="nowTitle">Channel 1 — CBS News 24/7</div>
+      <div class="source" id="sourceText">Official YouTube source</div>
+    </div>
+    <div class="videoWrap">
+      <iframe id="tv"
+        src=""
+        title="Voice of Peace TV player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <div class="controls">
+      <button class="ctrl" id="prevBtn">◀ Channel</button>
+      <button class="ctrl" id="nextBtn">Channel ▶</button>
+      <button class="ctrl" id="reloadBtn">↻ Reload</button>
+      <button class="ctrl gold" id="openBtn">Open Source</button>
+      <button class="ctrl" id="fullBtn">⛶ Full Screen</button>
+      <button class="ctrl red" id="stopBtn">■ Stop</button>
+    </div>
+    <div class="notice">
+      If a YouTube owner changes its embedding permission later, tap <b>Open Source</b>.
+      Live/news URLs can also be replaced using the editor below.
+    </div>
+  </section>
+
+  <h2 class="sectionTitle">Channels</h2>
+  <div class="channels" id="channels"></div>
+
+  <section class="customBox">
+    <b>Play your own YouTube video</b>
+    <div class="customRow" style="margin-top:9px">
+      <input id="customUrl" placeholder="Paste YouTube URL or video ID">
+      <button class="action gold" id="playCustom">PLAY</button>
+    </div>
+
+    <div class="help">
+      You can also permanently change any of the 12 channel buttons on this device.
+      Enter a channel number, a new name and a YouTube URL. It is saved in your browser.
+    </div>
+
+    <div class="editGrid">
+      <input id="editNumber" type="number" min="1" max="12" placeholder="Channel number 1–12">
+      <input id="editName" placeholder="New channel name">
+      <input id="editUrl" placeholder="YouTube URL or video ID">
+      <button class="action" id="saveChannel">SAVE CHANNEL</button>
+    </div>
+    <button class="action red" id="resetChannels" style="margin-top:8px;width:100%">RESET TO ORIGINAL 12 CHANNELS</button>
+  </section>
+
+  <div class="pageNav">
+    <a class="pagebtn" href="index.html">HOME</a>
+    <a class="pagebtn" href="index1.html">1</a>
+    <a class="pagebtn" href="index2.html">2</a>
+    <a class="pagebtn" href="index3.html">3</a>
+    <a class="pagebtn" href="index4.html">4</a>
+    <a class="pagebtn" href="index5.html">5</a>
+    <a class="pagebtn" href="index6.html">6</a>
+    <a class="pagebtn" href="index7.html">7</a>
+    <a class="pagebtn" href="index8.html">8</a>
+    <a class="pagebtn" href="index9.html">9</a>
+    <a class="pagebtn" href="index10.html">10</a>
+  </div>
+
+  <div class="footer">Created by CEE LTD • Emmanuel Hileah Innovations</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /*
+    IMPORTANT:
+    These presets use direct YouTube video IDs instead of random third-party
+    "free TV" iframe sites. This is intentionally more reliable on GitHub Pages.
+    Some are live feeds; others are long-form programs.
+  */
+
+  const DEFAULT_CHANNELS = [
+    {name:"CBS News 24/7", note:"Official live news", id:"AuFHQnyC2Yg", url:"https://www.youtube.com/watch?v=AuFHQnyC2Yg"},
+    {name:"הרב זמיר כהן", note:"Torah • Hidabroot lecture", id:"2u_XwaRaH-k", url:"https://www.youtube.com/watch?v=2u_XwaRaH-k"},
+    {name:"FRANCE 24 English", note:"Official 24/7 live news", id:"Ap-UM1O9RBU", url:"https://www.youtube.com/watch?v=Ap-UM1O9RBU"},
+    {name:"NASA — ISS LIVE", note:"Official NASA live camera", id:"sWasdbDVNvc", url:"https://www.youtube.com/watch?v=sWasdbDVNvc"},
+    {name:"Clean Comedy", note:"Dry Bar Comedy full special", id:"VbOALuHrK_M", url:"https://www.youtube.com/watch?v=VbOALuHrK_M"},
+    {name:"Business Ideas", note:"TED entrepreneurship", id:"eHJnEHyyN1Y", url:"https://www.youtube.com/watch?v=eHJnEHyyN1Y"},
+    {name:"History of Israel", note:"Long-form documentary", id:"kNuwCiuDz4E", url:"https://www.youtube.com/watch?v=kNuwCiuDz4E"},
+    {name:"Western Movie", note:"Grjngo full-length Western", id:"FrE4Pgf0t68", url:"https://www.youtube.com/watch?v=FrE4Pgf0t68"},
+    {name:"Comedy Extra", note:"Dry Bar full special", id:"kLUFit8815c", url:"https://www.youtube.com/watch?v=kLUFit8815c"},
+    {name:"CBS News Backup", note:"Reliable news preset", id:"AuFHQnyC2Yg", url:"https://www.youtube.com/watch?v=AuFHQnyC2Yg"},
+    {name:"FRANCE 24 Backup", note:"Reliable world-news preset", id:"Ap-UM1O9RBU", url:"https://www.youtube.com/watch?v=Ap-UM1O9RBU"},
+    {name:"NASA LIVE Backup", note:"Reliable science preset", id:"sWasdbDVNvc", url:"https://www.youtube.com/watch?v=sWasdbDVNvc"}
+  ];
+
+  let channels;
+  try {
+    channels = JSON.parse(localStorage.getItem("vop_channels_v3")) || structuredClone(DEFAULT_CHANNELS);
+  } catch(e) {
+    channels = DEFAULT_CHANNELS.map(x=>({...x}));
+  }
+
+  const tv = document.getElementById("tv");
+  const list = document.getElementById("channels");
+  const nowTitle = document.getElementById("nowTitle");
+  const sourceText = document.getElementById("sourceText");
+  let current = 0;
+
+  function extractYouTubeId(value){
+    value = (value || "").trim();
+    if (/^[A-Za-z0-9_-]{11}$/.test(value)) return value;
+    try{
+      const u = new URL(value);
+      if(u.hostname.includes("youtu.be")){
+        const id = u.pathname.split("/").filter(Boolean)[0];
+        return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : null;
+      }
+      if(u.hostname.includes("youtube.com")){
+        if(u.pathname.startsWith("/shorts/") || u.pathname.startsWith("/embed/")){
+          const id = u.pathname.split("/")[2];
+          return /^[A-Za-z0-9_-]{11}$/.test(id) ? id : null;
+        }
+        const id = u.searchParams.get("v");
+        return /^[A-Za-z0-9_-]{11}$/.test(id || "") ? id : null;
+      }
+    }catch(e){}
+    return null;
+  }
+
+  function embedUrl(id, autoplay=true){
+    const origin = location.protocol.startsWith("http") ? "&origin="+encodeURIComponent(location.origin) : "";
+    return "https://www.youtube-nocookie.com/embed/"+encodeURIComponent(id)
+      +"?autoplay="+(autoplay?1:0)
+      +"&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"+origin;
+  }
+
+  function renderButtons(){
+    list.innerHTML = "";
+    channels.forEach((ch,i)=>{
+      const b = document.createElement("button");
+      b.className = "channel"+(i===current?" active":"");
+      b.innerHTML = '<span class="num">'+(i+1)+'</span>'+escapeHtml(ch.name)+
+                    '<span class="small">'+escapeHtml(ch.note || "YouTube source")+'</span>';
+      b.onclick = ()=>playChannel(i);
+      list.appendChild(b);
+    });
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
+  }
+
+  function playChannel(i){
+    current = (i + channels.length) % channels.length;
+    const ch = channels[current];
+    nowTitle.textContent = "Channel "+(current+1)+" — "+ch.name;
+    sourceText.textContent = ch.note || "YouTube source";
+    tv.src = embedUrl(ch.id, true);
+    renderButtons();
+  }
+
+  function save(){
+    localStorage.setItem("vop_channels_v3", JSON.stringify(channels));
+  }
+
+  document.getElementById("prevBtn").onclick=()=>playChannel(current-1);
+  document.getElementById("nextBtn").onclick=()=>playChannel(current+1);
+  document.getElementById("reloadBtn").onclick=()=>{
+    const ch=channels[current];
+    tv.src="";
+    setTimeout(()=>tv.src=embedUrl(ch.id,true),120);
+  };
+  document.getElementById("stopBtn").onclick=()=>{ tv.src="about:blank"; };
+  document.getElementById("fullBtn").onclick=()=>{
+    const el=document.querySelector(".videoWrap");
+    if(el.requestFullscreen) el.requestFullscreen();
+    else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  };
+  document.getElementById("openBtn").onclick=()=>{
+    window.open(channels[current].url,"_blank","noopener");
+  };
+
+  document.getElementById("playCustom").onclick=()=>{
+    const raw=document.getElementById("customUrl").value;
+    const id=extractYouTubeId(raw);
+    if(!id){ alert("Please paste a valid YouTube video URL or 11-character video ID."); return; }
+    nowTitle.textContent="Custom YouTube Video";
+    sourceText.textContent="User-selected source";
+    tv.src=embedUrl(id,true);
+  };
+
+  document.getElementById("saveChannel").onclick=()=>{
+    const n=parseInt(document.getElementById("editNumber").value,10);
+    const name=document.getElementById("editName").value.trim();
+    const raw=document.getElementById("editUrl").value.trim();
+    const id=extractYouTubeId(raw);
+    if(!(n>=1&&n<=12)){ alert("Choose a channel number from 1 to 12."); return; }
+    if(!name){ alert("Enter a channel name."); return; }
+    if(!id){ alert("Paste a valid YouTube video URL or video ID."); return; }
+    channels[n-1]={name, note:"Custom saved channel", id, url:"https://www.youtube.com/watch?v="+id};
+    save();
+    current=n-1;
+    playChannel(current);
+    alert("Channel "+n+" saved.");
+  };
+
+  document.getElementById("resetChannels").onclick=()=>{
+    if(!confirm("Reset all 12 buttons to the original Voice of Peace channels?")) return;
+    channels=DEFAULT_CHANNELS.map(x=>({...x}));
+    save();
+    current=0;
+    playChannel(0);
+  };
+
+  renderButtons();
+  playChannel(0);
+})();
+</script>
+</body>
+</html>

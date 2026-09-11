@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Voice of Peace TV</title>
-<meta name="theme-color" content="#02182e">
+<title>Camili's Favorite Songs ❤️</title>
 
 <style>
 *{box-sizing:border-box}
@@ -12,254 +11,210 @@
 html,body{
   margin:0;
   min-height:100%;
-  background:#02182e;
-  color:#fff;
   font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-  background:radial-gradient(
-    circle at top,
-    #0c4f7e 0,
-    #062c4f 32%,
-    #02182e 68%,
-    #010b15 100%
-  );
+  color:#fff;
+  background:
+    radial-gradient(circle at top,#8b174c 0%,#401337 32%,#180c27 65%,#080510 100%);
 }
 
 .wrap{
-  width:min(1000px,96%);
+  width:min(1050px,96%);
   margin:auto;
-  padding:18px 0 40px;
+  padding:20px 0 50px;
 }
 
-.top{
+header{
   text-align:center;
-  margin-bottom:16px;
+  padding:22px 10px;
 }
 
-.kicker{
-  color:#4bd0ff;
-  font-weight:900;
-  letter-spacing:4px;
-  font-size:12px;
+.heart{
+  font-size:46px;
+  animation:beat 1.5s infinite;
+}
+
+@keyframes beat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.13)}
 }
 
 h1{
-  margin:6px 0 2px;
-  font-size:clamp(30px,7vw,56px);
+  margin:5px 0;
+  font-size:clamp(32px,8vw,64px);
+  color:#ffd6e9;
 }
 
-.byline{
-  color:#ffd34f;
+.subtitle{
+  color:#ffd5a1;
+  font-size:18px;
   font-weight:bold;
 }
 
-.memorial{
-  margin:14px auto;
-  padding:10px;
-  border:1px solid #2f6d96;
-  border-radius:14px;
-  background:#041d35;
+.message{
+  max-width:760px;
+  margin:18px auto;
+  padding:16px 18px;
+  line-height:1.65;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.17);
+  border-radius:18px;
+}
+
+.now{
+  background:linear-gradient(145deg,#35102b,#16091f);
+  border:2px solid #b54d78;
+  border-radius:20px;
+  padding:22px;
   text-align:center;
-  direction:rtl;
+  box-shadow:0 15px 40px rgba(0,0,0,.4);
+}
+
+.now-label{
+  color:#ff98c0;
+  font-size:13px;
   font-weight:bold;
-  line-height:1.7;
+  letter-spacing:3px;
 }
 
-.status{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:8px;
-  margin:10px 0;
-  color:#b9cfdf;
+.song-title{
+  font-size:clamp(24px,6vw,40px);
+  font-weight:900;
+  margin:12px 0 5px;
 }
 
-.dot{
-  width:11px;
-  height:11px;
-  border-radius:50%;
-  background:#888;
-}
-
-.dot.online{
-  background:#18d26e;
-}
-
-.player{
-  background:#000;
-  border:2px solid #1d6a99;
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,0,0,.4);
-}
-
-.player iframe{
-  width:100%;
-  aspect-ratio:16/9;
-  display:block;
-  border:0;
-  background:#000;
-}
-
-.current{
-  padding:12px;
-  text-align:center;
-  background:#041c31;
-  border-top:1px solid #1d5275;
-}
-
-.current strong{
-  color:#4bd0ff;
+.artist{
+  font-size:20px;
+  color:#ffd6e9;
 }
 
 .controls{
   display:flex;
-  gap:10px;
-  justify-content:center;
   flex-wrap:wrap;
-  margin:14px 0;
+  justify-content:center;
+  gap:10px;
+  margin-top:20px;
 }
 
 button,
-.linkbtn{
+.linkbutton{
   border:0;
-  border-radius:12px;
-  padding:12px 18px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-  background:#0f85c9;
-  color:white;
-  text-decoration:none;
-}
-
-button:hover,
-.linkbtn:hover{
-  filter:brightness(1.1);
-}
-
-.channel-title{
-  margin:25px 0 12px;
-  text-align:center;
-  font-size:24px;
-}
-
-.channels{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(165px,1fr));
-  gap:10px;
-}
-
-.channel{
-  min-height:64px;
-  background:#07375e;
-  border:1px solid #1d6d9c;
-  border-radius:12px;
-  padding:12px;
+  border-radius:13px;
+  padding:13px 18px;
   color:#fff;
   font-weight:bold;
-  text-align:center;
+  font-size:16px;
   cursor:pointer;
+  text-decoration:none;
 }
 
-.channel:hover{
-  background:#0b4a7d;
+.control{background:#7c2351}
+.play{background:#e83275;min-width:200px}
+.random{background:#7548ad}
+
+button:hover,
+.linkbutton:hover{
+  filter:brightness(1.15);
 }
 
-.channel.active{
-  background:#0d8bd4;
-  outline:2px solid #68d6ff;
-}
-
-.category{
-  display:block;
-  font-size:11px;
-  color:#a9c9dd;
-  margin-top:4px;
-}
-
-.searchbox{
-  margin-top:24px;
-  background:#041d35;
-  border:1px solid #235d83;
-  border-radius:14px;
-  padding:14px;
-}
-
-.searchbox h3{
-  margin-top:0;
-  text-align:center;
-}
-
-.searchrow{
+.search{
+  margin:25px auto 15px;
   display:flex;
   gap:8px;
-  flex-wrap:wrap;
 }
 
-.searchrow input{
+.search input{
   flex:1;
-  min-width:200px;
-  border-radius:10px;
-  border:1px solid #4a7899;
-  padding:13px;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #a85a83;
+  background:#160c20;
+  color:#fff;
   font-size:16px;
 }
 
-.donate{
-  display:block;
-  margin:25px auto 10px;
-  max-width:350px;
-  padding:16px;
-  border-radius:14px;
-  text-align:center;
-  background:#ffd34f;
-  color:#071626;
-  font-size:21px;
-  font-weight:900;
-  text-decoration:none;
+.search input::placeholder{
+  color:#baa4b4;
 }
 
-.synagogue{
-  display:block;
-  margin:10px auto;
-  max-width:350px;
-  padding:15px;
+.song-list{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:10px;
+  margin-top:18px;
+}
+
+.song{
+  border:1px solid #7a3a60;
   border-radius:14px;
-  text-align:center;
-  background:#fff;
-  color:#08213a;
-  font-size:18px;
+  padding:13px;
+  background:rgba(37,12,35,.82);
+  cursor:pointer;
+  transition:.15s;
+}
+
+.song:hover{
+  transform:translateY(-2px);
+  background:#4a1939;
+}
+
+.song.active{
+  background:#8c2858;
+  border-color:#ffb3d1;
+  outline:2px solid rgba(255,179,209,.35);
+}
+
+.number{
+  color:#ff96bf;
   font-weight:bold;
-  text-decoration:none;
+  margin-right:7px;
 }
 
-.error{
-  margin:14px 0;
-  padding:12px;
-  border-radius:10px;
-  background:#5e1e26;
-  display:none;
+.song-name{
+  font-weight:900;
 }
 
-.loading{
+.song-artist{
+  display:block;
+  color:#d9bdd0;
+  font-size:13px;
+  margin-top:5px;
+  padding-left:25px;
+}
+
+.page-nav{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:32px;
+}
+
+.page-nav a{
+  background:#173454;
+}
+
+footer{
+  margin-top:30px;
   text-align:center;
-  padding:20px;
-  color:#b9cfdf;
+  color:#cdaebe;
+  font-size:13px;
 }
 
-.footer{
-  text-align:center;
-  margin-top:28px;
-  color:#8fb3ca;
-  font-size:12px;
+.small-heart{
+  color:#ff5c98;
 }
 
 @media(max-width:600px){
-  button,.linkbtn{
-    flex:1 1 40%;
+  .controls button,
+  .controls a{
+    flex:1 1 45%;
+  }
+
+  .search{
+    flex-direction:column;
   }
 }
 </style>
@@ -269,486 +224,272 @@ button:hover,
 
 <div class="wrap">
 
-  <div class="top">
-    <div class="kicker">LIVE TELEVISION</div>
-    <h1>VOICE OF PEACE</h1>
-    <div class="byline">By Emmanuel &amp; Camili Hileah</div>
+<header>
+  <div class="heart">❤️</div>
+
+  <h1>Camili's Favorite Songs</h1>
+
+  <div class="subtitle">
+    A special music collection made with love
   </div>
 
-  <div class="memorial">
-    לעילוי נשמות זהבה חלא בת דינה זצ״ל •
-    דינה חלא בת ורד זצ״ל •
-    חיים חלא בן יצחק זצ״ל
-    <br>
-    תנצב״ה
+  <div class="message">
+    For Camili ❤️
+    <br><br>
+    These are your songs — for happy mornings, quiet nights,
+    dancing, remembering our travels, and all the beautiful
+    moments still ahead of us.
+    <br><br>
+    With love, Emmanuel.
+  </div>
+</header>
+
+<section class="now">
+
+  <div class="now-label">
+    NOW SELECTED
   </div>
 
-  <div class="status">
-    <span id="statusDot" class="dot"></span>
-    <span id="statusText">Connecting to Supabase...</span>
+  <div id="currentTitle" class="song-title">
+    Sorry
   </div>
 
-  <div id="errorBox" class="error"></div>
-
-  <div class="player">
-    <iframe
-      id="player"
-      allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-      allowfullscreen>
-    </iframe>
-
-    <div class="current">
-      Watching:
-      <strong id="currentChannel">Select a channel</strong>
-    </div>
+  <div id="currentArtist" class="artist">
+    Justin Bieber
   </div>
 
   <div class="controls">
-    <button onclick="previousChannel()">◀ Previous</button>
-    <button onclick="reloadChannel()">↻ Reload</button>
-    <button onclick="nextChannel()">Next ▶</button>
+
+    <button class="control" onclick="previousSong()">
+      ◀ Previous
+    </button>
+
+    <button class="play" onclick="playCurrent()">
+      ▶ Play on YouTube
+    </button>
+
+    <button class="control" onclick="nextSong()">
+      Next ▶
+    </button>
+
+    <button class="random" onclick="randomSong()">
+      🔀 Random Song
+    </button>
+
   </div>
 
-  <h2 class="channel-title">TV Channels</h2>
+</section>
 
-  <div id="loading" class="loading">
-    Loading channels from Supabase...
-  </div>
+<div class="search">
+  <input
+    id="searchBox"
+    type="text"
+    placeholder="Search song or artist..."
+    oninput="filterSongs()"
+  >
+</div>
 
-  <div id="channels" class="channels"></div>
+<div id="songList" class="song-list"></div>
 
-  <div class="searchbox">
-    <h3>Search Your Own Video</h3>
+<div class="page-nav">
 
-    <div class="searchrow">
-      <input
-        id="videoSearch"
-        type="text"
-        placeholder="Example: Israel history documentary">
-
-      <button onclick="searchYouTube()">
-        Search YouTube
-      </button>
-    </div>
-  </div>
-
-  <a
-    class="donate"
-    href="https://www.paypal.me/payfortransport/"
-    target="_blank">
-    ❤️ DONATE
+  <a class="linkbutton" href="index4.html">
+    ◀ Index 4
   </a>
 
-  <a
-    class="synagogue"
-    href="https://mano34911.github.io/Massage-bored-4-Synagouges/admin.html"
-    target="_blank">
-    לוח בית כנסת
+  <a class="linkbutton" href="index.html">
+    🏠 Voice of Peace
   </a>
 
-  <div class="footer">
-    Voice of Peace • Created by Emmanuel Hileah Innovations
-  </div>
+  <a class="linkbutton" href="index6.html">
+    Index 6 ▶
+  </a>
+
+</div>
+
+<footer>
+  <span class="small-heart">♥</span>
+  Camili's Favorite Songs
+  <span class="small-heart">♥</span>
+
+  <br><br>
+
+  Voice of Peace • Emmanuel &amp; Camili Hileah
+</footer>
 
 </div>
 
 <script>
 
-/* =============================================
-   SUPABASE SETTINGS
-============================================= */
+const songs = [
 
-const SUPABASE_URL =
-  "https://oyeeeooymrzemxfrvcon.supabase.co";
+["Sorry","Justin Bieber"],
+["Night Changes","One Direction"],
+["Love Story","Taylor Swift"],
+["Evidências","Chitãozinho & Xororó"],
+["Love Yourself","Justin Bieber"],
+["Story of My Life","One Direction"],
+["Enchanted","Taylor Swift"],
+["Amo Noite e Dia","Jorge & Mateus"],
+["Baby","Justin Bieber"],
+["What Makes You Beautiful","One Direction"],
+["Wildest Dreams","Taylor Swift"],
+["Infiel","Marília Mendonça"],
+["Ghost","Justin Bieber"],
+["Perfect","One Direction"],
+["You Belong With Me","Taylor Swift"],
+["Medo Bobo","Maiara & Maraisa"],
+["Peaches","Justin Bieber"],
+["Little Things","One Direction"],
+["Cruel Summer","Taylor Swift"],
+["Propaganda","Jorge & Mateus"],
+["What Do You Mean?","Justin Bieber"],
+["18","One Direction"],
+["Style","Taylor Swift"],
+["Eu Sei de Cor","Marília Mendonça"],
+["Anyone","Justin Bieber"],
+["You & I","One Direction"],
+["Back to December","Taylor Swift"],
+["Cuida Bem Dela","Henrique & Juliano"],
+["Company","Justin Bieber"],
+["Drag Me Down","One Direction"],
+["Delicate","Taylor Swift"],
+["Todo Mundo Vai Sofrer","Marília Mendonça"],
+["Beauty and a Beat","Justin Bieber"],
+["Kiss You","One Direction"],
+["august","Taylor Swift"],
+["Na Hora da Raiva","Henrique & Juliano"],
+["Hold On","Justin Bieber"],
+["If I Could Fly","One Direction"],
+["Anti-Hero","Taylor Swift"],
+["10%","Maiara & Maraisa"],
+["As Long As You Love Me","Justin Bieber"],
+["Strong","One Direction"],
+["cardigan","Taylor Swift"],
+["Seu Polícia","Zé Neto & Cristiano"],
+["Off My Face","Justin Bieber"],
+["Best Song Ever","One Direction"],
+["Daylight","Taylor Swift"],
+["Largado às Traças","Zé Neto & Cristiano"],
+["One Less Lonely Girl","Justin Bieber"],
+["Escrito nas Estrelas","Lauana Prado"]
 
-const SUPABASE_KEY =
-  "sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j";
+];
 
+let currentIndex = 0;
 
-/* =============================================
-   VARIABLES
-============================================= */
+const songList = document.getElementById("songList");
+const currentTitle = document.getElementById("currentTitle");
+const currentArtist = document.getElementById("currentArtist");
 
-let channels = [];
-let currentIndex = -1;
+function renderSongs(filter=""){
 
-const player =
-  document.getElementById("player");
+  songList.innerHTML = "";
 
-const currentChannel =
-  document.getElementById("currentChannel");
+  const text = filter.toLowerCase().trim();
 
-const channelContainer =
-  document.getElementById("channels");
+  songs.forEach((song,index)=>{
 
-const loading =
-  document.getElementById("loading");
+    const title = song[0];
+    const artist = song[1];
+    const search = (title+" "+artist).toLowerCase();
 
-const statusText =
-  document.getElementById("statusText");
-
-const statusDot =
-  document.getElementById("statusDot");
-
-const errorBox =
-  document.getElementById("errorBox");
-
-
-/* =============================================
-   LOAD CHANNELS FROM SUPABASE
-============================================= */
-
-async function loadChannels(){
-
-  try{
-
-    const response = await fetch(
-      SUPABASE_URL +
-      "/rest/v1/voice_channels" +
-      "?select=*" +
-      "&active=eq.true" +
-      "&order=sort_order.asc",
-      {
-        headers:{
-          "apikey":SUPABASE_KEY,
-          "Authorization":"Bearer " + SUPABASE_KEY
-        }
-      }
-    );
-
-    if(!response.ok){
-      throw new Error(
-        "Supabase returned HTTP " +
-        response.status
-      );
-    }
-
-    channels = await response.json();
-
-    loading.style.display = "none";
-
-    statusDot.classList.add("online");
-    statusText.textContent =
-      "Connected • " +
-      channels.length +
-      " channels loaded";
-
-    if(!channels.length){
-      showError(
-        "Supabase connected successfully, but no active channels were found."
-      );
+    if(text && !search.includes(text)){
       return;
     }
 
-    renderChannels();
+    const div = document.createElement("div");
 
-    playChannel(0);
+    div.className =
+      "song" +
+      (index === currentIndex ? " active" : "");
 
-  }
-  catch(error){
+    div.innerHTML = `
+      <span class="number">${index+1}.</span>
+      <span class="song-name">${escapeHTML(title)}</span>
+      <span class="song-artist">${escapeHTML(artist)}</span>
+    `;
 
-    loading.style.display = "none";
+    div.onclick = ()=>{
+      selectSong(index);
+    };
 
-    statusText.textContent =
-      "Could not load channels";
-
-    showError(
-      "Supabase error: " +
-      error.message
-    );
-
-    console.error(error);
-  }
-
-}
-
-
-/* =============================================
-   DRAW BUTTONS
-============================================= */
-
-function renderChannels(){
-
-  channelContainer.innerHTML = "";
-
-  channels.forEach((channel,index)=>{
-
-    const button =
-      document.createElement("button");
-
-    button.className =
-      "channel";
-
-    button.innerHTML =
-      escapeHTML(channel.name) +
-      "<span class='category'>" +
-      escapeHTML(channel.category || "") +
-      "</span>";
-
-    button.onclick = () =>
-      playChannel(index);
-
-    button.dataset.index =
-      index;
-
-    channelContainer.appendChild(button);
+    songList.appendChild(div);
 
   });
 
 }
 
-
-/* =============================================
-   PLAY CHANNEL
-============================================= */
-
-function playChannel(index){
-
-  if(!channels.length){
-    return;
-  }
-
-  if(index < 0){
-    index = channels.length - 1;
-  }
-
-  if(index >= channels.length){
-    index = 0;
-  }
+function selectSong(index){
 
   currentIndex = index;
 
-  const channel =
-    channels[index];
+  const song = songs[currentIndex];
 
-  currentChannel.textContent =
-    channel.name;
+  currentTitle.textContent = song[0];
+  currentArtist.textContent = song[1];
 
-  highlightButton();
-
-  const source =
-    channel.source || "";
-
-  const type =
-    (channel.type || "").toLowerCase();
-
-  const sourceKind =
-    (channel.source_kind || "").toLowerCase();
-
-
-  /*
-  ---------------------------------------------
-  YouTube direct video
-  ---------------------------------------------
-  */
-
-  if(
-    type === "youtube" &&
-    sourceKind === "video"
-  ){
-
-    const id =
-      extractYouTubeVideoID(source);
-
-    if(id){
-
-      player.src =
-        "https://www.youtube.com/embed/" +
-        id +
-        "?autoplay=1&rel=0";
-
-      return;
-
-    }
-
-  }
-
-
-  /*
-  ---------------------------------------------
-  YouTube live/video URL
-  ---------------------------------------------
-  */
-
-  if(
-    source.includes("youtube.com/watch") ||
-    source.includes("youtu.be/")
-  ){
-
-    const id =
-      extractYouTubeVideoID(source);
-
-    if(id){
-
-      player.src =
-        "https://www.youtube.com/embed/" +
-        id +
-        "?autoplay=1&rel=0";
-
-      return;
-
-    }
-
-  }
-
-
-  /*
-  ---------------------------------------------
-  YouTube channel
-  ---------------------------------------------
-  */
-
-  if(sourceKind === "channel"){
-
-    const channelID =
-      extractYouTubeChannelID(source);
-
-    if(channelID){
-
-      player.src =
-        "https://www.youtube.com/embed/live_stream?channel=" +
-        channelID +
-        "&autoplay=1";
-
-      return;
-
-    }
-
-  }
-
-
-  /*
-  ---------------------------------------------
-  Search result
-  ---------------------------------------------
-  */
-
-  if(
-    sourceKind === "search" ||
-    source.includes(
-      "youtube.com/results?search_query="
-    )
-  ){
-
-    openSearchChannel(channel);
-
-    return;
-
-  }
-
-
-  /*
-  ---------------------------------------------
-  Any embeddable URL
-  ---------------------------------------------
-  */
-
-  player.src =
-    source;
-
-}
-
-
-/* =============================================
-   SEARCH-BASED CHANNELS
-============================================= */
-
-function openSearchChannel(channel){
-
-  /*
-  YouTube does NOT allow its search-results page
-  to run inside an iframe.
-
-  So search-based Supabase records are opened
-  directly in YouTube instead.
-  */
-
-  const url =
-    channel.source;
-
-  player.src =
-    "about:blank";
-
-  currentChannel.textContent =
-    channel.name +
-    " — opening YouTube";
-
-  window.open(
-    url,
-    "_blank"
+  renderSongs(
+    document.getElementById("searchBox").value
   );
 
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
 }
 
+function nextSong(){
 
-/* =============================================
-   NEXT / PREVIOUS
-============================================= */
+  currentIndex++;
 
-function nextChannel(){
-
-  if(!channels.length){
-    return;
+  if(currentIndex >= songs.length){
+    currentIndex = 0;
   }
 
-  playChannel(
-    currentIndex + 1
-  );
+  selectSong(currentIndex);
 
 }
 
+function previousSong(){
 
-function previousChannel(){
-
-  if(!channels.length){
-    return;
-  }
-
-  playChannel(
-    currentIndex - 1
-  );
-
-}
-
-
-/* =============================================
-   RELOAD
-============================================= */
-
-function reloadChannel(){
+  currentIndex--;
 
   if(currentIndex < 0){
-    return;
+    currentIndex = songs.length - 1;
   }
 
-  const src =
-    player.src;
-
-  player.src =
-    "";
-
-  setTimeout(()=>{
-    player.src = src;
-  },150);
+  selectSong(currentIndex);
 
 }
 
+function randomSong(){
 
-/* =============================================
-   YOUTUBE SEARCH
-============================================= */
+  let newIndex = Math.floor(
+    Math.random() * songs.length
+  );
 
-function searchYouTube(){
+  if(
+    newIndex === currentIndex &&
+    songs.length > 1
+  ){
+    newIndex = (newIndex + 1) % songs.length;
+  }
+
+  selectSong(newIndex);
+
+}
+
+function playCurrent(){
+
+  const song = songs[currentIndex];
 
   const query =
-    document
-    .getElementById("videoSearch")
-    .value
-    .trim();
-
-  if(!query){
-    return;
-  }
+    song[0] +
+    " " +
+    song[1] +
+    " official";
 
   const url =
     "https://www.youtube.com/results?search_query=" +
@@ -761,110 +502,16 @@ function searchYouTube(){
 
 }
 
+function filterSongs(){
 
-/* =============================================
-   EXTRACT YOUTUBE VIDEO ID
-============================================= */
+  const value =
+    document
+    .getElementById("searchBox")
+    .value;
 
-function extractYouTubeVideoID(url){
-
-  try{
-
-    if(url.includes("youtu.be/")){
-
-      return url
-        .split("youtu.be/")[1]
-        .split(/[?&]/)[0];
-
-    }
-
-    const parsed =
-      new URL(url);
-
-    return parsed
-      .searchParams
-      .get("v");
-
-  }
-  catch(e){
-
-    return null;
-
-  }
+  renderSongs(value);
 
 }
-
-
-/* =============================================
-   CHANNEL ID
-============================================= */
-
-function extractYouTubeChannelID(url){
-
-  const match =
-    url.match(
-      /youtube\.com\/channel\/([^/?]+)/
-    );
-
-  return match
-    ? match[1]
-    : null;
-
-}
-
-
-/* =============================================
-   HIGHLIGHT
-============================================= */
-
-function highlightButton(){
-
-  document
-    .querySelectorAll(".channel")
-    .forEach(btn=>{
-
-      btn.classList.remove(
-        "active"
-      );
-
-    });
-
-  const active =
-    document.querySelector(
-      '.channel[data-index="' +
-      currentIndex +
-      '"]'
-    );
-
-  if(active){
-
-    active.classList.add(
-      "active"
-    );
-
-  }
-
-}
-
-
-/* =============================================
-   ERROR
-============================================= */
-
-function showError(message){
-
-  errorBox.style.display =
-    "block";
-
-  errorBox.textContent =
-    message;
-
-}
-
-
-/* =============================================
-   SAFE HTML
-============================================= */
 
 function escapeHTML(value){
 
@@ -877,12 +524,7 @@ function escapeHTML(value){
 
 }
 
-
-/* =============================================
-   START
-============================================= */
-
-loadChannels();
+renderSongs();
 
 </script>
 

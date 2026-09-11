@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Voice of Peace TV</title>
-<meta name="theme-color" content="#02182e">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Camili My Booby ❤️</title>
 
 <style>
 *{box-sizing:border-box}
@@ -12,253 +11,247 @@
 html,body{
   margin:0;
   min-height:100%;
-  background:#02182e;
-  color:#fff;
   font-family:Arial,Helvetica,sans-serif;
+  color:#fff;
+  background:#080510;
 }
 
 body{
-  background:radial-gradient(
-    circle at top,
-    #0c4f7e 0,
-    #062c4f 32%,
-    #02182e 68%,
-    #010b15 100%
-  );
+  background:
+  radial-gradient(circle at top,
+  #a41f60 0%,
+  #521541 30%,
+  #210d2e 65%,
+  #080510 100%);
 }
 
 .wrap{
-  width:min(1000px,96%);
+  width:min(1050px,96%);
   margin:auto;
-  padding:18px 0 40px;
+  padding:18px 0 50px;
 }
 
-.top{
+header{
   text-align:center;
-  margin-bottom:16px;
+  padding:10px;
 }
 
-.kicker{
-  color:#4bd0ff;
-  font-weight:900;
-  letter-spacing:4px;
-  font-size:12px;
+.heart{
+  font-size:50px;
+  animation:beat 1.3s infinite;
+}
+
+@keyframes beat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.15)}
 }
 
 h1{
-  margin:6px 0 2px;
-  font-size:clamp(30px,7vw,56px);
+  margin:5px 0;
+  font-size:clamp(32px,8vw,62px);
+  color:#ffd2e5;
 }
 
-.byline{
-  color:#ffd34f;
-  font-weight:bold;
+.subtitle{
+  color:#ffd768;
+  font-size:18px;
+  font-weight:900;
 }
 
-.memorial{
-  margin:14px auto;
-  padding:10px;
-  border:1px solid #2f6d96;
-  border-radius:14px;
-  background:#041d35;
-  text-align:center;
-  direction:rtl;
-  font-weight:bold;
-  line-height:1.7;
+.lovebox{
+  max-width:760px;
+  margin:15px auto 20px;
+  padding:16px;
+  line-height:1.65;
+  background:rgba(255,255,255,.07);
+  border:1px solid #9b4c74;
+  border-radius:18px;
 }
 
-.status{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:8px;
-  margin:10px 0;
-  color:#b9cfdf;
-}
-
-.dot{
-  width:11px;
-  height:11px;
-  border-radius:50%;
-  background:#888;
-}
-
-.dot.online{
-  background:#18d26e;
-}
-
-.player{
-  background:#000;
-  border:2px solid #1d6a99;
-  border-radius:16px;
+.playerbox{
   overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,0,0,.4);
+  border:2px solid #ce5689;
+  border-radius:20px;
+  background:#000;
+  box-shadow:0 15px 40px rgba(0,0,0,.55);
 }
 
-.player iframe{
+#youtubePlayer{
+  display:block;
   width:100%;
   aspect-ratio:16/9;
-  display:block;
   border:0;
   background:#000;
 }
 
-.current{
-  padding:12px;
+.now{
+  padding:14px;
   text-align:center;
-  background:#041c31;
-  border-top:1px solid #1d5275;
+  background:#21101e;
 }
 
-.current strong{
-  color:#4bd0ff;
+.now small{
+  color:#ff8ab8;
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+#currentTitle{
+  margin-top:7px;
+  font-size:25px;
+  font-weight:900;
+}
+
+#currentArtist{
+  color:#e4bdd0;
+  margin-top:4px;
+}
+
+#status{
+  margin-top:8px;
+  color:#ffd46c;
+  font-size:13px;
 }
 
 .controls{
   display:flex;
-  gap:10px;
   justify-content:center;
   flex-wrap:wrap;
-  margin:14px 0;
+  gap:9px;
+  margin:15px 0;
 }
 
-button,
-.linkbtn{
+button,.navbtn{
   border:0;
-  border-radius:12px;
-  padding:12px 18px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
-  background:#0f85c9;
-  color:white;
-  text-decoration:none;
-}
-
-button:hover,
-.linkbtn:hover{
-  filter:brightness(1.1);
-}
-
-.channel-title{
-  margin:25px 0 12px;
-  text-align:center;
-  font-size:24px;
-}
-
-.channels{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(165px,1fr));
-  gap:10px;
-}
-
-.channel{
-  min-height:64px;
-  background:#07375e;
-  border:1px solid #1d6d9c;
-  border-radius:12px;
-  padding:12px;
+  border-radius:13px;
+  padding:12px 16px;
+  font-size:15px;
+  font-weight:900;
   color:#fff;
-  font-weight:bold;
-  text-align:center;
   cursor:pointer;
+  text-decoration:none;
+  background:#902858;
 }
 
-.channel:hover{
-  background:#0b4a7d;
+button:hover,.navbtn:hover{
+  filter:brightness(1.15);
 }
 
-.channel.active{
-  background:#0d8bd4;
-  outline:2px solid #68d6ff;
-}
-
-.category{
-  display:block;
-  font-size:11px;
-  color:#a9c9dd;
-  margin-top:4px;
-}
+.play{background:#e52d73}
+.random{background:#7548a8}
+.reload{background:#285d89}
+.settingsBtn{background:#555}
 
 .searchbox{
-  margin-top:24px;
-  background:#041d35;
-  border:1px solid #235d83;
-  border-radius:14px;
-  padding:14px;
+  margin:18px 0;
 }
 
-.searchbox h3{
+.searchbox input{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #985176;
+  background:#160b1c;
+  color:#fff;
+  font-size:16px;
+}
+
+.songlist{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:9px;
+}
+
+.song{
+  width:100%;
+  text-align:left;
+  background:#2b1025;
+  border:1px solid #703856;
+  border-radius:13px;
+  padding:12px;
+}
+
+.song:hover{background:#481833}
+
+.song.active{
+  background:#8e2858;
+  outline:2px solid #ffb3d2;
+}
+
+.songNumber{
+  color:#ff8ab8;
+  font-weight:900;
+}
+
+.songTitle{
+  font-weight:900;
+}
+
+.songArtist{
+  display:block;
+  padding-left:25px;
+  margin-top:4px;
+  color:#d4b3c5;
+  font-size:13px;
+}
+
+.settings{
+  display:none;
+  margin:18px 0;
+  padding:16px;
+  border:1px solid #70536b;
+  border-radius:15px;
+  background:#160d18;
+}
+
+.settings.show{
+  display:block;
+}
+
+.settings h3{
   margin-top:0;
   text-align:center;
 }
 
-.searchrow{
+.settings input{
+  width:100%;
+  padding:13px;
+  margin:6px 0;
+  border-radius:10px;
+  border:1px solid #777;
+  font-size:15px;
+}
+
+.settingsActions{
   display:flex;
   gap:8px;
-  flex-wrap:wrap;
+  margin-top:8px;
 }
 
-.searchrow input{
+.settingsActions button{
   flex:1;
-  min-width:200px;
-  border-radius:10px;
-  border:1px solid #4a7899;
-  padding:13px;
-  font-size:16px;
 }
 
-.donate{
-  display:block;
-  margin:25px auto 10px;
-  max-width:350px;
-  padding:16px;
-  border-radius:14px;
-  text-align:center;
-  background:#ffd34f;
-  color:#071626;
-  font-size:21px;
-  font-weight:900;
-  text-decoration:none;
+.bottomnav{
+  margin-top:28px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:10px;
 }
 
-.synagogue{
-  display:block;
-  margin:10px auto;
-  max-width:350px;
-  padding:15px;
-  border-radius:14px;
-  text-align:center;
-  background:#fff;
-  color:#08213a;
-  font-size:18px;
-  font-weight:bold;
-  text-decoration:none;
+.navbtn{
+  background:#173d62;
 }
 
-.error{
-  margin:14px 0;
-  padding:12px;
-  border-radius:10px;
-  background:#5e1e26;
-  display:none;
-}
-
-.loading{
-  text-align:center;
-  padding:20px;
-  color:#b9cfdf;
-}
-
-.footer{
+footer{
   text-align:center;
   margin-top:28px;
-  color:#8fb3ca;
-  font-size:12px;
+  color:#c9a9ba;
 }
 
 @media(max-width:600px){
-  button,.linkbtn{
+  .controls button{
     flex:1 1 40%;
   }
 }
@@ -269,620 +262,795 @@ button:hover,
 
 <div class="wrap">
 
-  <div class="top">
-    <div class="kicker">LIVE TELEVISION</div>
-    <h1>VOICE OF PEACE</h1>
-    <div class="byline">By Emmanuel &amp; Camili Hileah</div>
-  </div>
+<header>
 
-  <div class="memorial">
-    לעילוי נשמות זהבה חלא בת דינה זצ״ל •
-    דינה חלא בת ורד זצ״ל •
-    חיים חלא בן יצחק זצ״ל
-    <br>
-    תנצב״ה
-  </div>
+<div class="heart">❤️</div>
 
-  <div class="status">
-    <span id="statusDot" class="dot"></span>
-    <span id="statusText">Connecting to Supabase...</span>
-  </div>
+<h1>Camili, My Booby</h1>
 
-  <div id="errorBox" class="error"></div>
+<div class="subtitle">
+Your Favorite Songs ❤️
+</div>
 
-  <div class="player">
-    <iframe
-      id="player"
-      allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-      allowfullscreen>
-    </iframe>
+<div class="lovebox">
+For my beautiful Camili ❤️
+<br><br>
+These songs are especially for you —
+for dancing, smiling, relaxing,
+remembering our beautiful moments,
+and all the wonderful memories still ahead of us.
+<br><br>
+I love you.
+<br>
+Emmanuel ❤️
+</div>
 
-    <div class="current">
-      Watching:
-      <strong id="currentChannel">Select a channel</strong>
-    </div>
-  </div>
+</header>
 
-  <div class="controls">
-    <button onclick="previousChannel()">◀ Previous</button>
-    <button onclick="reloadChannel()">↻ Reload</button>
-    <button onclick="nextChannel()">Next ▶</button>
-  </div>
 
-  <h2 class="channel-title">TV Channels</h2>
+<!-- VIDEO -->
 
-  <div id="loading" class="loading">
-    Loading channels from Supabase...
-  </div>
+<div class="playerbox">
 
-  <div id="channels" class="channels"></div>
+<iframe
+ id="youtubePlayer"
+ title="Camili Music Player"
+ sandbox="allow-scripts allow-same-origin allow-presentation"
+ allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+ allowfullscreen>
+</iframe>
 
-  <div class="searchbox">
-    <h3>Search Your Own Video</h3>
+<div class="now">
 
-    <div class="searchrow">
-      <input
-        id="videoSearch"
-        type="text"
-        placeholder="Example: Israel history documentary">
+<small>NOW PLAYING</small>
 
-      <button onclick="searchYouTube()">
-        Search YouTube
-      </button>
-    </div>
-  </div>
+<div id="currentTitle">
+Choose a song below
+</div>
 
-  <a
-    class="donate"
-    href="https://www.paypal.me/payfortransport/"
-    target="_blank">
-    ❤️ DONATE
-  </a>
+<div id="currentArtist">
+Camili's Playlist
+</div>
 
-  <a
-    class="synagogue"
-    href="https://mano34911.github.io/Massage-bored-4-Synagouges/admin.html"
-    target="_blank">
-    לוח בית כנסת
-  </a>
-
-  <div class="footer">
-    Voice of Peace • Created by Emmanuel Hileah Innovations
-  </div>
+<div id="status">
+50 favorite songs ready ❤️
+</div>
 
 </div>
 
+</div>
+
+
+<!-- CONTROLS -->
+
+<div class="controls">
+
+<button onclick="previousSong()">
+◀ Previous
+</button>
+
+<button class="play" onclick="playSelected()">
+▶ Play
+</button>
+
+<button onclick="nextSong()">
+Next ▶
+</button>
+
+<button class="random" onclick="randomSong()">
+🔀 Random
+</button>
+
+<button class="reload" onclick="reloadVideo()">
+↻ Reload
+</button>
+
+<button class="settingsBtn" onclick="toggleSettings()">
+⚙️ API Setup
+</button>
+
+</div>
+
+
+<!-- API SETTINGS -->
+
+<div id="settingsBox" class="settings">
+
+<h3>YouTube API Setup</h3>
+
+<p>
+Enter your two YouTube Data API keys once.
+They are saved only on this device.
+</p>
+
+<input
+ id="apiKey1"
+ type="password"
+ placeholder="YouTube API Key 1">
+
+<input
+ id="apiKey2"
+ type="password"
+ placeholder="YouTube API Key 2">
+
+<div class="settingsActions">
+
+<button onclick="saveKeys()">
+💾 Save Keys
+</button>
+
+<button onclick="clearKeys()">
+Clear
+</button>
+
+</div>
+
+</div>
+
+
+<!-- SEARCH -->
+
+<div class="searchbox">
+
+<input
+ id="songSearch"
+ type="text"
+ placeholder="Search song or singer..."
+ oninput="filterSongs()">
+
+</div>
+
+
+<!-- SONG LIST -->
+
+<div id="songList" class="songlist"></div>
+
+
+<!-- NAV -->
+
+<div class="bottomnav">
+
+<a class="navbtn" href="index4.html">
+◀ Index 4
+</a>
+
+<a class="navbtn" href="index.html">
+🏠 Voice of Peace
+</a>
+
+<a class="navbtn" href="index6.html">
+Index 6 ▶
+</a>
+
+</div>
+
+
+<footer>
+❤️ Camili My Booby ❤️
+<br><br>
+Voice of Peace
+<br>
+Emmanuel &amp; Camili Hileah
+</footer>
+
+</div>
+
+
 <script>
 
-/* =============================================
-   SUPABASE SETTINGS
-============================================= */
+/* ========================================
+   SONGS
+======================================== */
 
-const SUPABASE_URL =
-  "https://oyeeeooymrzemxfrvcon.supabase.co";
+const songs = [
 
-const SUPABASE_KEY =
-  "sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j";
+["Sorry","Justin Bieber"],
+["Night Changes","One Direction"],
+["Love Story","Taylor Swift"],
+["Evidências","Chitãozinho & Xororó"],
+["Love Yourself","Justin Bieber"],
+["Story of My Life","One Direction"],
+["Enchanted","Taylor Swift"],
+["Amo Noite e Dia","Jorge & Mateus"],
+["Baby","Justin Bieber"],
+["What Makes You Beautiful","One Direction"],
+
+["Wildest Dreams","Taylor Swift"],
+["Infiel","Marília Mendonça"],
+["Ghost","Justin Bieber"],
+["Perfect","One Direction"],
+["You Belong With Me","Taylor Swift"],
+["Medo Bobo","Maiara & Maraisa"],
+["Peaches","Justin Bieber"],
+["Little Things","One Direction"],
+["Cruel Summer","Taylor Swift"],
+["Propaganda","Jorge & Mateus"],
+
+["What Do You Mean?","Justin Bieber"],
+["18","One Direction"],
+["Style","Taylor Swift"],
+["Eu Sei de Cor","Marília Mendonça"],
+["Anyone","Justin Bieber"],
+["You & I","One Direction"],
+["Back to December","Taylor Swift"],
+["Cuida Bem Dela","Henrique & Juliano"],
+["Company","Justin Bieber"],
+["Drag Me Down","One Direction"],
+
+["Delicate","Taylor Swift"],
+["Todo Mundo Vai Sofrer","Marília Mendonça"],
+["Beauty and a Beat","Justin Bieber"],
+["Kiss You","One Direction"],
+["august","Taylor Swift"],
+["Na Hora da Raiva","Henrique & Juliano"],
+["Hold On","Justin Bieber"],
+["If I Could Fly","One Direction"],
+["Anti-Hero","Taylor Swift"],
+["10%","Maiara & Maraisa"],
+
+["As Long As You Love Me","Justin Bieber"],
+["Strong","One Direction"],
+["cardigan","Taylor Swift"],
+["Seu Polícia","Zé Neto & Cristiano"],
+["Off My Face","Justin Bieber"],
+["Best Song Ever","One Direction"],
+["Daylight","Taylor Swift"],
+["Largado às Traças","Zé Neto & Cristiano"],
+["One Less Lonely Girl","Justin Bieber"],
+["Escrito nas Estrelas","Lauana Prado"]
+
+];
 
 
-/* =============================================
+/* ========================================
    VARIABLES
-============================================= */
+======================================== */
 
-let channels = [];
-let currentIndex = -1;
+let currentIndex = 0;
+let currentVideoId = "";
+let currentApiKey = "";
+
+const videoCache = {};
 
 const player =
-  document.getElementById("player");
+document.getElementById("youtubePlayer");
 
-const currentChannel =
-  document.getElementById("currentChannel");
+const songList =
+document.getElementById("songList");
 
-const channelContainer =
-  document.getElementById("channels");
+const currentTitle =
+document.getElementById("currentTitle");
 
-const loading =
-  document.getElementById("loading");
+const currentArtist =
+document.getElementById("currentArtist");
 
 const statusText =
-  document.getElementById("statusText");
-
-const statusDot =
-  document.getElementById("statusDot");
-
-const errorBox =
-  document.getElementById("errorBox");
+document.getElementById("status");
 
 
-/* =============================================
-   LOAD CHANNELS FROM SUPABASE
-============================================= */
+/* ========================================
+   API KEYS
+======================================== */
 
-async function loadChannels(){
+function getKeys(){
 
-  try{
+return [
 
-    const response = await fetch(
-      SUPABASE_URL +
-      "/rest/v1/voice_channels" +
-      "?select=*" +
-      "&active=eq.true" +
-      "&order=sort_order.asc",
-      {
-        headers:{
-          "apikey":SUPABASE_KEY,
-          "Authorization":"Bearer " + SUPABASE_KEY
-        }
-      }
-    );
+localStorage.getItem(
+"camili_youtube_key_1"
+) || "",
 
-    if(!response.ok){
-      throw new Error(
-        "Supabase returned HTTP " +
-        response.status
-      );
-    }
+localStorage.getItem(
+"camili_youtube_key_2"
+) || ""
 
-    channels = await response.json();
-
-    loading.style.display = "none";
-
-    statusDot.classList.add("online");
-    statusText.textContent =
-      "Connected • " +
-      channels.length +
-      " channels loaded";
-
-    if(!channels.length){
-      showError(
-        "Supabase connected successfully, but no active channels were found."
-      );
-      return;
-    }
-
-    renderChannels();
-
-    playChannel(0);
-
-  }
-  catch(error){
-
-    loading.style.display = "none";
-
-    statusText.textContent =
-      "Could not load channels";
-
-    showError(
-      "Supabase error: " +
-      error.message
-    );
-
-    console.error(error);
-  }
+].filter(Boolean);
 
 }
 
 
-/* =============================================
-   DRAW BUTTONS
-============================================= */
+function toggleSettings(){
 
-function renderChannels(){
-
-  channelContainer.innerHTML = "";
-
-  channels.forEach((channel,index)=>{
-
-    const button =
-      document.createElement("button");
-
-    button.className =
-      "channel";
-
-    button.innerHTML =
-      escapeHTML(channel.name) +
-      "<span class='category'>" +
-      escapeHTML(channel.category || "") +
-      "</span>";
-
-    button.onclick = () =>
-      playChannel(index);
-
-    button.dataset.index =
-      index;
-
-    channelContainer.appendChild(button);
-
-  });
+document
+.getElementById("settingsBox")
+.classList.toggle("show");
 
 }
 
 
-/* =============================================
-   PLAY CHANNEL
-============================================= */
+function saveKeys(){
 
-function playChannel(index){
+const key1 =
+document.getElementById("apiKey1")
+.value.trim();
 
-  if(!channels.length){
-    return;
-  }
+const key2 =
+document.getElementById("apiKey2")
+.value.trim();
 
-  if(index < 0){
-    index = channels.length - 1;
-  }
+if(key1){
 
-  if(index >= channels.length){
-    index = 0;
-  }
+localStorage.setItem(
+"camili_youtube_key_1",
+key1
+);
 
-  currentIndex = index;
+}
 
-  const channel =
-    channels[index];
+if(key2){
 
-  currentChannel.textContent =
-    channel.name;
+localStorage.setItem(
+"camili_youtube_key_2",
+key2
+);
 
-  highlightButton();
+}
 
-  const source =
-    channel.source || "";
+statusText.textContent =
+"API keys saved on this device ✅";
 
-  const type =
-    (channel.type || "").toLowerCase();
-
-  const sourceKind =
-    (channel.source_kind || "").toLowerCase();
-
-
-  /*
-  ---------------------------------------------
-  YouTube direct video
-  ---------------------------------------------
-  */
-
-  if(
-    type === "youtube" &&
-    sourceKind === "video"
-  ){
-
-    const id =
-      extractYouTubeVideoID(source);
-
-    if(id){
-
-      player.src =
-        "https://www.youtube.com/embed/" +
-        id +
-        "?autoplay=1&rel=0";
-
-      return;
-
-    }
-
-  }
-
-
-  /*
-  ---------------------------------------------
-  YouTube live/video URL
-  ---------------------------------------------
-  */
-
-  if(
-    source.includes("youtube.com/watch") ||
-    source.includes("youtu.be/")
-  ){
-
-    const id =
-      extractYouTubeVideoID(source);
-
-    if(id){
-
-      player.src =
-        "https://www.youtube.com/embed/" +
-        id +
-        "?autoplay=1&rel=0";
-
-      return;
-
-    }
-
-  }
-
-
-  /*
-  ---------------------------------------------
-  YouTube channel
-  ---------------------------------------------
-  */
-
-  if(sourceKind === "channel"){
-
-    const channelID =
-      extractYouTubeChannelID(source);
-
-    if(channelID){
-
-      player.src =
-        "https://www.youtube.com/embed/live_stream?channel=" +
-        channelID +
-        "&autoplay=1";
-
-      return;
-
-    }
-
-  }
-
-
-  /*
-  ---------------------------------------------
-  Search result
-  ---------------------------------------------
-  */
-
-  if(
-    sourceKind === "search" ||
-    source.includes(
-      "youtube.com/results?search_query="
-    )
-  ){
-
-    openSearchChannel(channel);
-
-    return;
-
-  }
-
-
-  /*
-  ---------------------------------------------
-  Any embeddable URL
-  ---------------------------------------------
-  */
-
-  player.src =
-    source;
+document
+.getElementById("settingsBox")
+.classList.remove("show");
 
 }
 
 
-/* =============================================
-   SEARCH-BASED CHANNELS
-============================================= */
+function clearKeys(){
 
-function openSearchChannel(channel){
+localStorage.removeItem(
+"camili_youtube_key_1"
+);
 
-  /*
-  YouTube does NOT allow its search-results page
-  to run inside an iframe.
+localStorage.removeItem(
+"camili_youtube_key_2"
+);
 
-  So search-based Supabase records are opened
-  directly in YouTube instead.
-  */
+document.getElementById("apiKey1").value="";
+document.getElementById("apiKey2").value="";
 
-  const url =
-    channel.source;
-
-  player.src =
-    "about:blank";
-
-  currentChannel.textContent =
-    channel.name +
-    " — opening YouTube";
-
-  window.open(
-    url,
-    "_blank"
-  );
+statusText.textContent =
+"API keys cleared.";
 
 }
 
 
-/* =============================================
-   NEXT / PREVIOUS
-============================================= */
+/* ========================================
+   SONG BUTTONS
+======================================== */
 
-function nextChannel(){
+function renderSongs(filter=""){
 
-  if(!channels.length){
-    return;
-  }
+songList.innerHTML="";
 
-  playChannel(
-    currentIndex + 1
-  );
+const text =
+filter.toLowerCase().trim();
+
+songs.forEach((song,index)=>{
+
+const searchable =
+(song[0]+" "+song[1]).toLowerCase();
+
+if(
+text &&
+!searchable.includes(text)
+){
+return;
+}
+
+const button =
+document.createElement("button");
+
+button.className =
+"song" +
+(index===currentIndex
+? " active"
+: "");
+
+button.innerHTML =
+
+'<span class="songNumber">' +
+(index+1) +
+'.</span> ' +
+
+'<span class="songTitle">' +
+escapeHTML(song[0]) +
+'</span>' +
+
+'<span class="songArtist">' +
+escapeHTML(song[1]) +
+'</span>';
+
+button.onclick=()=>{
+
+currentIndex=index;
+
+playSelected();
+
+};
+
+songList.appendChild(button);
+
+});
 
 }
 
 
-function previousChannel(){
+/* ========================================
+   PLAY SONG
+======================================== */
 
-  if(!channels.length){
-    return;
-  }
+async function playSelected(){
 
-  playChannel(
-    currentIndex - 1
-  );
+const keys=getKeys();
+
+if(!keys.length){
+
+statusText.textContent =
+"Tap ⚙️ API Setup first.";
+
+document
+.getElementById("settingsBox")
+.classList.add("show");
+
+return;
+
+}
+
+const song=songs[currentIndex];
+
+currentTitle.textContent=song[0];
+currentArtist.textContent=song[1];
+
+renderSongs(
+document.getElementById("songSearch").value
+);
+
+statusText.textContent=
+"Finding "+song[0]+"...";
+
+try{
+
+let videoId=
+videoCache[currentIndex];
+
+if(!videoId){
+
+videoId =
+await searchWithBackupKeys(
+song[0],
+song[1]
+);
+
+if(videoId){
+
+videoCache[currentIndex]=videoId;
+
+}
+
+}
+
+if(!videoId){
+
+statusText.textContent =
+"Could not find a playable version.";
+
+return;
+
+}
+
+currentVideoId=videoId;
+
+loadVideo(videoId);
+
+statusText.textContent =
+"Playing inside Camili's page ❤️";
+
+}
+catch(error){
+
+console.error(error);
+
+statusText.textContent =
+"Video could not be loaded.";
+
+}
 
 }
 
 
-/* =============================================
-   RELOAD
-============================================= */
+/* ========================================
+   TRY BOTH API KEYS
+======================================== */
 
-function reloadChannel(){
+async function searchWithBackupKeys(
+songTitle,
+artist
+){
 
-  if(currentIndex < 0){
-    return;
-  }
+const keys=getKeys();
 
-  const src =
-    player.src;
+for(const key of keys){
 
-  player.src =
-    "";
+try{
 
-  setTimeout(()=>{
-    player.src = src;
-  },150);
+const result =
+await searchYouTube(
+songTitle,
+artist,
+key
+);
+
+if(result){
+
+currentApiKey=key;
+
+return result;
+
+}
+
+}
+catch(error){
+
+console.warn(
+"Trying backup API key...",
+error
+);
+
+}
+
+}
+
+return null;
 
 }
 
 
-/* =============================================
+/* ========================================
    YOUTUBE SEARCH
-============================================= */
+======================================== */
 
-function searchYouTube(){
+async function searchYouTube(
+songTitle,
+artist,
+apiKey
+){
 
-  const query =
-    document
-    .getElementById("videoSearch")
-    .value
-    .trim();
+const query =
+artist+" "+songTitle+
+" official music video";
 
-  if(!query){
-    return;
-  }
+const url =
+"https://www.googleapis.com/youtube/v3/search"+
+"?part=snippet"+
+"&type=video"+
+"&videoEmbeddable=true"+
+"&videoSyndicated=true"+
+"&safeSearch=moderate"+
+"&maxResults=10"+
+"&q="+encodeURIComponent(query)+
+"&key="+encodeURIComponent(apiKey);
 
-  const url =
-    "https://www.youtube.com/results?search_query=" +
-    encodeURIComponent(query);
+const response =
+await fetch(url);
 
-  window.open(
-    url,
-    "_blank"
-  );
+if(!response.ok){
+
+throw new Error(
+"YouTube search error "+
+response.status
+);
+
+}
+
+const data =
+await response.json();
+
+if(
+!data.items ||
+!data.items.length
+){
+return null;
+}
+
+const ids =
+data.items
+.map(item=>item.id?.videoId)
+.filter(Boolean);
+
+if(!ids.length){
+return null;
+}
+
+return await checkEmbeddable(
+ids,
+apiKey
+);
 
 }
 
 
-/* =============================================
-   EXTRACT YOUTUBE VIDEO ID
-============================================= */
+/* ========================================
+   EMBEDDABLE CHECK
+======================================== */
 
-function extractYouTubeVideoID(url){
+async function checkEmbeddable(
+ids,
+apiKey
+){
 
-  try{
+const url =
+"https://www.googleapis.com/youtube/v3/videos"+
+"?part=status"+
+"&id="+encodeURIComponent(ids.join(","))+
+"&key="+encodeURIComponent(apiKey);
 
-    if(url.includes("youtu.be/")){
+const response =
+await fetch(url);
 
-      return url
-        .split("youtu.be/")[1]
-        .split(/[?&]/)[0];
+if(!response.ok){
 
-    }
+return ids[0];
 
-    const parsed =
-      new URL(url);
+}
 
-    return parsed
-      .searchParams
-      .get("v");
+const data =
+await response.json();
 
-  }
-  catch(e){
+for(const video of data.items || []){
 
-    return null;
+if(
+video.status &&
+video.status.embeddable === true
+){
 
-  }
+return video.id;
+
+}
+
+}
+
+return null;
 
 }
 
 
-/* =============================================
-   CHANNEL ID
-============================================= */
+/* ========================================
+   INTERNAL PLAYER
+======================================== */
 
-function extractYouTubeChannelID(url){
+function loadVideo(videoId){
 
-  const match =
-    url.match(
-      /youtube\.com\/channel\/([^/?]+)/
-    );
-
-  return match
-    ? match[1]
-    : null;
-
-}
-
-
-/* =============================================
-   HIGHLIGHT
-============================================= */
-
-function highlightButton(){
-
-  document
-    .querySelectorAll(".channel")
-    .forEach(btn=>{
-
-      btn.classList.remove(
-        "active"
-      );
-
-    });
-
-  const active =
-    document.querySelector(
-      '.channel[data-index="' +
-      currentIndex +
-      '"]'
-    );
-
-  if(active){
-
-    active.classList.add(
-      "active"
-    );
-
-  }
+player.src =
+"https://www.youtube-nocookie.com/embed/"+
+videoId+
+"?autoplay=1"+
+"&playsinline=1"+
+"&rel=0"+
+"&modestbranding=1";
 
 }
 
 
-/* =============================================
-   ERROR
-============================================= */
+/* ========================================
+   NEXT
+======================================== */
 
-function showError(message){
+function nextSong(){
 
-  errorBox.style.display =
-    "block";
+currentIndex++;
 
-  errorBox.textContent =
-    message;
+if(currentIndex>=songs.length){
+currentIndex=0;
+}
+
+playSelected();
 
 }
 
 
-/* =============================================
-   SAFE HTML
-============================================= */
+/* ========================================
+   PREVIOUS
+======================================== */
+
+function previousSong(){
+
+currentIndex--;
+
+if(currentIndex<0){
+currentIndex=songs.length-1;
+}
+
+playSelected();
+
+}
+
+
+/* ========================================
+   RANDOM
+======================================== */
+
+function randomSong(){
+
+let next =
+Math.floor(
+Math.random()*songs.length
+);
+
+if(next===currentIndex){
+
+next=(next+1)%songs.length;
+
+}
+
+currentIndex=next;
+
+playSelected();
+
+}
+
+
+/* ========================================
+   RELOAD
+======================================== */
+
+function reloadVideo(){
+
+if(!currentVideoId){
+
+playSelected();
+
+return;
+
+}
+
+player.src="";
+
+setTimeout(()=>{
+
+loadVideo(currentVideoId);
+
+},150);
+
+}
+
+
+/* ========================================
+   SEARCH LIST
+======================================== */
+
+function filterSongs(){
+
+renderSongs(
+document
+.getElementById("songSearch")
+.value
+);
+
+}
+
+
+/* ========================================
+   HTML SAFETY
+======================================== */
 
 function escapeHTML(value){
 
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
+return String(value)
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 
 }
 
 
-/* =============================================
+/* ========================================
    START
-============================================= */
+======================================== */
 
-loadChannels();
+renderSongs();
 
 </script>
 

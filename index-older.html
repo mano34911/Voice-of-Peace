@@ -2,2868 +2,531 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover">
-
-<meta name="theme-color" content="#02182e">
-<meta name="description"
-      content="Voice of Peace - Live news, entertainment, nature, technology and Israel programming.">
-
-<title>Voice of Peace Live TV</title>
-
-<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Camili's Favorite Songs ❤️</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
-}
-
-:root{
-  --bg:#01162b;
-  --bg2:#052d52;
-  --card:#062746;
-  --card2:#031a31;
-  --border:#225a83;
-  --blue:#159be6;
-  --cyan:#4bd0ff;
-  --gold:#ffd34f;
-  --red:#df3343;
-  --green:#11ba5d;
-  --white:#ffffff;
-  --muted:#b9cfdf;
-}
+*{box-sizing:border-box}
 
 html,body{
   margin:0;
   min-height:100%;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-  font-family:Arial,Helvetica,sans-serif;
-  color:white;
+  color:#fff;
   background:
-    radial-gradient(
-      circle at top,
-      #135181 0%,
-      #062d52 30%,
-      #02182e 68%,
-      #010b15 100%
-    );
+    radial-gradient(circle at top,#8b174c 0%,#401337 32%,#180c27 65%,#080510 100%);
 }
 
-
-/* ============================================================
-   HEADER
-   ============================================================ */
+.wrap{
+  width:min(1050px,96%);
+  margin:auto;
+  padding:20px 0 50px;
+}
 
 header{
-  border-bottom:3px solid #1b79a9;
-  background:
-    linear-gradient(
-      90deg,
-      #02182e,
-      #07466d,
-      #02182e
-    );
+  text-align:center;
+  padding:22px 10px;
 }
 
-.header-inner{
-  width:min(1100px,96%);
-  margin:auto;
-  padding:22px 8px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
+.heart{
+  font-size:46px;
+  animation:beat 1.5s infinite;
 }
 
-.kicker{
-  color:#59d4ff;
-  font-weight:900;
-  font-size:12px;
-  letter-spacing:7px;
+@keyframes beat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.13)}
 }
 
 h1{
-  margin:6px 0 4px;
-  font-size:clamp(29px,5vw,48px);
-  line-height:1;
+  margin:5px 0;
+  font-size:clamp(32px,8vw,64px);
+  color:#ffd6e9;
 }
 
-.byline{
-  color:var(--gold);
-  font-weight:900;
+.subtitle{
+  color:#ffd5a1;
   font-size:18px;
+  font-weight:bold;
 }
 
-.live-top{
-  background:#0dc166;
-  border-radius:40px;
-  padding:15px 25px;
-  font-weight:900;
-  font-size:18px;
-  box-shadow:0 0 20px rgba(0,255,120,.18);
+.message{
+  max-width:760px;
+  margin:18px auto;
+  padding:16px 18px;
+  line-height:1.65;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.17);
+  border-radius:18px;
 }
 
-
-/* ============================================================
-   MAIN
-   ============================================================ */
-
-main{
-  width:min(1100px,96%);
-  margin:auto;
-  padding:22px 0 60px;
-}
-
-
-/* ============================================================
-   CHANNEL BUTTONS
-   ============================================================ */
-
-.channels{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:16px;
-  margin-bottom:24px;
-}
-
-.live-channel-btn{
-  min-height:118px;
-
-  border:2px solid #296f99;
-  border-radius:21px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #073b61,
-      #062644
-    );
-
-  color:white;
-
-  padding:16px 10px;
-
-  cursor:pointer;
-
-  font-weight:900;
-
-  box-shadow:
-    inset 0 0 15px rgba(0,150,255,.08),
-    0 4px 15px rgba(0,0,0,.18);
-
-  transition:.18s;
-}
-
-.live-channel-btn:active{
-  transform:scale(.97);
-}
-
-.live-channel-btn.active{
-  border:4px solid var(--gold);
-
-  background:
-    linear-gradient(
-      145deg,
-      #14618d,
-      #083353
-    );
-
-  box-shadow:
-    0 0 0 4px rgba(255,211,79,.18),
-    0 0 18px rgba(255,211,79,.28);
-}
-
-.channel-number{
-  display:block;
-  color:var(--gold);
-  font-size:17px;
-  margin-bottom:10px;
-}
-
-.channel-name{
-  display:block;
-  font-size:21px;
-  line-height:1.15;
-}
-
-
-/* ============================================================
-   PLAYER
-   ============================================================ */
-
-.live-tv-player{
-  position:relative;
-
-  width:100%;
-
-  aspect-ratio:16/9;
-
-  background:#000;
-
-  border:2px solid #397ba0;
-
-  border-radius:22px;
-
-  overflow:hidden;
-
-  margin-top:12px;
-
-  box-shadow:0 10px 30px rgba(0,0,0,.35);
-}
-
-#youtubePlayer{
-  width:100%;
-  height:100%;
-}
-
-#youtubePlayer iframe{
-  width:100%;
-  height:100%;
-}
-
-
-/* ============================================================
-   START OVERLAY
-   ============================================================ */
-
-#liveTvOverlay{
-  position:absolute;
-  inset:0;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(12,80,130,.78),
-      rgba(0,0,0,.94)
-    );
-
-  z-index:10;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  cursor:pointer;
-
+.now{
+  background:linear-gradient(145deg,#35102b,#16091f);
+  border:2px solid #b54d78;
+  border-radius:20px;
+  padding:22px;
   text-align:center;
+  box-shadow:0 15px 40px rgba(0,0,0,.4);
 }
 
-#liveTvOverlay.hidden{
-  display:none;
+.now-label{
+  color:#ff98c0;
+  font-size:13px;
+  font-weight:bold;
+  letter-spacing:3px;
 }
 
-.play-circle{
-  width:94px;
-  height:94px;
-
-  border-radius:100%;
-
-  background:#e82635;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  margin:auto auto 20px;
-
-  font-size:43px;
-
-  box-shadow:0 0 30px rgba(255,0,0,.35);
-}
-
-#liveTvOverlayTitle{
-  font-size:clamp(24px,5vw,40px);
+.song-title{
+  font-size:clamp(24px,6vw,40px);
   font-weight:900;
+  margin:12px 0 5px;
 }
 
-.overlay-sub{
-  margin-top:10px;
-  color:#cceeff;
+.artist{
+  font-size:20px;
+  color:#ffd6e9;
+}
+
+.controls{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:10px;
+  margin-top:20px;
+}
+
+button,
+.linkbutton{
+  border:0;
+  border-radius:13px;
+  padding:13px 18px;
+  color:#fff;
+  font-weight:bold;
+  font-size:16px;
+  cursor:pointer;
+  text-decoration:none;
+}
+
+.control{background:#7c2351}
+.play{background:#e83275;min-width:200px}
+.random{background:#7548ad}
+
+button:hover,
+.linkbutton:hover{
+  filter:brightness(1.15);
+}
+
+.search{
+  margin:25px auto 15px;
+  display:flex;
+  gap:8px;
+}
+
+.search input{
+  flex:1;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #a85a83;
+  background:#160c20;
+  color:#fff;
   font-size:16px;
 }
 
-
-/* ============================================================
-   INFO CARD
-   ============================================================ */
-
-.info-card{
-  border:2px solid #245c82;
-
-  border-radius:21px;
-
-  margin-top:22px;
-
-  padding:20px;
-
-  background:
-    linear-gradient(
-      145deg,
-      #062b4a,
-      #031a31
-    );
+.search input::placeholder{
+  color:#baa4b4;
 }
 
-#liveTvCurrent{
-  font-size:clamp(23px,5vw,35px);
-  font-weight:900;
-  margin-bottom:11px;
-}
-
-#liveTvSource{
-  font-size:18px;
-  color:#50caff;
-  line-height:1.4;
-}
-
-#liveTvMessage{
-  margin-top:11px;
-  color:#c2d6e4;
-  font-size:17px;
-  line-height:1.4;
-}
-
-
-/* ============================================================
-   STATUS
-   ============================================================ */
-
-.status-row{
-  margin-top:15px;
-}
-
-#liveTvStatusBadge{
-  display:inline-block;
-
-  background:#a36a00;
-
-  border-radius:50px;
-
-  padding:9px 16px;
-
-  font-weight:900;
-
-  font-size:14px;
-}
-
-
-/* ============================================================
-   CONTROLS
-   ============================================================ */
-
-.controls{
+.song-list{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:11px;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:10px;
   margin-top:18px;
 }
 
-.control-btn{
-  min-height:54px;
-
+.song{
+  border:1px solid #7a3a60;
   border-radius:14px;
-
-  border:2px solid #3981ae;
-
-  background:
-    linear-gradient(
-      #1479ad,
-      #07517e
-    );
-
-  color:white;
-
-  font-size:16px;
-
-  font-weight:900;
-
-  cursor:pointer;
-
-  padding:10px;
-}
-
-.control-btn:active{
-  transform:scale(.97);
-}
-
-.pause-btn{
-  background:
-    linear-gradient(
-      #c93648,
-      #8f1f2c
-    );
-
-  border-color:#ef5c6c;
-}
-
-.reload-btn{
-  background:
-    linear-gradient(
-      #506375,
-      #2c3c4b
-    );
-}
-
-.full-btn{
-  background:
-    linear-gradient(
-      #6552b8,
-      #403184
-    );
-}
-
-
-/* ============================================================
-   VOLUME
-   ============================================================ */
-
-.volume-box{
-  margin-top:17px;
-
-  padding:16px 18px;
-
-  border:1px solid #286187;
-
-  border-radius:16px;
-
-  background:#041f38;
-
-  display:flex;
-
-  align-items:center;
-
-  gap:15px;
-}
-
-.volume-box label{
-  font-weight:900;
-  white-space:nowrap;
-}
-
-#volumeControl{
-  width:100%;
-  height:34px;
-}
-
-
-/* ============================================================
-   CUSTOM VIDEO
-   ============================================================ */
-
-.custom-box{
-  margin-top:25px;
-
-  border:2px solid #286187;
-
-  border-radius:20px;
-
-  background:#041e36;
-
-  padding:20px;
-}
-
-.custom-box h2{
-  margin:0 0 8px;
-  font-size:24px;
-}
-
-.custom-box p{
-  color:#bfd4e3;
-  margin-top:5px;
-  line-height:1.5;
-}
-
-.custom-row{
-  display:flex;
-  gap:9px;
-  margin-top:15px;
-}
-
-#customYoutube{
-  flex:1;
-
-  min-width:0;
-
-  border-radius:13px;
-
-  border:2px solid #327aa8;
-
-  background:white;
-
-  color:#111;
-
-  padding:14px;
-
-  font-size:16px;
-}
-
-.custom-btn{
-  border:0;
-
-  border-radius:13px;
-
-  padding:13px 20px;
-
-  background:#13a75b;
-
-  color:white;
-
-  font-weight:900;
-
-  font-size:16px;
-
-  cursor:pointer;
-}
-
-.search-btn{
-  margin-top:10px;
-
-  width:100%;
-
-  min-height:50px;
-
-  border:2px solid #a67c16;
-
-  border-radius:13px;
-
-  background:
-    linear-gradient(
-      #d3a329,
-      #9b7415
-    );
-
-  color:white;
-
-  font-weight:900;
-
-  font-size:16px;
-}
-
-
-/* ============================================================
-   AUTO FAIL NOTICE
-   ============================================================ */
-
-.fail-notice{
-  display:none;
-
-  margin-top:14px;
-
-  background:#5d1920;
-
-  border:2px solid #be4854;
-
   padding:13px;
-
-  border-radius:12px;
-
-  line-height:1.4;
+  background:rgba(37,12,35,.82);
+  cursor:pointer;
+  transition:.15s;
 }
 
-.fail-notice.show{
+.song:hover{
+  transform:translateY(-2px);
+  background:#4a1939;
+}
+
+.song.active{
+  background:#8c2858;
+  border-color:#ffb3d1;
+  outline:2px solid rgba(255,179,209,.35);
+}
+
+.number{
+  color:#ff96bf;
+  font-weight:bold;
+  margin-right:7px;
+}
+
+.song-name{
+  font-weight:900;
+}
+
+.song-artist{
   display:block;
+  color:#d9bdd0;
+  font-size:13px;
+  margin-top:5px;
+  padding-left:25px;
 }
 
+.page-nav{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:32px;
+}
 
-/* ============================================================
-   FOOTER
-   ============================================================ */
+.page-nav a{
+  background:#173454;
+}
 
 footer{
+  margin-top:30px;
   text-align:center;
-  color:#8caabc;
-  padding:35px 15px 40px;
-  font-size:14px;
+  color:#cdaebe;
+  font-size:13px;
 }
 
+.small-heart{
+  color:#ff5c98;
+}
 
-/* ============================================================
-   MOBILE
-   ============================================================ */
-
-@media(max-width:700px){
-
-  .header-inner{
-    padding-top:18px;
+@media(max-width:600px){
+  .controls button,
+  .controls a{
+    flex:1 1 45%;
   }
 
-  .live-top{
-    padding:13px 19px;
-    font-size:16px;
-  }
-
-  .channels{
-    gap:12px;
-  }
-
-  .live-channel-btn{
-    min-height:110px;
-  }
-
-  .channel-number{
-    font-size:15px;
-  }
-
-  .channel-name{
-    font-size:18px;
-  }
-
-  .controls{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .custom-row{
+  .search{
     flex-direction:column;
   }
-
-  .custom-btn{
-    width:100%;
-  }
-
 }
-
 </style>
 </head>
 
-
 <body>
 
-
-<!-- ============================================================
-     HEADER
-     ============================================================ -->
+<div class="wrap">
 
 <header>
+  <div class="heart">❤️</div>
 
-<div class="header-inner">
+  <h1>Camili's Favorite Songs</h1>
 
-  <div>
-
-    <div class="kicker">
-      THIS IS THE
-    </div>
-
-    <h1>
-      VOICE OF PEACE
-    </h1>
-
-    <div class="byline">
-      By Emmanuel &amp; Camili Hileah
-    </div>
-
+  <div class="subtitle">
+    A special music collection made with love
   </div>
 
-  <div class="live-top">
-    LIVE
+  <div class="message">
+    For Camili ❤️
+    <br><br>
+    These are your songs — for happy mornings, quiet nights,
+    dancing, remembering our travels, and all the beautiful
+    moments still ahead of us.
+    <br><br>
+    With love, Emmanuel.
   </div>
-
-</div>
-
 </header>
 
+<section class="now">
 
+  <div class="now-label">
+    NOW SELECTED
+  </div>
 
-<main>
+  <div id="currentTitle" class="song-title">
+    Sorry
+  </div>
 
+  <div id="currentArtist" class="artist">
+    Justin Bieber
+  </div>
 
-<!-- ============================================================
-     12 CHANNELS
-     ============================================================ -->
+  <div class="controls">
 
-<div class="channels">
+    <button class="control" onclick="previousSong()">
+      ◀ Previous
+    </button>
 
+    <button class="play" onclick="playCurrent()">
+      ▶ Play on YouTube
+    </button>
 
-<button class="live-channel-btn"
-        data-live-channel="israel">
+    <button class="control" onclick="nextSong()">
+      Next ▶
+    </button>
 
-  <span class="channel-number">
-    CHANNEL 1
-  </span>
-
-  <span class="channel-name">
-    🇮🇱 Israel News
-  </span>
-
-</button>
-
-
-
-<button class="live-channel-btn"
-        data-live-channel="usnews">
-
-  <span class="channel-number">
-    CHANNEL 2
-  </span>
-
-  <span class="channel-name">
-    🇺🇸 U.S. News Live
-  </span>
-
-</button>
-
-
-
-<button class="live-channel-btn"
-        data-live-channel="comedy">
-
-  <span class="channel-number">
-    CHANNEL 3
-  </span>
-
-  <span class="channel-name">
-    😂 Comedy TV
-  </span>
-
-</button>
-
-
-
-<button class="live-channel-btn"
-        data-live-channel="comedymovies">
-
-  <span class="channel-number">
-    CHANNEL 4
-  </span>
-
-  <span class="channel-name">
-    🎬 Comedy Movies
-  </span>
-
-</button>
-
-
-
-<button class="live-channel-btn"
-        data-live-channel="shorts">
-
-  <span class="channel-number">
-    CHANNEL 5
-  </span>
-
-  <span class="channel-name">
-    📱 Entertainment
-  </span>
-
-</button>
-
-
-
-<button class="live-channel-btn"
-        data-live-channel="travel">
-
-  <span class="channel-number">
-    CHANNEL 6
-  </span>
-
-  <span class="channel-name">
-    ✈️ Travel TV
-  </span>
-
-</button>
-
-
-
-<button class="live-channel-btn"
-        data-live-channel="animals">
-
-  <span class="channel-number">
-    CHANNEL 7
-  </span>
-
-  <span class="channel-name">
-    🐘 Animal TV
-  </span>
-
-</button>
-
-
-
-<button class="live-channel-btn"
-        data-live-channel="nature">
-
-  <span class="channel-number">
-    CHANNEL 8
-  </span>
-
-  <span class="channel-name">
-    🌊 Nature &amp; Ocean
-  </span>
-
-</button>
-
-
-
-<button class="live-channel-btn"
-        data-live-channel="politics">
-
-  <span class="channel-number">
-    CHANNEL 9
-  </span>
-
-  <span class="channel-name">
-    📰 U.S. Political News
-  </span>
-
-</button>
-
-
-
-<button class="live-channel-btn"
-        data-live-channel="money">
-
-  <span class="channel-number">
-    CHANNEL 10
-  </span>
-
-  <span class="channel-name">
-    💰 Make Money
-  </span>
-
-</button>
-
-
-
-<button class="live-channel-btn"
-        data-live-channel="technology">
-
-  <span class="channel-number">
-    CHANNEL 11
-  </span>
-
-  <span class="channel-name">
-    🤖 Today's Technology
-  </span>
-
-</button>
-
-
-
-<button class="live-channel-btn"
-        data-live-channel="israelwar">
-
-  <span class="channel-number">
-    CHANNEL 12
-  </span>
-
-  <span class="channel-name">
-    🇮🇱 Israel News &amp; Security
-  </span>
-
-</button>
-
-
-</div>
-
-
-
-<!-- ============================================================
-     VIDEO PLAYER
-     ============================================================ -->
-
-<div class="live-tv-player"
-     id="liveTvContainer">
-
-  <div id="youtubePlayer"></div>
-
-
-  <div id="liveTvOverlay">
-
-    <div>
-
-      <div class="play-circle">
-        ▶
-      </div>
-
-      <div id="liveTvOverlayTitle">
-        ▶ Start Voice of Peace TV
-      </div>
-
-      <div class="overlay-sub">
-        Tap here to start
-      </div>
-
-    </div>
+    <button class="random" onclick="randomSong()">
+      🔀 Random Song
+    </button>
 
   </div>
 
+</section>
+
+<div class="search">
+  <input
+    id="searchBox"
+    type="text"
+    placeholder="Search song or artist..."
+    oninput="filterSongs()"
+  >
 </div>
 
+<div id="songList" class="song-list"></div>
 
+<div class="page-nav">
 
-<!-- ============================================================
-     INFORMATION
-     ============================================================ -->
+  <a class="linkbutton" href="index4.html">
+    ◀ Index 4
+  </a>
 
-<div class="info-card">
+  <a class="linkbutton" href="index.html">
+    🏠 Voice of Peace
+  </a>
 
-  <div id="liveTvCurrent">
-    Voice of Peace Live TV
-  </div>
-
-  <div id="liveTvSource">
-    Tap ▶ to start.
-  </div>
-
-  <div id="liveTvMessage">
-    Select one of the 12 channels above.
-  </div>
-
-
-  <div class="status-row">
-
-    <span id="liveTvStatusBadge">
-      READY
-    </span>
-
-  </div>
-
-
-  <div id="failNotice"
-       class="fail-notice">
-
-    The current YouTube source is unavailable.
-    Voice of Peace is trying another source automatically.
-
-  </div>
+  <a class="linkbutton" href="index6.html">
+    Index 6 ▶
+  </a>
 
 </div>
-
-
-
-<!-- ============================================================
-     CONTROLS
-     ============================================================ -->
-
-<div class="controls">
-
-<button
-  id="liveTvPreviousChannel"
-  class="control-btn">
-
-  ◀ Channel
-
-</button>
-
-
-<button
-  id="liveTvNextChannel"
-  class="control-btn">
-
-  Channel ▶
-
-</button>
-
-
-<button
-  id="liveTvPreviousSource"
-  class="control-btn">
-
-  ◀ Source
-
-</button>
-
-
-<button
-  id="liveTvNextSource"
-  class="control-btn">
-
-  Source ▶
-
-</button>
-
-
-<button
-  id="liveTvPlayPause"
-  class="control-btn pause-btn">
-
-  ⏸ Pause
-
-</button>
-
-
-<button
-  id="liveTvReload"
-  class="control-btn reload-btn">
-
-  ↻ Reload
-
-</button>
-
-
-<button
-  id="liveTvFullscreen"
-  class="control-btn full-btn">
-
-  ⛶ Full Screen
-
-</button>
-
-</div>
-
-
-
-<!-- ============================================================
-     VOLUME
-     ============================================================ -->
-
-<div class="volume-box">
-
-<label>
-🔊 Volume
-</label>
-
-<input
-  type="range"
-  id="volumeControl"
-  min="0"
-  max="100"
-  value="80">
-
-</div>
-
-
-
-<!-- ============================================================
-     USER VIDEO / PLAYLIST
-     ============================================================ -->
-
-<div class="custom-box">
-
-<h2>
-📺 Add Your Own Channel
-</h2>
-
-<p>
-Paste a YouTube video link, YouTube playlist link,
-or an 11-character YouTube video ID.
-</p>
-
-
-<div class="custom-row">
-
-<input
-  id="customYoutube"
-  type="text"
-  placeholder="Paste YouTube link here">
-
-
-<button
-  id="customPlay"
-  class="custom-btn">
-
-  ▶ Play
-
-</button>
-
-</div>
-
-
-<button
-  id="youtubeSearch"
-  class="search-btn">
-
-  🔎 Search YouTube for a Channel
-</button>
-
-</div>
-
-
-</main>
-
-
 
 <footer>
+  <span class="small-heart">♥</span>
+  Camili's Favorite Songs
+  <span class="small-heart">♥</span>
 
-VOICE OF PEACE<br>
-By Emmanuel &amp; Camili Hileah
+  <br><br>
 
+  Voice of Peace • Emmanuel &amp; Camili Hileah
 </footer>
 
-
-
-<!-- ============================================================
-     YOUTUBE API
-     ============================================================ -->
-
-<script src="https://www.youtube.com/iframe_api"></script>
-
-
+</div>
 
 <script>
 
-/* ============================================================
-   VOICE OF PEACE
-   YOUTUBE PLAYER WITH AUTOMATIC SOURCE FAILOVER
-   ============================================================ */
-
-(function(){
-
-"use strict";
-
-
-/* ============================================================
-   CHANNEL DATABASE
-   ============================================================ */
-
-const LIVE_CHANNELS = {
-
-
-israel:{
-
-  number:1,
-
-  title:"🇮🇱 Israel News",
-
-  sources:[
-
-    {
-      name:"ILTV Israel News",
-      videoId:"C2c9aUTW2uE"
-    },
-
-    {
-      name:"ILTV Israel News Backup",
-      videoId:"xiuIidBLeLo"
-    }
-
-  ]
-
-},
-
-
-
-usnews:{
-
-  number:2,
-
-  title:"🇺🇸 U.S. News Live",
-
-  sources:[
-
-    {
-      name:"LiveNOW from FOX",
-      videoId:"sIv6YmBeO3Q"
-    },
-
-    {
-      name:"LiveNOW from FOX 24/7",
-      videoId:"ZvdiJUYGBis"
-    }
-
-  ]
-
-},
-
-
-
-comedy:{
-
-  number:3,
-
-  title:"😂 Comedy TV",
-
-  sources:[
-
-    {
-      name:"Comedy Source 1",
-      videoId:"bc8tqp48hn0"
-    },
-
-    {
-      name:"Comedy Source 2",
-      videoId:"Regx-UUkMQE"
-    }
-
-  ]
-
-},
-
-
-
-comedymovies:{
-
-  number:4,
-
-  title:"🎬 Comedy Movies",
-
-  sources:[
-
-    {
-      name:"Comedy Movies",
-      videoId:"Regx-UUkMQE"
-    },
-
-    {
-      name:"Comedy Backup",
-      videoId:"bc8tqp48hn0"
-    }
-
-  ]
-
-},
-
-
-
-shorts:{
-
-  number:5,
-
-  title:"📱 Entertainment",
-
-  sources:[
-
-    {
-      name:"Entertainment",
-      videoId:"bc8tqp48hn0"
-    },
-
-    {
-      name:"Entertainment Backup",
-      videoId:"Regx-UUkMQE"
-    }
-
-  ]
-
-},
-
-
-
-travel:{
-
-  number:6,
-
-  title:"✈️ Travel TV",
-
-  sources:[
-
-    {
-      name:"Italy 4K",
-      videoId:"6BOgEfHMgrc"
-    },
-
-    {
-      name:"France 4K",
-      videoId:"V48-sl_0HdM"
-    },
-
-    {
-      name:"Switzerland 4K",
-      videoId:"5EcycU41Y3U"
-    }
-
-  ]
-
-},
-
-
-
-animals:{
-
-  number:7,
-
-  title:"🐘 Animal TV",
-
-  sources:[
-
-    {
-      name:"Monterey Bay Open Sea",
-      videoId:"nNTVZKz219U"
-    },
-
-    {
-      name:"Monterey Bay Live Cam",
-      videoId:"fuCeRkeDxtQ"
-    }
-
-  ]
-
-},
-
-
-
-nature:{
-
-  number:8,
-
-  title:"🌊 Nature & Ocean",
-
-  sources:[
-
-    {
-      name:"Monterey Bay",
-      videoId:"nNTVZKz219U"
-    },
-
-    {
-      name:"Ocean Cam",
-      videoId:"fuCeRkeDxtQ"
-    },
-
-    {
-      name:"Earth / ISS",
-      videoId:"sWasdbDVNvc"
-    },
-
-    {
-      name:"Earth HD",
-      videoId:"zPH5KtjJFaQ"
-    }
-
-  ]
-
-},
-
-
-
-politics:{
-
-  number:9,
-
-  title:"📰 U.S. Political News",
-
-  sources:[
-
-    {
-      name:"LiveNOW from FOX",
-      videoId:"sIv6YmBeO3Q"
-    },
-
-    {
-      name:"LiveNOW 24/7 Backup",
-      videoId:"ZvdiJUYGBis"
-    }
-
-  ]
-
-},
-
-
-
-money:{
-
-  number:10,
-
-  title:"💰 Make Money",
-
-  sources:[
-
-    {
-      name:"Business & Investing",
-      videoId:"mdnCJupwzOk"
-    },
-
-    {
-      name:"Business News",
-      videoId:"eMp7_YYcc7c"
-    }
-
-  ]
-
-},
-
-
-
-technology:{
-
-  number:11,
-
-  title:"🤖 Today's Technology",
-
-  sources:[
-
-    {
-      name:"Technology / Space",
-      videoId:"sWasdbDVNvc"
-    },
-
-    {
-      name:"Technology Backup",
-      videoId:"zPH5KtjJFaQ"
-    },
-
-    {
-      name:"Business Technology",
-      videoId:"eMp7_YYcc7c"
-    }
-
-  ]
-
-},
-
-
-
-israelwar:{
-
-  number:12,
-
-  title:"🇮🇱 Israel News & Security",
-
-  sources:[
-
-    {
-      name:"ILTV Israel News",
-      videoId:"C2c9aUTW2uE"
-    },
-
-    {
-      name:"ILTV Backup",
-      videoId:"xiuIidBLeLo"
-    },
-
-    {
-      name:"International Live News Backup",
-      videoId:"ZvdiJUYGBis"
-    }
-
-  ]
-
-}
-
-};
-
-
-
-const CHANNEL_ORDER = [
-
-  "israel",
-  "usnews",
-  "comedy",
-  "comedymovies",
-  "shorts",
-  "travel",
-  "animals",
-  "nature",
-  "politics",
-  "money",
-  "technology",
-  "israelwar"
+const songs = [
+
+["Sorry","Justin Bieber"],
+["Night Changes","One Direction"],
+["Love Story","Taylor Swift"],
+["Evidências","Chitãozinho & Xororó"],
+["Love Yourself","Justin Bieber"],
+["Story of My Life","One Direction"],
+["Enchanted","Taylor Swift"],
+["Amo Noite e Dia","Jorge & Mateus"],
+["Baby","Justin Bieber"],
+["What Makes You Beautiful","One Direction"],
+["Wildest Dreams","Taylor Swift"],
+["Infiel","Marília Mendonça"],
+["Ghost","Justin Bieber"],
+["Perfect","One Direction"],
+["You Belong With Me","Taylor Swift"],
+["Medo Bobo","Maiara & Maraisa"],
+["Peaches","Justin Bieber"],
+["Little Things","One Direction"],
+["Cruel Summer","Taylor Swift"],
+["Propaganda","Jorge & Mateus"],
+["What Do You Mean?","Justin Bieber"],
+["18","One Direction"],
+["Style","Taylor Swift"],
+["Eu Sei de Cor","Marília Mendonça"],
+["Anyone","Justin Bieber"],
+["You & I","One Direction"],
+["Back to December","Taylor Swift"],
+["Cuida Bem Dela","Henrique & Juliano"],
+["Company","Justin Bieber"],
+["Drag Me Down","One Direction"],
+["Delicate","Taylor Swift"],
+["Todo Mundo Vai Sofrer","Marília Mendonça"],
+["Beauty and a Beat","Justin Bieber"],
+["Kiss You","One Direction"],
+["august","Taylor Swift"],
+["Na Hora da Raiva","Henrique & Juliano"],
+["Hold On","Justin Bieber"],
+["If I Could Fly","One Direction"],
+["Anti-Hero","Taylor Swift"],
+["10%","Maiara & Maraisa"],
+["As Long As You Love Me","Justin Bieber"],
+["Strong","One Direction"],
+["cardigan","Taylor Swift"],
+["Seu Polícia","Zé Neto & Cristiano"],
+["Off My Face","Justin Bieber"],
+["Best Song Ever","One Direction"],
+["Daylight","Taylor Swift"],
+["Largado às Traças","Zé Neto & Cristiano"],
+["One Less Lonely Girl","Justin Bieber"],
+["Escrito nas Estrelas","Lauana Prado"]
 
 ];
 
+let currentIndex = 0;
 
+const songList = document.getElementById("songList");
+const currentTitle = document.getElementById("currentTitle");
+const currentArtist = document.getElementById("currentArtist");
 
-/* ============================================================
-   ELEMENTS
-   ============================================================ */
+function renderSongs(filter=""){
 
-const overlay =
-document.getElementById("liveTvOverlay");
+  songList.innerHTML = "";
 
-const overlayTitle =
-document.getElementById("liveTvOverlayTitle");
+  const text = filter.toLowerCase().trim();
 
-const currentLabel =
-document.getElementById("liveTvCurrent");
+  songs.forEach((song,index)=>{
 
-const sourceLabel =
-document.getElementById("liveTvSource");
+    const title = song[0];
+    const artist = song[1];
+    const search = (title+" "+artist).toLowerCase();
 
-const message =
-document.getElementById("liveTvMessage");
+    if(text && !search.includes(text)){
+      return;
+    }
 
-const badge =
-document.getElementById("liveTvStatusBadge");
+    const div = document.createElement("div");
 
-const failNotice =
-document.getElementById("failNotice");
+    div.className =
+      "song" +
+      (index === currentIndex ? " active" : "");
 
-const volumeControl =
-document.getElementById("volumeControl");
+    div.innerHTML = `
+      <span class="number">${index+1}.</span>
+      <span class="song-name">${escapeHTML(title)}</span>
+      <span class="song-artist">${escapeHTML(artist)}</span>
+    `;
 
+    div.onclick = ()=>{
+      selectSong(index);
+    };
 
-
-/* ============================================================
-   STATE
-   ============================================================ */
-
-let ytPlayer = null;
-
-let apiReady = false;
-
-let started = false;
-
-let playing = true;
-
-let sourceIndex = 0;
-
-let failedSources = 0;
-
-let customMode = false;
-
-let currentChannel =
-localStorage.getItem("vop_live_channel")
-|| "israel";
-
-
-if(!LIVE_CHANNELS[currentChannel]){
-
-  currentChannel = "israel";
-
-}
-
-
-
-/* ============================================================
-   STATUS
-   ============================================================ */
-
-function setBadge(text,type){
-
-  badge.textContent = text;
-
-  if(type === "live"){
-
-    badge.style.background =
-    "#087247";
-
-  }
-
-  else if(type === "loading"){
-
-    badge.style.background =
-    "#9b6800";
-
-  }
-
-  else if(type === "error"){
-
-    badge.style.background =
-    "#96303c";
-
-  }
-
-  else{
-
-    badge.style.background =
-    "#385369";
-
-  }
-
-}
-
-
-
-function setMessage(text){
-
-  message.textContent = text;
-
-}
-
-
-
-/* ============================================================
-   BUTTON HIGHLIGHT
-   ============================================================ */
-
-function updateChannelButtons(){
-
-  document
-  .querySelectorAll(".live-channel-btn")
-  .forEach(function(button){
-
-    button.classList.toggle(
-      "active",
-      !customMode &&
-      button.dataset.liveChannel ===
-      currentChannel
-    );
+    songList.appendChild(div);
 
   });
 
 }
 
+function selectSong(index){
 
+  currentIndex = index;
 
-/* ============================================================
-   PLAYER API READY
-   ============================================================ */
+  const song = songs[currentIndex];
 
-window.onYouTubeIframeAPIReady =
-function(){
+  currentTitle.textContent = song[0];
+  currentArtist.textContent = song[1];
 
-  apiReady = true;
+  renderSongs(
+    document.getElementById("searchBox").value
+  );
 
-};
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
+}
 
+function nextSong(){
 
-/* ============================================================
-   CREATE PLAYER
-   ============================================================ */
+  currentIndex++;
 
-function createPlayer(videoId){
-
-  if(!apiReady){
-
-    setBadge(
-      "LOADING PLAYER",
-      "loading"
-    );
-
-    setTimeout(function(){
-
-      createPlayer(videoId);
-
-    },300);
-
-    return;
-
+  if(currentIndex >= songs.length){
+    currentIndex = 0;
   }
 
+  selectSong(currentIndex);
 
-  if(ytPlayer){
+}
 
-    try{
+function previousSong(){
 
-      ytPlayer.destroy();
+  currentIndex--;
 
-    }catch(e){}
-
-    ytPlayer = null;
-
+  if(currentIndex < 0){
+    currentIndex = songs.length - 1;
   }
 
+  selectSong(currentIndex);
 
-  const holder =
-  document.getElementById("youtubePlayer");
+}
 
+function randomSong(){
 
-  holder.innerHTML = "";
+  let newIndex = Math.floor(
+    Math.random() * songs.length
+  );
 
+  if(
+    newIndex === currentIndex &&
+    songs.length > 1
+  ){
+    newIndex = (newIndex + 1) % songs.length;
+  }
 
-  ytPlayer =
-  new YT.Player(
-    "youtubePlayer",
-    {
+  selectSong(newIndex);
 
-      width:"100%",
+}
 
-      height:"100%",
+function playCurrent(){
 
-      videoId:videoId,
+  const song = songs[currentIndex];
 
-      playerVars:{
+  const query =
+    song[0] +
+    " " +
+    song[1] +
+    " official";
 
-        autoplay:1,
+  const url =
+    "https://www.youtube.com/results?search_query=" +
+    encodeURIComponent(query);
 
-        controls:1,
-
-        playsinline:1,
-
-        rel:0,
-
-        modestbranding:1,
-
-        enablejsapi:1,
-
-        origin:
-          location.origin
-            .startsWith("http")
-            ? location.origin
-            : undefined
-
-      },
-
-      events:{
-
-        onReady:onPlayerReady,
-
-        onStateChange:onPlayerStateChange,
-
-        onError:onPlayerError
-
-      }
-
-    }
+  window.open(
+    url,
+    "_blank"
   );
 
 }
 
+function filterSongs(){
 
-
-/* ============================================================
-   READY
-   ============================================================ */
-
-function onPlayerReady(event){
-
-  try{
-
-    event.target.setVolume(
-      Number(volumeControl.value)
-    );
-
-  }catch(e){}
-
-
-  if(started){
-
-    try{
-
-      event.target.playVideo();
-
-    }catch(e){}
-
-  }
-
-}
-
-
-
-/* ============================================================
-   REAL PLAYER STATE
-   ============================================================ */
-
-function onPlayerStateChange(event){
-
-
-  /*
-      YT.PlayerState.PLAYING = 1
-  */
-
-  if(event.data ===
-     YT.PlayerState.PLAYING){
-
-    playing = true;
-
-    failedSources = 0;
-
-    failNotice.classList.remove(
-      "show"
-    );
-
-    setBadge(
-      "● PLAYING",
-      "live"
-    );
-
-    setMessage(
-      "Video is playing."
-    );
-
+  const value =
     document
-    .getElementById(
-      "liveTvPlayPause"
-    )
-    .textContent =
-    "⏸ Pause";
+    .getElementById("searchBox")
+    .value;
 
-  }
-
-
-
-  /*
-      BUFFERING
-  */
-
-  else if(
-    event.data ===
-    YT.PlayerState.BUFFERING
-  ){
-
-    setBadge(
-      "BUFFERING",
-      "loading"
-    );
-
-  }
-
-
-
-  /*
-      ENDED
-      Automatically continue.
-  */
-
-  else if(
-    event.data ===
-    YT.PlayerState.ENDED
-  ){
-
-    setBadge(
-      "VIDEO ENDED",
-      "loading"
-    );
-
-    setMessage(
-      "Video ended. Loading another source..."
-    );
-
-    setTimeout(function(){
-
-      nextSource();
-
-    },700);
-
-  }
-
-
-
-  /*
-      PAUSED
-  */
-
-  else if(
-    event.data ===
-    YT.PlayerState.PAUSED
-  ){
-
-    playing = false;
-
-    setBadge(
-      "PAUSED",
-      "idle"
-    );
-
-    document
-    .getElementById(
-      "liveTvPlayPause"
-    )
-    .textContent =
-    "▶ Play";
-
-  }
+  renderSongs(value);
 
 }
 
+function escapeHTML(value){
 
-
-/* ============================================================
-   YOUTUBE ERROR DETECTION
-
-   2   = bad video ID
-   5   = HTML5 playback issue
-   100 = removed/private
-   101 = embedding forbidden
-   150 = embedding forbidden
-   ============================================================ */
-
-function onPlayerError(event){
-
-  console.log(
-    "YouTube Player Error:",
-    event.data
-  );
-
-
-  setBadge(
-    "SOURCE FAILED",
-    "error"
-  );
-
-
-  failNotice.classList.add(
-    "show"
-  );
-
-
-  if(customMode){
-
-    setMessage(
-      "This YouTube video cannot be played here. " +
-      "It may be private, removed, or blocked from embedding."
-    );
-
-    return;
-
-  }
-
-
-  const channel =
-  LIVE_CHANNELS[currentChannel];
-
-
-  failedSources++;
-
-
-  if(
-    failedSources <
-    channel.sources.length
-  ){
-
-    setMessage(
-      "This source is unavailable. " +
-      "Trying the next source automatically..."
-    );
-
-
-    setTimeout(function(){
-
-      sourceIndex++;
-
-      if(
-        sourceIndex >=
-        channel.sources.length
-      ){
-
-        sourceIndex = 0;
-
-      }
-
-      loadCurrentSource();
-
-    },1200);
-
-  }
-
-  else{
-
-    setBadge(
-      "CHANNEL UNAVAILABLE",
-      "error"
-    );
-
-    setMessage(
-      "All programmed sources for this channel are currently unavailable. " +
-      "Try another channel or use the YouTube search below."
-    );
-
-  }
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 
 }
 
+renderSongs();
 
-
-/* ============================================================
-   LOAD CHANNEL SOURCE
-   ============================================================ */
-
-function loadCurrentSource(){
-
-  customMode = false;
-
-  updateChannelButtons();
-
-
-  const channel =
-  LIVE_CHANNELS[currentChannel];
-
-
-  localStorage.setItem(
-    "vop_live_channel",
-    currentChannel
-  );
-
-
-  if(!channel.sources.length){
-
-    setBadge(
-      "NO SOURCE",
-      "error"
-    );
-
-    setMessage(
-      "No sources have been programmed."
-    );
-
-    return;
-
-  }
-
-
-  if(
-    sourceIndex >=
-    channel.sources.length
-  ){
-
-    sourceIndex = 0;
-
-  }
-
-
-  if(sourceIndex < 0){
-
-    sourceIndex =
-    channel.sources.length - 1;
-
-  }
-
-
-  const source =
-  channel.sources[sourceIndex];
-
-
-  currentLabel.textContent =
-  "Channel " +
-  channel.number +
-  " — " +
-  channel.title;
-
-
-  sourceLabel.textContent =
-  source.name +
-  " • Source " +
-  (sourceIndex + 1) +
-  " of " +
-  channel.sources.length;
-
-
-  setBadge(
-    "CONNECTING",
-    "loading"
-  );
-
-
-  setMessage(
-    "Connecting to " +
-    source.name +
-    "..."
-  );
-
-
-  failNotice.classList.remove(
-    "show"
-  );
-
-
-  createPlayer(
-    source.videoId
-  );
-
-}
-
-
-
-/* ============================================================
-   NEXT SOURCE
-   ============================================================ */
-
-function nextSource(){
-
-  if(customMode){
-    return;
-  }
-
-
-  const channel =
-  LIVE_CHANNELS[currentChannel];
-
-
-  sourceIndex++;
-
-
-  if(
-    sourceIndex >=
-    channel.sources.length
-  ){
-
-    sourceIndex = 0;
-
-  }
-
-
-  failedSources = 0;
-
-  loadCurrentSource();
-
-}
-
-
-
-/* ============================================================
-   PREVIOUS SOURCE
-   ============================================================ */
-
-function previousSource(){
-
-  if(customMode){
-    return;
-  }
-
-
-  const channel =
-  LIVE_CHANNELS[currentChannel];
-
-
-  sourceIndex--;
-
-
-  if(sourceIndex < 0){
-
-    sourceIndex =
-    channel.sources.length - 1;
-
-  }
-
-
-  failedSources = 0;
-
-  loadCurrentSource();
-
-}
-
-
-
-/* ============================================================
-   CHANGE CHANNEL
-   ============================================================ */
-
-function changeChannel(direction){
-
-  let index =
-  CHANNEL_ORDER.indexOf(
-    currentChannel
-  );
-
-
-  if(index < 0){
-    index = 0;
-  }
-
-
-  index =
-  (
-    index +
-    direction +
-    CHANNEL_ORDER.length
-  )
-  %
-  CHANNEL_ORDER.length;
-
-
-  currentChannel =
-  CHANNEL_ORDER[index];
-
-
-  sourceIndex = 0;
-
-  failedSources = 0;
-
-  customMode = false;
-
-  started = true;
-
-
-  overlay.classList.add(
-    "hidden"
-  );
-
-
-  loadCurrentSource();
-
-}
-
-
-
-/* ============================================================
-   CHANNEL BUTTON CLICK
-   ============================================================ */
-
-document
-.querySelectorAll(".live-channel-btn")
-.forEach(function(button){
-
-  button.addEventListener(
-    "click",
-    function(){
-
-      currentChannel =
-      button.dataset.liveChannel;
-
-      sourceIndex = 0;
-
-      failedSources = 0;
-
-      customMode = false;
-
-      started = true;
-
-      overlay.classList.add(
-        "hidden"
-      );
-
-      loadCurrentSource();
-
-    }
-  );
-
-});
-
-
-
-/* ============================================================
-   START TV
-   ============================================================ */
-
-overlay.addEventListener(
-  "click",
-  function(){
-
-    started = true;
-
-    failedSources = 0;
-
-    overlay.classList.add(
-      "hidden"
-    );
-
-    loadCurrentSource();
-
-  }
-);
-
-
-
-/* ============================================================
-   CHANNEL NAVIGATION
-   ============================================================ */
-
-document
-.getElementById(
-  "liveTvNextChannel"
-)
-.addEventListener(
-  "click",
-  function(){
-
-    changeChannel(1);
-
-  }
-);
-
-
-document
-.getElementById(
-  "liveTvPreviousChannel"
-)
-.addEventListener(
-  "click",
-  function(){
-
-    changeChannel(-1);
-
-  }
-);
-
-
-
-/* ============================================================
-   SOURCE NAVIGATION
-   ============================================================ */
-
-document
-.getElementById(
-  "liveTvNextSource"
-)
-.addEventListener(
-  "click",
-  function(){
-
-    nextSource();
-
-  }
-);
-
-
-document
-.getElementById(
-  "liveTvPreviousSource"
-)
-.addEventListener(
-  "click",
-  function(){
-
-    previousSource();
-
-  }
-);
-
-
-
-/* ============================================================
-   PLAY / PAUSE
-   ============================================================ */
-
-document
-.getElementById(
-  "liveTvPlayPause"
-)
-.addEventListener(
-  "click",
-  function(){
-
-    if(!ytPlayer){
-      return;
-    }
-
-
-    if(playing){
-
-      try{
-
-        ytPlayer.pauseVideo();
-
-      }catch(e){}
-
-    }
-
-    else{
-
-      try{
-
-        ytPlayer.playVideo();
-
-      }catch(e){}
-
-    }
-
-  }
-);
-
-
-
-/* ============================================================
-   RELOAD
-   ============================================================ */
-
-document
-.getElementById(
-  "liveTvReload"
-)
-.addEventListener(
-  "click",
-  function(){
-
-    failedSources = 0;
-
-
-    if(customMode){
-
-      try{
-
-        ytPlayer.playVideo();
-
-      }catch(e){}
-
-    }
-
-    else{
-
-      loadCurrentSource();
-
-    }
-
-  }
-);
-
-
-
-/* ============================================================
-   VOLUME
-   ============================================================ */
-
-volumeControl.addEventListener(
-  "input",
-  function(){
-
-    if(!ytPlayer){
-      return;
-    }
-
-
-    try{
-
-      ytPlayer.setVolume(
-        Number(this.value)
-      );
-
-    }catch(e){}
-
-  }
-);
-
-
-
-/* ============================================================
-   FULL SCREEN
-   ============================================================ */
-
-document
-.getElementById(
-  "liveTvFullscreen"
-)
-.addEventListener(
-  "click",
-  function(){
-
-    const container =
-    document.getElementById(
-      "liveTvContainer"
-    );
-
-
-    if(
-      container.requestFullscreen
-    ){
-
-      container
-      .requestFullscreen()
-      .catch(function(){});
-
-    }
-
-    else if(
-      container.webkitRequestFullscreen
-    ){
-
-      container
-      .webkitRequestFullscreen();
-
-    }
-
-    else{
-
-      const iframe =
-      container.querySelector(
-        "iframe"
-      );
-
-
-      if(
-        iframe &&
-        iframe.webkitEnterFullscreen
-      ){
-
-        iframe.webkitEnterFullscreen();
-
-      }
-
-    }
-
-  }
-);
-
-
-
-/* ============================================================
-   EXTRACT YOUTUBE VIDEO ID
-   ============================================================ */
-
-function getVideoId(input){
-
-  input =
-  input.trim();
-
-
-  /*
-     Plain YouTube ID
-  */
-
-  if(
-    /^[A-Za-z0-9_-]{11}$/
-    .test(input)
-  ){
-
-    return input;
-
-  }
-
-
-  try{
-
-    const url =
-    new URL(input);
-
-
-    /*
-       youtube.com/watch?v=
-    */
-
-    const v =
-    url.searchParams.get("v");
-
-
-    if(
-      v &&
-      /^[A-Za-z0-9_-]{11}$/
-      .test(v)
-    ){
-
-      return v;
-
-    }
-
-
-    /*
-       youtu.be/VIDEO
-    */
-
-    if(
-      url.hostname.includes(
-        "youtu.be"
-      )
-    ){
-
-      const id =
-      url.pathname
-      .split("/")
-      .filter(Boolean)[0];
-
-
-      if(
-        id &&
-        /^[A-Za-z0-9_-]{11}$/
-        .test(id)
-      ){
-
-        return id;
-
-      }
-
-    }
-
-
-    /*
-       youtube.com/embed/VIDEO
-       youtube.com/shorts/VIDEO
-       youtube.com/live/VIDEO
-    */
-
-    const parts =
-    url.pathname
-    .split("/")
-    .filter(Boolean);
-
-
-    for(
-      let i=0;
-      i<parts.length;
-      i++
-    ){
-
-      if(
-        /^[A-Za-z0-9_-]{11}$/
-        .test(parts[i])
-      ){
-
-        return parts[i];
-
-      }
-
-    }
-
-  }
-
-  catch(e){}
-
-
-  return null;
-
-}
-
-
-
-/* ============================================================
-   EXTRACT PLAYLIST ID
-   ============================================================ */
-
-function getPlaylistId(input){
-
-  try{
-
-    const url =
-    new URL(input.trim());
-
-
-    return (
-      url.searchParams.get("list")
-      || null
-    );
-
-  }
-
-  catch(e){
-
-    return null;
-
-  }
-
-}
-
-
-
-/* ============================================================
-   CUSTOM YOUTUBE PLAYER
-   ============================================================ */
-
-document
-.getElementById(
-  "customPlay"
-)
-.addEventListener(
-  "click",
-  function(){
-
-    const input =
-    document
-    .getElementById(
-      "customYoutube"
-    )
-    .value
-    .trim();
-
-
-    if(!input){
-
-      alert(
-        "Paste a YouTube video or playlist link first."
-      );
-
-      return;
-
-    }
-
-
-    const videoId =
-    getVideoId(input);
-
-
-    const playlistId =
-    getPlaylistId(input);
-
-
-    started = true;
-
-    customMode = true;
-
-    failedSources = 0;
-
-    overlay.classList.add(
-      "hidden"
-    );
-
-    updateChannelButtons();
-
-
-    currentLabel.textContent =
-    "📺 Your YouTube Channel";
-
-
-    failNotice.classList.remove(
-      "show"
-    );
-
-
-    /*
-       PLAYLIST
-    */
-
-    if(
-      playlistId &&
-      !videoId
-    ){
-
-      sourceLabel.textContent =
-      "Custom YouTube Playlist";
-
-
-      setBadge(
-        "CONNECTING",
-        "loading"
-      );
-
-
-      setMessage(
-        "Loading your playlist..."
-      );
-
-
-      if(!apiReady){
-
-        setTimeout(
-          function(){
-
-            document
-            .getElementById(
-              "customPlay"
-            )
-            .click();
-
-          },
-          500
-        );
-
-        return;
-
-      }
-
-
-      if(ytPlayer){
-
-        try{
-          ytPlayer.destroy();
-        }catch(e){}
-
-        ytPlayer = null;
-
-      }
-
-
-      document
-      .getElementById(
-        "youtubePlayer"
-      )
-      .innerHTML = "";
-
-
-      ytPlayer =
-      new YT.Player(
-        "youtubePlayer",
-        {
-
-          width:"100%",
-
-          height:"100%",
-
-          playerVars:{
-
-            autoplay:1,
-
-            playsinline:1,
-
-            controls:1,
-
-            listType:"playlist",
-
-            list:playlistId
-
-          },
-
-          events:{
-
-            onReady:onPlayerReady,
-
-            onStateChange:
-            onPlayerStateChange,
-
-            onError:
-            onPlayerError
-
-          }
-
-        }
-      );
-
-
-      return;
-
-    }
-
-
-    /*
-       VIDEO
-    */
-
-    if(videoId){
-
-      sourceLabel.textContent =
-      "Custom YouTube Video";
-
-
-      setBadge(
-        "CONNECTING",
-        "loading"
-      );
-
-
-      setMessage(
-        "Loading your video..."
-      );
-
-
-      createPlayer(
-        videoId
-      );
-
-
-      return;
-
-    }
-
-
-    alert(
-      "I could not recognize that YouTube link. " +
-      "Paste a YouTube video or playlist URL."
-    );
-
-  }
-);
-
-
-
-/* ============================================================
-   SEARCH YOUTUBE
-   ============================================================ */
-
-document
-.getElementById(
-  "youtubeSearch"
-)
-.addEventListener(
-  "click",
-  function(){
-
-    const search =
-    prompt(
-      "What would you like to watch?"
-    );
-
-
-    if(!search){
-      return;
-    }
-
-
-    window.open(
-      "https://www.youtube.com/results?search_query=" +
-      encodeURIComponent(search),
-      "_blank"
-    );
-
-  }
-);
-
-
-
-/* ============================================================
-   INITIAL SCREEN
-   ============================================================ */
-
-updateChannelButtons();
-
-
-const starting =
-LIVE_CHANNELS[currentChannel];
-
-
-currentLabel.textContent =
-"Channel " +
-starting.number +
-" — " +
-starting.title;
-
-
-sourceLabel.textContent =
-"Tap ▶ to start Voice of Peace Live TV.";
-
-
-overlayTitle.textContent =
-"▶ Start " +
-starting.title;
-
-
-setBadge(
-  "READY",
-  "idle"
-);
-
-
-})();
 </script>
-
 
 </body>
 </html>

@@ -2,758 +2,1934 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Voice of Peace - Live news, video reports and messages of peace.">
-<title>Voice of Peace Live TV</title>
-<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>Voice of Peace TV</title>
+
+<meta
+  name="description"
+  content="Voice of Peace - Live TV, news, Jewish learning, history, health, business and entertainment."
+>
+
+<meta name="theme-color" content="#02182e">
 
 <style>
-*{box-sizing:border-box}
-:root{
-  --bg:#01162b;--bg2:#052d52;--card:#062746;--card2:#031a31;
-  --border:#225a83;--blue:#159be6;--cyan:#4bd0ff;--gold:#ffd34f;
-  --red:#df3343;--green:#11ba5d;--white:#fff;--muted:#b9cfdf;
+*{
+  box-sizing:border-box;
 }
-html,body{margin:0;min-height:100%}
+
+html,body{
+  margin:0;
+  min-height:100%;
+}
+
 body{
-  font-family:Arial,Helvetica,sans-serif;color:#fff;
-  background:radial-gradient(circle at top,#135181 0%,#062d52 30%,#02182e 70%,#010b17 100%)
+  font-family:Arial,Helvetica,sans-serif;
+  color:#fff;
+  background:
+    radial-gradient(circle at top,#0d5689 0%,#062d52 32%,#02182e 67%,#010b15 100%);
 }
+
+button,input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.wrap{
+  width:min(1100px,96%);
+  margin:auto;
+  padding:18px 0 40px;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
 .header{
-  position:sticky;top:0;z-index:1000;
-  display:flex;justify-content:space-between;align-items:center;
-  padding:17px 4%;
-  background:linear-gradient(90deg,#011529,#063a64,#011529);
-  border-bottom:2px solid #1c5a89;
-  box-shadow:0 5px 25px #0008
+  text-align:center;
+  margin-bottom:18px;
 }
-.small-title{color:var(--cyan);font-size:10px;letter-spacing:5px;font-weight:900}
-.brand h1{margin:4px 0;font-size:clamp(25px,3vw,42px);line-height:1}
-.byline{color:var(--gold);font-size:12px;font-weight:700}
-.status-badge{padding:9px 17px;border-radius:30px;font-size:12px;font-weight:900}
-.status-badge.live{background:var(--green)}
-.status-badge.connecting{background:#c58e16}
-.status-badge.offline{background:#b62d3b}
-.news-strip{display:flex;min-height:43px;background:#031c35;border-bottom:1px solid #28577a}
-.news-strip-label{display:flex;align-items:center;padding:0 18px;background:var(--red);font-size:11px;font-weight:900;white-space:nowrap}
-.news-strip-text{display:flex;align-items:center;flex:1;padding:0 15px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:13px;font-weight:800}
-.main-content{width:min(1400px,96%);margin:auto;padding:24px 0 40px}
-.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:20px}
-.media-panel{min-height:500px;position:relative;overflow:hidden;border:1px solid var(--border);border-radius:20px;background:#000;box-shadow:0 18px 50px #0008}
-.photo-section{position:absolute;inset:0}
-.family-photo,.story-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.family-photo{z-index:1;opacity:.85}
-.story-image{z-index:2}
-.media-gradient{position:absolute;z-index:3;inset:auto 0 0;padding:75px 18px 18px;background:linear-gradient(transparent,rgba(0,10,22,.95))}
-.live-label{display:inline-block;padding:6px 10px;border-radius:5px;background:var(--red);font-size:11px;font-weight:900}
-.story-side{display:flex;flex-direction:column;gap:13px}
-.card{background:linear-gradient(145deg,#082e51,#03182e);border:1px solid var(--border);border-radius:17px;box-shadow:0 12px 35px #0005}
-.story-card{padding:25px}
-.category{color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase}
-.headline{margin:10px 0 15px;font-size:clamp(26px,3vw,41px);line-height:1.12}
-.summary{color:#d7e8f5;font-size:16px;line-height:1.6}
-.read-more{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;padding:11px 18px;border:1px solid #52c7ff;border-radius:8px;background:linear-gradient(#169de9,#086cb5);color:#fff;text-decoration:none;font-size:14px;font-weight:900;cursor:pointer}
-.info-card{padding:17px 20px}
-.section-label{color:var(--cyan);font-size:10px;font-weight:900;letter-spacing:2px;margin-bottom:8px}
-.source-line{color:#d4e4ef;font-size:13px;line-height:1.5}
-.verse{color:var(--gold);font-weight:900;margin-bottom:8px}
-.reflection{margin:0;color:#d4e4ef;line-height:1.6}
 
-/* HEYGEN */
-.presenter-video{
-  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  z-index:6;background:#000;display:none
+.header .kicker{
+  color:#53d7ff;
+  font-weight:900;
+  letter-spacing:4px;
+  font-size:12px;
 }
-.presenter-video.show{display:block}
-.presenter-badge{
-  position:absolute;z-index:7;left:16px;top:16px;padding:7px 11px;
-  border-radius:7px;background:#df3343;font-size:11px;font-weight:900;
-  letter-spacing:1px;display:none
-}
-.presenter-badge.show{display:block}
-.presenter-card{padding:18px 20px}
-.presenter-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-.presenter-title strong{color:var(--gold);font-size:17px}
-.presenter-status{color:#cfe6f5;font-size:12px;line-height:1.5;margin:8px 0 12px}
-.presenter-actions{display:flex;gap:8px;flex-wrap:wrap}
-.presenter-actions button{
-  border:1px solid #4c91bf;border-radius:8px;background:#0b5689;color:#fff;
-  padding:10px 13px;font-weight:900;cursor:pointer
-}
-.presenter-actions .present-now{background:#b52534;border-color:#ff6c78}
-.presenter-actions .show-image{background:#0b416c}
 
-/* 12 LIVE TV CHANNELS */
-.live-tv-section{margin-top:30px}
-.live-tv-card{padding:20px}
-.live-tv-heading{
-  display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px
+.header h1{
+  margin:6px 0 2px;
+  font-size:clamp(30px,7vw,60px);
 }
-.live-tv-heading h2{margin:0;font-size:clamp(25px,3vw,36px)}
-.live-tv-status{
-  padding:7px 12px;border-radius:999px;background:#0c7c49;
-  font-size:11px;font-weight:900
-}
-.live-channel-grid{
-  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:10px;margin-bottom:18px
-}
-.live-channel-btn{
-  min-height:82px;border:1px solid #397da9;border-radius:12px;
-  background:linear-gradient(145deg,#0a416b,#041d36);color:#fff;
-  padding:12px 8px;cursor:pointer;font-weight:900;transition:.2s
-}
-.live-channel-btn:hover{transform:translateY(-2px);border-color:#4bd0ff}
-.live-channel-btn.active{
-  border:2px solid #ffd34f;background:linear-gradient(145deg,#126ba3,#07345b);
-  box-shadow:0 0 0 3px #ffd34f25
-}
-.live-channel-number{display:block;color:#ffd34f;font-size:11px;margin-bottom:6px}
-.live-channel-name{display:block;font-size:13px;line-height:1.25}
-.live-tv-player{
-  position:relative;width:100%;aspect-ratio:16/9;background:#000;
-  overflow:hidden;border-radius:14px;border:1px solid #31739f
-}
-#liveTvPlayer{position:absolute;inset:0;width:100%;height:100%;border:0}
-.live-tv-overlay{
-  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
-  flex-direction:column;text-align:center;background:radial-gradient(circle,#15517f,#03172c);
-  padding:20px;z-index:4;cursor:pointer
-}
-.live-tv-overlay.hidden{display:none}
-.live-tv-play{font-size:65px;color:#ff3d4f}
-.live-tv-info{
-  margin-top:13px;padding:13px;border-radius:10px;background:#041d35;border:1px solid #28577a
-}
-.live-tv-current{font-size:20px;font-weight:900;color:#fff}
-.live-tv-source{margin-top:5px;color:#4bd0ff;font-size:13px}
-.live-tv-message{margin-top:7px;color:#b9cfdf;font-size:12px}
-.live-tv-controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.live-tv-controls button{
-  border:1px solid #4688b5;background:#0b5689;color:white;border-radius:8px;
-  padding:10px 14px;font-weight:900;cursor:pointer
-}
-.live-tv-controls button:hover{background:#1474ad}
-.live-tv-controls .live-tv-red{background:#a72131;border-color:#ff6572}
-.live-tv-volume{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px;padding:10px 12px;border:1px solid #225a83;border-radius:12px;background:#031a31}
-.live-tv-volume input{flex:1;min-width:180px}.live-tv-volume strong{color:#ffd34f;min-width:46px;text-align:right}
-.live-tv-custom{margin-top:14px;padding:14px;border:1px solid #225a83;border-radius:14px;background:#031a31}.live-tv-custom h3{margin:0 0 8px}.live-tv-searchrow{display:grid;grid-template-columns:1fr auto auto;gap:8px}.live-tv-searchrow input{min-width:0;padding:13px;border-radius:10px;border:1px solid #4d8bb2;font-size:16px}.live-tv-searchrow button{border:1px solid #4d8bb2;border-radius:10px;padding:11px 13px;background:#0b5f91;color:#fff;font-weight:800}.live-tv-searchrow .playurl{background:#087247}@media(max-width:650px){.live-tv-searchrow{grid-template-columns:1fr 1fr}.live-tv-searchrow input{grid-column:1/-1}}
-.channel-note{
-  margin-top:14px;padding:12px;border-radius:10px;background:#062541;
-  border:1px solid #28597c;color:#b9cfdf;font-size:12px;line-height:1.5
-}
-.peace-message{margin-top:28px;padding:15px;text-align:center;color:var(--gold);border-top:1px solid #806925;border-bottom:1px solid #806925;font-weight:900}
-.footer{text-align:center;padding:25px;color:#7e9bb1;font-size:12px}
 
-@media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr}
-  .media-panel{min-height:430px}
-  .live-channel-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.header .byline{
+  color:#ffd34f;
+  font-weight:800;
+  font-size:16px;
 }
-@media(max-width:600px){
-  .live-channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .live-channel-btn{min-height:74px}
+
+.peace{
+  margin:10px auto 0;
+  color:#d6edf8;
+  font-size:14px;
+  line-height:1.5;
+  max-width:760px;
 }
-@media(max-width:550px){
-  .header{padding:13px 15px}
-  .brand h1{font-size:23px}
-  .media-panel{min-height:320px}
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:12px 0 16px;
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 13px;
+  border:1px solid #2d709d;
+  border-radius:999px;
+  background:#062746;
+  font-weight:800;
+  font-size:13px;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#20da75;
+  box-shadow:0 0 12px #20da75;
+}
+
+#dbStatus.offline .dot{
+  background:#ffd34f;
+  box-shadow:0 0 12px #ffd34f;
+}
+
+/* =========================================
+   PLAYER
+========================================= */
+
+.player-card{
+  border:1px solid #245f89;
+  background:#031a31;
+  border-radius:22px;
+  overflow:hidden;
+  box-shadow:0 18px 50px rgba(0,0,0,.35);
+}
+
+.player-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:12px 15px;
+  background:#062746;
+  border-bottom:1px solid #245f89;
+}
+
+.player-title{
+  min-width:0;
+}
+
+.player-title small{
+  display:block;
+  color:#4bd0ff;
+  font-weight:800;
+  margin-bottom:3px;
+}
+
+.player-title strong{
+  display:block;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  font-size:18px;
+}
+
+.live-tag{
+  flex:none;
+  background:#df3343;
+  padding:7px 10px;
+  border-radius:9px;
+  font-weight:900;
+  font-size:12px;
+}
+
+.video-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  background:#000;
+}
+
+#youtubePlayer,
+#genericPlayer{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+#genericPlayer{
+  display:none;
+}
+
+.player-message{
+  display:none;
+  position:absolute;
+  inset:0;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+  background:linear-gradient(rgba(0,0,0,.78),rgba(0,0,0,.88));
+  color:#fff;
+  font-weight:700;
+  line-height:1.5;
+  z-index:5;
+}
+
+/* =========================================
+   CONTROLS
+========================================= */
+
+.controls{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:8px;
+  padding:12px;
+  background:#041e37;
+}
+
+.control{
+  border:1px solid #2b6d99;
+  color:#fff;
+  background:#08375d;
+  border-radius:12px;
+  padding:12px 8px;
+  font-weight:800;
+}
+
+.control:hover{
+  background:#0c4d7e;
+}
+
+/* =========================================
+   CHANNEL BUTTONS
+========================================= */
+
+.section-title{
+  margin:24px 0 11px;
+  text-align:center;
+  font-size:24px;
+}
+
+.channels{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+}
+
+.channel-btn{
+  border:1px solid #2d709d;
+  background:linear-gradient(180deg,#0c4e7d,#062c4f);
+  color:white;
+  min-height:78px;
+  border-radius:15px;
+  padding:10px;
+  font-weight:900;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:4px;
+}
+
+.channel-btn span{
+  color:#65ddff;
+  font-size:12px;
+}
+
+.channel-btn.active{
+  outline:3px solid #ffd34f;
+  background:linear-gradient(180deg,#12669e,#09436d);
+}
+
+/* =========================================
+   CUSTOM VIDEO SEARCH
+========================================= */
+
+.custom-box{
+  margin-top:22px;
+  border:1px solid #255f89;
+  background:#052441;
+  border-radius:18px;
+  padding:16px;
+}
+
+.custom-box h3{
+  margin:0 0 9px;
+}
+
+.custom-row{
+  display:flex;
+  gap:8px;
+}
+
+.custom-row input{
+  flex:1;
+  min-width:0;
+  border:1px solid #347aa7;
+  color:#fff;
+  background:#02182e;
+  border-radius:12px;
+  padding:13px;
+}
+
+.custom-row button{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  font-weight:900;
+  background:#ffd34f;
+  color:#071625;
+}
+
+/* =========================================
+   DONATION + LINKS
+========================================= */
+
+.action-grid{
+  margin-top:22px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.big-link{
+  display:flex;
+  min-height:66px;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  text-decoration:none;
+  border-radius:16px;
+  font-size:19px;
+  font-weight:900;
+  padding:12px;
+}
+
+.donate{
+  background:#ffd34f;
+  color:#15222b;
+}
+
+.synagogue{
+  background:#1676bc;
+  color:#fff;
+}
+
+/* =========================================
+   PAGE NAVIGATION
+========================================= */
+
+.page-nav{
+  margin-top:22px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.page-nav a{
+  text-decoration:none;
+  background:#062746;
+  color:#fff;
+  border:1px solid #2d709d;
+  border-radius:10px;
+  padding:9px 12px;
+  font-weight:800;
+}
+
+.page-nav a:hover{
+  background:#0c4e7d;
+}
+
+/* =========================================
+   ADMIN
+========================================= */
+
+.admin-card{
+  margin-top:25px;
+  border:1px solid #245f89;
+  background:#031a31;
+  border-radius:18px;
+  overflow:hidden;
+}
+
+.admin-toggle{
+  width:100%;
+  border:0;
+  background:#062746;
+  color:#fff;
+  padding:15px;
+  font-weight:900;
+  font-size:17px;
+}
+
+.admin-panel{
+  display:none;
+  padding:16px;
+}
+
+.admin-panel.open{
+  display:block;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.form-grid input,
+.form-grid select{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #347aa7;
+  background:#02182e;
+  color:#fff;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.save-btn{
+  grid-column:1/-1;
+  border:0;
+  border-radius:12px;
+  padding:14px;
+  background:#18b765;
+  color:#fff;
+  font-weight:900;
+}
+
+.admin-note{
+  color:#b9cfdf;
+  font-size:13px;
+  line-height:1.5;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.footer{
+  text-align:center;
+  color:#aac5d8;
+  margin-top:28px;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.memorial{
+  margin:22px auto 0;
+  max-width:900px;
+  text-align:center;
+  direction:rtl;
+  border:1px solid #b99732;
+  color:#fff2b0;
+  background:rgba(61,45,0,.28);
+  border-radius:15px;
+  padding:13px;
+  font-size:16px;
+  line-height:1.6;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:800px){
+
+  .channels{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .controls{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .full,
+  .save-btn{
+    grid-column:auto;
+  }
+}
+
+@media(max-width:540px){
+
+  .action-grid{
+    grid-template-columns:1fr;
+  }
+
+  .custom-row{
+    flex-direction:column;
+  }
+
+  .controls{
+    grid-template-columns:repeat(2,1fr);
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header class="header">
-  <div class="brand">
-    <div class="small-title">THIS IS THE</div>
-    <h1>VOICE OF PEACE</h1>
-    <div class="byline">By Emmanuel &amp; Camili Hileah</div>
-  </div>
-  <div id="liveStatus" class="status-badge connecting">CONNECTING</div>
-</header>
+<div class="wrap">
 
-<div class="news-strip">
-  <div class="news-strip-label">BREAKING NEWS</div>
-  <div id="newsStripText" class="news-strip-text">Voice of Peace is connecting to live news...</div>
-</div>
+  <!-- HEADER -->
+  <header class="header">
 
-<main class="main-content">
+    <div class="kicker">
+      PEACE • TRUTH • ISRAEL
+    </div>
 
-  <div class="hero-grid">
+    <h1>
+      VOICE OF PEACE
+    </h1>
 
-    <section class="media-panel">
-      <div class="photo-section">
-        <img src="many.jpeg" class="family-photo" alt="Voice of Peace">
-        <img id="storyImage" class="story-image" alt="News story">
-        <video id="presenterVideo" class="presenter-video" playsinline controls autoplay preload="auto"></video>
-        <div id="presenterBadge" class="presenter-badge">● AI PRESENTER — EMMANUEL</div>
-        <div class="media-gradient"><span class="live-label">● LIVE WORLD NEWS</span></div>
-      </div>
-    </section>
+    <div class="byline">
+      By Emmanuel &amp; Camili Hileah
+    </div>
 
-    <div class="story-side">
+    <div class="peace">
+      News, Jewish learning, history, health, discovery, business,
+      entertainment and messages promoting peace.
+    </div>
 
-      <section class="card story-card">
-        <div id="category" class="category">Voice of Peace</div>
-        <h2 id="headline" class="headline">Connecting to live news...</h2>
-        <p id="summary" class="summary">Loading current reports...</p>
-        <a id="storyLink" class="read-more" href="#">📖 Read Full Story</a>
-      </section>
+  </header>
 
-      <section class="card info-card">
-        <div class="section-label">REPORTING</div>
-        <div id="sourceLine" class="source-line">Connecting...</div>
-      </section>
 
-      <section class="card info-card">
-        <div class="section-label">VOICE OF PEACE REFLECTION</div>
-        <div id="verse" class="verse"></div>
-        <p id="reflection" class="reflection"></p>
-      </section>
+  <!-- DATABASE STATUS -->
+  <div class="status-row">
 
-      <section class="card presenter-card">
-        <div class="presenter-title">
-          <strong>🎙 AI PRESENTER — EMMANUEL</strong>
-          <span class="live-label">HEYGEN</span>
-        </div>
-
-        <div id="presenterStatus" class="presenter-status">
-          HeyGen remains connected through your existing Supabase function.
-        </div>
-
-        <div class="presenter-actions">
-          <button id="presentStoryBtn" class="present-now" type="button">🎬 PRESENT THIS STORY</button>
-          <button id="showStoryImageBtn" class="show-image" type="button">🖼 SHOW NEWS IMAGE</button>
-        </div>
-      </section>
-
+    <div id="dbStatus" class="badge offline">
+      <span class="dot"></span>
+      <span id="dbStatusText">
+        Connecting to Voice of Peace
+      </span>
     </div>
 
   </div>
 
 
-  <section id="liveTvSection" class="live-tv-section">
-    <div class="card live-tv-card">
+  <!-- PLAYER -->
+  <section class="player-card">
 
-      <div class="live-tv-heading">
-        <h2>📺 Voice of Peace Live TV</h2>
-        <div id="liveTvStatusBadge" class="live-tv-status">● LIVE</div>
-      </div>
+    <div class="player-top">
 
-      <div class="live-channel-grid">
+      <div class="player-title">
 
-        <button class="live-channel-btn active" data-live-channel="israel" type="button">
-          <span class="live-channel-number">CHANNEL 1</span>
-          <span class="live-channel-name">🇮🇱 Israel News Live</span>
-        </button>
+        <small>
+          NOW PLAYING
+        </small>
 
-        <button class="live-channel-btn" data-live-channel="usnews" type="button">
-          <span class="live-channel-number">CHANNEL 2</span>
-          <span class="live-channel-name">🇺🇸 U.S. News Live</span>
-        </button>
-
-        <button class="live-channel-btn" data-live-channel="comedy" type="button">
-          <span class="live-channel-number">CHANNEL 3</span>
-          <span class="live-channel-name">😂 Comedy TV</span>
-        </button>
-
-        <button class="live-channel-btn" data-live-channel="comedymovies" type="button">
-          <span class="live-channel-number">CHANNEL 4</span>
-          <span class="live-channel-name">🎬 Comedy Movies</span>
-        </button>
-
-        <button class="live-channel-btn" data-live-channel="shorts" type="button">
-          <span class="live-channel-number">CHANNEL 5</span>
-          <span class="live-channel-name">📱 Shorts TV</span>
-        </button>
-
-        <button class="live-channel-btn" data-live-channel="travel" type="button">
-          <span class="live-channel-number">CHANNEL 6</span>
-          <span class="live-channel-name">✈️ Travel TV</span>
-        </button>
-
-        <button class="live-channel-btn" data-live-channel="animals" type="button">
-          <span class="live-channel-number">CHANNEL 7</span>
-          <span class="live-channel-name">🐘 Animal TV</span>
-        </button>
-
-        <button class="live-channel-btn" data-live-channel="nature" type="button">
-          <span class="live-channel-number">CHANNEL 8</span>
-          <span class="live-channel-name">🌊 Nature &amp; Ocean</span>
-        </button>
-
-        <button class="live-channel-btn" data-live-channel="trump" type="button">
-          <span class="live-channel-number">CHANNEL 9</span>
-          <span class="live-channel-name">📰 Trump News</span>
-        </button>
-
-        <button class="live-channel-btn" data-live-channel="money" type="button">
-          <span class="live-channel-number">CHANNEL 10</span>
-          <span class="live-channel-name">💰 Make Money</span>
-        </button>
-
-        <button class="live-channel-btn" data-live-channel="technology" type="button">
-          <span class="live-channel-number">CHANNEL 11</span>
-          <span class="live-channel-name">🤖 Today's Technology</span>
-        </button>
-
-        <button class="live-channel-btn" data-live-channel="israelwar" type="button">
-          <span class="live-channel-number">CHANNEL 12</span>
-          <span class="live-channel-name">🇮🇱 Israel War &amp; Security</span>
-        </button>
-
-        <button class="live-channel-btn" data-live-channel="health" type="button">
-          <span class="live-channel-number">CHANNEL 13</span>
-          <span class="live-channel-name">❤️ Health Channel</span>
-        </button>
-
-        <button class="live-channel-btn" data-live-channel="zamir" type="button">
-          <span class="live-channel-number">CHANNEL 14</span>
-          <span class="live-channel-name">✡️ הרב זמיר כהן</span>
-        </button>
+        <strong id="currentChannel">
+          Voice of Peace
+        </strong>
 
       </div>
 
-      <div class="live-tv-player">
-
-        <iframe
-          id="liveTvPlayer"
-          title="Voice of Peace Live TV"
-          allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-          allowfullscreen
-          referrerpolicy="strict-origin-when-cross-origin"
-          src="about:blank">
-        </iframe>
-
-        <div id="liveTvOverlay" class="live-tv-overlay">
-          <div class="live-tv-play">▶</div>
-          <strong id="liveTvOverlayTitle">Start Voice of Peace Live TV</strong>
-          <span style="margin-top:8px;color:#cbe9fa">
-            Tap once to start continuous television.
-          </span>
-        </div>
-
-      </div>
-
-      <div class="live-tv-info">
-        <div id="liveTvCurrent" class="live-tv-current">Channel 1 — Israel News Live</div>
-        <div id="liveTvSource" class="live-tv-source">Preparing live source...</div>
-        <div id="liveTvMessage" class="live-tv-message">
-          Voice of Peace automatically tries another source when a stream ends or fails.
-        </div>
-      </div>
-
-      <div class="live-tv-controls">
-        <button id="liveTvPreviousChannel" type="button">◀ Channel</button>
-        <button id="liveTvPreviousSource" type="button">◀ Source</button>
-        <button id="liveTvPlayPause" class="live-tv-red" type="button">⏸ Pause</button>
-        <button id="liveTvNextSource" type="button">Next Source ▶</button>
-        <button id="liveTvNextChannel" type="button">Channel ▶</button>
-        <button id="liveTvReload" type="button">↻ Reload</button>
-        <button id="liveTvFullscreen" type="button">⛶ Full Screen</button>
-      </div>
-
-      <div class="live-tv-volume">
-        <span>🔊 Volume</span>
-        <input id="liveTvVolume" type="range" min="0" max="100" value="80">
-        <strong id="liveTvVolumeValue">80%</strong>
-        <button id="liveTvMute" type="button">🔇 Mute</button>
-      </div>
-
-      <div class="live-tv-custom">
-        <h3>🔎 Find Your Own YouTube Channel / Video</h3>
-        <div class="live-tv-searchrow">
-          <input id="liveTvCustomInput" type="search" placeholder="Paste a YouTube video/live link or type a search" autocomplete="off">
-          <button id="liveTvPlayCustom" class="playurl" type="button">▶ Play Link</button>
-          <button id="liveTvSearchYouTube" type="button">Search YouTube</button>
-        </div>
-      </div>
-
-      <div class="channel-note">
-        Each channel can contain several YouTube live streams or continuous videos.
-        Add or replace video IDs inside the LIVE_CHANNELS section below.
-        The player will automatically move to another source when YouTube reports an ended stream or playback error.
+      <div class="live-tag">
+        TV
       </div>
 
     </div>
+
+    <div class="video-wrap">
+
+      <div id="youtubePlayer"></div>
+
+      <iframe
+        id="genericPlayer"
+        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+        allowfullscreen>
+      </iframe>
+
+      <div id="playerMessage" class="player-message">
+      </div>
+
+    </div>
+
+    <div class="controls">
+
+      <button class="control" onclick="previousChannel()">
+        ⏮ Previous
+      </button>
+
+      <button class="control" onclick="togglePlay()">
+        ▶ / ⏸
+      </button>
+
+      <button class="control" onclick="nextChannel()">
+        Next ⏭
+      </button>
+
+      <button class="control" onclick="volumeDown()">
+        🔉 Volume -
+      </button>
+
+      <button class="control" onclick="volumeUp()">
+        🔊 Volume +
+      </button>
+
+      <button class="control" onclick="toggleMute()">
+        🔇 Mute
+      </button>
+
+    </div>
+
   </section>
 
-  <div class="peace-message">
-    Respect • Truth • Understanding • Help one another
+
+  <!-- CHANNEL BUTTONS -->
+  <h2 class="section-title">
+    TV Channels
+  </h2>
+
+  <div id="channelButtons" class="channels">
   </div>
 
-</main>
 
-<footer class="footer">
-  VOICE OF PEACE • NEWS • UNDERSTANDING • RESPONSIBILITY
-</footer>
+  <!-- CUSTOM VIDEO -->
+  <section class="custom-box">
 
-<!-- Keep your existing news engine -->
-<script src="app.js?v=20260910-live-tv-12"></script>
+    <h3>
+      Watch Your Own YouTube Video
+    </h3>
+
+    <div class="custom-row">
+
+      <input
+        id="customVideo"
+        placeholder="Paste YouTube video or live-stream link here">
+
+      <button onclick="playCustomVideo()">
+        PLAY
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <!-- LINKS -->
+  <div class="action-grid">
+
+    <a
+      class="big-link donate"
+      href="https://www.paypal.me/payfortransport/"
+      target="_blank"
+      rel="noopener">
+
+      ❤️ DONATE — Choose Your Amount
+
+    </a>
+
+    <a
+      class="big-link synagogue"
+      href="https://mano34911.github.io/Massage-bored-4-Synagouges/admin.html"
+      target="_blank"
+      rel="noopener">
+
+      ✡ לוח בית כנסת
+
+    </a>
+
+  </div>
+
+
+  <!-- MEMORIAL -->
+  <div class="memorial">
+
+    לעילוי נשמות
+    זהבה חלא בת דינה זצ״ל
+    •
+    דינה חלא בת ורד זצ״ל
+    •
+    חיים חלא בן יצחק זצ״ל
+    תנצב״ה
+
+  </div>
+
+
+  <!-- PAGE NAVIGATION -->
+  <div class="page-nav">
+
+    <a href="index.html">
+      Home
+    </a>
+
+    <a href="index1.html">1</a>
+    <a href="index2.html">2</a>
+    <a href="index3.html">3</a>
+    <a href="index4.html">4</a>
+    <a href="index5.html">5</a>
+    <a href="index6.html">6</a>
+    <a href="index7.html">7</a>
+    <a href="index8.html">8</a>
+    <a href="index9.html">9</a>
+    <a href="index10.html">10</a>
+
+  </div>
+
+
+  <!-- ADMIN -->
+  <section class="admin-card">
+
+    <button
+      class="admin-toggle"
+      onclick="toggleAdmin()">
+
+      ⚙ Add / Manage TV Channel
+
+    </button>
+
+    <div
+      id="adminPanel"
+      class="admin-panel">
+
+      <p class="admin-note">
+        Add a channel here and it will be stored in your
+        Supabase <strong>voice_channels</strong> table.
+      </p>
+
+      <div class="form-grid">
+
+        <input
+          id="channelName"
+          placeholder="Channel name">
+
+        <input
+          id="channelCategory"
+          placeholder="Category e.g. News">
+
+        <select id="channelType">
+
+          <option value="youtube">
+            YouTube
+          </option>
+
+          <option value="embed">
+            Embed URL
+          </option>
+
+        </select>
+
+        <input
+          id="channelSource"
+          placeholder="YouTube URL / Video ID / Embed URL">
+
+        <input
+          id="channelOrder"
+          type="number"
+          value="20"
+          placeholder="Display order">
+
+        <label style="display:flex;align-items:center;gap:8px;">
+          <input
+            id="channelActive"
+            type="checkbox"
+            checked>
+
+          Active
+        </label>
+
+        <button
+          class="save-btn"
+          onclick="saveChannel()">
+
+          SAVE CHANNEL
+
+        </button>
+
+      </div>
+
+      <p
+        id="adminResult"
+        class="admin-note">
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    Voice of Peace
+
+    <br>
+
+    News reports may link to third-party sources.
+    Voice of Peace reflections are editorial commentary.
+
+    <br><br>
+
+    Created by CEE LTD
+    — Emmanuel Hileah Innovations
+
+  </footer>
+
+</div>
+
+
+
+<!-- =========================================
+     SUPABASE
+========================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<!-- =========================================
+     YOUTUBE API
+========================================= -->
+
+<script src="https://www.youtube.com/iframe_api"></script>
+
 
 <script>
+
 /* ============================================================
-   SIMPLE HEYGEN HOOKS
-   Your existing full HeyGen controller may remain here instead.
-   ============================================================ */
+   SUPABASE SETTINGS
+============================================================ */
 
-const presenterVideo = document.getElementById("presenterVideo");
-const presenterBadge = document.getElementById("presenterBadge");
-const presenterStatus = document.getElementById("presenterStatus");
+const SUPABASE_URL =
+  "https://oyeeeooymrzemxfrvcon.supabase.co";
 
-document.getElementById("showStoryImageBtn")?.addEventListener("click", function(){
-  try{ presenterVideo.pause(); }catch(e){}
-  presenterVideo.classList.remove("show");
-  presenterBadge.classList.remove("show");
-  presenterStatus.textContent = "News image restored.";
-});
+const SUPABASE_KEY =
+  "sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j";
 
-/*
- IMPORTANT:
- Paste your existing full HeyGen script from your old file here if you want
- all avatar / voice / Supabase controls preserved exactly.
-*/
-</script>
 
-<script>
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
 /* ============================================================
-   VOICE OF PEACE — 12 CHANNEL CONTINUOUS LIVE TV SYSTEM
-   ============================================================ */
+   FALLBACK CHANNELS
 
-(function(){
+   These appear even before the Supabase table is created.
+   Replace video IDs with any YouTube videos/live streams you want.
+============================================================ */
 
-const player = document.getElementById("liveTvPlayer");
-const overlay = document.getElementById("liveTvOverlay");
-const overlayTitle = document.getElementById("liveTvOverlayTitle");
-const currentLabel = document.getElementById("liveTvCurrent");
-const sourceLabel = document.getElementById("liveTvSource");
-const message = document.getElementById("liveTvMessage");
-const liveBadge = document.getElementById("liveTvStatusBadge");
+const fallbackChannels = [
 
-const previousChannelBtn = document.getElementById("liveTvPreviousChannel");
-const nextChannelBtn = document.getElementById("liveTvNextChannel");
-const previousSourceBtn = document.getElementById("liveTvPreviousSource");
-const nextSourceBtn = document.getElementById("liveTvNextSource");
-const playPauseBtn = document.getElementById("liveTvPlayPause");
-const reloadBtn = document.getElementById("liveTvReload");
-const fullscreenBtn = document.getElementById("liveTvFullscreen");
-const volumeSlider = document.getElementById("liveTvVolume");
-const volumeValue = document.getElementById("liveTvVolumeValue");
-const muteBtn = document.getElementById("liveTvMute");
-const customInput = document.getElementById("liveTvCustomInput");
-const playCustomBtn = document.getElementById("liveTvPlayCustom");
-const searchYouTubeBtn = document.getElementById("liveTvSearchYouTube");
+  {
+    id:"fallback-1",
+    name:"Rabbi Zamir Cohen",
+    category:"Jewish",
+    type:"youtube",
+    source:"UCQJ6AhJJD7QGG7Ar5Kdk1rQ",
+    source_kind:"search",
+    sort_order:1
+  },
 
-/*
-  Add multiple sources to every channel.
-  For live YouTube streams use the current live VIDEO ID.
-  For continuous programming you can also use normal video IDs.
-*/
+  {
+    id:"fallback-2",
+    name:"Israel News - Channel 14",
+    category:"Hebrew News",
+    type:"youtube",
+    source:"channel14",
+    source_kind:"search",
+    sort_order:2
+  },
 
-const LIVE_CHANNELS = {
-  israel:{number:1,title:"🇮🇱 Israel News Live",sources:[{name:"ILTV Israel News",videoId:"6n0Etxso_v0"},{name:"Israel News",videoId:"TNeScXoFCsU"}]},
-  usnews:{number:2,title:"🇺🇸 U.S. News Live",sources:[{name:"LiveNOW from FOX",videoId:"4nMfRpesYfw"},{name:"NEWSMAX2 LIVE",videoId:"oPtapPqfO_0"}]},
-  comedy:{number:3,title:"😂 Comedy TV",sources:[{name:"Comedy stream",videoId:"ZvdiJUYGBis"}]},
-  comedymovies:{number:4,title:"🎬 Comedy Movies",sources:[{name:"Comedy movies",videoId:"ZvdiJUYGBis"}]},
-  shorts:{number:5,title:"📱 Shorts TV",sources:[{name:"Video stream",videoId:"4nMfRpesYfw"}]},
-  travel:{number:6,title:"✈️ Travel TV",sources:[{name:"Travel / scenery",videoId:"Ap-UM1O9RBU"},{name:"Scenic live",videoId:"4tbh25K-vO8"}]},
-  animals:{number:7,title:"🐘 Animal TV",sources:[{name:"Animal / nature live",videoId:"P11y8N22Rq0"}]},
-  nature:{number:8,title:"🌊 Nature & Ocean",sources:[{name:"Ocean / nature live",videoId:"P11y8N22Rq0"},{name:"Scenic live",videoId:"4tbh25K-vO8"}]},
-  trump:{number:9,title:"📰 Trump News",sources:[{name:"LiveNOW from FOX",videoId:"4nMfRpesYfw"},{name:"NEWSMAX2",videoId:"oPtapPqfO_0"}]},
-  money:{number:10,title:"💰 Make Money",sources:[{name:"Business news",videoId:"oPtapPqfO_0"}]},
-  technology:{number:11,title:"🤖 Today's Technology",sources:[{name:"Technology / science live",videoId:"P11y8N22Rq0"}]},
-  israelwar:{number:12,title:"🇮🇱 Israel War & Security",sources:[{name:"Israel live",videoId:"TNeScXoFCsU"},{name:"ILTV Israel News",videoId:"6n0Etxso_v0"}]},
-  health:{number:13,title:"❤️ Health Channel",sources:[{name:"Health video",videoId:"JCaa0Xp60Po"},{name:"Health backup",videoId:"qkaX0q_2Kw0"}]},
-  zamir:{number:14,title:"✡️ הרב זמיר כהן",sources:[{name:"הרב זמיר כהן",videoId:"Y5CBvFVXG40"},{name:"הרב זמיר כהן - נוסף",videoId:"ec8j7gGOo3c"}]}
-};
+  {
+    id:"fallback-3",
+    name:"Fox News",
+    category:"News",
+    type:"youtube",
+    source:"Fox News live",
+    source_kind:"search",
+    sort_order:3
+  },
 
-const CHANNEL_ORDER = ["israel","usnews","comedy","comedymovies","shorts","travel","animals","nature","trump","money","technology","israelwar","health","zamir"];
+  {
+    id:"fallback-4",
+    name:"Discovery",
+    category:"Discovery",
+    type:"youtube",
+    source:"Discovery Channel documentary",
+    source_kind:"search",
+    sort_order:4
+  },
 
-let currentChannel = localStorage.getItem("vop_live_channel") || "israel";
-if(!LIVE_CHANNELS[currentChannel]) currentChannel = "israel";
+  {
+    id:"fallback-5",
+    name:"Comedy",
+    category:"Entertainment",
+    type:"youtube",
+    source:"clean comedy",
+    source_kind:"search",
+    sort_order:5
+  },
 
-let sourceIndex = 0;
-let desiredPlaying = true;
-let viewerStarted = false;
-let healthTimer = null;
-let waitingForPlayback = false;
-let currentVolume = Number(localStorage.getItem("vop_volume") || 80);
-if(volumeSlider){volumeSlider.value=currentVolume; volumeValue.textContent=currentVolume+"%";}
+  {
+    id:"fallback-6",
+    name:"Inventions",
+    category:"Technology",
+    type:"youtube",
+    source:"new inventions technology",
+    source_kind:"search",
+    sort_order:6
+  },
 
-function youtubeUrl(videoId){
-  const origin = (location.origin && location.origin.startsWith("http")) ? location.origin : "";
-  let url =
-    "https://www.youtube.com/embed/" +
-    encodeURIComponent(videoId) +
-    "?autoplay=1&enablejsapi=1&playsinline=1&controls=1&rel=0&mute=0";
+  {
+    id:"fallback-7",
+    name:"Business Ideas",
+    category:"Business",
+    type:"youtube",
+    source:"business ideas entrepreneurs",
+    source_kind:"search",
+    sort_order:7
+  },
 
-  if(origin) url += "&origin=" + encodeURIComponent(origin);
-  return url;
-}
+  {
+    id:"fallback-8",
+    name:"History of Israel",
+    category:"History",
+    type:"youtube",
+    source:"history of Israel documentary",
+    source_kind:"search",
+    sort_order:8
+  },
 
-function updateChannelButtons(){
-  document.querySelectorAll(".live-channel-btn").forEach(function(btn){
-    btn.classList.toggle("active", btn.dataset.liveChannel === currentChannel);
-  });
-}
+  {
+    id:"fallback-9",
+    name:"Israel Music",
+    category:"Music",
+    type:"youtube",
+    source:"Israeli music",
+    source_kind:"search",
+    sort_order:9
+  },
 
-function setStatus(text){
-  if(message) message.textContent = text;
-}
+  {
+    id:"fallback-10",
+    name:"Old Western Movies",
+    category:"Movies",
+    type:"youtube",
+    source:"old western full movie",
+    source_kind:"search",
+    sort_order:10
+  },
 
-function setLiveBadge(state){
-  if(!liveBadge) return;
+  {
+    id:"fallback-11",
+    name:"Health",
+    category:"Health",
+    type:"youtube",
+    source:"healthy living",
+    source_kind:"search",
+    sort_order:11
+  },
 
-  if(state === "live"){
-    liveBadge.textContent = "● LIVE";
-    liveBadge.style.background = "#087247";
-  }else if(state === "loading"){
-    liveBadge.textContent = "CONNECTING";
-    liveBadge.style.background = "#a36a00";
-  }else{
-    liveBadge.textContent = "NO SOURCE";
-    liveBadge.style.background = "#96303c";
+  {
+    id:"fallback-12",
+    name:"Voice of Peace",
+    category:"Peace",
+    type:"youtube",
+    source:"Israel peace",
+    source_kind:"search",
+    sort_order:12
   }
+
+];
+
+
+let channels = [];
+
+let currentIndex = 0;
+
+let ytPlayer = null;
+
+let ytReady = false;
+
+
+/* ============================================================
+   YOUTUBE PLAYER READY
+============================================================ */
+
+function onYouTubeIframeAPIReady(){
+
+  ytPlayer = new YT.Player(
+    "youtubePlayer",
+    {
+
+      width:"100%",
+      height:"100%",
+
+      playerVars:{
+        autoplay:1,
+        controls:1,
+        rel:0,
+        playsinline:1
+      },
+
+      events:{
+
+        onReady:function(){
+
+          ytReady = true;
+
+          if(channels.length){
+            playChannel(0);
+          }
+
+        }
+
+      }
+
+    }
+  );
+
 }
 
-function loadCurrentSource(){
-  clearTimeout(healthTimer);
 
-  const channel = LIVE_CHANNELS[currentChannel];
-  updateChannelButtons();
+/* ============================================================
+   LOAD CHANNELS FROM SUPABASE
+============================================================ */
 
-  currentLabel.textContent =
-    "Channel " + channel.number + " — " + channel.title;
+async function loadChannels(){
 
-  localStorage.setItem("vop_live_channel", currentChannel);
+  setDatabaseStatus(
+    "Connecting to Supabase...",
+    false
+  );
 
-  if(!channel.sources.length){
-    player.src = "about:blank";
-    sourceLabel.textContent = "No stream has been programmed yet.";
-    setStatus("This channel is ready. Add one or more YouTube video IDs to its sources array.");
-    setLiveBadge("empty");
+  try{
+
+    const {
+      data,
+      error
+    } =
+    await supabaseClient
+      .from("voice_channels")
+      .select("*")
+      .eq("active",true)
+      .order("sort_order",{
+        ascending:true
+      });
+
+
+    if(error){
+      throw error;
+    }
+
+
+    if(data && data.length){
+
+      channels = data;
+
+      setDatabaseStatus(
+        "Supabase LIVE",
+        true
+      );
+
+    }else{
+
+      channels = fallbackChannels;
+
+      setDatabaseStatus(
+        "Connected — using default channels",
+        true
+      );
+
+    }
+
+  }catch(error){
+
+    console.log(
+      "Supabase channel load:",
+      error.message
+    );
+
+    channels = fallbackChannels;
+
+    setDatabaseStatus(
+      "Default channels — database table not ready",
+      false
+    );
+
+  }
+
+
+  renderChannelButtons();
+
+
+  if(ytReady && channels.length){
+
+    playChannel(0);
+
+  }
+
+}
+
+
+/* ============================================================
+   STATUS
+============================================================ */
+
+function setDatabaseStatus(text,online){
+
+  const status =
+    document.getElementById("dbStatus");
+
+  const label =
+    document.getElementById("dbStatusText");
+
+
+  label.textContent = text;
+
+
+  if(online){
+
+    status.classList.remove("offline");
+
+  }else{
+
+    status.classList.add("offline");
+
+  }
+
+}
+
+
+/* ============================================================
+   RENDER CHANNEL BUTTONS
+============================================================ */
+
+function renderChannelButtons(){
+
+  const container =
+    document.getElementById("channelButtons");
+
+  container.innerHTML = "";
+
+
+  channels.forEach(
+    (channel,index)=>{
+
+      const button =
+        document.createElement("button");
+
+      button.className =
+        "channel-btn";
+
+      button.innerHTML =
+        `
+        ${index + 1}. ${escapeHTML(channel.name)}
+        <span>
+          ${escapeHTML(channel.category || "TV")}
+        </span>
+        `;
+
+      button.onclick =
+        function(){
+          playChannel(index);
+        };
+
+
+      container.appendChild(button);
+
+    }
+  );
+
+}
+
+
+/* ============================================================
+   PLAY CHANNEL
+============================================================ */
+
+function playChannel(index){
+
+  if(
+    index < 0 ||
+    index >= channels.length
+  ){
     return;
   }
 
-  if(sourceIndex >= channel.sources.length) sourceIndex = 0;
-  if(sourceIndex < 0) sourceIndex = channel.sources.length - 1;
 
-  const source = channel.sources[sourceIndex];
+  currentIndex = index;
 
-  sourceLabel.textContent =
-    source.name + " • source " + (sourceIndex + 1) + " of " + channel.sources.length;
 
-  setStatus("Connecting to " + source.name + "...");
-  setLiveBadge("loading");
-  waitingForPlayback = true;
+  const channel =
+    channels[index];
 
-  player.src = youtubeUrl(source.videoId);
 
-  healthTimer = setTimeout(function(){
-    if(waitingForPlayback){
-      nextSource(true);
-    }
-  },15000);
-}
+  document.getElementById(
+    "currentChannel"
+  ).textContent =
+    channel.name;
 
-function nextSource(automatic){
-  const channel = LIVE_CHANNELS[currentChannel];
-  if(!channel.sources.length) return;
 
-  sourceIndex++;
-  if(sourceIndex >= channel.sources.length) sourceIndex = 0;
+  highlightActiveChannel();
 
-  if(automatic){
-    setStatus("Previous stream unavailable. Trying another source automatically...");
+
+  hideMessage();
+
+
+  const generic =
+    document.getElementById(
+      "genericPlayer"
+    );
+
+
+  generic.style.display =
+    "none";
+
+  generic.src = "";
+
+
+  document.getElementById(
+    "youtubePlayer"
+  ).style.display =
+    "block";
+
+
+  if(channel.type === "embed"){
+
+    playEmbed(channel.source);
+
+    return;
+
   }
 
-  loadCurrentSource();
+
+  if(
+    channel.source_kind === "search"
+  ){
+
+    showSearchMessage(channel);
+
+    return;
+
+  }
+
+
+  const videoId =
+    extractYouTubeId(
+      channel.source
+    );
+
+
+  if(videoId && ytReady){
+
+    ytPlayer.loadVideoById(
+      videoId
+    );
+
+  }else{
+
+    showMessage(
+      "This channel needs a valid YouTube video or live-stream URL."
+    );
+
+  }
+
 }
 
-function previousSource(){
-  const channel = LIVE_CHANNELS[currentChannel];
-  if(!channel.sources.length) return;
 
-  sourceIndex--;
-  if(sourceIndex < 0) sourceIndex = channel.sources.length - 1;
+/* ============================================================
+   FALLBACK SEARCH CHANNELS
 
-  loadCurrentSource();
+   YouTube does not allow arbitrary search-result pages inside
+   an iframe. These default placeholders open a YouTube search.
+============================================================ */
+
+function showSearchMessage(channel){
+
+  showMessage(
+    `
+    <div>
+      <div style="font-size:22px;margin-bottom:12px;">
+        ${escapeHTML(channel.name)}
+      </div>
+
+      <div style="margin-bottom:18px;">
+        Choose a permanent YouTube video or live-stream URL
+        in the admin section for automatic playback.
+      </div>
+
+      <button
+        onclick="openYouTubeSearch('${encodeURIComponent(channel.source)}')"
+        style="
+        border:0;
+        background:#ff0000;
+        color:white;
+        padding:13px 18px;
+        border-radius:10px;
+        font-weight:900;
+        ">
+        OPEN YOUTUBE
+      </button>
+    </div>
+    `
+  );
+
 }
 
-function changeChannel(direction){
-  let index = CHANNEL_ORDER.indexOf(currentChannel);
-  if(index < 0) index = 0;
 
-  index = (index + direction + CHANNEL_ORDER.length) % CHANNEL_ORDER.length;
+/* ============================================================
+   YOUTUBE SEARCH
+============================================================ */
 
-  currentChannel = CHANNEL_ORDER[index];
-  sourceIndex = 0;
-  loadCurrentSource();
+function openYouTubeSearch(encodedQuery){
+
+  const query =
+    decodeURIComponent(
+      encodedQuery
+    );
+
+  window.open(
+    "https://www.youtube.com/results?search_query=" +
+    encodeURIComponent(query),
+    "_blank"
+  );
+
 }
 
-function ytCommand(func,args){
-  if(!player || !player.contentWindow) return;
+
+/* ============================================================
+   GENERIC EMBED
+============================================================ */
+
+function playEmbed(url){
+
+  if(!url){
+    return;
+  }
+
 
   try{
-    player.contentWindow.postMessage(JSON.stringify({
-      event:"command",
-      func:func,
-      args:Array.isArray(args) ? args : []
-    }), "*");
+
+    const parsed =
+      new URL(url);
+
+    if(
+      parsed.protocol !== "https:"
+    ){
+
+      showMessage(
+        "Only HTTPS embed addresses are permitted."
+      );
+
+      return;
+    }
+
+  }catch{
+
+    showMessage(
+      "Invalid embed URL."
+    );
+
+    return;
+
+  }
+
+
+  if(ytReady){
+
+    try{
+      ytPlayer.stopVideo();
+    }catch(e){}
+
+  }
+
+
+  document.getElementById(
+    "youtubePlayer"
+  ).style.display =
+    "none";
+
+
+  const iframe =
+    document.getElementById(
+      "genericPlayer"
+    );
+
+
+  iframe.style.display =
+    "block";
+
+  iframe.src =
+    url;
+
+}
+
+
+/* ============================================================
+   NEXT / PREVIOUS
+============================================================ */
+
+function nextChannel(){
+
+  if(!channels.length){
+    return;
+  }
+
+  const next =
+    (currentIndex + 1) %
+    channels.length;
+
+  playChannel(next);
+
+}
+
+
+function previousChannel(){
+
+  if(!channels.length){
+    return;
+  }
+
+  const previous =
+    (currentIndex - 1 + channels.length) %
+    channels.length;
+
+  playChannel(previous);
+
+}
+
+
+/* ============================================================
+   PLAY / PAUSE
+============================================================ */
+
+function togglePlay(){
+
+  if(!ytReady){
+    return;
+  }
+
+
+  const state =
+    ytPlayer.getPlayerState();
+
+
+  if(
+    state ===
+    YT.PlayerState.PLAYING
+  ){
+
+    ytPlayer.pauseVideo();
+
+  }else{
+
+    ytPlayer.playVideo();
+
+  }
+
+}
+
+
+/* ============================================================
+   VOLUME
+============================================================ */
+
+function volumeUp(){
+
+  if(!ytReady){
+    return;
+  }
+
+  const volume =
+    ytPlayer.getVolume();
+
+  ytPlayer.setVolume(
+    Math.min(
+      100,
+      volume + 10
+    )
+  );
+
+}
+
+
+function volumeDown(){
+
+  if(!ytReady){
+    return;
+  }
+
+  const volume =
+    ytPlayer.getVolume();
+
+  ytPlayer.setVolume(
+    Math.max(
+      0,
+      volume - 10
+    )
+  );
+
+}
+
+
+function toggleMute(){
+
+  if(!ytReady){
+    return;
+  }
+
+
+  if(ytPlayer.isMuted()){
+
+    ytPlayer.unMute();
+
+  }else{
+
+    ytPlayer.mute();
+
+  }
+
+}
+
+
+/* ============================================================
+   CUSTOM VIDEO
+============================================================ */
+
+function playCustomVideo(){
+
+  const value =
+    document
+      .getElementById(
+        "customVideo"
+      )
+      .value
+      .trim();
+
+
+  if(!value){
+
+    alert(
+      "Paste a YouTube video or live-stream link first."
+    );
+
+    return;
+
+  }
+
+
+  const id =
+    extractYouTubeId(value);
+
+
+  if(!id){
+
+    alert(
+      "I could not recognize a YouTube video ID from that link."
+    );
+
+    return;
+
+  }
+
+
+  hideMessage();
+
+
+  document.getElementById(
+    "genericPlayer"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "youtubePlayer"
+  ).style.display =
+    "block";
+
+
+  document.getElementById(
+    "currentChannel"
+  ).textContent =
+    "Custom Video";
+
+
+  if(ytReady){
+
+    ytPlayer.loadVideoById(id);
+
+  }
+
+}
+
+
+/* ============================================================
+   EXTRACT YOUTUBE ID
+============================================================ */
+
+function extractYouTubeId(value){
+
+  if(!value){
+    return null;
+  }
+
+
+  value =
+    value.trim();
+
+
+  if(
+    /^[A-Za-z0-9_-]{11}$/.test(value)
+  ){
+
+    return value;
+
+  }
+
+
+  try{
+
+    const url =
+      new URL(value);
+
+
+    if(
+      url.hostname.includes(
+        "youtu.be"
+      )
+    ){
+
+      return url.pathname
+        .replace("/","")
+        .substring(0,11);
+
+    }
+
+
+    if(
+      url.searchParams.get("v")
+    ){
+
+      return url.searchParams
+        .get("v")
+        .substring(0,11);
+
+    }
+
+
+    const pieces =
+      url.pathname.split("/");
+
+    const possible =
+      pieces[
+        pieces.length - 1
+      ];
+
+
+    if(
+      /^[A-Za-z0-9_-]{11}$/.test(
+        possible
+      )
+    ){
+
+      return possible;
+
+    }
+
   }catch(e){}
+
+
+  return null;
+
 }
 
-function play(){
-  desiredPlaying = true;
-  ytCommand("playVideo",[]);
-  playPauseBtn.textContent = "⏸ Pause";
+
+/* ============================================================
+   ACTIVE BUTTON
+============================================================ */
+
+function highlightActiveChannel(){
+
+  const buttons =
+    document.querySelectorAll(
+      ".channel-btn"
+    );
+
+
+  buttons.forEach(
+    (button,index)=>{
+
+      button.classList.toggle(
+        "active",
+        index === currentIndex
+      );
+
+    }
+  );
+
 }
 
-function pause(){
-  desiredPlaying = false;
-  ytCommand("pauseVideo",[]);
-  playPauseBtn.textContent = "▶ Play";
+
+/* ============================================================
+   MESSAGE
+============================================================ */
+
+function showMessage(html){
+
+  const box =
+    document.getElementById(
+      "playerMessage"
+    );
+
+  box.innerHTML =
+    html;
+
+  box.style.display =
+    "flex";
+
 }
 
-window.addEventListener("message", function(event){
 
-  if(!String(event.origin).includes("youtube.com")) return;
+function hideMessage(){
 
-  let data = event.data;
+  const box =
+    document.getElementById(
+      "playerMessage"
+    );
 
-  if(typeof data === "string"){
-    try{ data = JSON.parse(data); }
-    catch(e){ return; }
+  box.style.display =
+    "none";
+
+}
+
+
+/* ============================================================
+   ADMIN OPEN / CLOSE
+============================================================ */
+
+function toggleAdmin(){
+
+  document.getElementById(
+    "adminPanel"
+  ).classList.toggle(
+    "open"
+  );
+
+}
+
+
+/* ============================================================
+   SAVE CHANNEL TO SUPABASE
+============================================================ */
+
+async function saveChannel(){
+
+  const name =
+    document
+      .getElementById(
+        "channelName"
+      )
+      .value
+      .trim();
+
+
+  const category =
+    document
+      .getElementById(
+        "channelCategory"
+      )
+      .value
+      .trim();
+
+
+  const type =
+    document.getElementById(
+      "channelType"
+    ).value;
+
+
+  const source =
+    document
+      .getElementById(
+        "channelSource"
+      )
+      .value
+      .trim();
+
+
+  const sortOrder =
+    Number(
+      document.getElementById(
+        "channelOrder"
+      ).value
+    ) || 20;
+
+
+  const active =
+    document.getElementById(
+      "channelActive"
+    ).checked;
+
+
+  const result =
+    document.getElementById(
+      "adminResult"
+    );
+
+
+  if(
+    !name ||
+    !source
+  ){
+
+    result.textContent =
+      "Please enter the channel name and video/embed URL.";
+
+    return;
+
   }
 
-  if(!data) return;
 
-  if(data.event === "onStateChange"){
-    const state = Number(data.info);
+  result.textContent =
+    "Saving...";
 
-    if(state === 1){
-      waitingForPlayback = false;
-      clearTimeout(healthTimer);
-      setLiveBadge("live");
 
-      const channel = LIVE_CHANNELS[currentChannel];
-      const source = channel.sources[sourceIndex];
+  try{
 
-      setStatus("● LIVE — " + source.name);
-      desiredPlaying = true;
-      playPauseBtn.textContent = "⏸ Pause";
-      ytCommand("setVolume",[currentVolume]);
+    const {
+      error
+    } =
+    await supabaseClient
+      .from(
+        "voice_channels"
+      )
+      .insert({
+
+        name:name,
+
+        category:
+          category || "TV",
+
+        type:type,
+
+        source:source,
+
+        source_kind:
+          "direct",
+
+        sort_order:
+          sortOrder,
+
+        active:
+          active
+
+      });
+
+
+    if(error){
+      throw error;
     }
 
-    if(state === 0){
-      setStatus("Stream ended. Switching automatically...");
-      setTimeout(function(){
-        nextSource(true);
-      },1200);
-    }
 
-    if(state === 2 && desiredPlaying){
-      setTimeout(function(){
-        ytCommand("playVideo",[]);
-      },700);
-    }
+    result.textContent =
+      "Channel saved successfully.";
+
+
+    document.getElementById(
+      "channelName"
+    ).value = "";
+
+    document.getElementById(
+      "channelCategory"
+    ).value = "";
+
+    document.getElementById(
+      "channelSource"
+    ).value = "";
+
+
+    await loadChannels();
+
+
+  }catch(error){
+
+    result.textContent =
+      "Could not save: " +
+      error.message;
+
   }
 
-  if(data.event === "onError"){
-    setStatus("Stream unavailable. Trying the next source...");
-    setTimeout(function(){
-      nextSource(true);
-    },1000);
-  }
-
-});
-
-document.querySelectorAll(".live-channel-btn").forEach(function(btn){
-  btn.addEventListener("click", function(){
-    viewerStarted = true;
-    overlay.classList.add("hidden");
-    currentChannel = btn.dataset.liveChannel;
-    sourceIndex = 0;
-    loadCurrentSource();
-  });
-});
-
-overlay.addEventListener("click", function(){
-  viewerStarted = true;
-  overlay.classList.add("hidden");
-  loadCurrentSource();
-});
-
-nextChannelBtn.addEventListener("click", function(){ changeChannel(1); });
-previousChannelBtn.addEventListener("click", function(){ changeChannel(-1); });
-nextSourceBtn.addEventListener("click", function(){ nextSource(false); });
-previousSourceBtn.addEventListener("click", previousSource);
-
-playPauseBtn.addEventListener("click", function(){
-  if(desiredPlaying) pause();
-  else play();
-});
-
-reloadBtn.addEventListener("click", loadCurrentSource);
-
-fullscreenBtn.addEventListener("click", function(){
-  const container = document.querySelector(".live-tv-player");
-
-  if(container && container.requestFullscreen){
-    container.requestFullscreen();
-  }else if(player && player.webkitEnterFullscreen){
-    player.webkitEnterFullscreen();
-  }
-});
-
-setInterval(function(){
-  if(viewerStarted && desiredPlaying){
-    ytCommand("playVideo",[]);
-  }
-},20000);
-
-if(volumeSlider){
-  volumeSlider.addEventListener("input",function(){
-    currentVolume=Number(this.value); volumeValue.textContent=currentVolume+"%";
-    localStorage.setItem("vop_volume",String(currentVolume));
-    ytCommand("unMute",[]); ytCommand("setVolume",[currentVolume]);
-    muteBtn.textContent="🔇 Mute";
-  });
 }
-if(muteBtn){muteBtn.addEventListener("click",function(){
-  if(this.dataset.muted==="1"){ytCommand("unMute",[]);ytCommand("setVolume",[currentVolume]);this.dataset.muted="0";this.textContent="🔇 Mute";}
-  else{ytCommand("mute",[]);this.dataset.muted="1";this.textContent="🔊 Unmute";}
-});}
-function parseYouTubeLink(raw){
-  try{const u=new URL(raw.trim()); let id="";
-    if(u.hostname.includes("youtu.be")) id=u.pathname.split("/").filter(Boolean)[0]||"";
-    else if(u.hostname.includes("youtube.com")){id=u.searchParams.get("v")||""; if(!id){const m=u.pathname.match(/\/(?:live|shorts|embed)\/([^/?]+)/);if(m)id=m[1];}}
-    return id;
-  }catch(e){return "";}
+
+
+/* ============================================================
+   ESCAPE HTML
+============================================================ */
+
+function escapeHTML(value){
+
+  return String(
+    value || ""
+  )
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
+
 }
-if(playCustomBtn){playCustomBtn.addEventListener("click",function(){
-  const id=parseYouTubeLink(customInput.value);
-  if(!id){setStatus("Paste a full YouTube video or live-stream link, then press Play Link.");return;}
-  viewerStarted=true; overlay.classList.add("hidden"); clearTimeout(healthTimer); waitingForPlayback=true;
-  currentLabel.textContent="Custom YouTube Video"; sourceLabel.textContent=customInput.value; setStatus("Connecting to your video..."); setLiveBadge("loading"); player.src=youtubeUrl(id);
-});}
-if(searchYouTubeBtn){searchYouTubeBtn.addEventListener("click",function(){const q=customInput.value.trim();if(q)window.open("https://www.youtube.com/results?search_query="+encodeURIComponent(q),"_blank","noopener");});}
-if(customInput){customInput.addEventListener("keydown",function(e){if(e.key==="Enter"){const id=parseYouTubeLink(this.value); if(id) playCustomBtn.click(); else searchYouTubeBtn.click();}});}
 
-updateChannelButtons();
 
-const startingChannel = LIVE_CHANNELS[currentChannel];
+/* ============================================================
+   START
+============================================================ */
 
-currentLabel.textContent =
-  "Channel " + startingChannel.number + " — " + startingChannel.title;
+loadChannels();
 
-sourceLabel.textContent = "Tap ▶ to start Voice of Peace Live TV.";
-
-overlayTitle.textContent =
-  "▶ Start " + startingChannel.title;
-
-})();
 </script>
 
 </body>

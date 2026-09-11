@@ -2,66 +2,1457 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#03192f">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Voice of Peace TV</title>
+<meta name="theme-color" content="#02182e">
+
 <style>
-*{box-sizing:border-box}:root{--bg:#020d18;--panel:#051e35;--line:#1a5d8d;--cyan:#4bd0ff;--gold:#ffd34f;--green:#28d17c;--red:#ff5364;--white:#fff;--muted:#bdd4e5}
-html,body{margin:0;min-height:100%;background:var(--bg);color:#fff;font-family:Arial,Helvetica,sans-serif}body{background:radial-gradient(circle at top,#0c5181 0,#062f53 28%,#02182e 66%,#010812 100%)}button,input{font:inherit}.wrap{width:min(1120px,96%);margin:auto;padding:18px 0 40px}.header{text-align:center;margin-bottom:14px}.kicker{font-size:11px;letter-spacing:4px;color:var(--cyan);font-weight:900}h1{margin:5px 0 2px;font-size:clamp(28px,6vw,54px);line-height:1}.sub{color:var(--muted);font-size:13px}.statusline{margin:10px auto 0;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}.badge{border:1px solid var(--line);background:#062845;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:900}.badge.live{color:#b9ffd5;border-color:#238c5a}.playerCard{background:linear-gradient(180deg,#072846,#031a30);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 15px 45px #0008}.playerTop{padding:11px 14px;display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid #1a547d}.now{font-weight:900}.source{color:var(--cyan);font-size:12px}.videoWrap{position:relative;aspect-ratio:16/9;background:#000}.videoWrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}.overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#0009;z-index:3;cursor:pointer;text-align:center;padding:20px}.overlay.hidden{display:none}.overlay .big{font-size:54px}.notice{padding:10px 14px;background:#031426;border-top:1px solid #143c5a;color:var(--muted);font-size:12px;text-align:center}.controls{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:10px}.ctrl,.channel,.action,.pagebtn{border:1px solid #246993;background:linear-gradient(180deg,#0d4774,#072b4a);color:#fff;border-radius:11px;padding:11px 8px;font-weight:900;cursor:pointer}.ctrl:active,.channel:active,.action:active,.pagebtn:active{transform:scale(.98)}.ctrl.gold,.action.gold{color:#1b1500;background:linear-gradient(180deg,#ffe16c,#f4b91f);border-color:#ffe178}.ctrl.red,.action.red{background:linear-gradient(180deg,#b83748,#79202c)}.sectionTitle{margin:18px 2px 8px;font-size:15px;color:#dff4ff}.channels{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.channel{min-height:62px;text-align:left;padding:10px 12px;position:relative}.channel .num{display:inline-flex;width:25px;height:25px;border-radius:8px;align-items:center;justify-content:center;background:#02172a;color:var(--gold);margin-right:7px}.channel .small{display:block;margin:5px 0 0 32px;color:#aed0e5;font-size:10px;font-weight:700}.channel.active{outline:2px solid var(--gold);border-color:var(--gold)}.customBox,.donateBox{margin-top:18px;background:#041d34;border:1px solid var(--line);border-radius:16px;padding:13px}.customRow{display:grid;grid-template-columns:1fr auto;gap:8px}input{width:100%;border:1px solid #2a6f9a;background:#021426;color:#fff;border-radius:10px;padding:12px}.help{color:var(--muted);font-size:11px;margin-top:8px;line-height:1.5}.editGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}.pageNav{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:18px}.pagebtn{text-decoration:none;padding:9px 12px;font-size:12px}.donateBox{text-align:center}.donateBtn{display:inline-block;text-decoration:none;font-size:22px;padding:16px 30px;border-radius:14px;background:linear-gradient(180deg,#ffe16c,#f4b91f);color:#1b1500;font-weight:900;border:1px solid #ffe178}.footer{text-align:center;color:#759bb7;font-size:10px;margin-top:18px}@media(max-width:760px){.controls{grid-template-columns:repeat(2,1fr)}.channels{grid-template-columns:repeat(2,1fr)}.playerTop{display:block}.source{margin-top:4px}}@media(max-width:430px){.channels{grid-template-columns:1fr}.editGrid{grid-template-columns:1fr}}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:#02182e;color:#fff;font-family:Arial,Helvetica,sans-serif}
+body{background:radial-gradient(circle at top,#0c4f7e 0,#062c4f 32%,#02182e 68%,#010b15 100%)}
+.wrap{width:min(980px,96%);margin:auto;padding:18px 0 34px}
+.top{text-align:center;margin-bottom:14px}
+.kicker{color:#4bd0ff;font-weight:900;letter-spacing:4px;font-size:11px}
+.top h1{margin:5px 0 2px;font-size:clamp(28px,7vw,52px)}
+.byline{color:#ffd34f;font-size:13px;font-weight:800}
+.card{background:linear-gradient(145deg,#082e51,#03182e);border:1px solid #286187;border-radius:18px;padding:16px;box-shadow:0 12px 35px #0006}
+.channels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.ch{min-height:80px;border:1px solid #4088b6;border-radius:15px;background:linear-gradient(145deg,#0a416b,#041d36);color:#fff;font-weight:900;padding:12px;cursor:pointer;text-align:left}
+.ch b{display:block;color:#ffd34f;font-size:12px;margin-bottom:6px}
+.ch span{font-size:16px;line-height:1.25}
+.ch.active{border:3px solid #ffd34f;background:linear-gradient(145deg,#126ba3,#07345b);box-shadow:0 0 18px #ffd34f66}
+.playerbox{position:relative;width:100%;aspect-ratio:16/9;background:#000;border-radius:16px;overflow:hidden;border:1px solid #4088b6}
+#player{position:absolute;inset:0;width:100%;height:100%}
+.now{padding:12px 2px 4px;text-align:center;font-size:18px}
+.now strong{color:#ffd34f}
+.status{text-align:center;color:#aedadf;font-size:12px;min-height:18px;margin-bottom:10px}
+.controls{display:flex;gap:9px;align-items:center;flex-wrap:wrap;justify-content:center}
+.controls button{border:0;border-radius:12px;padding:12px 16px;background:#167ab4;color:#fff;font-size:15px;font-weight:900;cursor:pointer}
+.controls .mute{background:#6a4aa3}
+.volume{display:flex;align-items:center;gap:8px;background:#071d33;padding:9px 12px;border-radius:12px;border:1px solid #326c92;min-width:260px}
+.volume input{width:170px}
+.volnum{font-weight:900;color:#ffd34f;min-width:38px;text-align:right}
+.custom{margin-top:16px}
+.custom h2{margin:0 0 7px;font-size:20px}
+.custom p{margin:0 0 10px;color:#b9cfdf;font-size:13px;line-height:1.45}
+.searchrow{display:grid;grid-template-columns:1fr auto;gap:8px}
+.searchrow input{min-width:0;padding:14px;border-radius:12px;border:1px solid #4d8bb2;background:#fff;color:#111;font-size:16px}
+.searchrow button{border:0;border-radius:12px;padding:12px 14px;background:#0f9c5c;color:#fff;font-weight:900}
+.examples{font-size:11px;color:#8fafc3;margin-top:8px}
+.footer{text-align:center;color:#7897ac;font-size:12px;padding:26px 0 4px}
+
+/* =========================================================
+   MEMBER / ADMIN SYSTEM
+========================================================= */
+.account-tools{
+  position:fixed;
+  top:12px;
+  right:12px;
+  z-index:9999;
+  display:flex;
+  gap:7px;
+  align-items:center;
+}
+.account-tools button{
+  border:1px solid #4c86aa;
+  background:#062b49;
+  color:#fff;
+  border-radius:50px;
+  padding:10px 13px;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 4px 16px #0006;
+}
+.account-tools button:hover{background:#0b5687}
+.admin-gear{
+  width:45px;
+  height:45px;
+  padding:0!important;
+  font-size:21px;
+}
+.member-badge{
+  position:fixed;
+  top:66px;
+  right:12px;
+  z-index:9997;
+  background:#062b49;
+  border:1px solid #3378a4;
+  border-radius:12px;
+  padding:7px 10px;
+  font-size:11px;
+  display:none;
+}
+.modal-bg{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:10000;
+  background:rgba(0,0,0,.82);
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+.modal-bg.open{display:flex}
+.modal{
+  width:min(720px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:linear-gradient(145deg,#082e51,#03182e);
+  border:1px solid #4388b2;
+  border-radius:20px;
+  padding:20px;
+  box-shadow:0 20px 80px #000;
+}
+.modal h2{margin:0 0 15px;color:#ffd34f}
+.modal-close{
+  float:right;
+  border:0;
+  background:#a93232;
+  color:white;
+  border-radius:10px;
+  padding:8px 12px;
+  font-weight:900;
+}
+.auth-grid{display:grid;gap:10px}
+.auth-grid input{
+  width:100%;
+  border:1px solid #4885ab;
+  background:#fff;
+  color:#111;
+  padding:13px;
+  border-radius:11px;
+  font-size:16px;
+}
+.auth-grid button{
+  border:0;
+  border-radius:11px;
+  padding:13px;
+  font-weight:900;
+  background:#159f61;
+  color:white;
+}
+.auth-grid .secondary{background:#167ab4}
+.auth-grid .logout{background:#9e3c3c}
+.auth-message{
+  margin-top:10px;
+  color:#d3e9f5;
+  font-size:13px;
+  line-height:1.5;
+}
+.member-row{
+  border:1px solid #31698d;
+  border-radius:12px;
+  padding:12px;
+  margin:9px 0;
+  background:#051d34;
+}
+.member-row strong{color:#ffd34f}
+.member-row small{color:#9fbdd0}
+.member-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:10px;
+}
+.member-actions button{
+  border:0;
+  border-radius:8px;
+  padding:8px 11px;
+  color:#fff;
+  font-weight:900;
+}
+.approve-btn{background:#159f61}
+.suspend-btn{background:#a84b39}
+.refresh-btn{
+  background:#167ab4;
+  color:#fff;
+  border:0;
+  border-radius:9px;
+  padding:10px 12px;
+  font-weight:900;
+}
+.payment-box{
+  margin-top:14px;
+  border:1px solid #806a24;
+  background:#44360055;
+  border-radius:12px;
+  padding:13px;
+  text-align:center;
+}
+.payment-box strong{color:#ffd34f}
+.status-approved{color:#49e394}
+.status-pending{color:#ffd34f}
+.status-suspended{color:#ff7777}
+
+@media(min-width:760px){.channels{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:620px){
+  .searchrow{grid-template-columns:1fr}
+  .controls button{flex:1}
+  .volume{width:100%;justify-content:center}
+  .volume input{width:min(58vw,240px)}
+  .account-tools{top:8px;right:8px}
+  .account-tools .login-text{display:none}
+}
 </style>
 </head>
+
 <body>
-<div class="wrap">
-<header class="header"><div class="kicker">EMMANUEL & CAMILI HILEAH</div><h1>VOICE OF PEACE TV</h1><div class="sub">12 channels • automatic backup sources • custom channel editor</div><div class="statusline"><span class="badge live" id="readyBadge">● PLAYER READY</span><span class="badge">12 CHANNELS</span><span class="badge">AUTO BACKUP</span></div></header>
-<section class="playerCard">
-<div class="playerTop"><div class="now" id="nowTitle">Channel 1 — הרב זמיר כהן</div><div class="source" id="sourceText">Source 1 of 2</div></div>
-<div class="videoWrap" id="videoWrap"><div id="player"></div><div class="overlay" id="startOverlay"><div><div class="big">▶</div><b>Tap to start Voice of Peace TV</b><div style="margin-top:8px;color:#cbe9fa">Then use the channel buttons below.</div></div></div></div>
-<div class="controls"><button class="ctrl" id="prevBtn">◀ Channel</button><button class="ctrl" id="nextBtn">Channel ▶</button><button class="ctrl" id="prevSourceBtn">◀ Source</button><button class="ctrl" id="nextSourceBtn">Source ▶</button><button class="ctrl" id="reloadBtn">↻ Reload</button><button class="ctrl gold" id="openBtn">Open Source</button><button class="ctrl" id="fullBtn">⛶ Full Screen</button></div>
-<div class="notice" id="notice">If YouTube rejects one source, the player automatically tries the next backup source.</div>
-</section>
-<h2 class="sectionTitle">Channels</h2><div class="channels" id="channels"></div>
-<section class="customBox"><b>Play your own YouTube video</b><div class="customRow" style="margin-top:9px"><input id="customUrl" placeholder="Paste YouTube URL or video ID"><button class="action gold" id="playCustom">PLAY</button></div><div class="help">You can permanently replace any channel button on this device. Enter channel number, name and a YouTube URL. The change is saved in your browser.</div><div class="editGrid"><input id="editNumber" type="number" min="1" max="12" placeholder="Channel number 1–12"><input id="editName" placeholder="New channel name"><input id="editUrl" placeholder="YouTube URL or video ID"><button class="action" id="saveChannel">SAVE CHANNEL</button></div><button class="action red" id="resetChannels" style="margin-top:8px;width:100%">RESET TO ORIGINAL 12 CHANNELS</button></section>
-<section class="donateBox"><div style="font-size:20px;font-weight:900;margin-bottom:10px">Support Voice of Peace</div><div class="help" style="margin-bottom:12px">PayPal lets the donor enter the amount.</div><a class="donateBtn" href="https://www.paypal.me/payfortransport/" target="_blank" rel="noopener">DONATE WITH PAYPAL</a></section>
-<div class="pageNav"><a class="pagebtn" href="index.html">HOME</a><a class="pagebtn" href="index1.html">1</a><a class="pagebtn" href="index2.html">2</a><a class="pagebtn" href="index3.html">3</a><a class="pagebtn" href="index4.html">4</a><a class="pagebtn" href="index5.html">5</a><a class="pagebtn" href="index6.html">6</a><a class="pagebtn" href="index7.html">7</a><a class="pagebtn" href="index8.html">8</a><a class="pagebtn" href="index9.html">9</a><a class="pagebtn" href="index10.html">10</a></div>
-<div class="footer">Created by CEE LTD • Emmanuel Hileah Innovations</div>
+
+<!-- ============================================
+     ACCOUNT / ADMIN BUTTONS
+============================================= -->
+<div class="account-tools">
+  <button id="memberLoginBtn" onclick="openMemberModal()">
+    👤 <span class="login-text">Member Login</span>
+  </button>
+
+  <button class="admin-gear" onclick="openAdminModal()" title="Administrator">
+    ⚙️
+  </button>
 </div>
-<script src="https://www.youtube.com/iframe_api"></script>
+
+<div id="memberBadge" class="member-badge"></div>
+
+<!-- ============================================
+     MEMBER LOGIN MODAL
+============================================= -->
+<div id="memberModal" class="modal-bg">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('memberModal')">✕</button>
+
+    <h2>Voice of Peace Member</h2>
+
+    <div id="loggedOutMember">
+      <div class="auth-grid">
+        <input id="memberName" placeholder="Full name">
+        <input id="memberEmail" type="email" placeholder="Email address">
+        <input id="memberPassword" type="password" placeholder="Password">
+
+        <button onclick="memberSignIn()">MEMBER LOGIN</button>
+
+        <button class="secondary" onclick="memberRegister()">
+          CREATE NEW ACCOUNT
+        </button>
+      </div>
+    </div>
+
+    <div id="loggedInMember" style="display:none;">
+      <p>
+        Signed in as:
+        <strong id="loggedInEmail"></strong>
+      </p>
+
+      <p>
+        Membership:
+        <strong id="membershipStatus">Checking...</strong>
+      </p>
+
+      <div id="paymentSection" class="payment-box" style="display:none;">
+        <strong>Membership payment required</strong>
+        <p>
+          Complete your subscription. After PayPal confirms payment,
+          the account can be approved automatically.
+        </p>
+        <div id="paypalMemberButton"></div>
+      </div>
+
+      <div class="auth-grid">
+        <button class="logout" onclick="memberLogout()">LOG OUT</button>
+      </div>
+    </div>
+
+    <div id="memberMessage" class="auth-message"></div>
+  </div>
+</div>
+
+<!-- ============================================
+     ADMIN MODAL
+============================================= -->
+<div id="adminModal" class="modal-bg">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('adminModal')">✕</button>
+
+    <h2>⚙️ Voice of Peace Administration</h2>
+
+    <div id="adminLoginArea">
+      <div class="auth-grid">
+        <input id="adminEmail" type="email" placeholder="Administrator email">
+        <input id="adminPassword" type="password" placeholder="Administrator password">
+
+        <button onclick="adminLogin()">ADMIN LOGIN</button>
+      </div>
+    </div>
+
+    <div id="adminDashboard" style="display:none;">
+      <p>
+        Administrator:
+        <strong id="adminLoggedEmail"></strong>
+      </p>
+
+      <button class="refresh-btn" onclick="loadMembers()">
+        🔄 Refresh Members
+      </button>
+
+      <div id="memberList"></div>
+
+      <br>
+
+      <button class="modal-close" style="float:none;" onclick="memberLogout()">
+        Admin Logout
+      </button>
+    </div>
+
+    <div id="adminMessage" class="auth-message"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="top">
+    <div class="kicker">THIS IS THE</div>
+    <h1>VOICE OF PEACE TV</h1>
+    <div class="byline">By Emmanuel &amp; Camili Hileah</div>
+  </div>
+
+  <div class="card">
+    <div class="channels" id="channels"></div>
+
+    <div class="playerbox"><div id="player"></div></div>
+
+    <div class="now">NOW PLAYING: <strong id="nowPlaying">Choose a channel</strong></div>
+    <div class="status" id="status">Tap a channel. Everything stays inside Voice of Peace.</div>
+
+    <div class="controls">
+      <button id="prevBtn">◀ Previous</button>
+      <button id="playBtn">▶ Play</button>
+      <button id="pauseBtn">⏸ Pause</button>
+      <button id="nextBtn">Next ▶</button>
+      <button id="muteBtn" class="mute">🔇 Mute</button>
+
+      <div class="volume">
+        <span>🔊 Volume</span>
+        <input id="volume" type="range" min="0" max="100" value="80">
+        <span id="volNum" class="volnum">80%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card custom">
+    <h2>📺 Play your own YouTube video</h2>
+    <p>
+      Paste a YouTube video or playlist URL. It plays inside the Voice of Peace TV box above.
+      This page never opens YouTube in a new tab.
+    </p>
+
+    <div class="searchrow">
+      <input id="customInput" type="search" placeholder="Paste YouTube URL here" autocomplete="off">
+      <button id="playUrlBtn">▶ Play Inside TV</button>
+    </div>
+
+    <div class="examples">
+      Supports youtube.com/watch?v=..., youtu.be/..., youtube.com/live/...,
+      youtube.com/shorts/... and playlist URLs.
+    </div>
+  </div>
+
+  <div class="footer">
+    Voice of Peace • Embedded YouTube television
+  </div>
+</div>
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-(()=>{"use strict";
-const DEFAULT_CHANNELS=[
-{name:"הרב זמיר כהן",note:"Official Rabbi Zamir Cohen / Hidabroot",sources:["-FaTChH9LrQ","2u_XwaRaH-k"]},
-{name:"חדשות ישראל — ערוץ 14",note:"Now 14 / C14",sources:["D4LiXNHnmYo","DVuzPDH5i1w"]},
-{name:"FOX News",note:"Fox News reports",sources:["QR-3qPlNGqM","ZUxgpw1ptEU"]},
-{name:"Discovery & Documentary",note:"Long-form documentary",sources:["kNuwCiuDz4E","qMtcWqCL_UQ"]},
-{name:"Clean Comedy",note:"Dry Bar Comedy",sources:["VbOALuHrK_M","kLUFit8815c"]},
-{name:"Inventions & Technology",note:"Technology / innovation",sources:["qMtcWqCL_UQ","eHJnEHyyN1Y"]},
-{name:"Business Ideas",note:"Entrepreneurship / 2026 ideas",sources:["K3Hd1_PLyCI","eHJnEHyyN1Y"]},
-{name:"History of Israel",note:"Long-form Israel history",sources:["kNuwCiuDz4E","D4LiXNHnmYo"]},
-{name:"Israel Music",note:"Israeli culture & music backup",sources:["l8PMl7tUDIE","Ap-UM1O9RBU"]},
-{name:"Old Western Movie",note:"Full-length Western",sources:["FrE4Pgf0t68","kLUFit8815c"]},
-{name:"Health & Wellness",note:"Health / wellness backup",sources:["eHJnEHyyN1Y","VbOALuHrK_M"]},
-{name:"World News Live",note:"FRANCE 24 English / French",sources:["Ap-UM1O9RBU","l8PMl7tUDIE"]}
+/*
+  IMPORTANT:
+  Each subject has its OWN source list.
+  If a video is blocked/unavailable, the player automatically tries the next
+  source for THAT SAME subject. It does not jump to an unrelated subject.
+*/
+
+/* ============================================================
+   DO NOT CHANGE THESE WORKING VIDEO SOURCES
+============================================================ */
+const PRESETS = [
+  {
+    name:"🇮🇱 Israel News",
+    station:"ILTV Israel News",
+    videos:["C2c9aUTW2uE","xiuIidBLeLo"]
+  },
+  {
+    name:"🇺🇸 U.S. News Live",
+    station:"ABC News / NBC News",
+    videos:["-mvUkiILTqI","hHpdHz5i3z4"]
+  },
+  {
+    name:"😂 Comedy TV",
+    station:"Comedy Central",
+    videos:["VDEuS5wIk5Q","gODZzSOelss"]
+  },
+  {
+    name:"🎬 Comedy Movies",
+    station:"Comedy Central",
+    videos:["gODZzSOelss","VDEuS5wIk5Q"]
+  },
+  {
+    name:"📱 Shorts TV",
+    station:"Short-form comedy",
+    videos:["VDEuS5wIk5Q","gODZzSOelss"]
+  },
+  {
+    name:"✈️ Travel TV",
+    station:"Rick Steves' Europe",
+    videos:["ugFmDGDzExY","xFzLR8fF-7A"]
+  },
+  {
+    name:"🐘 Animal TV",
+    station:"BBC Earth",
+    videos:["PkcnAB09ZXU","29qW_dWBbCk"]
+  },
+  {
+    name:"🌊 Nature & Ocean",
+    station:"BBC Earth",
+    videos:["AgpWX18dby4","EF8C4v7JIbA"]
+  },
+  {
+    name:"📰 U.S. Politics & Trump News",
+    station:"ABC News / NBC News",
+    videos:["-mvUkiILTqI","hHpdHz5i3z4"]
+  },
+  {
+    name:"💰 Make Money",
+    station:"CNBC Make It",
+    videos:["wRaDQJihaQU"]
+  },
+  {
+    name:"🤖 Today's Technology",
+    station:"MKBHD",
+    videos:["c347oYQO57A","6uS5F1MSzaQ"]
+  },
+  {
+    name:"🇮🇱 Israel War & Security",
+    station:"ILTV Israel News",
+    videos:["C2c9aUTW2uE","xiuIidBLeLo"]
+  },
+  {
+    name:"❤️ Health Channel",
+    station:"Mayo Clinic",
+    videos:[],
+    playlist:"UU8fQzKHIhSoZeSq3bwQx4mw"
+  },
+  {
+    name:"✡️ הרב זמיר כהן",
+    station:"Rabbi Zamir Cohen",
+    videos:["-FaTChH9LrQ","2u_XwaRaH-k"]
+  }
 ];
-let channels;try{channels=JSON.parse(localStorage.getItem("vop_channels_v5"))||DEFAULT_CHANNELS.map(c=>({...c,sources:[...c.sources]}));if(!Array.isArray(channels)||channels.length!==12)throw 0}catch(e){channels=DEFAULT_CHANNELS.map(c=>({...c,sources:[...c.sources]}))}
-let player=null,current=0,sourceIndex=0,started=false,errorTimer=null;
-const $=id=>document.getElementById(id),list=$("channels"),nowTitle=$("nowTitle"),sourceText=$("sourceText"),notice=$("notice"),overlay=$("startOverlay");
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]))}
-function renderButtons(){list.innerHTML="";channels.forEach((ch,i)=>{const b=document.createElement("button");b.className="channel"+(i===current?" active":"");b.type="button";b.innerHTML='<span class="num">'+(i+1)+'</span>'+escapeHtml(ch.name)+'<span class="small">'+escapeHtml(ch.note||"YouTube")+'</span>';b.onclick=()=>playChannel(i,0);list.appendChild(b)})}
-function currentSource(){const ch=channels[current];return ch.sources[sourceIndex%ch.sources.length]}
-function updateLabels(msg=""){const ch=channels[current];nowTitle.textContent="Channel "+(current+1)+" — "+ch.name;sourceText.textContent="Source "+(sourceIndex+1)+" of "+ch.sources.length;if(msg)notice.textContent=msg;renderButtons()}
-function loadCurrent(){if(!started||!player||typeof player.loadVideoById!=="function")return;clearTimeout(errorTimer);const id=currentSource();updateLabels("Loading source "+(sourceIndex+1)+"…");try{player.loadVideoById(id);errorTimer=setTimeout(()=>{if(player&&typeof player.getPlayerState==="function"&&player.getPlayerState()===-1)nextSource(true)},10000)}catch(e){nextSource(true)}}
-function playChannel(i,s=0){current=(i+channels.length)%channels.length;sourceIndex=s%channels[current].sources.length;updateLabels();if(started)loadCurrent()}
-function nextSource(auto=false){const count=channels[current].sources.length;sourceIndex=(sourceIndex+1)%count;updateLabels(auto?"That source did not play. Trying backup source…":"Switching source…");loadCurrent()}
-function prevSource(){const count=channels[current].sources.length;sourceIndex=(sourceIndex-1+count)%count;loadCurrent()}
-function save(){localStorage.setItem("vop_channels_v5",JSON.stringify(channels))}
-function extractYouTubeId(value){value=(value||"").trim();if(/^[A-Za-z0-9_-]{11}$/.test(value))return value;try{const u=new URL(value);if(u.hostname.includes("youtu.be")){const id=u.pathname.split("/").filter(Boolean)[0];return /^[A-Za-z0-9_-]{11}$/.test(id)?id:null}if(u.hostname.includes("youtube.com")){if(u.pathname.startsWith("/shorts/")||u.pathname.startsWith("/embed/")||u.pathname.startsWith("/live/")){const id=u.pathname.split("/")[2];return /^[A-Za-z0-9_-]{11}$/.test(id)?id:null}const id=u.searchParams.get("v");return /^[A-Za-z0-9_-]{11}$/.test(id||"")?id:null}}catch(e){}return null}
-window.onYouTubeIframeAPIReady=function(){player=new YT.Player("player",{width:"100%",height:"100%",videoId:currentSource(),playerVars:{autoplay:0,playsinline:1,rel:0,modestbranding:1},events:{onReady:()=>{$("readyBadge").textContent="● PLAYER READY";updateLabels("Tap the player once, then choose any channel.")},onStateChange:e=>{clearTimeout(errorTimer);if(e.data===YT.PlayerState.PLAYING)notice.textContent="Playing — use Channel or Source buttons any time.";if(e.data===YT.PlayerState.ENDED)nextSource(true)},onError:e=>{notice.textContent="YouTube error "+e.data+". Trying backup source…";setTimeout(()=>nextSource(true),500)}}})};
-overlay.onclick=()=>{started=true;overlay.classList.add("hidden");loadCurrent()};
-$("prevBtn").onclick=()=>playChannel(current-1,0);$("nextBtn").onclick=()=>playChannel(current+1,0);$("prevSourceBtn").onclick=()=>prevSource();$("nextSourceBtn").onclick=()=>nextSource(false);$("reloadBtn").onclick=()=>loadCurrent();$("openBtn").onclick=()=>window.open("https://www.youtube.com/watch?v="+currentSource(),"_blank","noopener");$("fullBtn").onclick=()=>{const el=$("videoWrap");if(el.requestFullscreen)el.requestFullscreen();else if(el.webkitRequestFullscreen)el.webkitRequestFullscreen()};
-$("playCustom").onclick=()=>{const id=extractYouTubeId($("customUrl").value);if(!id){alert("Please paste a valid YouTube URL or 11-character video ID.");return}started=true;overlay.classList.add("hidden");nowTitle.textContent="Custom YouTube Video";sourceText.textContent="User-selected source";player.loadVideoById(id)};
-$("saveChannel").onclick=()=>{const n=parseInt($("editNumber").value,10),name=$("editName").value.trim(),id=extractYouTubeId($("editUrl").value);if(!(n>=1&&n<=12)){alert("Choose a channel number from 1 to 12.");return}if(!name){alert("Enter a channel name.");return}if(!id){alert("Paste a valid YouTube video URL or video ID.");return}channels[n-1]={name,note:"Custom saved channel",sources:[id]};save();playChannel(n-1,0);alert("Channel "+n+" saved.")};
-$("resetChannels").onclick=()=>{if(!confirm("Reset all 12 buttons to the original Voice of Peace channels?"))return;channels=DEFAULT_CHANNELS.map(c=>({...c,sources:[...c.sources]}));save();playChannel(0,0)};
-renderButtons();updateLabels();
-})();
+
+let currentIndex = -1;
+let sourceIndex = 0;
+let ytPlayer = null;
+let ready = false;
+let changingBecauseOfError = false;
+let wantedVolume = Number(localStorage.getItem("vop_volume") || 80);
+
+const channelsEl = document.getElementById("channels");
+const nowEl = document.getElementById("nowPlaying");
+const statusEl = document.getElementById("status");
+const volumeEl = document.getElementById("volume");
+const volNumEl = document.getElementById("volNum");
+const muteBtn = document.getElementById("muteBtn");
+
+volumeEl.value = wantedVolume;
+volNumEl.textContent = wantedVolume + "%";
+
+function setStatus(t){
+  statusEl.textContent = t;
+}
+
+function renderButtons(){
+  channelsEl.innerHTML = "";
+
+  PRESETS.forEach((c,i)=>{
+    const b = document.createElement("button");
+    b.className = "ch" + (i === currentIndex ? " active" : "");
+    b.innerHTML = "<b>CHANNEL " + (i+1) + "</b><span>" + c.name + "</span>";
+    b.onclick = ()=>playPreset(i);
+    channelsEl.appendChild(b);
+  });
+}
+
+function markActive(){
+  [...channelsEl.children].forEach((b,i)=>{
+    b.classList.toggle("active", i === currentIndex);
+  });
+}
+
+window.onYouTubeIframeAPIReady = function(){
+  ytPlayer = new YT.Player("player",{
+    width:"100%",
+    height:"100%",
+
+    playerVars:{
+      autoplay:0,
+      controls:1,
+      playsinline:1,
+      rel:0
+    },
+
+    events:{
+      onReady:function(){
+        ready = true;
+        ytPlayer.setVolume(wantedVolume);
+        setStatus("Ready — choose a channel.");
+      },
+
+      onStateChange:function(e){
+        if(e.data === YT.PlayerState.PLAYING){
+          changingBecauseOfError = false;
+          setStatus("● Playing inside Voice of Peace TV");
+        }
+
+        if(e.data === YT.PlayerState.PAUSED){
+          setStatus("Paused");
+        }
+
+        if(e.data === YT.PlayerState.ENDED){
+          setStatus("Video ended — playing the next video in this same subject.");
+          setTimeout(tryNextSource,400);
+        }
+      },
+
+      onError:function(e){
+        if(changingBecauseOfError) return;
+
+        changingBecauseOfError = true;
+
+        setStatus(
+          "This YouTube item is unavailable for embedding — trying the next source in the same subject…"
+        );
+
+        setTimeout(()=>{
+          changingBecauseOfError = false;
+          tryNextSource();
+        },650);
+      }
+    }
+  });
+};
+
+function loadCurrentSource(){
+  const c = PRESETS[currentIndex];
+
+  if(!c || !ready) return;
+
+  if(c.videos && c.videos.length){
+    const id = c.videos[sourceIndex % c.videos.length];
+
+    ytPlayer.loadVideoById(id);
+    ytPlayer.setVolume(wantedVolume);
+
+    return;
+  }
+
+  if(c.playlist){
+    ytPlayer.loadPlaylist({
+      listType:"playlist",
+      list:c.playlist,
+      index:sourceIndex || 0
+    });
+
+    ytPlayer.setVolume(wantedVolume);
+  }
+}
+
+function playPreset(i){
+  currentIndex = (i + PRESETS.length) % PRESETS.length;
+  sourceIndex = 0;
+
+  const c = PRESETS[currentIndex];
+
+  nowEl.textContent = c.name + " — " + c.station;
+
+  markActive();
+
+  if(!ready){
+    setStatus("YouTube player is still loading…");
+    return;
+  }
+
+  setStatus("Loading " + c.station + "…");
+
+  loadCurrentSource();
+}
+
+function tryNextSource(){
+  if(currentIndex < 0) return;
+
+  const c = PRESETS[currentIndex];
+
+  if(c.videos && c.videos.length){
+    sourceIndex++;
+
+    if(sourceIndex >= c.videos.length){
+      sourceIndex = 0;
+      setStatus(
+        "No other source in this subject is available right now. Tap another channel."
+      );
+      return;
+    }
+
+    setStatus(
+      "Trying backup source " +
+      (sourceIndex+1) +
+      " for " +
+      c.name +
+      "…"
+    );
+
+    loadCurrentSource();
+
+    return;
+  }
+
+  if(c.playlist){
+    try{
+      ytPlayer.nextVideo();
+      setStatus("Trying the next video from " + c.station + "…");
+    }catch(err){
+      setStatus("This channel is not available for embedding right now.");
+    }
+  }
+}
+
+function nextChannel(){
+  if(currentIndex < 0) return playPreset(0);
+
+  playPreset(
+    (currentIndex + 1) %
+    PRESETS.length
+  );
+}
+
+function prevChannel(){
+  if(currentIndex < 0){
+    return playPreset(PRESETS.length - 1);
+  }
+
+  playPreset(
+    (currentIndex - 1 + PRESETS.length) %
+    PRESETS.length
+  );
+}
+
+document.getElementById("nextBtn").onclick = nextChannel;
+document.getElementById("prevBtn").onclick = prevChannel;
+
+document.getElementById("playBtn").onclick = ()=>{
+  if(ready) ytPlayer.playVideo();
+};
+
+document.getElementById("pauseBtn").onclick = ()=>{
+  if(ready) ytPlayer.pauseVideo();
+};
+
+volumeEl.oninput = ()=>{
+  wantedVolume = Number(volumeEl.value);
+
+  volNumEl.textContent =
+    wantedVolume +
+    "%";
+
+  localStorage.setItem(
+    "vop_volume",
+    wantedVolume
+  );
+
+  if(ready){
+    ytPlayer.unMute();
+    ytPlayer.setVolume(wantedVolume);
+  }
+
+  muteBtn.textContent =
+    "🔇 Mute";
+};
+
+muteBtn.onclick = ()=>{
+  if(!ready) return;
+
+  if(ytPlayer.isMuted()){
+    ytPlayer.unMute();
+    ytPlayer.setVolume(wantedVolume);
+    muteBtn.textContent = "🔇 Mute";
+  }else{
+    ytPlayer.mute();
+    muteBtn.textContent = "🔊 Unmute";
+  }
+};
+
+function parseYouTube(value){
+  const s = value.trim();
+
+  if(!s) return null;
+
+  try{
+    const u = new URL(
+      s.startsWith("http")
+      ? s
+      : "https://" + s
+    );
+
+    const host =
+      u.hostname.replace(
+        /^www\./,
+        ""
+      );
+
+    if(host === "youtu.be"){
+      const id =
+        u.pathname
+        .split("/")
+        .filter(Boolean)[0];
+
+      return id
+        ? {type:"video",id}
+        : null;
+    }
+
+    if(host.endsWith("youtube.com")){
+      const v =
+        u.searchParams.get("v");
+
+      const list =
+        u.searchParams.get("list");
+
+      if(v){
+        return{
+          type:"video",
+          id:v
+        };
+      }
+
+      if(list){
+        return{
+          type:"playlist",
+          id:list
+        };
+      }
+
+      const parts =
+        u.pathname
+        .split("/")
+        .filter(Boolean);
+
+      if(
+        ["live","shorts","embed"]
+        .includes(parts[0]) &&
+        parts[1]
+      ){
+        return{
+          type:"video",
+          id:parts[1]
+        };
+      }
+    }
+
+  }catch(e){}
+
+  if(
+    /^[A-Za-z0-9_-]{11}$/
+    .test(s)
+  ){
+    return{
+      type:"video",
+      id:s
+    };
+  }
+
+  return null;
+}
+
+function playCustom(){
+  const raw =
+    document.getElementById(
+      "customInput"
+    ).value;
+
+  const parsed =
+    parseYouTube(raw);
+
+  if(!parsed){
+    setStatus(
+      "Paste a direct YouTube video or playlist URL. Keyword search cannot stay embedded without the YouTube Data API."
+    );
+    return;
+  }
+
+  currentIndex = -1;
+
+  markActive();
+
+  nowEl.textContent =
+    "Custom YouTube";
+
+  if(!ready){
+    setStatus(
+      "YouTube player is still loading…"
+    );
+    return;
+  }
+
+  if(parsed.type === "playlist"){
+    ytPlayer.loadPlaylist({
+      listType:"playlist",
+      list:parsed.id,
+      index:0
+    });
+
+    setStatus(
+      "Custom playlist loaded inside Voice of Peace."
+    );
+  }else{
+    ytPlayer.loadVideoById(
+      parsed.id
+    );
+
+    setStatus(
+      "Custom video loaded inside Voice of Peace."
+    );
+  }
+
+  ytPlayer.setVolume(
+    wantedVolume
+  );
+}
+
+document.getElementById(
+  "playUrlBtn"
+).onclick =
+  playCustom;
+
+document.getElementById(
+  "customInput"
+).addEventListener(
+  "keydown",
+  e=>{
+    if(e.key === "Enter"){
+      e.preventDefault();
+      playCustom();
+    }
+  }
+);
+
+renderButtons();
+
+/* ============================================================
+   VOICE OF PEACE MEMBERSHIP / SUPABASE
+   This section does NOT change the YouTube player.
+============================================================ */
+
+const VOP_SUPABASE_URL =
+  "https://oyeeeooymrzemxfrvcon.supabase.co";
+
+const VOP_SUPABASE_KEY =
+  "sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j";
+
+const vopDB =
+  window.supabase.createClient(
+    VOP_SUPABASE_URL,
+    VOP_SUPABASE_KEY
+  );
+
+let currentMember = null;
+let currentMemberProfile = null;
+
+function openMemberModal(){
+  document
+    .getElementById("memberModal")
+    .classList.add("open");
+
+  refreshMemberUI();
+}
+
+function openAdminModal(){
+  document
+    .getElementById("adminModal")
+    .classList.add("open");
+
+  checkAdminStatus();
+}
+
+function closeModal(id){
+  document
+    .getElementById(id)
+    .classList.remove("open");
+}
+
+async function memberRegister(){
+  const name =
+    document
+      .getElementById("memberName")
+      .value
+      .trim();
+
+  const email =
+    document
+      .getElementById("memberEmail")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("memberPassword")
+      .value;
+
+  const msg =
+    document.getElementById(
+      "memberMessage"
+    );
+
+  if(!name || !email || !password){
+    msg.textContent =
+      "Please enter your name, email and password.";
+    return;
+  }
+
+  msg.textContent =
+    "Creating your account...";
+
+  const {
+    data,
+    error
+  } =
+  await vopDB.auth.signUp({
+    email:email,
+    password:password,
+    options:{
+      data:{
+        full_name:name
+      }
+    }
+  });
+
+  if(error){
+    msg.textContent =
+      error.message;
+    return;
+  }
+
+  if(data.user){
+    const {
+      error:profileError
+    } =
+    await vopDB
+      .from("members")
+      .upsert({
+        id:data.user.id,
+        email:email,
+        full_name:name,
+        status:"pending",
+        payment_status:"unpaid"
+      });
+
+    if(profileError){
+      console.log(
+        "Profile creation:",
+        profileError.message
+      );
+    }
+  }
+
+  msg.textContent =
+    "Account created. Please complete payment to activate your membership.";
+
+  await refreshMemberUI();
+}
+
+async function memberSignIn(){
+  const email =
+    document
+      .getElementById("memberEmail")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("memberPassword")
+      .value;
+
+  const msg =
+    document.getElementById(
+      "memberMessage"
+    );
+
+  msg.textContent =
+    "Signing in...";
+
+  const {
+    data,
+    error
+  } =
+  await vopDB.auth
+    .signInWithPassword({
+      email:email,
+      password:password
+    });
+
+  if(error){
+    msg.textContent =
+      error.message;
+    return;
+  }
+
+  currentMember =
+    data.user;
+
+  msg.textContent =
+    "Login successful.";
+
+  await refreshMemberUI();
+}
+
+async function memberLogout(){
+  await vopDB.auth.signOut();
+
+  currentMember = null;
+  currentMemberProfile = null;
+
+  document
+    .getElementById("adminDashboard")
+    .style.display =
+    "none";
+
+  document
+    .getElementById("adminLoginArea")
+    .style.display =
+    "block";
+
+  document
+    .getElementById("adminModal")
+    .classList.remove("open");
+
+  await refreshMemberUI();
+}
+
+async function refreshMemberUI(){
+  const {
+    data
+  } =
+  await vopDB.auth.getUser();
+
+  currentMember =
+    data.user ||
+    null;
+
+  const loggedOut =
+    document.getElementById(
+      "loggedOutMember"
+    );
+
+  const loggedIn =
+    document.getElementById(
+      "loggedInMember"
+    );
+
+  const badge =
+    document.getElementById(
+      "memberBadge"
+    );
+
+  if(!currentMember){
+    loggedOut.style.display =
+      "block";
+
+    loggedIn.style.display =
+      "none";
+
+    badge.style.display =
+      "none";
+
+    document.getElementById(
+      "memberLoginBtn"
+    ).innerHTML =
+      '👤 <span class="login-text">Member Login</span>';
+
+    return;
+  }
+
+  loggedOut.style.display =
+    "none";
+
+  loggedIn.style.display =
+    "block";
+
+  document
+    .getElementById("loggedInEmail")
+    .textContent =
+    currentMember.email;
+
+  document.getElementById(
+    "memberLoginBtn"
+  ).innerHTML =
+    '👤 <span class="login-text">My Account</span>';
+
+  const {
+    data:profile,
+    error
+  } =
+  await vopDB
+    .from("members")
+    .select("*")
+    .eq("id",currentMember.id)
+    .maybeSingle();
+
+  if(error){
+    console.log(
+      "Member profile:",
+      error.message
+    );
+
+    document.getElementById(
+      "membershipStatus"
+    ).textContent =
+      "PROFILE NOT READY";
+
+    return;
+  }
+
+  currentMemberProfile =
+    profile;
+
+  const membership =
+    profile?.status ||
+    "pending";
+
+  const payment =
+    profile?.payment_status ||
+    "unpaid";
+
+  const membershipStatusEl =
+    document.getElementById(
+      "membershipStatus"
+    );
+
+  membershipStatusEl.textContent =
+    membership.toUpperCase();
+
+  membershipStatusEl.className =
+    membership === "approved"
+      ? "status-approved"
+      : membership === "suspended"
+      ? "status-suspended"
+      : "status-pending";
+
+  badge.style.display =
+    "block";
+
+  badge.textContent =
+    currentMember.email +
+    " • " +
+    membership;
+
+  document
+    .getElementById("paymentSection")
+    .style.display =
+    (
+      payment !== "paid" &&
+      membership !== "approved"
+    )
+      ? "block"
+      : "none";
+}
+
+async function adminLogin(){
+  const email =
+    document
+      .getElementById("adminEmail")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("adminPassword")
+      .value;
+
+  const msg =
+    document.getElementById(
+      "adminMessage"
+    );
+
+  msg.textContent =
+    "Checking administrator account...";
+
+  const {
+    data,
+    error
+  } =
+  await vopDB.auth
+    .signInWithPassword({
+      email:email,
+      password:password
+    });
+
+  if(error){
+    msg.textContent =
+      error.message;
+    return;
+  }
+
+  const user =
+    data.user;
+
+  const {
+    data:profile,
+    error:profileError
+  } =
+  await vopDB
+    .from("members")
+    .select("role")
+    .eq("id",user.id)
+    .maybeSingle();
+
+  if(profileError){
+    msg.textContent =
+      profileError.message;
+    return;
+  }
+
+  if(
+    !profile ||
+    profile.role !== "admin"
+  ){
+    msg.textContent =
+      "This account does not have administrator permission.";
+    return;
+  }
+
+  document
+    .getElementById("adminLoginArea")
+    .style.display =
+    "none";
+
+  document
+    .getElementById("adminDashboard")
+    .style.display =
+    "block";
+
+  document
+    .getElementById("adminLoggedEmail")
+    .textContent =
+    user.email;
+
+  msg.textContent =
+    "Administrator access granted.";
+
+  await loadMembers();
+}
+
+async function checkAdminStatus(){
+  const {
+    data
+  } =
+  await vopDB.auth.getUser();
+
+  if(!data.user){
+    return;
+  }
+
+  const {
+    data:profile
+  } =
+  await vopDB
+    .from("members")
+    .select("role")
+    .eq("id",data.user.id)
+    .maybeSingle();
+
+  if(
+    profile &&
+    profile.role === "admin"
+  ){
+    document
+      .getElementById("adminLoginArea")
+      .style.display =
+      "none";
+
+    document
+      .getElementById("adminDashboard")
+      .style.display =
+      "block";
+
+    document
+      .getElementById("adminLoggedEmail")
+      .textContent =
+      data.user.email;
+
+    loadMembers();
+  }
+}
+
+async function loadMembers(){
+  const box =
+    document.getElementById(
+      "memberList"
+    );
+
+  box.innerHTML =
+    "Loading members...";
+
+  const {
+    data,
+    error
+  } =
+  await vopDB.rpc(
+    "admin_get_members"
+  );
+
+  if(error){
+    box.innerHTML =
+      "Could not load members: " +
+      escapeMemberHTML(
+        error.message
+      );
+    return;
+  }
+
+  box.innerHTML =
+    "";
+
+  if(!data || !data.length){
+    box.innerHTML =
+      "<p>No members found.</p>";
+    return;
+  }
+
+  data.forEach(member=>{
+    const row =
+      document.createElement(
+        "div"
+      );
+
+    row.className =
+      "member-row";
+
+    row.innerHTML =
+      `
+      <strong>
+        ${escapeMemberHTML(
+          member.full_name ||
+          "Member"
+        )}
+      </strong>
+
+      <br>
+
+      ${escapeMemberHTML(
+        member.email ||
+        ""
+      )}
+
+      <br>
+
+      <small>
+        Membership:
+        ${escapeMemberHTML(
+          member.status ||
+          "pending"
+        )}
+
+        &nbsp; • &nbsp;
+
+        Payment:
+        ${escapeMemberHTML(
+          member.payment_status ||
+          "unpaid"
+        )}
+      </small>
+
+      <div class="member-actions">
+        <button
+          class="approve-btn"
+          onclick="setMemberStatus(
+            '${member.id}',
+            'approved'
+          )">
+          ✓ Approve
+        </button>
+
+        <button
+          class="suspend-btn"
+          onclick="setMemberStatus(
+            '${member.id}',
+            'suspended'
+          )">
+          Suspend
+        </button>
+      </div>
+      `;
+
+    box.appendChild(
+      row
+    );
+  });
+}
+
+async function setMemberStatus(
+  memberId,
+  newStatus
+){
+  const {
+    error
+  } =
+  await vopDB.rpc(
+    "admin_set_member_status",
+    {
+      target_member_id:
+        memberId,
+      new_status:
+        newStatus
+    }
+  );
+
+  if(error){
+    alert(
+      "Could not update member: " +
+      error.message
+    );
+    return;
+  }
+
+  await loadMembers();
+}
+
+function escapeMemberHTML(value){
+  return String(
+    value ||
+    ""
+  )
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
+}
+
+vopDB.auth.onAuthStateChange(
+  ()=>{
+    setTimeout(
+      refreshMemberUI,
+      100
+    );
+  }
+);
+
+refreshMemberUI();
+
+/* ============================================================
+   LOAD YOUTUBE API LAST
+============================================================ */
+const tag = document.createElement("script");
+tag.src = "https://www.youtube.com/iframe_api";
+document.head.appendChild(tag);
+
 </script>
-</body></html>
+
+</body>
+</html>

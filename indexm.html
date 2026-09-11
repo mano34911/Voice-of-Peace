@@ -1,41 +1,890 @@
-<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#06182c">
-<title>Voice of Peace — 100 Greatest Hits</title><style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#020b14;color:#fff;font-family:Arial,Helvetica,sans-serif}
-body{background:radial-gradient(circle at top,#0b4b78 0,#052d4d 28%,#021729 62%,#010810 100%)}
-.wrap{width:min(1220px,96%);margin:auto;padding:16px 0 36px}header{text-align:center;margin-bottom:14px}.kicker{color:#4bd0ff;font-size:11px;letter-spacing:3px;font-weight:900}
-h1{font-size:clamp(28px,6vw,54px);margin:5px 0}.sub{color:#bdd5e5;font-size:13px}.card{background:linear-gradient(180deg,#062844,#03182d);border:1px solid #266a96;border-radius:18px;overflow:hidden;box-shadow:0 16px 45px #0009}
-.top{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid #194f73}#title{font-size:18px;font-weight:900}.status{font-size:11px;color:#bff1ff}
-.video{position:relative;aspect-ratio:16/9;background:#000}#player{position:absolute;inset:0;width:100%;height:100%}.controls{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:10px}
-button{border:1px solid #2a709c;background:linear-gradient(180deg,#10517e,#072c4b);color:#fff;border-radius:11px;padding:10px 8px;font-weight:900;cursor:pointer}button.active{outline:2px solid #ffd34f;border-color:#ffd34f}
-.gold{color:#1d1600;background:linear-gradient(180deg,#ffe16b,#efb522);border-color:#ffdf65}.red{background:linear-gradient(180deg,#b83a49,#75212d)}
-.memorialWrap{overflow:hidden;white-space:nowrap;background:#07182a;border-top:1px solid #285f82;border-bottom:1px solid #285f82;padding:10px 0;direction:ltr}
-.memorialText{display:inline-block;min-width:100%;padding-left:100%;animation:scroll 28s linear infinite;color:#ffd34f;font-weight:900;font-size:clamp(15px,2.3vw,22px);direction:rtl}
-@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-100%)}}.donateRow{display:flex;justify-content:center;padding:14px;background:#04182b;border-top:1px solid #1b4d70}
-.donateBtn{display:inline-block;text-decoration:none;background:linear-gradient(180deg,#ffe16b,#efb522);color:#1d1600;border:1px solid #ffdf65;border-radius:999px;padding:15px 30px;font-weight:900;font-size:19px}
-.note{padding:10px 14px;background:#031322;color:#bad2e1;border-top:1px solid #143a55;font-size:11px;text-align:center}.section{margin-top:18px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.ch{text-align:right;min-height:64px}.num{display:inline-flex;width:28px;height:28px;align-items:center;justify-content:center;background:#021426;color:#ffd34f;border-radius:8px;margin-left:7px}.ch small{display:block;margin:4px 35px 0 0;color:#a9cce0;font-size:10px}
-.searchbox{margin-top:16px;background:#041a2e;border:1px solid #245f86;border-radius:14px;padding:12px}.row{display:grid;grid-template-columns:1fr auto;gap:8px}input{width:100%;border:1px solid #2b719d;background:#021323;color:#fff;border-radius:10px;padding:11px}.footer{text-align:center;color:#789bb2;font-size:10px;margin-top:16px}
-@media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}.controls{grid-template-columns:repeat(3,1fr)}}@media(max-width:430px){.grid{grid-template-columns:1fr}}
-</style></head><body><div class="wrap"><header><div class="kicker">VOICE OF PEACE • MUSIC TV</div><h1>100 Greatest Hits</h1><div class="sub">English & Hebrew • 80s • 90s • 2000s • Classic Hits • No Rap</div></header>
-<section class="card"><div class="top"><div id="title">בחר שיר / Choose a song</div><div class="status" id="status">מכין את הנגן…</div></div>
-<div class="video"><div id="player"></div><button id="startPlayer" style="position:absolute;inset:0;margin:auto;width:190px;height:64px;border:0;border-radius:18px;background:#ffd34f;color:#07182a;font-size:22px;font-weight:900;z-index:8">▶ PLAY / נגן</button></div>
-<div class="memorialWrap"><div class="memorialText">לעילוי נשמות זהבה חלא בת דינה - זצ״ל - דינה חלא בת ורד זצ״ל - חיים חלא בן יצחק זצ״ל תנצבג״ה</div></div>
-<div class="donateRow"><a class="donateBtn" href="https://www.paypal.me/payfortransport" target="_blank" rel="noopener noreferrer">💛 Donate with PayPal</a></div>
-<div class="controls"><button id="prevChannel">◀ הקודם</button><button id="nextChannel">הבא ▶</button><button id="prevVideo">◀ גרסה</button><button id="nextVideo">גרסה ▶</button><button id="reload" class="gold">↻ רענן</button><button id="stop" class="red">■ עצור</button></div>
-<div class="note">כל כפתור מחפש את השיר ישירות ב-YouTube. אם סרטון חסום או הוסר, הנגן עובר לגרסה הבאה.</div></section>
-<section class="section"><h2>🎵 100 השירים הגדולים</h2><div class="grid" id="channels"></div></section>
-<div class="searchbox"><b>חיפוש מוזיקה ב-YouTube</b><div class="row"><input id="customQuery" placeholder="Artist or song / אמן או שיר"><button id="customPlay" class="gold">חפש ונגן</button></div></div>
-<div class="footer">Created by CEE LTD • Emmanuel Hileah Innovations</div></div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Voice of Peace TV</title>
+<meta name="theme-color" content="#02182e">
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  background:#02182e;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+  background:radial-gradient(
+    circle at top,
+    #0c4f7e 0,
+    #062c4f 32%,
+    #02182e 68%,
+    #010b15 100%
+  );
+}
+
+.wrap{
+  width:min(1000px,96%);
+  margin:auto;
+  padding:18px 0 40px;
+}
+
+.top{
+  text-align:center;
+  margin-bottom:16px;
+}
+
+.kicker{
+  color:#4bd0ff;
+  font-weight:900;
+  letter-spacing:4px;
+  font-size:12px;
+}
+
+h1{
+  margin:6px 0 2px;
+  font-size:clamp(30px,7vw,56px);
+}
+
+.byline{
+  color:#ffd34f;
+  font-weight:bold;
+}
+
+.memorial{
+  margin:14px auto;
+  padding:10px;
+  border:1px solid #2f6d96;
+  border-radius:14px;
+  background:#041d35;
+  text-align:center;
+  direction:rtl;
+  font-weight:bold;
+  line-height:1.7;
+}
+
+.status{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:8px;
+  margin:10px 0;
+  color:#b9cfdf;
+}
+
+.dot{
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:#888;
+}
+
+.dot.online{
+  background:#18d26e;
+}
+
+.player{
+  background:#000;
+  border:2px solid #1d6a99;
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
+}
+
+.player iframe{
+  width:100%;
+  aspect-ratio:16/9;
+  display:block;
+  border:0;
+  background:#000;
+}
+
+.current{
+  padding:12px;
+  text-align:center;
+  background:#041c31;
+  border-top:1px solid #1d5275;
+}
+
+.current strong{
+  color:#4bd0ff;
+}
+
+.controls{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin:14px 0;
+}
+
+button,
+.linkbtn{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  background:#0f85c9;
+  color:white;
+  text-decoration:none;
+}
+
+button:hover,
+.linkbtn:hover{
+  filter:brightness(1.1);
+}
+
+.channel-title{
+  margin:25px 0 12px;
+  text-align:center;
+  font-size:24px;
+}
+
+.channels{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(165px,1fr));
+  gap:10px;
+}
+
+.channel{
+  min-height:64px;
+  background:#07375e;
+  border:1px solid #1d6d9c;
+  border-radius:12px;
+  padding:12px;
+  color:#fff;
+  font-weight:bold;
+  text-align:center;
+  cursor:pointer;
+}
+
+.channel:hover{
+  background:#0b4a7d;
+}
+
+.channel.active{
+  background:#0d8bd4;
+  outline:2px solid #68d6ff;
+}
+
+.category{
+  display:block;
+  font-size:11px;
+  color:#a9c9dd;
+  margin-top:4px;
+}
+
+.searchbox{
+  margin-top:24px;
+  background:#041d35;
+  border:1px solid #235d83;
+  border-radius:14px;
+  padding:14px;
+}
+
+.searchbox h3{
+  margin-top:0;
+  text-align:center;
+}
+
+.searchrow{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.searchrow input{
+  flex:1;
+  min-width:200px;
+  border-radius:10px;
+  border:1px solid #4a7899;
+  padding:13px;
+  font-size:16px;
+}
+
+.donate{
+  display:block;
+  margin:25px auto 10px;
+  max-width:350px;
+  padding:16px;
+  border-radius:14px;
+  text-align:center;
+  background:#ffd34f;
+  color:#071626;
+  font-size:21px;
+  font-weight:900;
+  text-decoration:none;
+}
+
+.synagogue{
+  display:block;
+  margin:10px auto;
+  max-width:350px;
+  padding:15px;
+  border-radius:14px;
+  text-align:center;
+  background:#fff;
+  color:#08213a;
+  font-size:18px;
+  font-weight:bold;
+  text-decoration:none;
+}
+
+.error{
+  margin:14px 0;
+  padding:12px;
+  border-radius:10px;
+  background:#5e1e26;
+  display:none;
+}
+
+.loading{
+  text-align:center;
+  padding:20px;
+  color:#b9cfdf;
+}
+
+.footer{
+  text-align:center;
+  margin-top:28px;
+  color:#8fb3ca;
+  font-size:12px;
+}
+
+@media(max-width:600px){
+  button,.linkbtn{
+    flex:1 1 40%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="top">
+    <div class="kicker">LIVE TELEVISION</div>
+    <h1>VOICE OF PEACE</h1>
+    <div class="byline">By Emmanuel &amp; Camili Hileah</div>
+  </div>
+
+  <div class="memorial">
+    לעילוי נשמות זהבה חלא בת דינה זצ״ל •
+    דינה חלא בת ורד זצ״ל •
+    חיים חלא בן יצחק זצ״ל
+    <br>
+    תנצב״ה
+  </div>
+
+  <div class="status">
+    <span id="statusDot" class="dot"></span>
+    <span id="statusText">Connecting to Supabase...</span>
+  </div>
+
+  <div id="errorBox" class="error"></div>
+
+  <div class="player">
+    <iframe
+      id="player"
+      allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+
+    <div class="current">
+      Watching:
+      <strong id="currentChannel">Select a channel</strong>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button onclick="previousChannel()">◀ Previous</button>
+    <button onclick="reloadChannel()">↻ Reload</button>
+    <button onclick="nextChannel()">Next ▶</button>
+  </div>
+
+  <h2 class="channel-title">TV Channels</h2>
+
+  <div id="loading" class="loading">
+    Loading channels from Supabase...
+  </div>
+
+  <div id="channels" class="channels"></div>
+
+  <div class="searchbox">
+    <h3>Search Your Own Video</h3>
+
+    <div class="searchrow">
+      <input
+        id="videoSearch"
+        type="text"
+        placeholder="Example: Israel history documentary">
+
+      <button onclick="searchYouTube()">
+        Search YouTube
+      </button>
+    </div>
+  </div>
+
+  <a
+    class="donate"
+    href="https://www.paypal.me/payfortransport/"
+    target="_blank">
+    ❤️ DONATE
+  </a>
+
+  <a
+    class="synagogue"
+    href="https://mano34911.github.io/Massage-bored-4-Synagouges/admin.html"
+    target="_blank">
+    לוח בית כנסת
+  </a>
+
+  <div class="footer">
+    Voice of Peace • Created by Emmanuel Hileah Innovations
+  </div>
+
+</div>
+
 <script>
-const API_KEYS=["AIzaSyAADTL39rYmKO52pS7CV7gFT3ECVeHCM8Y", "AIzaSyD-dXf1oH6M83JHK8ivc11QSZXY0q4xJI8"],CHANNELS=[{"artist": "KISS", "song": "I Was Made for Lovin' You", "query": "KISS I Was Made for Lovin' You official"}, {"artist": "Ray Charles", "song": "Hit the Road Jack", "query": "Ray Charles Hit the Road Jack official"}, {"artist": "Stevie Wonder", "song": "Superstition", "query": "Stevie Wonder Superstition official"}, {"artist": "Stevie Wonder", "song": "I Just Called to Say I Love You", "query": "Stevie Wonder I Just Called to Say I Love You official"}, {"artist": "Stevie Wonder", "song": "Isn't She Lovely", "query": "Stevie Wonder Isn't She Lovely official"}, {"artist": "Queen", "song": "Another One Bites the Dust", "query": "Queen Another One Bites the Dust official"}, {"artist": "Queen", "song": "I Want to Break Free", "query": "Queen I Want to Break Free official"}, {"artist": "Queen", "song": "Radio Ga Ga", "query": "Queen Radio Ga Ga official"}, {"artist": "Queen", "song": "The Show Must Go On", "query": "Queen The Show Must Go On official"}, {"artist": "Queen", "song": "Don't Stop Me Now", "query": "Queen Don't Stop Me Now official"}, {"artist": "Dire Straits", "song": "Sultans of Swing", "query": "Dire Straits Sultans of Swing official"}, {"artist": "Dire Straits", "song": "Money for Nothing", "query": "Dire Straits Money for Nothing official"}, {"artist": "Dire Straits", "song": "Walk of Life", "query": "Dire Straits Walk of Life official"}, {"artist": "Eagles", "song": "Hotel California", "query": "Eagles Hotel California official"}, {"artist": "Electric Light Orchestra", "song": "Mr. Blue Sky", "query": "Electric Light Orchestra Mr. Blue Sky official"}, {"artist": "Electric Light Orchestra", "song": "Last Train to London", "query": "Electric Light Orchestra Last Train to London official"}, {"artist": "Bee Gees", "song": "Stayin' Alive", "query": "Bee Gees Stayin' Alive official"}, {"artist": "Bee Gees", "song": "How Deep Is Your Love", "query": "Bee Gees How Deep Is Your Love official"}, {"artist": "ABBA", "song": "Dancing Queen", "query": "ABBA Dancing Queen official"}, {"artist": "ABBA", "song": "The Winner Takes It All", "query": "ABBA The Winner Takes It All official"}, {"artist": "Earth Wind & Fire", "song": "September", "query": "Earth Wind & Fire September official"}, {"artist": "Kool & The Gang", "song": "Celebration", "query": "Kool & The Gang Celebration official"}, {"artist": "Michael Jackson", "song": "Billie Jean", "query": "Michael Jackson Billie Jean official"}, {"artist": "Michael Jackson", "song": "Beat It", "query": "Michael Jackson Beat It official"}, {"artist": "Michael Jackson", "song": "Man in the Mirror", "query": "Michael Jackson Man in the Mirror official"}, {"artist": "George Michael", "song": "Faith", "query": "George Michael Faith official"}, {"artist": "George Michael", "song": "Careless Whisper", "query": "George Michael Careless Whisper official"}, {"artist": "Wham!", "song": "Wake Me Up Before You Go-Go", "query": "Wham! Wake Me Up Before You Go-Go official"}, {"artist": "a-ha", "song": "Take On Me", "query": "a-ha Take On Me official"}, {"artist": "Toto", "song": "Africa", "query": "Toto Africa official"}, {"artist": "Bonnie Tyler", "song": "Total Eclipse of the Heart", "query": "Bonnie Tyler Total Eclipse of the Heart official"}, {"artist": "Cyndi Lauper", "song": "Time After Time", "query": "Cyndi Lauper Time After Time official"}, {"artist": "Lionel Richie", "song": "All Night Long", "query": "Lionel Richie All Night Long official"}, {"artist": "Phil Collins", "song": "Another Day in Paradise", "query": "Phil Collins Another Day in Paradise official"}, {"artist": "Billy Joel", "song": "Uptown Girl", "query": "Billy Joel Uptown Girl official"}, {"artist": "Bryan Adams", "song": "Summer of '69", "query": "Bryan Adams Summer of '69 official"}, {"artist": "Bryan Adams", "song": "Heaven", "query": "Bryan Adams Heaven official"}, {"artist": "Bon Jovi", "song": "Livin' on a Prayer", "query": "Bon Jovi Livin' on a Prayer official"}, {"artist": "Bon Jovi", "song": "You Give Love a Bad Name", "query": "Bon Jovi You Give Love a Bad Name official"}, {"artist": "Guns N' Roses", "song": "Sweet Child o' Mine", "query": "Guns N' Roses Sweet Child o' Mine official"}, {"artist": "Scorpions", "song": "Wind of Change", "query": "Scorpions Wind of Change official"}, {"artist": "Roxette", "song": "It Must Have Been Love", "query": "Roxette It Must Have Been Love official"}, {"artist": "R.E.M.", "song": "Losing My Religion", "query": "R.E.M. Losing My Religion official"}, {"artist": "The Cranberries", "song": "Zombie", "query": "The Cranberries Zombie official"}, {"artist": "Sting", "song": "Englishman in New York", "query": "Sting Englishman in New York official"}, {"artist": "U2", "song": "With or Without You", "query": "U2 With or Without You official"}, {"artist": "Robbie Williams", "song": "Angels", "query": "Robbie Williams Angels official"}, {"artist": "Santana", "song": "Smooth", "query": "Santana Smooth official"}, {"artist": "Eric Clapton", "song": "Tears in Heaven", "query": "Eric Clapton Tears in Heaven official"}, {"artist": "Coldplay", "song": "Viva La Vida", "query": "Coldplay Viva La Vida official"}, {"artist": "זוהר ארגוב", "song": "הפרח בגני", "query": "זוהר ארגוב הפרח בגני official"}, {"artist": "זוהר ארגוב", "song": "בדד", "query": "זוהר ארגוב בדד official"}, {"artist": "זוהר ארגוב", "song": "נכון להיום", "query": "זוהר ארגוב נכון להיום official"}, {"artist": "זוהר ארגוב", "song": "אלינור", "query": "זוהר ארגוב אלינור official"}, {"artist": "זוהר ארגוב", "song": "כבר עברו השנים", "query": "זוהר ארגוב כבר עברו השנים official"}, {"artist": "זוהר ארגוב", "song": "ים של דמעות", "query": "זוהר ארגוב ים של דמעות official"}, {"artist": "זוהר ארגוב", "song": "מרלן", "query": "זוהר ארגוב מרלן official"}, {"artist": "זוהר ארגוב", "song": "יסמין", "query": "זוהר ארגוב יסמין official"}, {"artist": "זוהר ארגוב", "song": "את לי לילה", "query": "זוהר ארגוב את לי לילה official"}, {"artist": "זוהר ארגוב", "song": "צל עץ תמר ואור ירח", "query": "זוהר ארגוב צל עץ תמר ואור ירח official"}, {"artist": "אריק לביא", "song": "לא גומר ת'חודש", "query": "אריק לביא לא גומר ת'חודש official"}, {"artist": "אריק איינשטיין", "song": "אני ואתה", "query": "אריק איינשטיין אני ואתה official"}, {"artist": "אריק איינשטיין", "song": "סע לאט", "query": "אריק איינשטיין סע לאט official"}, {"artist": "אריק איינשטיין", "song": "עוף גוזל", "query": "אריק איינשטיין עוף גוזל official"}, {"artist": "אריק איינשטיין", "song": "יש בי אהבה", "query": "אריק איינשטיין יש בי אהבה official"}, {"artist": "אריאל זילבר", "song": "רוצי שמוליק", "query": "אריאל זילבר רוצי שמוליק official"}, {"artist": "אריאל זילבר", "song": "בטי בם", "query": "אריאל זילבר בטי בם official"}, {"artist": "צביקה פיק", "song": "מרי לו", "query": "צביקה פיק מרי לו official"}, {"artist": "צביקה פיק", "song": "מעלה מעלה", "query": "צביקה פיק מעלה מעלה official"}, {"artist": "צביקה פיק", "song": "נאסף תשרי", "query": "צביקה פיק נאסף תשרי official"}, {"artist": "עפרה חזה", "song": "חי", "query": "עפרה חזה חי official"}, {"artist": "עפרה חזה", "song": "אם ננעלו", "query": "עפרה חזה אם ננעלו official"}, {"artist": "גלי עטרי", "song": "אין לי ארץ אחרת", "query": "גלי עטרי אין לי ארץ אחרת official"}, {"artist": "גלי עטרי", "song": "דרך ארוכה", "query": "גלי עטרי דרך ארוכה official"}, {"artist": "שלמה ארצי", "song": "ירח", "query": "שלמה ארצי ירח official"}, {"artist": "שלמה ארצי", "song": "תרקוד", "query": "שלמה ארצי תרקוד official"}, {"artist": "שלמה ארצי", "song": "אהבתיה", "query": "שלמה ארצי אהבתיה official"}, {"artist": "יהודה פוליקר", "song": "פחות אבל כואב", "query": "יהודה פוליקר פחות אבל כואב official"}, {"artist": "יהודה פוליקר", "song": "כשתגדל", "query": "יהודה פוליקר כשתגדל official"}, {"artist": "יהודית רביץ", "song": "באה מאהבה", "query": "יהודית רביץ באה מאהבה official"}, {"artist": "ריטה", "song": "שביל הבריחה", "query": "ריטה שביל הבריחה official"}, {"artist": "ריטה", "song": "בוא", "query": "ריטה בוא official"}, {"artist": "משינה", "song": "רכבת לילה לקהיר", "query": "משינה רכבת לילה לקהיר official"}, {"artist": "משינה", "song": "שלח לי מלאך", "query": "משינה שלח לי מלאך official"}, {"artist": "תיסלם", "song": "רדיו חזק", "query": "תיסלם רדיו חזק official"}, {"artist": "תיסלם", "song": "לראות אותה היום", "query": "תיסלם לראות אותה היום official"}, {"artist": "בנזין", "song": "יום שישי", "query": "בנזין יום שישי official"}, {"artist": "אתניקס", "song": "תותים", "query": "אתניקס תותים official"}, {"artist": "אתניקס", "song": "ג'סיקה", "query": "אתניקס ג'סיקה official"}, {"artist": "מאיר בנאי", "song": "אהבה קצרה", "query": "מאיר בנאי אהבה קצרה official"}, {"artist": "שפיות זמנית", "song": "הקיץ האחרון", "query": "שפיות זמנית הקיץ האחרון official"}, {"artist": "אביב גפן", "song": "האם להיות בך מאוהב", "query": "אביב גפן האם להיות בך מאוהב official"}, {"artist": "כוורת", "song": "יו יה", "query": "כוורת יו יה official"}, {"artist": "כוורת", "song": "נתתי לה חיי", "query": "כוורת נתתי לה חיי official"}, {"artist": "בועז שרעבי", "song": "את לי לילה", "query": "בועז שרעבי את לי לילה official"}, {"artist": "חיים משה", "song": "נשבע", "query": "חיים משה נשבע official"}, {"artist": "אבנר גדסי", "song": "נפרדנו כך", "query": "אבנר גדסי נפרדנו כך official"}, {"artist": "יהורם גאון", "song": "הנני כאן", "query": "יהורם גאון הנני כאן official"}, {"artist": "אריק לביא", "song": "הסלע האדום", "query": "אריק לביא הסלע האדום official"}, {"artist": "הגשש החיוור", "song": "מים לדוד המלך", "query": "הגשש החיוור מים לדוד המלך official"}];let player=null,currentIndex=0,queue=[],qIndex=0,apiReady=false,keyIndex=0,token=0,skip=0;const $=id=>document.getElementById(id);function st(s){$("status").textContent=s}
-async function searchYT(q){const my=++token;st("מחפש ישירות ב-YouTube…");let err="";for(let a=0;a<API_KEYS.length;a++){let idx=(keyIndex+a)%API_KEYS.length,key=API_KEYS[idx],p=new URLSearchParams({part:"snippet",type:"video",maxResults:"15",q,order:"relevance",videoEmbeddable:"true",videoSyndicated:"true",safeSearch:"moderate",key});try{let r=await fetch("https://www.googleapis.com/youtube/v3/search?"+p),d=await r.json();if(my!==token)return[];if(!r.ok){err=(d.error&&d.error.message)||("HTTP "+r.status);continue}keyIndex=idx;return(d.items||[]).filter(x=>x.id&&x.id.videoId).map(x=>({id:x.id.videoId,author:(x.snippet&&x.snippet.channelTitle)||""}))}catch(e){err=e.message}}throw new Error(err||"YouTube API unavailable")}
-async function load(){let c=CHANNELS[currentIndex];$("title").textContent=c.artist+" — "+c.song;queue=[];qIndex=0;skip=0;try{queue=await searchYT(c.query);if(!queue.length){st("לא נמצאה גרסה זמינה");return}st("נמצאו "+queue.length+" גרסאות");if(apiReady)play(0)}catch(e){st("YouTube API: "+e.message)}render()}
-function play(i){if(!apiReady||!player||!queue.length)return;qIndex=(i+queue.length)%queue.length;let v=queue[qIndex];st((qIndex+1)+"/"+queue.length+" • "+v.author);player.loadVideoById(v.id)}
-function next(){if(!queue.length)return;if(++skip>queue.length){st("אין גרסה זמינה כרגע");return}play(qIndex+1)}
-window.onYouTubeIframeAPIReady=()=>{player=new YT.Player("player",{playerVars:{autoplay:0,playsinline:1,rel:0,controls:1,fs:1},events:{onReady(){apiReady=true;st("הנגן מוכן • בחר שיר")},onStateChange(e){if(e.data===YT.PlayerState.PLAYING)skip=0;if(e.data===YT.PlayerState.ENDED)next()},onError(){st("הגרסה לא זמינה — מדלג…");setTimeout(next,500)}}})}
-function select(i){$("startPlayer").style.display="none";currentIndex=(i+CHANNELS.length)%CHANNELS.length;render();load()}function render(){let g=$("channels");g.innerHTML="";CHANNELS.forEach((c,i)=>{let b=document.createElement("button");b.className="ch"+(i===currentIndex?" active":"");b.innerHTML='<span class="num">'+(i+1)+'</span>'+c.song+'<small>'+c.artist+'</small>';b.onclick=()=>select(i);g.appendChild(b)})}
-$("prevChannel").onclick=()=>select(currentIndex-1);$("nextChannel").onclick=()=>select(currentIndex+1);$("prevVideo").onclick=()=>{skip=0;play(qIndex-1)};$("nextVideo").onclick=()=>{skip=0;play(qIndex+1)};$("reload").onclick=load;$("stop").onclick=()=>{if(player)player.stopVideo();st("נעצר")};
-$("startPlayer").onclick=function(){this.style.display="none";if(apiReady){if(queue.length)play(qIndex);else load()}else st("טוען YouTube…")};$("customPlay").onclick=async()=>{let q=$("customQuery").value.trim();if(!q)return;$("title").textContent="חיפוש — "+q;try{queue=await searchYT(q);qIndex=0;skip=0;if(queue.length)play(0);else st("לא נמצאו תוצאות")}catch(e){st("YouTube API: "+e.message)}};
-(function(){let s=document.createElement("script");s.src="https://www.youtube.com/iframe_api";s.async=true;s.onerror=()=>st("לא ניתן לטעון YouTube");document.body.appendChild(s)})();render();
-</script></body></html>
+
+/* =============================================
+   SUPABASE SETTINGS
+============================================= */
+
+const SUPABASE_URL =
+  "https://oyeeeooymrzemxfrvcon.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j";
+
+
+/* =============================================
+   VARIABLES
+============================================= */
+
+let channels = [];
+let currentIndex = -1;
+
+const player =
+  document.getElementById("player");
+
+const currentChannel =
+  document.getElementById("currentChannel");
+
+const channelContainer =
+  document.getElementById("channels");
+
+const loading =
+  document.getElementById("loading");
+
+const statusText =
+  document.getElementById("statusText");
+
+const statusDot =
+  document.getElementById("statusDot");
+
+const errorBox =
+  document.getElementById("errorBox");
+
+
+/* =============================================
+   LOAD CHANNELS FROM SUPABASE
+============================================= */
+
+async function loadChannels(){
+
+  try{
+
+    const response = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/voice_channels" +
+      "?select=*" +
+      "&active=eq.true" +
+      "&order=sort_order.asc",
+      {
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":"Bearer " + SUPABASE_KEY
+        }
+      }
+    );
+
+    if(!response.ok){
+      throw new Error(
+        "Supabase returned HTTP " +
+        response.status
+      );
+    }
+
+    channels = await response.json();
+
+    loading.style.display = "none";
+
+    statusDot.classList.add("online");
+    statusText.textContent =
+      "Connected • " +
+      channels.length +
+      " channels loaded";
+
+    if(!channels.length){
+      showError(
+        "Supabase connected successfully, but no active channels were found."
+      );
+      return;
+    }
+
+    renderChannels();
+
+    playChannel(0);
+
+  }
+  catch(error){
+
+    loading.style.display = "none";
+
+    statusText.textContent =
+      "Could not load channels";
+
+    showError(
+      "Supabase error: " +
+      error.message
+    );
+
+    console.error(error);
+  }
+
+}
+
+
+/* =============================================
+   DRAW BUTTONS
+============================================= */
+
+function renderChannels(){
+
+  channelContainer.innerHTML = "";
+
+  channels.forEach((channel,index)=>{
+
+    const button =
+      document.createElement("button");
+
+    button.className =
+      "channel";
+
+    button.innerHTML =
+      escapeHTML(channel.name) +
+      "<span class='category'>" +
+      escapeHTML(channel.category || "") +
+      "</span>";
+
+    button.onclick = () =>
+      playChannel(index);
+
+    button.dataset.index =
+      index;
+
+    channelContainer.appendChild(button);
+
+  });
+
+}
+
+
+/* =============================================
+   PLAY CHANNEL
+============================================= */
+
+function playChannel(index){
+
+  if(!channels.length){
+    return;
+  }
+
+  if(index < 0){
+    index = channels.length - 1;
+  }
+
+  if(index >= channels.length){
+    index = 0;
+  }
+
+  currentIndex = index;
+
+  const channel =
+    channels[index];
+
+  currentChannel.textContent =
+    channel.name;
+
+  highlightButton();
+
+  const source =
+    channel.source || "";
+
+  const type =
+    (channel.type || "").toLowerCase();
+
+  const sourceKind =
+    (channel.source_kind || "").toLowerCase();
+
+
+  /*
+  ---------------------------------------------
+  YouTube direct video
+  ---------------------------------------------
+  */
+
+  if(
+    type === "youtube" &&
+    sourceKind === "video"
+  ){
+
+    const id =
+      extractYouTubeVideoID(source);
+
+    if(id){
+
+      player.src =
+        "https://www.youtube.com/embed/" +
+        id +
+        "?autoplay=1&rel=0";
+
+      return;
+
+    }
+
+  }
+
+
+  /*
+  ---------------------------------------------
+  YouTube live/video URL
+  ---------------------------------------------
+  */
+
+  if(
+    source.includes("youtube.com/watch") ||
+    source.includes("youtu.be/")
+  ){
+
+    const id =
+      extractYouTubeVideoID(source);
+
+    if(id){
+
+      player.src =
+        "https://www.youtube.com/embed/" +
+        id +
+        "?autoplay=1&rel=0";
+
+      return;
+
+    }
+
+  }
+
+
+  /*
+  ---------------------------------------------
+  YouTube channel
+  ---------------------------------------------
+  */
+
+  if(sourceKind === "channel"){
+
+    const channelID =
+      extractYouTubeChannelID(source);
+
+    if(channelID){
+
+      player.src =
+        "https://www.youtube.com/embed/live_stream?channel=" +
+        channelID +
+        "&autoplay=1";
+
+      return;
+
+    }
+
+  }
+
+
+  /*
+  ---------------------------------------------
+  Search result
+  ---------------------------------------------
+  */
+
+  if(
+    sourceKind === "search" ||
+    source.includes(
+      "youtube.com/results?search_query="
+    )
+  ){
+
+    openSearchChannel(channel);
+
+    return;
+
+  }
+
+
+  /*
+  ---------------------------------------------
+  Any embeddable URL
+  ---------------------------------------------
+  */
+
+  player.src =
+    source;
+
+}
+
+
+/* =============================================
+   SEARCH-BASED CHANNELS
+============================================= */
+
+function openSearchChannel(channel){
+
+  /*
+  YouTube does NOT allow its search-results page
+  to run inside an iframe.
+
+  So search-based Supabase records are opened
+  directly in YouTube instead.
+  */
+
+  const url =
+    channel.source;
+
+  player.src =
+    "about:blank";
+
+  currentChannel.textContent =
+    channel.name +
+    " — opening YouTube";
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+
+/* =============================================
+   NEXT / PREVIOUS
+============================================= */
+
+function nextChannel(){
+
+  if(!channels.length){
+    return;
+  }
+
+  playChannel(
+    currentIndex + 1
+  );
+
+}
+
+
+function previousChannel(){
+
+  if(!channels.length){
+    return;
+  }
+
+  playChannel(
+    currentIndex - 1
+  );
+
+}
+
+
+/* =============================================
+   RELOAD
+============================================= */
+
+function reloadChannel(){
+
+  if(currentIndex < 0){
+    return;
+  }
+
+  const src =
+    player.src;
+
+  player.src =
+    "";
+
+  setTimeout(()=>{
+    player.src = src;
+  },150);
+
+}
+
+
+/* =============================================
+   YOUTUBE SEARCH
+============================================= */
+
+function searchYouTube(){
+
+  const query =
+    document
+    .getElementById("videoSearch")
+    .value
+    .trim();
+
+  if(!query){
+    return;
+  }
+
+  const url =
+    "https://www.youtube.com/results?search_query=" +
+    encodeURIComponent(query);
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+
+/* =============================================
+   EXTRACT YOUTUBE VIDEO ID
+============================================= */
+
+function extractYouTubeVideoID(url){
+
+  try{
+
+    if(url.includes("youtu.be/")){
+
+      return url
+        .split("youtu.be/")[1]
+        .split(/[?&]/)[0];
+
+    }
+
+    const parsed =
+      new URL(url);
+
+    return parsed
+      .searchParams
+      .get("v");
+
+  }
+  catch(e){
+
+    return null;
+
+  }
+
+}
+
+
+/* =============================================
+   CHANNEL ID
+============================================= */
+
+function extractYouTubeChannelID(url){
+
+  const match =
+    url.match(
+      /youtube\.com\/channel\/([^/?]+)/
+    );
+
+  return match
+    ? match[1]
+    : null;
+
+}
+
+
+/* =============================================
+   HIGHLIGHT
+============================================= */
+
+function highlightButton(){
+
+  document
+    .querySelectorAll(".channel")
+    .forEach(btn=>{
+
+      btn.classList.remove(
+        "active"
+      );
+
+    });
+
+  const active =
+    document.querySelector(
+      '.channel[data-index="' +
+      currentIndex +
+      '"]'
+    );
+
+  if(active){
+
+    active.classList.add(
+      "active"
+    );
+
+  }
+
+}
+
+
+/* =============================================
+   ERROR
+============================================= */
+
+function showError(message){
+
+  errorBox.style.display =
+    "block";
+
+  errorBox.textContent =
+    message;
+
+}
+
+
+/* =============================================
+   SAFE HTML
+============================================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =============================================
+   START
+============================================= */
+
+loadChannels();
+
+</script>
+
+</body>
+</html>

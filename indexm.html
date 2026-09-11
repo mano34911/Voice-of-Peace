@@ -17,12 +17,13 @@ html,body{
 }
 
 body{
-  background:
-  radial-gradient(circle at top,
-  #a41f60 0%,
-  #521541 30%,
-  #210d2e 65%,
-  #080510 100%);
+  background:radial-gradient(
+    circle at top,
+    #a41f60 0%,
+    #521541 30%,
+    #210d2e 65%,
+    #080510 100%
+  );
 }
 
 .wrap{
@@ -76,12 +77,17 @@ h1{
   box-shadow:0 15px 40px rgba(0,0,0,.55);
 }
 
-#youtubePlayer{
-  display:block;
+#playerHolder{
   width:100%;
   aspect-ratio:16/9;
-  border:0;
   background:#000;
+}
+
+#playerHolder iframe{
+  width:100%;
+  height:100%;
+  display:block;
+  border:0;
 }
 
 .now{
@@ -137,7 +143,6 @@ button:hover,.navbtn:hover{
   filter:brightness(1.15);
 }
 
-.play{background:#e52d73}
 .random{background:#7548a8}
 .reload{background:#285d89}
 .settingsBtn{background:#555}
@@ -168,14 +173,20 @@ button:hover,.navbtn:hover{
   background:#2b1025;
   border:1px solid #703856;
   border-radius:13px;
-  padding:12px;
+  padding:13px;
 }
 
-.song:hover{background:#481833}
+.song:hover{
+  background:#481833;
+}
 
 .song.active{
   background:#8e2858;
   outline:2px solid #ffb3d2;
+}
+
+.song.loading{
+  opacity:.7;
 }
 
 .songNumber{
@@ -193,6 +204,14 @@ button:hover,.navbtn:hover{
   margin-top:4px;
   color:#d4b3c5;
   font-size:13px;
+}
+
+.playHint{
+  display:block;
+  margin-top:6px;
+  padding-left:25px;
+  color:#ffd768;
+  font-size:11px;
 }
 
 .settings{
@@ -275,10 +294,11 @@ Your Favorite Songs ❤️
 <div class="lovebox">
 For my beautiful Camili ❤️
 <br><br>
-These songs are especially for you —
-for dancing, smiling, relaxing,
-remembering our beautiful moments,
-and all the wonderful memories still ahead of us.
+Tap any song below and it will play right here
+inside your own music page.
+<br><br>
+For dancing, smiling, relaxing and remembering
+all our beautiful moments together.
 <br><br>
 I love you.
 <br>
@@ -288,24 +308,16 @@ Emmanuel ❤️
 </header>
 
 
-<!-- VIDEO -->
-
 <div class="playerbox">
 
-<iframe
- id="youtubePlayer"
- title="Camili Music Player"
- sandbox="allow-scripts allow-same-origin allow-presentation"
- allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
- allowfullscreen>
-</iframe>
+<div id="playerHolder"></div>
 
 <div class="now">
 
 <small>NOW PLAYING</small>
 
 <div id="currentTitle">
-Choose a song below
+Tap a song below
 </div>
 
 <div id="currentArtist">
@@ -313,15 +325,13 @@ Camili's Playlist
 </div>
 
 <div id="status">
-50 favorite songs ready ❤️
+Choose one of your 50 songs ❤️
 </div>
 
 </div>
 
 </div>
 
-
-<!-- CONTROLS -->
 
 <div class="controls">
 
@@ -329,8 +339,12 @@ Camili's Playlist
 ◀ Previous
 </button>
 
-<button class="play" onclick="playSelected()">
+<button onclick="resumeSong()">
 ▶ Play
+</button>
+
+<button onclick="pauseSong()">
+⏸ Pause
 </button>
 
 <button onclick="nextSong()">
@@ -341,8 +355,8 @@ Next ▶
 🔀 Random
 </button>
 
-<button class="reload" onclick="reloadVideo()">
-↻ Reload
+<button class="reload" onclick="reloadSong()">
+↻ Replay
 </button>
 
 <button class="settingsBtn" onclick="toggleSettings()">
@@ -352,15 +366,13 @@ Next ▶
 </div>
 
 
-<!-- API SETTINGS -->
-
 <div id="settingsBox" class="settings">
 
 <h3>YouTube API Setup</h3>
 
 <p>
 Enter your two YouTube Data API keys once.
-They are saved only on this device.
+They remain saved on this device.
 </p>
 
 <input
@@ -376,7 +388,7 @@ They are saved only on this device.
 <div class="settingsActions">
 
 <button onclick="saveKeys()">
-💾 Save Keys
+💾 Save
 </button>
 
 <button onclick="clearKeys()">
@@ -387,8 +399,6 @@ Clear
 
 </div>
 
-
-<!-- SEARCH -->
 
 <div class="searchbox">
 
@@ -401,12 +411,8 @@ Clear
 </div>
 
 
-<!-- SONG LIST -->
-
 <div id="songList" class="songlist"></div>
 
-
-<!-- NAV -->
 
 <div class="bottomnav">
 
@@ -436,11 +442,13 @@ Emmanuel &amp; Camili Hileah
 </div>
 
 
+<script src="https://www.youtube.com/iframe_api"></script>
+
 <script>
 
-/* ========================================
-   SONGS
-======================================== */
+/* =========================================
+   SONG LIST
+========================================= */
 
 const songs = [
 
@@ -502,18 +510,16 @@ const songs = [
 ];
 
 
-/* ========================================
+/* =========================================
    VARIABLES
-======================================== */
+========================================= */
 
-let currentIndex = 0;
+let currentIndex = -1;
 let currentVideoId = "";
-let currentApiKey = "";
+let player = null;
+let playerReady = false;
 
 const videoCache = {};
-
-const player =
-document.getElementById("youtubePlayer");
 
 const songList =
 document.getElementById("songList");
@@ -528,9 +534,86 @@ const statusText =
 document.getElementById("status");
 
 
-/* ========================================
+/* =========================================
+   YOUTUBE PLAYER API
+========================================= */
+
+function onYouTubeIframeAPIReady(){
+
+player = new YT.Player(
+"playerHolder",
+{
+  width:"100%",
+  height:"100%",
+
+  playerVars:{
+    autoplay:1,
+    playsinline:1,
+    rel:0,
+    controls:1,
+    modestbranding:1
+  },
+
+  events:{
+    onReady:onPlayerReady,
+    onStateChange:onPlayerStateChange,
+    onError:onPlayerError
+  }
+});
+
+}
+
+
+function onPlayerReady(){
+
+playerReady=true;
+
+}
+
+
+function onPlayerStateChange(event){
+
+if(event.data===YT.PlayerState.PLAYING){
+
+statusText.textContent =
+"Playing ❤️";
+
+}
+
+if(event.data===YT.PlayerState.PAUSED){
+
+statusText.textContent =
+"Paused";
+
+}
+
+if(event.data===YT.PlayerState.ENDED){
+
+statusText.textContent =
+"Song finished — playing next ❤️";
+
+setTimeout(()=>{
+nextSong();
+},500);
+
+}
+
+}
+
+
+function onPlayerError(){
+
+statusText.textContent =
+"This version cannot play. Trying another...";
+
+delete videoCache[currentIndex];
+
+}
+
+
+/* =========================================
    API KEYS
-======================================== */
+========================================= */
 
 function getKeys(){
 
@@ -561,12 +644,15 @@ document
 function saveKeys(){
 
 const key1 =
-document.getElementById("apiKey1")
+document
+.getElementById("apiKey1")
 .value.trim();
 
 const key2 =
-document.getElementById("apiKey2")
+document
+.getElementById("apiKey2")
 .value.trim();
+
 
 if(key1){
 
@@ -586,8 +672,10 @@ key2
 
 }
 
+
 statusText.textContent =
-"API keys saved on this device ✅";
+"API keys saved ✅";
+
 
 document
 .getElementById("settingsBox")
@@ -606,18 +694,15 @@ localStorage.removeItem(
 "camili_youtube_key_2"
 );
 
-document.getElementById("apiKey1").value="";
-document.getElementById("apiKey2").value="";
-
 statusText.textContent =
 "API keys cleared.";
 
 }
 
 
-/* ========================================
-   SONG BUTTONS
-======================================== */
+/* =========================================
+   DISPLAY SONG BUTTONS
+========================================= */
 
 function renderSongs(filter=""){
 
@@ -626,10 +711,13 @@ songList.innerHTML="";
 const text =
 filter.toLowerCase().trim();
 
+
 songs.forEach((song,index)=>{
 
 const searchable =
-(song[0]+" "+song[1]).toLowerCase();
+(song[0]+" "+song[1])
+.toLowerCase();
+
 
 if(
 text &&
@@ -638,14 +726,17 @@ text &&
 return;
 }
 
+
 const button =
 document.createElement("button");
+
 
 button.className =
 "song" +
 (index===currentIndex
 ? " active"
 : "");
+
 
 button.innerHTML =
 
@@ -659,15 +750,19 @@ escapeHTML(song[0]) +
 
 '<span class="songArtist">' +
 escapeHTML(song[1]) +
+'</span>' +
+
+'<span class="playHint">' +
+'▶ TAP TO PLAY' +
 '</span>';
 
-button.onclick=()=>{
 
-currentIndex=index;
+button.onclick = function(){
 
-playSelected();
+playSong(index);
 
 };
+
 
 songList.appendChild(button);
 
@@ -676,18 +771,38 @@ songList.appendChild(button);
 }
 
 
-/* ========================================
-   PLAY SONG
-======================================== */
+/* =========================================
+   ONE-TAP SONG BUTTON
+========================================= */
 
-async function playSelected(){
+async function playSong(index){
+
+currentIndex=index;
+
+const song=songs[index];
+
+
+currentTitle.textContent =
+song[0];
+
+currentArtist.textContent =
+song[1];
+
+
+renderSongs(
+document
+.getElementById("songSearch")
+.value
+);
+
 
 const keys=getKeys();
+
 
 if(!keys.length){
 
 statusText.textContent =
-"Tap ⚙️ API Setup first.";
+"Tap ⚙️ API Setup once.";
 
 document
 .getElementById("settingsBox")
@@ -697,54 +812,53 @@ return;
 
 }
 
-const song=songs[currentIndex];
 
-currentTitle.textContent=song[0];
-currentArtist.textContent=song[1];
+statusText.textContent =
+"Loading "+song[0]+"...";
 
-renderSongs(
-document.getElementById("songSearch").value
-);
-
-statusText.textContent=
-"Finding "+song[0]+"...";
 
 try{
 
-let videoId=
-videoCache[currentIndex];
+let videoId =
+videoCache[index];
+
 
 if(!videoId){
 
 videoId =
-await searchWithBackupKeys(
+await findSongVideo(
 song[0],
 song[1]
 );
 
 if(videoId){
 
-videoCache[currentIndex]=videoId;
+videoCache[index]=videoId;
+
+localStorage.setItem(
+"camili_video_"+index,
+videoId
+);
 
 }
 
 }
+
 
 if(!videoId){
 
 statusText.textContent =
-"Could not find a playable version.";
+"No playable video found.";
 
 return;
 
 }
 
+
 currentVideoId=videoId;
 
-loadVideo(videoId);
 
-statusText.textContent =
-"Playing inside Camili's page ❤️";
+startVideo(videoId);
 
 }
 catch(error){
@@ -752,38 +866,93 @@ catch(error){
 console.error(error);
 
 statusText.textContent =
-"Video could not be loaded.";
+"Could not load this song.";
 
 }
 
 }
 
 
-/* ========================================
-   TRY BOTH API KEYS
-======================================== */
+/* =========================================
+   LOAD VIDEO DIRECTLY
+========================================= */
 
-async function searchWithBackupKeys(
+function startVideo(videoId){
+
+if(!playerReady || !player){
+
+setTimeout(()=>{
+
+startVideo(videoId);
+
+},250);
+
+return;
+
+}
+
+
+player.loadVideoById({
+videoId:videoId,
+startSeconds:0
+});
+
+
+setTimeout(()=>{
+
+try{
+
+player.playVideo();
+
+}catch(e){}
+
+},100);
+
+
+statusText.textContent =
+"Playing inside Camili's page ❤️";
+
+}
+
+
+/* =========================================
+   SEARCH WITH BOTH KEYS
+========================================= */
+
+async function findSongVideo(
 songTitle,
-artist
+songArtist
 ){
+
+const stored =
+localStorage.getItem(
+"camili_video_"+currentIndex
+);
+
+
+if(stored){
+
+return stored;
+
+}
+
 
 const keys=getKeys();
 
-for(const key of keys){
+
+for(const apiKey of keys){
 
 try{
 
 const result =
 await searchYouTube(
 songTitle,
-artist,
-key
+songArtist,
+apiKey
 );
 
-if(result){
 
-currentApiKey=key;
+if(result){
 
 return result;
 
@@ -793,76 +962,106 @@ return result;
 catch(error){
 
 console.warn(
-"Trying backup API key...",
-error
+"Trying backup API key..."
 );
 
 }
 
 }
 
+
 return null;
 
 }
 
 
-/* ========================================
-   YOUTUBE SEARCH
-======================================== */
+/* =========================================
+   YOUTUBE DATA API SEARCH
+========================================= */
 
 async function searchYouTube(
 songTitle,
-artist,
+songArtist,
 apiKey
 ){
 
 const query =
-artist+" "+songTitle+
+songArtist+
+" "+
+songTitle+
 " official music video";
 
-const url =
-"https://www.googleapis.com/youtube/v3/search"+
-"?part=snippet"+
-"&type=video"+
-"&videoEmbeddable=true"+
-"&videoSyndicated=true"+
-"&safeSearch=moderate"+
-"&maxResults=10"+
-"&q="+encodeURIComponent(query)+
-"&key="+encodeURIComponent(apiKey);
+
+const searchURL =
+
+"https://www.googleapis.com/youtube/v3/search" +
+
+"?part=snippet" +
+
+"&type=video" +
+
+"&videoEmbeddable=true" +
+
+"&videoSyndicated=true" +
+
+"&safeSearch=moderate" +
+
+"&maxResults=8" +
+
+"&q=" +
+encodeURIComponent(query) +
+
+"&key=" +
+encodeURIComponent(apiKey);
+
 
 const response =
-await fetch(url);
+await fetch(searchURL);
+
 
 if(!response.ok){
 
 throw new Error(
-"YouTube search error "+
+"YouTube API "+
 response.status
 );
 
 }
 
+
 const data =
 await response.json();
+
 
 if(
 !data.items ||
 !data.items.length
 ){
+
 return null;
+
 }
+
 
 const ids =
 data.items
-.map(item=>item.id?.videoId)
+
+.map(item =>
+item.id &&
+item.id.videoId
+)
+
 .filter(Boolean);
 
+
 if(!ids.length){
+
 return null;
+
 }
 
-return await checkEmbeddable(
+
+return checkVideos(
 ids,
 apiKey
 );
@@ -870,23 +1069,33 @@ apiKey
 }
 
 
-/* ========================================
-   EMBEDDABLE CHECK
-======================================== */
+/* =========================================
+   CHECK EMBEDDABLE VIDEOS
+========================================= */
 
-async function checkEmbeddable(
+async function checkVideos(
 ids,
 apiKey
 ){
 
 const url =
-"https://www.googleapis.com/youtube/v3/videos"+
-"?part=status"+
-"&id="+encodeURIComponent(ids.join(","))+
-"&key="+encodeURIComponent(apiKey);
+
+"https://www.googleapis.com/youtube/v3/videos" +
+
+"?part=status" +
+
+"&id=" +
+encodeURIComponent(
+ids.join(",")
+) +
+
+"&key=" +
+encodeURIComponent(apiKey);
+
 
 const response =
 await fetch(url);
+
 
 if(!response.ok){
 
@@ -894,10 +1103,15 @@ return ids[0];
 
 }
 
+
 const data =
 await response.json();
 
-for(const video of data.items || []){
+
+for(
+const video of
+data.items || []
+){
 
 if(
 video.status &&
@@ -910,114 +1124,160 @@ return video.id;
 
 }
 
+
 return null;
 
 }
 
 
-/* ========================================
-   INTERNAL PLAYER
-======================================== */
+/* =========================================
+   PLAY / PAUSE
+========================================= */
 
-function loadVideo(videoId){
+function resumeSong(){
 
-player.src =
-"https://www.youtube-nocookie.com/embed/"+
-videoId+
-"?autoplay=1"+
-"&playsinline=1"+
-"&rel=0"+
-"&modestbranding=1";
+if(
+playerReady &&
+player
+){
+
+player.playVideo();
+
+}
 
 }
 
 
-/* ========================================
+function pauseSong(){
+
+if(
+playerReady &&
+player
+){
+
+player.pauseVideo();
+
+}
+
+}
+
+
+/* =========================================
    NEXT
-======================================== */
+========================================= */
 
 function nextSong(){
 
+if(currentIndex<0){
+
+currentIndex=0;
+
+}
+else{
+
 currentIndex++;
 
-if(currentIndex>=songs.length){
+}
+
+
+if(
+currentIndex>=songs.length
+){
+
 currentIndex=0;
-}
-
-playSelected();
 
 }
 
 
-/* ========================================
+playSong(currentIndex);
+
+}
+
+
+/* =========================================
    PREVIOUS
-======================================== */
+========================================= */
 
 function previousSong(){
 
+if(currentIndex<=0){
+
+currentIndex=
+songs.length-1;
+
+}
+else{
+
 currentIndex--;
 
-if(currentIndex<0){
-currentIndex=songs.length-1;
-}
-
-playSelected();
-
 }
 
 
-/* ========================================
+playSong(currentIndex);
+
+}
+
+
+/* =========================================
    RANDOM
-======================================== */
+========================================= */
 
 function randomSong(){
 
 let next =
 Math.floor(
-Math.random()*songs.length
+Math.random()*
+songs.length
 );
+
 
 if(next===currentIndex){
 
-next=(next+1)%songs.length;
-
-}
-
-currentIndex=next;
-
-playSelected();
-
-}
-
-
-/* ========================================
-   RELOAD
-======================================== */
-
-function reloadVideo(){
-
-if(!currentVideoId){
-
-playSelected();
-
-return;
-
-}
-
-player.src="";
-
-setTimeout(()=>{
-
-loadVideo(currentVideoId);
-
-},150);
+next=
+(next+1)
+%
+songs.length;
 
 }
 
 
-/* ========================================
-   SEARCH LIST
-======================================== */
+playSong(next);
+
+}
+
+
+/* =========================================
+   REPLAY
+========================================= */
+
+function reloadSong(){
+
+if(
+playerReady &&
+player &&
+currentVideoId
+){
+
+player.seekTo(
+0,
+true
+);
+
+player.playVideo();
+
+}
+else if(currentIndex>=0){
+
+playSong(currentIndex);
+
+}
+
+}
+
+
+/* =========================================
+   SEARCH FILTER
+========================================= */
 
 function filterSongs(){
 
@@ -1030,13 +1290,14 @@ document
 }
 
 
-/* ========================================
-   HTML SAFETY
-======================================== */
+/* =========================================
+   SAFE TEXT
+========================================= */
 
 function escapeHTML(value){
 
 return String(value)
+
 .replaceAll("&","&amp;")
 .replaceAll("<","&lt;")
 .replaceAll(">","&gt;")
@@ -1046,9 +1307,33 @@ return String(value)
 }
 
 
-/* ========================================
-   START
-======================================== */
+/* =========================================
+   RESTORE SAVED VIDEO CACHE
+========================================= */
+
+for(
+let i=0;
+i<songs.length;
+i++
+){
+
+const stored =
+localStorage.getItem(
+"camili_video_"+i
+);
+
+if(stored){
+
+videoCache[i]=stored;
+
+}
+
+}
+
+
+/* =========================================
+   START PAGE
+========================================= */
 
 renderSongs();
 

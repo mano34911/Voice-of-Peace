@@ -30,7 +30,7 @@ body{
     radial-gradient(circle at top,#0d5689 0%,#062d52 32%,#02182e 67%,#010b15 100%);
 }
 
-button,input{
+button,input,select{
   font:inherit;
 }
 
@@ -43,10 +43,6 @@ button{
   margin:auto;
   padding:18px 0 40px;
 }
-
-/* =========================================
-   HEADER
-========================================= */
 
 .header{
   text-align:center;
@@ -78,10 +74,6 @@ button{
   line-height:1.5;
   max-width:760px;
 }
-
-/* =========================================
-   STATUS
-========================================= */
 
 .status-row{
   display:flex;
@@ -116,10 +108,6 @@ button{
   background:#ffd34f;
   box-shadow:0 0 12px #ffd34f;
 }
-
-/* =========================================
-   PLAYER
-========================================= */
 
 .player-card{
   border:1px solid #245f89;
@@ -195,16 +183,12 @@ button{
   justify-content:center;
   text-align:center;
   padding:30px;
-  background:linear-gradient(rgba(0,0,0,.78),rgba(0,0,0,.88));
+  background:linear-gradient(rgba(0,0,0,.78),rgba(0,0,0,.90));
   color:#fff;
   font-weight:700;
   line-height:1.5;
   z-index:5;
 }
-
-/* =========================================
-   CONTROLS
-========================================= */
 
 .controls{
   display:grid;
@@ -226,10 +210,6 @@ button{
 .control:hover{
   background:#0c4d7e;
 }
-
-/* =========================================
-   CHANNEL BUTTONS
-========================================= */
 
 .section-title{
   margin:24px 0 11px;
@@ -267,10 +247,6 @@ button{
   background:linear-gradient(180deg,#12669e,#09436d);
 }
 
-/* =========================================
-   CUSTOM VIDEO SEARCH
-========================================= */
-
 .custom-box{
   margin-top:22px;
   border:1px solid #255f89;
@@ -307,10 +283,6 @@ button{
   color:#071625;
 }
 
-/* =========================================
-   DONATION + LINKS
-========================================= */
-
 .action-grid{
   margin-top:22px;
   display:grid;
@@ -341,10 +313,6 @@ button{
   color:#fff;
 }
 
-/* =========================================
-   PAGE NAVIGATION
-========================================= */
-
 .page-nav{
   margin-top:22px;
   display:flex;
@@ -367,10 +335,6 @@ button{
 .page-nav a:hover{
   background:#0c4e7d;
 }
-
-/* =========================================
-   ADMIN
-========================================= */
 
 .admin-card{
   margin-top:25px;
@@ -399,6 +363,20 @@ button{
   display:block;
 }
 
+.admin-note{
+  color:#b9cfdf;
+  font-size:13px;
+  line-height:1.55;
+}
+
+.admin-warning{
+  padding:12px;
+  border:1px solid #8f7431;
+  background:rgba(126,92,0,.18);
+  border-radius:12px;
+  color:#ffe9a1;
+}
+
 .form-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -415,10 +393,6 @@ button{
   color:#fff;
 }
 
-.full{
-  grid-column:1/-1;
-}
-
 .save-btn{
   grid-column:1/-1;
   border:0;
@@ -428,16 +402,6 @@ button{
   color:#fff;
   font-weight:900;
 }
-
-.admin-note{
-  color:#b9cfdf;
-  font-size:13px;
-  line-height:1.5;
-}
-
-/* =========================================
-   FOOTER
-========================================= */
 
 .footer{
   text-align:center;
@@ -461,10 +425,6 @@ button{
   line-height:1.6;
 }
 
-/* =========================================
-   RESPONSIVE
-========================================= */
-
 @media(max-width:800px){
 
   .channels{
@@ -479,7 +439,6 @@ button{
     grid-template-columns:1fr;
   }
 
-  .full,
   .save-btn{
     grid-column:auto;
   }
@@ -506,467 +465,466 @@ button{
 
 <div class="wrap">
 
-  <!-- HEADER -->
-  <header class="header">
+<header class="header">
 
-    <div class="kicker">
-      PEACE • TRUTH • ISRAEL
-    </div>
-
-    <h1>
-      VOICE OF PEACE
-    </h1>
-
-    <div class="byline">
-      By Emmanuel &amp; Camili Hileah
-    </div>
-
-    <div class="peace">
-      News, Jewish learning, history, health, discovery, business,
-      entertainment and messages promoting peace.
-    </div>
-
-  </header>
-
-
-  <!-- DATABASE STATUS -->
-  <div class="status-row">
-
-    <div id="dbStatus" class="badge offline">
-      <span class="dot"></span>
-      <span id="dbStatusText">
-        Connecting to Voice of Peace
-      </span>
-    </div>
-
+  <div class="kicker">
+    PEACE • TRUTH • ISRAEL
   </div>
 
+  <h1>
+    VOICE OF PEACE
+  </h1>
 
-  <!-- PLAYER -->
-  <section class="player-card">
-
-    <div class="player-top">
-
-      <div class="player-title">
-
-        <small>
-          NOW PLAYING
-        </small>
-
-        <strong id="currentChannel">
-          Voice of Peace
-        </strong>
-
-      </div>
-
-      <div class="live-tag">
-        TV
-      </div>
-
-    </div>
-
-    <div class="video-wrap">
-
-      <div id="youtubePlayer"></div>
-
-      <iframe
-        id="genericPlayer"
-        allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-        allowfullscreen>
-      </iframe>
-
-      <div id="playerMessage" class="player-message">
-      </div>
-
-    </div>
-
-    <div class="controls">
-
-      <button class="control" onclick="previousChannel()">
-        ⏮ Previous
-      </button>
-
-      <button class="control" onclick="togglePlay()">
-        ▶ / ⏸
-      </button>
-
-      <button class="control" onclick="nextChannel()">
-        Next ⏭
-      </button>
-
-      <button class="control" onclick="volumeDown()">
-        🔉 Volume -
-      </button>
-
-      <button class="control" onclick="volumeUp()">
-        🔊 Volume +
-      </button>
-
-      <button class="control" onclick="toggleMute()">
-        🔇 Mute
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- CHANNEL BUTTONS -->
-  <h2 class="section-title">
-    TV Channels
-  </h2>
-
-  <div id="channelButtons" class="channels">
+  <div class="byline">
+    By Emmanuel &amp; Camili Hileah
   </div>
 
-
-  <!-- CUSTOM VIDEO -->
-  <section class="custom-box">
-
-    <h3>
-      Watch Your Own YouTube Video
-    </h3>
-
-    <div class="custom-row">
-
-      <input
-        id="customVideo"
-        placeholder="Paste YouTube video or live-stream link here">
-
-      <button onclick="playCustomVideo()">
-        PLAY
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <!-- LINKS -->
-  <div class="action-grid">
-
-    <a
-      class="big-link donate"
-      href="https://www.paypal.me/payfortransport/"
-      target="_blank"
-      rel="noopener">
-
-      ❤️ DONATE — Choose Your Amount
-
-    </a>
-
-    <a
-      class="big-link synagogue"
-      href="https://mano34911.github.io/Massage-bored-4-Synagouges/admin.html"
-      target="_blank"
-      rel="noopener">
-
-      ✡ לוח בית כנסת
-
-    </a>
-
+  <div class="peace">
+    News, Jewish learning, history, health, discovery, business,
+    entertainment and messages promoting peace.
   </div>
 
-
-  <!-- MEMORIAL -->
-  <div class="memorial">
-
-    לעילוי נשמות
-    זהבה חלא בת דינה זצ״ל
-    •
-    דינה חלא בת ורד זצ״ל
-    •
-    חיים חלא בן יצחק זצ״ל
-    תנצב״ה
-
-  </div>
+</header>
 
 
-  <!-- PAGE NAVIGATION -->
-  <div class="page-nav">
+<div class="status-row">
 
-    <a href="index.html">
-      Home
-    </a>
+  <div id="dbStatus" class="badge offline">
 
-    <a href="index1.html">1</a>
-    <a href="index2.html">2</a>
-    <a href="index3.html">3</a>
-    <a href="index4.html">4</a>
-    <a href="index5.html">5</a>
-    <a href="index6.html">6</a>
-    <a href="index7.html">7</a>
-    <a href="index8.html">8</a>
-    <a href="index9.html">9</a>
-    <a href="index10.html">10</a>
+    <span class="dot"></span>
+
+    <span id="dbStatusText">
+      Connecting to Voice of Peace
+    </span>
 
   </div>
-
-
-  <!-- ADMIN -->
-  <section class="admin-card">
-
-    <button
-      class="admin-toggle"
-      onclick="toggleAdmin()">
-
-      ⚙ Add / Manage TV Channel
-
-    </button>
-
-    <div
-      id="adminPanel"
-      class="admin-panel">
-
-      <p class="admin-note">
-        Add a channel here and it will be stored in your
-        Supabase <strong>voice_channels</strong> table.
-      </p>
-
-      <div class="form-grid">
-
-        <input
-          id="channelName"
-          placeholder="Channel name">
-
-        <input
-          id="channelCategory"
-          placeholder="Category e.g. News">
-
-        <select id="channelType">
-
-          <option value="youtube">
-            YouTube
-          </option>
-
-          <option value="embed">
-            Embed URL
-          </option>
-
-        </select>
-
-        <input
-          id="channelSource"
-          placeholder="YouTube URL / Video ID / Embed URL">
-
-        <input
-          id="channelOrder"
-          type="number"
-          value="20"
-          placeholder="Display order">
-
-        <label style="display:flex;align-items:center;gap:8px;">
-          <input
-            id="channelActive"
-            type="checkbox"
-            checked>
-
-          Active
-        </label>
-
-        <button
-          class="save-btn"
-          onclick="saveChannel()">
-
-          SAVE CHANNEL
-
-        </button>
-
-      </div>
-
-      <p
-        id="adminResult"
-        class="admin-note">
-      </p>
-
-    </div>
-
-  </section>
-
-
-  <!-- FOOTER -->
-  <footer class="footer">
-
-    Voice of Peace
-
-    <br>
-
-    News reports may link to third-party sources.
-    Voice of Peace reflections are editorial commentary.
-
-    <br><br>
-
-    Created by CEE LTD
-    — Emmanuel Hileah Innovations
-
-  </footer>
 
 </div>
 
 
+<section class="player-card">
 
-<!-- =========================================
-     SUPABASE
-========================================= -->
+  <div class="player-top">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <div class="player-title">
+
+      <small>
+        NOW PLAYING
+      </small>
+
+      <strong id="currentChannel">
+        Voice of Peace
+      </strong>
+
+    </div>
+
+    <div class="live-tag">
+      TV
+    </div>
+
+  </div>
 
 
-<!-- =========================================
-     YOUTUBE API
-========================================= -->
+  <div class="video-wrap">
 
-<script src="https://www.youtube.com/iframe_api"></script>
+    <div id="youtubePlayer"></div>
+
+    <iframe
+      id="genericPlayer"
+      allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen>
+    </iframe>
+
+    <div
+      id="playerMessage"
+      class="player-message">
+    </div>
+
+  </div>
+
+
+  <div class="controls">
+
+    <button class="control" onclick="previousChannel()">
+      ⏮ Previous
+    </button>
+
+    <button class="control" onclick="togglePlay()">
+      ▶ / ⏸
+    </button>
+
+    <button class="control" onclick="nextChannel()">
+      Next ⏭
+    </button>
+
+    <button class="control" onclick="volumeDown()">
+      🔉 Volume -
+    </button>
+
+    <button class="control" onclick="volumeUp()">
+      🔊 Volume +
+    </button>
+
+    <button class="control" onclick="toggleMute()">
+      🔇 Mute
+    </button>
+
+  </div>
+
+</section>
+
+
+<h2 class="section-title">
+  TV Channels
+</h2>
+
+<div id="channelButtons" class="channels"></div>
+
+
+<section class="custom-box">
+
+  <h3>
+    Watch Your Own YouTube Video
+  </h3>
+
+  <div class="custom-row">
+
+    <input
+      id="customVideo"
+      placeholder="Paste YouTube video or live-stream link here">
+
+    <button onclick="playCustomVideo()">
+      PLAY
+    </button>
+
+  </div>
+
+</section>
+
+
+<div class="action-grid">
+
+  <a
+    class="big-link donate"
+    href="https://www.paypal.me/payfortransport/"
+    target="_blank"
+    rel="noopener">
+
+    ❤️ DONATE — Choose Your Amount
+
+  </a>
+
+  <a
+    class="big-link synagogue"
+    href="https://mano34911.github.io/Massage-bored-4-Synagouges/admin.html"
+    target="_blank"
+    rel="noopener">
+
+    ✡ לוח בית כנסת
+
+  </a>
+
+</div>
+
+
+<div class="memorial">
+
+  לעילוי נשמות
+  זהבה חלא בת דינה זצ״ל
+  •
+  דינה חלא בת ורד זצ״ל
+  •
+  חיים חלא בן יצחק זצ״ל
+  תנצב״ה
+
+</div>
+
+
+<div class="page-nav">
+
+  <a href="index.html">
+    Home
+  </a>
+
+  <a href="index1.html">1</a>
+  <a href="index2.html">2</a>
+  <a href="index3.html">3</a>
+  <a href="index4.html">4</a>
+  <a href="index5.html">5</a>
+  <a href="index6.html">6</a>
+  <a href="index7.html">7</a>
+  <a href="index8.html">8</a>
+  <a href="index9.html">9</a>
+  <a href="index10.html">10</a>
+
+</div>
+
+
+<section class="admin-card">
+
+  <button
+    class="admin-toggle"
+    onclick="toggleAdmin()">
+
+    ⚙ Add / Manage TV Channel
+
+  </button>
+
+
+  <div
+    id="adminPanel"
+    class="admin-panel">
+
+    <p class="admin-note admin-warning">
+
+      The public page can read channels from Supabase.
+
+      Saving new channels requires a secure
+      administrator write policy.
+
+    </p>
+
+
+    <div class="form-grid">
+
+      <input
+        id="channelName"
+        placeholder="Channel name">
+
+      <input
+        id="channelCategory"
+        placeholder="Category e.g. News">
+
+
+      <select id="channelType">
+
+        <option value="youtube">
+          YouTube
+        </option>
+
+        <option value="embed">
+          Embed URL
+        </option>
+
+      </select>
+
+
+      <input
+        id="channelSource"
+        placeholder="YouTube watch/live URL, Video ID, or HTTPS embed URL">
+
+
+      <input
+        id="channelOrder"
+        type="number"
+        value="20"
+        placeholder="Display order">
+
+
+      <label style="display:flex;align-items:center;gap:8px;">
+
+        <input
+          id="channelActive"
+          type="checkbox"
+          checked>
+
+        Active
+
+      </label>
+
+
+      <button
+        class="save-btn"
+        onclick="saveChannel()">
+
+        SAVE CHANNEL
+
+      </button>
+
+    </div>
+
+
+    <p
+      id="adminResult"
+      class="admin-note">
+    </p>
+
+  </div>
+
+</section>
+
+
+<footer class="footer">
+
+  Voice of Peace
+
+  <br>
+
+  News reports may link to third-party sources.
+  Voice of Peace reflections are editorial commentary.
+
+  <br><br>
+
+  Created by CEE LTD
+  — Emmanuel Hileah Innovations
+
+</footer>
+
+</div>
+
+
+<script
+src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
 
 
 <script>
 
 /* ============================================================
-   SUPABASE SETTINGS
+   SUPABASE
 ============================================================ */
 
 const SUPABASE_URL =
-  "https://oyeeeooymrzemxfrvcon.supabase.co";
+"https://oyeeeooymrzemxfrvcon.supabase.co";
+
 
 const SUPABASE_KEY =
-  "sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j";
+"sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j";
 
 
 const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 
 /* ============================================================
-   FALLBACK CHANNELS
-
-   These appear even before the Supabase table is created.
-   Replace video IDs with any YouTube videos/live streams you want.
+   DEFAULT CHANNELS
 ============================================================ */
 
 const fallbackChannels = [
 
-  {
-    id:"fallback-1",
-    name:"Rabbi Zamir Cohen",
-    category:"Jewish",
-    type:"youtube",
-    source:"UCQJ6AhJJD7QGG7Ar5Kdk1rQ",
-    source_kind:"search",
-    sort_order:1
-  },
+{
+  id:"fallback-1",
+  name:"Rabbi Zamir Cohen",
+  category:"Jewish",
+  type:"youtube",
+  source:"https://www.youtube.com/results?search_query=Rabbi+Zamir+Cohen",
+  source_kind:"search",
+  sort_order:1
+},
 
-  {
-    id:"fallback-2",
-    name:"Israel News - Channel 14",
-    category:"Hebrew News",
-    type:"youtube",
-    source:"channel14",
-    source_kind:"search",
-    sort_order:2
-  },
+{
+  id:"fallback-2",
+  name:"Channel 14 Israel",
+  category:"News",
+  type:"youtube",
+  source:"https://www.youtube.com/results?search_query=Channel+14+Israel+live",
+  source_kind:"search",
+  sort_order:2
+},
 
-  {
-    id:"fallback-3",
-    name:"Fox News",
-    category:"News",
-    type:"youtube",
-    source:"Fox News live",
-    source_kind:"search",
-    sort_order:3
-  },
+{
+  id:"fallback-3",
+  name:"FOX News",
+  category:"News",
+  type:"youtube",
+  source:"https://www.youtube.com/results?search_query=Fox+News+Live",
+  source_kind:"search",
+  sort_order:3
+},
 
-  {
-    id:"fallback-4",
-    name:"Discovery",
-    category:"Discovery",
-    type:"youtube",
-    source:"Discovery Channel documentary",
-    source_kind:"search",
-    sort_order:4
-  },
+{
+  id:"fallback-4",
+  name:"Discovery",
+  category:"Documentary",
+  type:"youtube",
+  source:"https://www.youtube.com/results?search_query=Discovery+documentary",
+  source_kind:"search",
+  sort_order:4
+},
 
-  {
-    id:"fallback-5",
-    name:"Comedy",
-    category:"Entertainment",
-    type:"youtube",
-    source:"clean comedy",
-    source_kind:"search",
-    sort_order:5
-  },
+{
+  id:"fallback-5",
+  name:"Comedy",
+  category:"Entertainment",
+  type:"youtube",
+  source:"https://www.youtube.com/results?search_query=clean+comedy+full+episodes",
+  source_kind:"search",
+  sort_order:5
+},
 
-  {
-    id:"fallback-6",
-    name:"Inventions",
-    category:"Technology",
-    type:"youtube",
-    source:"new inventions technology",
-    source_kind:"search",
-    sort_order:6
-  },
+{
+  id:"fallback-6",
+  name:"Inventions",
+  category:"Technology",
+  type:"youtube",
+  source:"https://www.youtube.com/results?search_query=new+inventions+technology",
+  source_kind:"search",
+  sort_order:6
+},
 
-  {
-    id:"fallback-7",
-    name:"Business Ideas",
-    category:"Business",
-    type:"youtube",
-    source:"business ideas entrepreneurs",
-    source_kind:"search",
-    sort_order:7
-  },
+{
+  id:"fallback-7",
+  name:"Business Ideas",
+  category:"Business",
+  type:"youtube",
+  source:"https://www.youtube.com/results?search_query=business+ideas+entrepreneurs",
+  source_kind:"search",
+  sort_order:7
+},
 
-  {
-    id:"fallback-8",
-    name:"History of Israel",
-    category:"History",
-    type:"youtube",
-    source:"history of Israel documentary",
-    source_kind:"search",
-    sort_order:8
-  },
+{
+  id:"fallback-8",
+  name:"Israel History",
+  category:"History",
+  type:"youtube",
+  source:"https://www.youtube.com/results?search_query=history+of+Israel+documentary",
+  source_kind:"search",
+  sort_order:8
+},
 
-  {
-    id:"fallback-9",
-    name:"Israel Music",
-    category:"Music",
-    type:"youtube",
-    source:"Israeli music",
-    source_kind:"search",
-    sort_order:9
-  },
+{
+  id:"fallback-9",
+  name:"Israel Music",
+  category:"Music",
+  type:"youtube",
+  source:"https://www.youtube.com/results?search_query=Israeli+music",
+  source_kind:"search",
+  sort_order:9
+},
 
-  {
-    id:"fallback-10",
-    name:"Old Western Movies",
-    category:"Movies",
-    type:"youtube",
-    source:"old western full movie",
-    source_kind:"search",
-    sort_order:10
-  },
+{
+  id:"fallback-10",
+  name:"Old Western Movies",
+  category:"Movies",
+  type:"youtube",
+  source:"https://www.youtube.com/results?search_query=old+western+full+movie",
+  source_kind:"search",
+  sort_order:10
+},
 
-  {
-    id:"fallback-11",
-    name:"Health",
-    category:"Health",
-    type:"youtube",
-    source:"healthy living",
-    source_kind:"search",
-    sort_order:11
-  },
+{
+  id:"fallback-11",
+  name:"Health",
+  category:"Health",
+  type:"youtube",
+  source:"https://www.youtube.com/results?search_query=healthy+living",
+  source_kind:"search",
+  sort_order:11
+},
 
-  {
-    id:"fallback-12",
-    name:"Voice of Peace",
-    category:"Peace",
-    type:"youtube",
-    source:"Israel peace",
-    source_kind:"search",
-    sort_order:12
-  }
+{
+  id:"fallback-12",
+  name:"Voice of Peace",
+  category:"Peace",
+  type:"youtube",
+  source:"https://www.youtube.com/results?search_query=Israel+peace",
+  source_kind:"search",
+  sort_order:12
+}
 
 ];
 
@@ -979,18 +937,23 @@ let ytPlayer = null;
 
 let ytReady = false;
 
+let pendingVideoId = null;
+
 
 /* ============================================================
-   YOUTUBE PLAYER READY
+   YOUTUBE API
 ============================================================ */
 
-function onYouTubeIframeAPIReady(){
+window.onYouTubeIframeAPIReady =
+function(){
 
-  ytPlayer = new YT.Player(
+  ytPlayer =
+  new YT.Player(
     "youtubePlayer",
     {
 
       width:"100%",
+
       height:"100%",
 
       playerVars:{
@@ -1006,9 +969,52 @@ function onYouTubeIframeAPIReady(){
 
           ytReady = true;
 
-          if(channels.length){
-            playChannel(0);
+
+          if(pendingVideoId){
+
+            ytPlayer.loadVideoById(
+              pendingVideoId
+            );
+
+            pendingVideoId = null;
+
+          }else if(channels.length){
+
+            playChannel(
+              currentIndex
+            );
+
           }
+
+        },
+
+
+        onError:function(event){
+
+          const messages = {
+
+            2:
+            "Invalid YouTube video ID.",
+
+            5:
+            "This video cannot be played in the HTML5 player.",
+
+            100:
+            "This video is unavailable or was removed.",
+
+            101:
+            "The owner does not allow this video to be embedded.",
+
+            150:
+            "The owner does not allow this video to be embedded."
+
+          };
+
+
+          showMessage(
+            messages[event.data] ||
+            "YouTube could not play this video."
+          );
 
         }
 
@@ -1017,11 +1023,44 @@ function onYouTubeIframeAPIReady(){
     }
   );
 
+};
+
+
+
+function loadYouTubeAPI(){
+
+  if(
+    document.getElementById(
+      "youtubeIframeApi"
+    )
+  ){
+    return;
+  }
+
+
+  const tag =
+  document.createElement(
+    "script"
+  );
+
+
+  tag.id =
+  "youtubeIframeApi";
+
+
+  tag.src =
+  "https://www.youtube.com/iframe_api";
+
+
+  document.head.appendChild(
+    tag
+  );
+
 }
 
 
 /* ============================================================
-   LOAD CHANNELS FROM SUPABASE
+   LOAD CHANNELS
 ============================================================ */
 
 async function loadChannels(){
@@ -1031,6 +1070,7 @@ async function loadChannels(){
     false
   );
 
+
   try{
 
     const {
@@ -1038,12 +1078,22 @@ async function loadChannels(){
       error
     } =
     await supabaseClient
-      .from("voice_channels")
-      .select("*")
-      .eq("active",true)
-      .order("sort_order",{
+    .from(
+      "voice_channels"
+    )
+    .select(
+      "id,name,category,type,source,source_kind,sort_order,active"
+    )
+    .eq(
+      "active",
+      true
+    )
+    .order(
+      "sort_order",
+      {
         ascending:true
-      });
+      }
+    );
 
 
     if(error){
@@ -1051,21 +1101,30 @@ async function loadChannels(){
     }
 
 
-    if(data && data.length){
+    if(
+      data &&
+      data.length
+    ){
 
-      channels = data;
+      channels =
+      data;
+
 
       setDatabaseStatus(
-        "Supabase LIVE",
+        "Supabase LIVE — " +
+        data.length +
+        " channels",
         true
       );
 
     }else{
 
-      channels = fallbackChannels;
+      channels =
+      fallbackChannels;
+
 
       setDatabaseStatus(
-        "Connected — using default channels",
+        "Connected — table is empty, showing defaults",
         true
       );
 
@@ -1073,15 +1132,19 @@ async function loadChannels(){
 
   }catch(error){
 
-    console.log(
+    console.error(
       "Supabase channel load:",
-      error.message
+      error
     );
 
-    channels = fallbackChannels;
+
+    channels =
+    fallbackChannels;
+
 
     setDatabaseStatus(
-      "Default channels — database table not ready",
+      "Using default channels — " +
+      error.message,
       false
     );
 
@@ -1091,7 +1154,9 @@ async function loadChannels(){
   renderChannelButtons();
 
 
-  if(ytReady && channels.length){
+  if(
+    channels.length
+  ){
 
     playChannel(0);
 
@@ -1104,67 +1169,83 @@ async function loadChannels(){
    STATUS
 ============================================================ */
 
-function setDatabaseStatus(text,online){
+function setDatabaseStatus(
+  text,
+  online
+){
 
   const status =
-    document.getElementById("dbStatus");
-
-  const label =
-    document.getElementById("dbStatusText");
-
-
-  label.textContent = text;
+  document.getElementById(
+    "dbStatus"
+  );
 
 
-  if(online){
+  document.getElementById(
+    "dbStatusText"
+  ).textContent =
+  text;
 
-    status.classList.remove("offline");
 
-  }else{
-
-    status.classList.add("offline");
-
-  }
+  status.classList.toggle(
+    "offline",
+    !online
+  );
 
 }
 
 
 /* ============================================================
-   RENDER CHANNEL BUTTONS
+   CHANNEL BUTTONS
 ============================================================ */
 
 function renderChannelButtons(){
 
   const container =
-    document.getElementById("channelButtons");
+  document.getElementById(
+    "channelButtons"
+  );
 
-  container.innerHTML = "";
+
+  container.innerHTML =
+  "";
 
 
   channels.forEach(
     (channel,index)=>{
 
       const button =
-        document.createElement("button");
+      document.createElement(
+        "button"
+      );
+
 
       button.className =
-        "channel-btn";
+      "channel-btn";
+
 
       button.innerHTML =
-        `
-        ${index + 1}. ${escapeHTML(channel.name)}
-        <span>
-          ${escapeHTML(channel.category || "TV")}
-        </span>
-        `;
+      `
+      ${index + 1}.
+      ${escapeHTML(channel.name)}
+
+      <span>
+      ${escapeHTML(
+        channel.category ||
+        "TV"
+      )}
+      </span>
+      `;
+
 
       button.onclick =
-        function(){
-          playChannel(index);
-        };
+      ()=>{
+        playChannel(index);
+      };
 
 
-      container.appendChild(button);
+      container.appendChild(
+        button
+      );
 
     }
   );
@@ -1186,17 +1267,19 @@ function playChannel(index){
   }
 
 
-  currentIndex = index;
+  currentIndex =
+  index;
 
 
   const channel =
-    channels[index];
+  channels[index];
 
 
   document.getElementById(
     "currentChannel"
   ).textContent =
-    channel.name;
+  channel.name ||
+  "TV Channel";
 
 
   highlightActiveChannel();
@@ -1206,26 +1289,38 @@ function playChannel(index){
 
 
   const generic =
-    document.getElementById(
-      "genericPlayer"
-    );
+  document.getElementById(
+    "genericPlayer"
+  );
+
+
+  const youtube =
+  document.getElementById(
+    "youtubePlayer"
+  );
+
+
+  generic.src =
+  "";
 
 
   generic.style.display =
-    "none";
-
-  generic.src = "";
+  "none";
 
 
-  document.getElementById(
-    "youtubePlayer"
-  ).style.display =
-    "block";
+  youtube.style.display =
+  "block";
 
 
-  if(channel.type === "embed"){
+  if(
+    (channel.type || "")
+    .toLowerCase() ===
+    "embed"
+  ){
 
-    playEmbed(channel.source);
+    playEmbed(
+      channel.source
+    );
 
     return;
 
@@ -1233,10 +1328,14 @@ function playChannel(index){
 
 
   if(
-    channel.source_kind === "search"
+    isSearchChannel(
+      channel
+    )
   ){
 
-    showSearchMessage(channel);
+    showSearchMessage(
+      channel
+    );
 
     return;
 
@@ -1244,22 +1343,70 @@ function playChannel(index){
 
 
   const videoId =
-    extractYouTubeId(
-      channel.source
+  extractYouTubeId(
+    channel.source
+  );
+
+
+  if(
+    !videoId
+  ){
+
+    showMessage(
+      `
+      <div>
+
+        <div
+        style="
+        font-size:22px;
+        margin-bottom:12px;
+        ">
+
+        ${escapeHTML(
+          channel.name
+        )}
+
+        </div>
+
+        <div>
+
+        This row does not contain
+        a playable YouTube watch/live URL
+        or 11-character video ID.
+
+        </div>
+
+      </div>
+      `
     );
 
+    return;
 
-  if(videoId && ytReady){
+  }
 
-    ytPlayer.loadVideoById(
-      videoId
-    );
+
+  if(
+    ytReady &&
+    ytPlayer
+  ){
+
+    try{
+
+      ytPlayer.loadVideoById(
+        videoId
+      );
+
+    }catch(e){
+
+      pendingVideoId =
+      videoId;
+
+    }
 
   }else{
 
-    showMessage(
-      "This channel needs a valid YouTube video or live-stream URL."
-    );
+    pendingVideoId =
+    videoId;
 
   }
 
@@ -1267,38 +1414,102 @@ function playChannel(index){
 
 
 /* ============================================================
-   FALLBACK SEARCH CHANNELS
-
-   YouTube does not allow arbitrary search-result pages inside
-   an iframe. These default placeholders open a YouTube search.
+   SEARCH LINK DETECTION
 ============================================================ */
 
-function showSearchMessage(channel){
+function isSearchChannel(
+  channel
+){
+
+  const kind =
+  String(
+    channel.source_kind ||
+    ""
+  ).toLowerCase();
+
+
+  const src =
+  String(
+    channel.source ||
+    ""
+  );
+
+
+  return(
+    kind === "search" ||
+    src.includes(
+      "youtube.com/results?search_query="
+    )
+  );
+
+}
+
+
+/* ============================================================
+   SEARCH MESSAGE
+============================================================ */
+
+function showSearchMessage(
+  channel
+){
+
+  const query =
+  extractSearchQuery(
+    channel.source
+  ) ||
+  channel.name;
+
 
   showMessage(
     `
     <div>
-      <div style="font-size:22px;margin-bottom:12px;">
-        ${escapeHTML(channel.name)}
+
+      <div
+      style="
+      font-size:22px;
+      margin-bottom:12px;
+      ">
+
+      ${escapeHTML(
+        channel.name
+      )}
+
       </div>
 
-      <div style="margin-bottom:18px;">
-        Choose a permanent YouTube video or live-stream URL
-        in the admin section for automatic playback.
+
+      <div
+      style="
+      margin-bottom:18px;
+      ">
+
+      This database row is a
+      YouTube SEARCH link,
+      not a playable video stream.
+
+      <br><br>
+
+      Replace it in Supabase with
+      a YouTube watch/live URL
+      or 11-character video ID.
+
       </div>
+
 
       <button
-        onclick="openYouTubeSearch('${encodeURIComponent(channel.source)}')"
-        style="
-        border:0;
-        background:#ff0000;
-        color:white;
-        padding:13px 18px;
-        border-radius:10px;
-        font-weight:900;
-        ">
-        OPEN YOUTUBE
+      onclick='openYouTubeSearch(${JSON.stringify(query)})'
+      style="
+      border:0;
+      background:#ff0000;
+      color:white;
+      padding:13px 18px;
+      border-radius:10px;
+      font-weight:900;
+      ">
+
+      OPEN YOUTUBE SEARCH
+
       </button>
+
     </div>
     `
   );
@@ -1307,43 +1518,90 @@ function showSearchMessage(channel){
 
 
 /* ============================================================
-   YOUTUBE SEARCH
+   SEARCH QUERY
 ============================================================ */
 
-function openYouTubeSearch(encodedQuery){
+function extractSearchQuery(
+  value
+){
 
-  const query =
-    decodeURIComponent(
-      encodedQuery
+  try{
+
+    const url =
+    new URL(
+      value
     );
+
+
+    return(
+      url.searchParams.get(
+        "search_query"
+      ) ||
+      ""
+    );
+
+  }catch(e){
+
+    return(
+      value ||
+      ""
+    );
+
+  }
+
+}
+
+
+/* ============================================================
+   OPEN YOUTUBE
+============================================================ */
+
+function openYouTubeSearch(
+  query
+){
 
   window.open(
     "https://www.youtube.com/results?search_query=" +
-    encodeURIComponent(query),
-    "_blank"
+    encodeURIComponent(
+      query
+    ),
+    "_blank",
+    "noopener"
   );
 
 }
 
 
 /* ============================================================
-   GENERIC EMBED
+   EMBED PLAYER
 ============================================================ */
 
-function playEmbed(url){
+function playEmbed(
+  url
+){
 
   if(!url){
+
+    showMessage(
+      "No embed URL was provided."
+    );
+
     return;
+
   }
 
 
   try{
 
     const parsed =
-      new URL(url);
+    new URL(
+      url
+    );
+
 
     if(
-      parsed.protocol !== "https:"
+      parsed.protocol !==
+      "https:"
     ){
 
       showMessage(
@@ -1351,9 +1609,10 @@ function playEmbed(url){
       );
 
       return;
+
     }
 
-  }catch{
+  }catch(e){
 
     showMessage(
       "Invalid embed URL."
@@ -1364,10 +1623,15 @@ function playEmbed(url){
   }
 
 
-  if(ytReady){
+  if(
+    ytReady &&
+    ytPlayer
+  ){
 
     try{
+
       ytPlayer.stopVideo();
+
     }catch(e){}
 
   }
@@ -1376,20 +1640,21 @@ function playEmbed(url){
   document.getElementById(
     "youtubePlayer"
   ).style.display =
-    "none";
+  "none";
 
 
   const iframe =
-    document.getElementById(
-      "genericPlayer"
-    );
+  document.getElementById(
+    "genericPlayer"
+  );
 
 
   iframe.style.display =
-    "block";
+  "block";
+
 
   iframe.src =
-    url;
+  url;
 
 }
 
@@ -1400,30 +1665,38 @@ function playEmbed(url){
 
 function nextChannel(){
 
-  if(!channels.length){
+  if(
+    !channels.length
+  ){
     return;
   }
 
-  const next =
-    (currentIndex + 1) %
-    channels.length;
 
-  playChannel(next);
+  playChannel(
+    (currentIndex + 1) %
+    channels.length
+  );
 
 }
 
 
 function previousChannel(){
 
-  if(!channels.length){
+  if(
+    !channels.length
+  ){
     return;
   }
 
-  const previous =
-    (currentIndex - 1 + channels.length) %
-    channels.length;
 
-  playChannel(previous);
+  playChannel(
+    (
+      currentIndex -
+      1 +
+      channels.length
+    ) %
+    channels.length
+  );
 
 }
 
@@ -1434,13 +1707,16 @@ function previousChannel(){
 
 function togglePlay(){
 
-  if(!ytReady){
+  if(
+    !ytReady ||
+    !ytPlayer
+  ){
     return;
   }
 
 
   const state =
-    ytPlayer.getPlayerState();
+  ytPlayer.getPlayerState();
 
 
   if(
@@ -1465,17 +1741,19 @@ function togglePlay(){
 
 function volumeUp(){
 
-  if(!ytReady){
+  if(
+    !ytReady ||
+    !ytPlayer
+  ){
     return;
   }
 
-  const volume =
-    ytPlayer.getVolume();
 
   ytPlayer.setVolume(
     Math.min(
       100,
-      volume + 10
+      ytPlayer.getVolume() +
+      10
     )
   );
 
@@ -1484,17 +1762,19 @@ function volumeUp(){
 
 function volumeDown(){
 
-  if(!ytReady){
+  if(
+    !ytReady ||
+    !ytPlayer
+  ){
     return;
   }
 
-  const volume =
-    ytPlayer.getVolume();
 
   ytPlayer.setVolume(
     Math.max(
       0,
-      volume - 10
+      ytPlayer.getVolume() -
+      10
     )
   );
 
@@ -1503,12 +1783,17 @@ function volumeDown(){
 
 function toggleMute(){
 
-  if(!ytReady){
+  if(
+    !ytReady ||
+    !ytPlayer
+  ){
     return;
   }
 
 
-  if(ytPlayer.isMuted()){
+  if(
+    ytPlayer.isMuted()
+  ){
 
     ytPlayer.unMute();
 
@@ -1528,15 +1813,17 @@ function toggleMute(){
 function playCustomVideo(){
 
   const value =
-    document
-      .getElementById(
-        "customVideo"
-      )
-      .value
-      .trim();
+  document
+  .getElementById(
+    "customVideo"
+  )
+  .value
+  .trim();
 
 
-  if(!value){
+  if(
+    !value
+  ){
 
     alert(
       "Paste a YouTube video or live-stream link first."
@@ -1548,13 +1835,17 @@ function playCustomVideo(){
 
 
   const id =
-    extractYouTubeId(value);
+  extractYouTubeId(
+    value
+  );
 
 
-  if(!id){
+  if(
+    !id
+  ){
 
     alert(
-      "I could not recognize a YouTube video ID from that link."
+      "I could not recognize a playable YouTube video ID from that link."
     );
 
     return;
@@ -1568,24 +1859,34 @@ function playCustomVideo(){
   document.getElementById(
     "genericPlayer"
   ).style.display =
-    "none";
+  "none";
 
 
   document.getElementById(
     "youtubePlayer"
   ).style.display =
-    "block";
+  "block";
 
 
   document.getElementById(
     "currentChannel"
   ).textContent =
-    "Custom Video";
+  "Custom Video";
 
 
-  if(ytReady){
+  if(
+    ytReady &&
+    ytPlayer
+  ){
 
-    ytPlayer.loadVideoById(id);
+    ytPlayer.loadVideoById(
+      id
+    );
+
+  }else{
+
+    pendingVideoId =
+    id;
 
   }
 
@@ -1593,22 +1894,31 @@ function playCustomVideo(){
 
 
 /* ============================================================
-   EXTRACT YOUTUBE ID
+   YOUTUBE ID
 ============================================================ */
 
-function extractYouTubeId(value){
+function extractYouTubeId(
+  value
+){
 
-  if(!value){
+  if(
+    !value
+  ){
     return null;
   }
 
 
   value =
-    value.trim();
+  String(
+    value
+  ).trim();
 
 
   if(
-    /^[A-Za-z0-9_-]{11}$/.test(value)
+    /^[A-Za-z0-9_-]{11}$/
+    .test(
+      value
+    )
   ){
 
     return value;
@@ -1619,49 +1929,125 @@ function extractYouTubeId(value){
   try{
 
     const url =
-      new URL(value);
+    new URL(
+      value
+    );
+
+
+    const host =
+    url.hostname.replace(
+      /^www\./,
+      ""
+    );
 
 
     if(
-      url.hostname.includes(
-        "youtu.be"
-      )
+      host ===
+      "youtu.be"
     ){
 
-      return url.pathname
-        .replace("/","")
-        .substring(0,11);
+      const id =
+      url.pathname
+      .split("/")
+      .filter(Boolean)[0];
+
+
+      return(
+        /^[A-Za-z0-9_-]{11}$/
+        .test(
+          id ||
+          ""
+        )
+        ?
+        id
+        :
+        null
+      );
 
     }
 
 
+    const v =
+    url.searchParams.get(
+      "v"
+    );
+
+
     if(
-      url.searchParams.get("v")
+      v &&
+      /^[A-Za-z0-9_-]{11}$/
+      .test(
+        v.substring(
+          0,
+          11
+        )
+      )
     ){
 
-      return url.searchParams
-        .get("v")
-        .substring(0,11);
+      return(
+        v.substring(
+          0,
+          11
+        )
+      );
 
     }
 
 
-    const pieces =
-      url.pathname.split("/");
+    const parts =
+    url.pathname
+    .split("/")
+    .filter(Boolean);
 
-    const possible =
-      pieces[
-        pieces.length - 1
-      ];
+
+    const markers = [
+      "embed",
+      "live",
+      "shorts"
+    ];
+
+
+    for(
+      let i = 0;
+      i < parts.length - 1;
+      i++
+    ){
+
+      if(
+        markers.includes(
+          parts[i]
+        ) &&
+        /^[A-Za-z0-9_-]{11}$/
+        .test(
+          parts[i + 1]
+        )
+      ){
+
+        return(
+          parts[i + 1]
+        );
+
+      }
+
+    }
+
+
+    const last =
+    parts[
+      parts.length -
+      1
+    ] ||
+    "";
 
 
     if(
-      /^[A-Za-z0-9_-]{11}$/.test(
-        possible
+      /^[A-Za-z0-9_-]{11}$/
+      .test(
+        last
       )
     ){
 
-      return possible;
+      return last;
 
     }
 
@@ -1679,18 +2065,20 @@ function extractYouTubeId(value){
 
 function highlightActiveChannel(){
 
-  const buttons =
-    document.querySelectorAll(
-      ".channel-btn"
-    );
-
-
-  buttons.forEach(
-    (button,index)=>{
+  document
+  .querySelectorAll(
+    ".channel-btn"
+  )
+  .forEach(
+    (
+      button,
+      index
+    )=>{
 
       button.classList.toggle(
         "active",
-        index === currentIndex
+        index ===
+        currentIndex
       );
 
     }
@@ -1703,37 +2091,38 @@ function highlightActiveChannel(){
    MESSAGE
 ============================================================ */
 
-function showMessage(html){
+function showMessage(
+  html
+){
 
   const box =
-    document.getElementById(
-      "playerMessage"
-    );
+  document.getElementById(
+    "playerMessage"
+  );
+
 
   box.innerHTML =
-    html;
+  html;
+
 
   box.style.display =
-    "flex";
+  "flex";
 
 }
 
 
 function hideMessage(){
 
-  const box =
-    document.getElementById(
-      "playerMessage"
-    );
-
-  box.style.display =
-    "none";
+  document.getElementById(
+    "playerMessage"
+  ).style.display =
+  "none";
 
 }
 
 
 /* ============================================================
-   ADMIN OPEN / CLOSE
+   ADMIN
 ============================================================ */
 
 function toggleAdmin(){
@@ -1748,62 +2137,65 @@ function toggleAdmin(){
 
 
 /* ============================================================
-   SAVE CHANNEL TO SUPABASE
+   SAVE CHANNEL
 ============================================================ */
 
 async function saveChannel(){
 
   const name =
-    document
-      .getElementById(
-        "channelName"
-      )
-      .value
-      .trim();
+  document
+  .getElementById(
+    "channelName"
+  )
+  .value
+  .trim();
 
 
   const category =
-    document
-      .getElementById(
-        "channelCategory"
-      )
-      .value
-      .trim();
+  document
+  .getElementById(
+    "channelCategory"
+  )
+  .value
+  .trim();
 
 
   const type =
-    document.getElementById(
-      "channelType"
-    ).value;
+  document.getElementById(
+    "channelType"
+  ).value;
 
 
   const source =
-    document
-      .getElementById(
-        "channelSource"
-      )
-      .value
-      .trim();
+  document
+  .getElementById(
+    "channelSource"
+  )
+  .value
+  .trim();
 
 
   const sortOrder =
-    Number(
-      document.getElementById(
-        "channelOrder"
-      ).value
-    ) || 20;
+  Number(
+    document
+    .getElementById(
+      "channelOrder"
+    )
+    .value
+  ) ||
+  20;
 
 
   const active =
-    document.getElementById(
-      "channelActive"
-    ).checked;
+  document.getElementById(
+    "channelActive"
+  ).checked;
 
 
   const result =
-    document.getElementById(
-      "adminResult"
-    );
+  document.getElementById(
+    "adminResult"
+  );
 
 
   if(
@@ -1812,7 +2204,23 @@ async function saveChannel(){
   ){
 
     result.textContent =
-      "Please enter the channel name and video/embed URL.";
+    "Please enter the channel name and source.";
+
+    return;
+
+  }
+
+
+  if(
+    type ===
+    "youtube" &&
+    !extractYouTubeId(
+      source
+    )
+  ){
+
+    result.textContent =
+    "For in-page playback, enter a YouTube watch/live URL or an 11-character video ID.";
 
     return;
 
@@ -1820,7 +2228,7 @@ async function saveChannel(){
 
 
   result.textContent =
-    "Saving...";
+  "Trying to save...";
 
 
   try{
@@ -1829,62 +2237,75 @@ async function saveChannel(){
       error
     } =
     await supabaseClient
-      .from(
-        "voice_channels"
-      )
-      .insert({
+    .from(
+      "voice_channels"
+    )
+    .insert({
 
-        name:name,
+      name:name,
 
-        category:
-          category || "TV",
+      category:
+      category ||
+      "TV",
 
-        type:type,
+      type:type,
 
-        source:source,
+      source:source,
 
-        source_kind:
-          "direct",
+      source_kind:
+      "direct",
 
-        sort_order:
-          sortOrder,
+      sort_order:
+      sortOrder,
 
-        active:
-          active
+      active:
+      active
 
-      });
+    });
 
 
-    if(error){
+    if(
+      error
+    ){
       throw error;
     }
 
 
     result.textContent =
-      "Channel saved successfully.";
+    "Channel saved successfully.";
 
 
     document.getElementById(
       "channelName"
-    ).value = "";
+    ).value =
+    "";
+
 
     document.getElementById(
       "channelCategory"
-    ).value = "";
+    ).value =
+    "";
+
 
     document.getElementById(
       "channelSource"
-    ).value = "";
+    ).value =
+    "";
 
 
     await loadChannels();
 
-
   }catch(error){
 
+    console.error(
+      error
+    );
+
+
     result.textContent =
-      "Could not save: " +
-      error.message;
+    "Save blocked by Supabase security: " +
+    error.message +
+    " — public SELECT is enabled, but INSERT is protected.";
 
   }
 
@@ -1895,10 +2316,13 @@ async function saveChannel(){
    ESCAPE HTML
 ============================================================ */
 
-function escapeHTML(value){
+function escapeHTML(
+  value
+){
 
   return String(
-    value || ""
+    value ||
+    ""
   )
   .replaceAll(
     "&",
@@ -1927,6 +2351,8 @@ function escapeHTML(value){
 /* ============================================================
    START
 ============================================================ */
+
+loadYouTubeAPI();
 
 loadChannels();
 

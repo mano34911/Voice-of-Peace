@@ -97,7 +97,6 @@ button.red{background:#661b29;border-color:#d65a6c}
         <button id="prevBtn">⏮ Previous</button>
         <button id="nextBtn">Next ⏭</button>
         <button id="shuffleBtn">🔀 Shuffle</button>
-        <button id="openYTBtn">↗ Open on YouTube</button>
       </div>
       <div class="now">
         <div id="nowTitle" class="nowTitle">Nothing playing</div>
@@ -144,7 +143,11 @@ button.red{background:#661b29;border-color:#d65a6c}
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = "https://oyeeeooymrzemxfrvcon.supabase.co";
+const SUPABASE_KEY = "sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const YOUTUBE_API_KEYS = ["AIzaSyAADTL39rYmKO52pS7CV7gFT3ECVeHCM8Y", "AIzaSyD-dXf1oH6M83JHK8ivc11QSZXY0q4xJI8"];
 const BUILTIN = [{"title": "Billie Jean", "artist": "Michael Jackson", "category": "American Top 100"}, {"title": "Thriller", "artist": "Michael Jackson", "category": "American Top 100"}, {"title": "Beat It", "artist": "Michael Jackson", "category": "American Top 100"}, {"title": "I Will Always Love You", "artist": "Whitney Houston", "category": "American Top 100"}, {"title": "I Wanna Dance with Somebody", "artist": "Whitney Houston", "category": "American Top 100"}, {"title": "Hotel California", "artist": "Eagles", "category": "American Top 100"}, {"title": "Take It Easy", "artist": "Eagles", "category": "American Top 100"}, {"title": "Dreams", "artist": "Fleetwood Mac", "category": "American Top 100"}, {"title": "Go Your Own Way", "artist": "Fleetwood Mac", "category": "American Top 100"}, {"title": "Like a Prayer", "artist": "Madonna", "category": "American Top 100"}, {"title": "Like a Virgin", "artist": "Madonna", "category": "American Top 100"}, {"title": "Purple Rain", "artist": "Prince", "category": "American Top 100"}, {"title": "When Doves Cry", "artist": "Prince", "category": "American Top 100"}, {"title": "Born in the U.S.A.", "artist": "Bruce Springsteen", "category": "American Top 100"}, {"title": "Dancing in the Dark", "artist": "Bruce Springsteen", "category": "American Top 100"}, {"title": "Piano Man", "artist": "Billy Joel", "category": "American Top 100"}, {"title": "Uptown Girl", "artist": "Billy Joel", "category": "American Top 100"}, {"title": "Don't Stop Believin'", "artist": "Journey", "category": "American Top 100"}, {"title": "Sweet Child o' Mine", "artist": "Guns N' Roses", "category": "American Top 100"}, {"title": "Livin' on a Prayer", "artist": "Bon Jovi", "category": "American Top 100"}, {"title": "You Give Love a Bad Name", "artist": "Bon Jovi", "category": "American Top 100"}, {"title": "Every Breath You Take", "artist": "The Police", "category": "American Top 100"}, {"title": "Africa", "artist": "Toto", "category": "American Top 100"}, {"title": "Rosanna", "artist": "Toto", "category": "American Top 100"}, {"title": "Take on Me", "artist": "a-ha", "category": "American Top 100"}, {"title": "Careless Whisper", "artist": "George Michael", "category": "American Top 100"}, {"title": "Faith", "artist": "George Michael", "category": "American Top 100"}, {"title": "Girls Just Want to Have Fun", "artist": "Cyndi Lauper", "category": "American Top 100"}, {"title": "Time After Time", "artist": "Cyndi Lauper", "category": "American Top 100"}, {"title": "Footloose", "artist": "Kenny Loggins", "category": "American Top 100"}, {"title": "Danger Zone", "artist": "Kenny Loggins", "category": "American Top 100"}, {"title": "Eye of the Tiger", "artist": "Survivor", "category": "American Top 100"}, {"title": "The Power of Love", "artist": "Huey Lewis and the News", "category": "American Top 100"}, {"title": "Wake Me Up Before You Go-Go", "artist": "Wham!", "category": "American Top 100"}, {"title": "Maniac", "artist": "Michael Sembello", "category": "American Top 100"}, {"title": "Flashdance... What a Feeling", "artist": "Irene Cara", "category": "American Top 100"}, {"title": "Fame", "artist": "Irene Cara", "category": "American Top 100"}, {"title": "Old Time Rock and Roll", "artist": "Bob Seger", "category": "American Top 100"}, {"title": "Against the Wind", "artist": "Bob Seger", "category": "American Top 100"}, {"title": "Free Fallin'", "artist": "Tom Petty", "category": "American Top 100"}, {"title": "American Girl", "artist": "Tom Petty and the Heartbreakers", "category": "American Top 100"}, {"title": "More Than a Feeling", "artist": "Boston", "category": "American Top 100"}, {"title": "Carry on Wayward Son", "artist": "Kansas", "category": "American Top 100"}, {"title": "Sweet Home Alabama", "artist": "Lynyrd Skynyrd", "category": "American Top 100"}, {"title": "What's Up?", "artist": "4 Non Blondes", "category": "American Top 100"}, {"title": "Iris", "artist": "Goo Goo Dolls", "category": "American Top 100"}, {"title": "Losing My Religion", "artist": "R.E.M.", "category": "American Top 100"}, {"title": "With or Without You", "artist": "U2", "category": "American Top 100"}, {"title": "Beautiful Day", "artist": "U2", "category": "American Top 100"}, {"title": "Smells Like Teen Spirit", "artist": "Nirvana", "category": "American Top 100"}, {"title": "Come as You Are", "artist": "Nirvana", "category": "American Top 100"}, {"title": "Under the Bridge", "artist": "Red Hot Chili Peppers", "category": "American Top 100"}, {"title": "Californication", "artist": "Red Hot Chili Peppers", "category": "American Top 100"}, {"title": "Wonderwall", "artist": "Oasis", "category": "American Top 100"}, {"title": "Don't Speak", "artist": "No Doubt", "category": "American Top 100"}, {"title": "Zombie", "artist": "The Cranberries", "category": "American Top 100"}, {"title": "Nothing Compares 2 U", "artist": "Sinéad O'Connor", "category": "American Top 100"}, {"title": "Smooth", "artist": "Santana feat. Rob Thomas", "category": "American Top 100"}, {"title": "Maria Maria", "artist": "Santana", "category": "American Top 100"}, {"title": "Black or White", "artist": "Michael Jackson", "category": "American Top 100"}, {"title": "We Are the World", "artist": "USA for Africa", "category": "American Top 100"}, {"title": "Endless Love", "artist": "Diana Ross & Lionel Richie", "category": "American Top 100"}, {"title": "Hello", "artist": "Lionel Richie", "category": "American Top 100"}, {"title": "All Night Long", "artist": "Lionel Richie", "category": "American Top 100"}, {"title": "Endless Summer Nights", "artist": "Richard Marx", "category": "American Top 100"}, {"title": "Right Here Waiting", "artist": "Richard Marx", "category": "American Top 100"}, {"title": "Heaven", "artist": "Bryan Adams", "category": "American Top 100"}, {"title": "Summer of '69", "artist": "Bryan Adams", "category": "American Top 100"}, {"title": "(Everything I Do) I Do It for You", "artist": "Bryan Adams", "category": "American Top 100"}, {"title": "Total Eclipse of the Heart", "artist": "Bonnie Tyler", "category": "American Top 100"}, {"title": "Alone", "artist": "Heart", "category": "American Top 100"}, {"title": "These Dreams", "artist": "Heart", "category": "American Top 100"}, {"title": "Heaven Is a Place on Earth", "artist": "Belinda Carlisle", "category": "American Top 100"}, {"title": "Bette Davis Eyes", "artist": "Kim Carnes", "category": "American Top 100"}, {"title": "What's Love Got to Do with It", "artist": "Tina Turner", "category": "American Top 100"}, {"title": "Private Dancer", "artist": "Tina Turner", "category": "American Top 100"}, {"title": "Superstition", "artist": "Stevie Wonder", "category": "American Top 100"}, {"title": "Isn't She Lovely", "artist": "Stevie Wonder", "category": "American Top 100"}, {"title": "Let's Stay Together", "artist": "Al Green", "category": "American Top 100"}, {"title": "September", "artist": "Earth, Wind & Fire", "category": "American Top 100"}, {"title": "Let's Groove", "artist": "Earth, Wind & Fire", "category": "American Top 100"}, {"title": "Celebration", "artist": "Kool & The Gang", "category": "American Top 100"}, {"title": "I Will Survive", "artist": "Gloria Gaynor", "category": "American Top 100"}, {"title": "Le Freak", "artist": "Chic", "category": "American Top 100"}, {"title": "Y.M.C.A.", "artist": "Village People", "category": "American Top 100"}, {"title": "Stayin' Alive", "artist": "Bee Gees", "category": "American Top 100"}, {"title": "How Deep Is Your Love", "artist": "Bee Gees", "category": "American Top 100"}, {"title": "Night Fever", "artist": "Bee Gees", "category": "American Top 100"}, {"title": "Dancing Queen", "artist": "ABBA", "category": "American Top 100"}, {"title": "Mamma Mia", "artist": "ABBA", "category": "American Top 100"}, {"title": "Your Song", "artist": "Elton John", "category": "American Top 100"}, {"title": "Tiny Dancer", "artist": "Elton John", "category": "American Top 100"}, {"title": "Rocket Man", "artist": "Elton John", "category": "American Top 100"}, {"title": "Imagine", "artist": "John Lennon", "category": "American Top 100"}, {"title": "Let It Be", "artist": "The Beatles", "category": "American Top 100"}, {"title": "Hey Jude", "artist": "The Beatles", "category": "American Top 100"}, {"title": "Bridge Over Troubled Water", "artist": "Simon & Garfunkel", "category": "American Top 100"}, {"title": "Mrs. Robinson", "artist": "Simon & Garfunkel", "category": "American Top 100"}, {"title": "Sweet Caroline", "artist": "Neil Diamond", "category": "American Top 100"}, {"title": "Can't Help Falling in Love", "artist": "Elvis Presley", "category": "American Top 100"}, {"title": "עטור מצחך", "artist": "אריק איינשטיין", "category": "Israeli Top 100"}, {"title": "אני ואתה", "artist": "אריק איינשטיין", "category": "Israeli Top 100"}, {"title": "סע לאט", "artist": "אריק איינשטיין", "category": "Israeli Top 100"}, {"title": "עוף גוזל", "artist": "אריק איינשטיין", "category": "Israeli Top 100"}, {"title": "יש בי אהבה", "artist": "אריק איינשטיין", "category": "Israeli Top 100"}, {"title": "ירושלים של זהב", "artist": "שולי נתן", "category": "Israeli Top 100"}, {"title": "לו יהי", "artist": "חוה אלברשטיין", "category": "Israeli Top 100"}, {"title": "כמו צמח בר", "artist": "חוה אלברשטיין", "category": "Israeli Top 100"}, {"title": "החיטה צומחת שוב", "artist": "חוה אלברשטיין", "category": "Israeli Top 100"}, {"title": "אין לי ארץ אחרת", "artist": "גלי עטרי", "category": "Israeli Top 100"}, {"title": "הללויה", "artist": "חלב ודבש", "category": "Israeli Top 100"}, {"title": "אבניבי", "artist": "יזהר כהן", "category": "Israeli Top 100"}, {"title": "חי", "artist": "עפרה חזה", "category": "Israeli Top 100"}, {"title": "אם ננעלו", "artist": "עפרה חזה", "category": "Israeli Top 100"}, {"title": "תפילה", "artist": "עפרה חזה", "category": "Israeli Top 100"}, {"title": "הפרח בגני", "artist": "זוהר ארגוב", "category": "Israeli Top 100"}, {"title": "בדד", "artist": "זוהר ארגוב", "category": "Israeli Top 100"}, {"title": "אלינור", "artist": "זוהר ארגוב", "category": "Israeli Top 100"}, {"title": "נכון להיום", "artist": "זוהר ארגוב", "category": "Israeli Top 100"}, {"title": "צל עץ תמר", "artist": "זוהר ארגוב", "category": "Israeli Top 100"}, {"title": "כשתגדל", "artist": "יהודה פוליקר", "category": "Israeli Top 100"}, {"title": "פחות אבל כואב", "artist": "יהודה פוליקר", "category": "Israeli Top 100"}, {"title": "עיניים שלי", "artist": "יהודה פוליקר", "category": "Israeli Top 100"}, {"title": "בגלל הרוח", "artist": "שלומי שבת", "category": "Israeli Top 100"}, {"title": "לכל אחד יש", "artist": "שלומי שבת", "category": "Israeli Top 100"}, {"title": "מחכה", "artist": "ריטה", "category": "Israeli Top 100"}, {"title": "בוא", "artist": "ריטה", "category": "Israeli Top 100"}, {"title": "עטוף ברחמים", "artist": "ריטה", "category": "Israeli Top 100"}, {"title": "שני סיפורי אהבה קטנים", "artist": "ריטה", "category": "Israeli Top 100"}, {"title": "ירח", "artist": "שלמה ארצי", "category": "Israeli Top 100"}, {"title": "אהבתיה", "artist": "שלמה ארצי", "category": "Israeli Top 100"}, {"title": "תחת שמי ים התיכון", "artist": "שלמה ארצי", "category": "Israeli Top 100"}, {"title": "מלך העולם", "artist": "שלמה ארצי", "category": "Israeli Top 100"}, {"title": "תרקוד", "artist": "שלמה ארצי", "category": "Israeli Top 100"}, {"title": "ניצחת איתי הכל", "artist": "עמיר בניון", "category": "Israeli Top 100"}, {"title": "שלכת", "artist": "עמיר בניון", "category": "Israeli Top 100"}, {"title": "כשאת עצובה", "artist": "עמיר בניון", "category": "Israeli Top 100"}, {"title": "ממעמקים", "artist": "עידן רייכל", "category": "Israeli Top 100"}, {"title": "אם תלך", "artist": "הפרויקט של עידן רייכל", "category": "Israeli Top 100"}, {"title": "בואי", "artist": "הפרויקט של עידן רייכל", "category": "Israeli Top 100"}, {"title": "רוב השעות", "artist": "עידן רייכל", "category": "Israeli Top 100"}, {"title": "מכל האהבות", "artist": "עידן רייכל", "category": "Israeli Top 100"}, {"title": "יפה שלי", "artist": "אייל גולן", "category": "Israeli Top 100"}, {"title": "בלעדייך", "artist": "אייל גולן", "category": "Israeli Top 100"}, {"title": "מי שמאמין", "artist": "אייל גולן", "category": "Israeli Top 100"}, {"title": "צליל מיתר", "artist": "אייל גולן", "category": "Israeli Top 100"}, {"title": "לקנות לך יהלום", "artist": "אייל גולן", "category": "Israeli Top 100"}, {"title": "הוזה אותך מולי", "artist": "אייל גולן", "category": "Israeli Top 100"}, {"title": "דרך לחיים", "artist": "אייל גולן", "category": "Israeli Top 100"}, {"title": "לבחור נכון", "artist": "אמיר דדון", "category": "Israeli Top 100"}, {"title": "אור גדול", "artist": "אמיר דדון", "category": "Israeli Top 100"}, {"title": "שבט אחים ואחיות", "artist": "אמני ישראל", "category": "Israeli Top 100"}, {"title": "תתארו לכם", "artist": "שלמה ארצי", "category": "Israeli Top 100"}, {"title": "מודה אני", "artist": "עומר אדם", "category": "Israeli Top 100"}, {"title": "שני משוגעים", "artist": "עומר אדם", "category": "Israeli Top 100"}, {"title": "אחרי כל השנים", "artist": "עומר אדם", "category": "Israeli Top 100"}, {"title": "תל אביב", "artist": "עומר אדם", "category": "Israeli Top 100"}, {"title": "רחוק מכולם", "artist": "עומר אדם", "category": "Israeli Top 100"}, {"title": "סיבת הסיבות", "artist": "ישי ריבו", "category": "Israeli Top 100"}, {"title": "תוכו רצוף אהבה", "artist": "ישי ריבו", "category": "Israeli Top 100"}, {"title": "לשוב הביתה", "artist": "ישי ריבו", "category": "Israeli Top 100"}, {"title": "הלב שלי", "artist": "ישי ריבו", "category": "Israeli Top 100"}, {"title": "נפשי", "artist": "ישי ריבו ומוטי שטיינמץ", "category": "Israeli Top 100"}, {"title": "שיר למעלות", "artist": "יוסף קרדונר", "category": "Israeli Top 100"}, {"title": "עוד ישמע", "artist": "ישיבת התפוצות", "category": "Israeli Top 100"}, {"title": "עם ישראל חי", "artist": "אייל גולן", "category": "Israeli Top 100"}, {"title": "אנא בכח", "artist": "עובדיה חממה", "category": "Israeli Top 100"}, {"title": "שיר תקווה", "artist": "מירי מסיקה", "category": "Israeli Top 100"}, {"title": "באה אליכם", "artist": "מירי מסיקה", "category": "Israeli Top 100"}, {"title": "לשם", "artist": "מירי מסיקה", "category": "Israeli Top 100"}, {"title": "מישהו", "artist": "יהודית רביץ", "category": "Israeli Top 100"}, {"title": "באה מאהבה", "artist": "יהודית רביץ", "category": "Israeli Top 100"}, {"title": "ארבע לפנות בוקר", "artist": "יהודית רביץ", "category": "Israeli Top 100"}, {"title": "לאורך הים", "artist": "עפרה חזה", "category": "Israeli Top 100"}, {"title": "שיר הפרחה", "artist": "עפרה חזה", "category": "Israeli Top 100"}, {"title": "מילה טובה", "artist": "יהודית רביץ", "category": "Israeli Top 100"}, {"title": "עוד חוזר הניגון", "artist": "ברי סחרוף", "category": "Israeli Top 100"}, {"title": "חלליות", "artist": "ברי סחרוף", "category": "Israeli Top 100"}, {"title": "ניצוצות", "artist": "ברי סחרוף", "category": "Israeli Top 100"}, {"title": "הכוכבים דולקים על אש קטנה", "artist": "משינה", "category": "Israeli Top 100"}, {"title": "רכבת לילה לקהיר", "artist": "משינה", "category": "Israeli Top 100"}, {"title": "אין מקום אחר", "artist": "משינה", "category": "Israeli Top 100"}, {"title": "שלח לי מלאך", "artist": "משינה", "category": "Israeli Top 100"}, {"title": "יום שישי", "artist": "בנזין", "category": "Israeli Top 100"}, {"title": "חופשי זה לגמרי לבד", "artist": "בנזין", "category": "Israeli Top 100"}, {"title": "דרך המלך", "artist": "גילי וגלית", "category": "Israeli Top 100"}, {"title": "כאן", "artist": "אורנה ומשה דץ", "category": "Israeli Top 100"}, {"title": "דיווה", "artist": "דנה אינטרנשיונל", "category": "Israeli Top 100"}, {"title": "השקט שנשאר", "artist": "שירי מימון", "category": "Israeli Top 100"}, {"title": "מילים", "artist": "הראל סקעת", "category": "Israeli Top 100"}, {"title": "Toy", "artist": "נטע ברזילי", "category": "Israeli Top 100"}, {"title": "Unicorn", "artist": "נועה קירל", "category": "Israeli Top 100"}, {"title": "חורשת האקליפטוס", "artist": "נעמי שמר", "category": "Israeli Top 100"}, {"title": "על כל אלה", "artist": "נעמי שמר", "category": "Israeli Top 100"}, {"title": "אני גיטרה", "artist": "בני אמדורסקי", "category": "Israeli Top 100"}, {"title": "הנסיך הקטן", "artist": "קצת אחרת", "category": "Israeli Top 100"}, {"title": "ברית עולם", "artist": "מתי כספי", "category": "Israeli Top 100"}, {"title": "ילדותי השנייה", "artist": "מתי כספי", "category": "Israeli Top 100"}, {"title": "לא נפסיק לשיר", "artist": "להקת חיל האוויר", "category": "Israeli Top 100"}, {"title": "שיר לשלום", "artist": "להקת הנח״ל", "category": "Israeli Top 100"}, {"title": "Σ' αγαπώ γιατί είσαι ωραία", "artist": "Traditional / popular 1970s recording", "category": "Greek 1970s Top 25"}, {"title": "Υπάρχω", "artist": "Στέλιος Καζαντζίδης", "category": "Greek 1970s Top 25"}, {"title": "Δυο πόρτες έχει η ζωή", "artist": "Στέλιος Καζαντζίδης", "category": "Greek 1970s Top 25"}, {"title": "Το αγριολούλουδο", "artist": "Στέλιος Καζαντζίδης", "category": "Greek 1970s Top 25"}, {"title": "Η ζωή μου όλη", "artist": "Στέλιος Καζαντζίδης", "category": "Greek 1970s Top 25"}, {"title": "Αγριολούλουδο", "artist": "Στέλιος Καζαντζίδης", "category": "Greek 1970s Top 25"}, {"title": "Μην μου θυμώνεις μάτια μου", "artist": "Γιάννης Πάριος", "category": "Greek 1970s Top 25"}, {"title": "Τώρα πια", "artist": "Γιάννης Πάριος", "category": "Greek 1970s Top 25"}, {"title": "Ποιος να συγκριθεί μαζί σου", "artist": "Γιάννης Πάριος", "category": "Greek 1970s Top 25"}, {"title": "Θα με θυμηθείς", "artist": "Γιάννης Πάριος", "category": "Greek 1970s Top 25"}, {"title": "Αν υπάρχει λόγος", "artist": "Γιάννης Πάριος", "category": "Greek 1970s Top 25"}, {"title": "Πες μου μια λέξη", "artist": "Μαρινέλλα", "category": "Greek 1970s Top 25"}, {"title": "Καμιά φορά", "artist": "Μαρινέλλα", "category": "Greek 1970s Top 25"}, {"title": "Σταλιά σταλιά", "artist": "Μαρινέλλα", "category": "Greek 1970s Top 25"}, {"title": "Άνοιξε πέτρα", "artist": "Μαρινέλλα", "category": "Greek 1970s Top 25"}, {"title": "Να παίζει το τρανζίστορ", "artist": "Μαρινέλλα", "category": "Greek 1970s Top 25"}, {"title": "Ένα καλοκαίρι", "artist": "Δάκης", "category": "Greek 1970s Top 25"}, {"title": "Τόσα καλοκαίρια", "artist": "Δάκης", "category": "Greek 1970s Top 25"}, {"title": "Κορμί κι αλάτι", "artist": "Δάκης", "category": "Greek 1970s Top 25"}, {"title": "Πάμε για ύπνο Κατερίνα", "artist": "Λάκης Παππάς", "category": "Greek 1970s Top 25"}, {"title": "Οδός Αριστοτέλους", "artist": "Χάρις Αλεξίου", "category": "Greek 1970s Top 25"}, {"title": "Δημητρούλα μου", "artist": "Χάρις Αλεξίου", "category": "Greek 1970s Top 25"}, {"title": "Μια είναι η ουσία", "artist": "Χάρις Αλεξίου", "category": "Greek 1970s Top 25"}, {"title": "Το παλιό ρολόι", "artist": "Γιώργος Νταλάρας", "category": "Greek 1970s Top 25"}, {"title": "Παραπονεμένα λόγια", "artist": "Γιώργος Νταλάρας", "category": "Greek 1970s Top 25"}];
 
@@ -161,6 +164,7 @@ let ytPlayer=null;
 let ytReady=false;
 let pendingVideoId='';
 let playToken=0;
+let currentSongIsExact=false;
 
 const $=id=>document.getElementById(id);
 const baseCats=['All','American Top 100','Israeli Top 100','Greek 1970s Top 25'];
@@ -263,7 +267,11 @@ window.onYouTubeIframeAPIReady=function(){
         if(e.data===YT.PlayerState.ENDED){ setTimeout(next,350); }
         if(e.data===YT.PlayerState.PLAYING){ $('status').textContent='▶ Playing automatically inside Voice of Peace.'; }
       },
-      onError:()=>{
+      onError:(e)=>{
+        if(currentSongIsExact){
+          $('status').textContent='This exact YouTube link cannot be embedded here (YouTube error '+e.data+'). I will NOT switch to a different song. Please choose another saved video that allows embedded playback.';
+          return;
+        }
         $('status').textContent='This YouTube upload cannot play here. Trying the next song…';
         setTimeout(next,900);
       }
@@ -271,8 +279,9 @@ window.onYouTubeIframeAPIReady=function(){
   });
 };
 
-function playVideoId(id){
+function playVideoId(id, exact=false){
   currentVideoId=id;
+  currentSongIsExact=!!exact;
   $('empty').style.display='none';
   if(ytReady && ytPlayer?.loadVideoById){ ytPlayer.loadVideoById(id); }
   else pendingVideoId=id;
@@ -287,10 +296,12 @@ async function playIndex(i){
   $('nowTitle').textContent=`▶ ${s.title}`;
   $('nowMeta').textContent=`${s.artist||''} • ${s.category}`;
   try{
+    const exact=!!s.videoId;
     let id=s.videoId||'';
     if(!id) id=await apiSearch(s);
     if(myToken!==playToken) return;
-    playVideoId(id);
+    playVideoId(id, exact);
+    if(exact) $('status').textContent='Loading the exact YouTube video you saved — no search substitution.';
   }catch(e){
     if(myToken!==playToken) return;
     $('status').textContent='Could not load this song: '+e.message+' — trying next.';
@@ -307,11 +318,6 @@ $('search').addEventListener('input',()=>{currentIndex=-1;renderList()});
 $('nextBtn').onclick=next;
 $('prevBtn').onclick=prev;
 $('shuffleBtn').onclick=shuffle;
-$('openYTBtn').onclick=()=>{
-  const s=filtered[currentIndex];
-  const url=currentVideoId ? `https://www.youtube.com/watch?v=${currentVideoId}` : (s?`https://www.youtube.com/results?search_query=${encodeURIComponent(s.title+' '+(s.artist||''))}`:'https://www.youtube.com/');
-  window.open(url,'_blank','noopener');
-};
 
 $('addVideoBtn').onclick=()=>$('videoModal').classList.add('open');
 $('addCategoryBtn').onclick=()=>$('categoryModal').classList.add('open');
@@ -335,16 +341,76 @@ $('saveVideoBtn').onclick=()=>{
   if(!title)return alert('Enter a title.');
   const videoId=extractVideoId(raw);
   if(raw && !videoId)return alert('That does not look like a valid YouTube URL or video ID.');
-  customSongs.push({title,artist,category,videoId});
+  customSongs.push({title,artist,category,videoId, exact:true});
   localStorage.setItem(LS_SONGS,JSON.stringify(customSongs));
   ['vTitle','vArtist','vUrl'].forEach(id=>$(id).value='');
   $('videoModal').classList.remove('open');
   renderCategories();renderList();
 };
 
+
+// ================= MEMBERSHIP ACCESS CONTROL =================
+const PREVIEW_MS = 60 * 1000; // about one minute for guests/non-active members
+let previewTimer = null;
+let membershipTimer = null;
+let accessGranted = false;
+
+async function getMembership(){
+  try{
+    const { data:{ session } } = await supabaseClient.auth.getSession();
+    if(!session?.user) return {loggedIn:false};
+    const { data, error } = await supabaseClient
+      .from('voice_members')
+      .select('member_status,payment_status,is_admin')
+      .eq('user_id', session.user.id)
+      .maybeSingle();
+    if(error) throw error;
+    return {loggedIn:true, ...(data||{})};
+  }catch(err){
+    console.warn('Membership check failed:', err);
+    return {loggedIn:false, error:true};
+  }
+}
+
+function stopPlayback(){
+  try{ if(ytPlayer?.pauseVideo) ytPlayer.pauseVideo(); }catch(e){}
+}
+
+function goToMemberAccess(){
+  stopPlayback();
+  const next = encodeURIComponent('music.html');
+  location.href = 'login.html?next=' + next + '&preview=ended';
+}
+
+function startPreviewCountdown(){
+  clearTimeout(previewTimer);
+  previewTimer=setTimeout(goToMemberAccess, PREVIEW_MS);
+  const old=$('status').textContent;
+  $('status').textContent='Guest preview: about 1 minute. Register or log in to continue.';
+  setTimeout(()=>{ if($('status').textContent.includes('Guest preview')) $('status').textContent=old||'Ready.'; },5000);
+}
+
+async function enforceMembership(){
+  const m=await getMembership();
+  const ok = m.loggedIn && m.member_status==='approved' && (m.payment_status==='active' || m.is_admin===true);
+  accessGranted=!!ok;
+  if(ok){
+    clearTimeout(previewTimer);
+    clearInterval(membershipTimer);
+    membershipTimer=setInterval(async()=>{
+      const latest=await getMembership();
+      const stillOk=latest.loggedIn && latest.member_status==='approved' && (latest.payment_status==='active' || latest.is_admin===true);
+      if(!stillOk) goToMemberAccess();
+    },5*60*1000);
+    return;
+  }
+  startPreviewCountdown();
+}
+
 renderCategories();
 renderList();
 loadYouTubeAPI();
+enforceMembership();
 </script>
 </body>
 </html>

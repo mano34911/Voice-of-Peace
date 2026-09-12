@@ -1,0 +1,15 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voice of Peace - Members Admin</title><style>body{margin:0;background:#02182e;color:#fff;font-family:Arial}.wrap{max-width:1000px;margin:auto;padding:20px}.card{background:#062746;border:1px solid #245d88;border-radius:18px;padding:16px;margin:12px 0}.row{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:8px;align-items:center}.btns button{margin:3px;padding:8px 10px;border:0;border-radius:9px;font-weight:700}.approve{background:#11ba5d}.suspend{background:#ffd34f}.delete{background:#df3343;color:#fff}.msg{color:#ffd34f}@media(max-width:720px){.row{grid-template-columns:1fr}}</style></head><body><div class="wrap"><h1>Voice of Peace Members Admin</h1><div id="msg" class="msg"></div><div id="list"></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const sb=window.supabase.createClient('https://oyeeeooymrzemxfrvcon.supabase.co','sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j');
+const msg=t=>document.getElementById('msg').textContent=t;
+const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+async function load(){
+ const {data:{session}}=await sb.auth.getSession(); if(!session){location.href='login.html';return}
+ const {data:me}=await sb.from('voice_members').select('is_admin').eq('user_id',session.user.id).maybeSingle();
+ if(!me?.is_admin){msg('Administrator access required.');return}
+ const {data,error}=await sb.from('voice_members').select('*').order('created_at',{ascending:false});
+ if(error){msg(error.message);return}
+ document.getElementById('list').innerHTML=data.map(m=>`<div class="card"><div class="row"><div><b>${esc(m.full_name||m.email)}</b><br><small>${esc(m.email)}</small></div><div>Status: ${esc(m.member_status)}</div><div>Payment: ${esc(m.payment_status)}</div><div class="btns"><button class="approve" onclick="setStatus('${m.user_id}','approved')">Approve</button><button class="suspend" onclick="setStatus('${m.user_id}','suspended')">Suspend</button><button class="delete" onclick="setStatus('${m.user_id}','deleted')">Delete</button></div></div></div>`).join('');
+}
+async function setStatus(id,status){const {error}=await sb.from('voice_members').update({member_status:status}).eq('user_id',id);if(error)msg(error.message);else load()}
+load();
+</script></body></html>

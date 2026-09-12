@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voice of Peace - Membership Payment</title><style>body{margin:0;background:#02182e;color:#fff;font-family:Arial}.wrap{max-width:620px;margin:30px auto;padding:20px}.card{background:#062746;border:1px solid #245d88;border-radius:22px;padding:24px}h1{text-align:center}.msg{color:#ffd34f;text-align:center;margin:14px 0}.small{color:#b9cfdf;line-height:1.5}</style></head><body><div class="wrap"><div class="card"><h1>VOICE OF PEACE</h1><h2>Activate Membership</h2><div id="msg" class="msg">Checking your account...</div><div id="paypal-button-container" style="display:none"></div><p class="small">Your access stays active while the PayPal subscription is active. If PayPal reports cancellation, suspension, expiration, or failed billing, the membership is automatically blocked.</p></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="https://www.paypal.com/sdk/js?client-id=AfrPgE8oRscUt58uNV57olABi6TNJBUtQ60H-7TSecVMhVhNgYmS6EXNO13BIjkdeJz-4S0a3VCcaF9u&vault=true&intent=subscription"></script><script>
+const sb=window.supabase.createClient('https://oyeeeooymrzemxfrvcon.supabase.co','sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j');
+const PLAN_ID='P-3AA220940D179910MNKRXOIY';
+const msg=t=>document.getElementById('msg').textContent=t;
+let user=null;
+async function init(){
+ const {data:{session}}=await sb.auth.getSession();
+ if(!session?.user){location.href='login.html';return}
+ user=session.user;
+ const {data:m,error}=await sb.from('voice_members').select('member_status,payment_status,is_admin').eq('user_id',user.id).maybeSingle();
+ if(error){msg(error.message);return}
+ if(m?.is_admin||m?.payment_status==='active'){location.href='music.html';return}
+ if(m?.member_status!=='approved'){msg('Your account must be approved by an administrator first.');return}
+ document.getElementById('paypal-button-container').style.display='block';
+ msg('Subscribe with PayPal to activate access.');
+ paypal.Buttons({
+   style:{shape:'rect',color:'gold',layout:'vertical',label:'subscribe'},
+   createSubscription:(data,actions)=>actions.subscription.create({plan_id:PLAN_ID}),
+   onApprove:async data=>{
+     msg('Verifying your PayPal subscription...');
+     const {data:res,error}=await sb.functions.invoke('paypal-link-subscription',{body:{subscription_id:data.subscriptionID}});
+     if(error){msg('Payment completed, but verification is not finished yet. Please try logging in again shortly.');return}
+     if(res?.ok){msg('Membership activated. Opening Voice of Peace...');setTimeout(()=>location.href='music.html',1000)}
+     else msg(res?.error||'Could not verify the subscription yet.');
+   },
+   onError:err=>msg('PayPal error. Please try again.')
+ }).render('#paypal-button-container');
+}
+init();
+</script></body></html>

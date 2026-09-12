@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store">
 
-<title>Voice of Peace Admin</title>
+<title>Voice of Peace - Admin</title>
 
 <style>
 *{
@@ -15,10 +15,26 @@
 body{
   margin:0;
   min-height:100vh;
-  background:
-    radial-gradient(circle at top,#0b4f7c 0,#062d4f 35%,#02182e 70%,#010b15 100%);
+  background:#02182e;
   color:#fff;
   font-family:Arial,Helvetica,sans-serif;
+}
+
+.header{
+  background:#062746;
+  border-bottom:1px solid #245d88;
+  padding:20px;
+  text-align:center;
+}
+
+.header h1{
+  margin:0;
+  letter-spacing:2px;
+}
+
+.header p{
+  margin:8px 0 0;
+  color:#4bd0ff;
 }
 
 .wrap{
@@ -29,124 +45,79 @@ body{
 
 .card{
   background:#062746;
-  border:1px solid #2f78a9;
-  border-radius:24px;
-  padding:24px;
-  box-shadow:0 12px 30px rgba(0,0,0,.25);
+  border:1px solid #245d88;
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:20px;
 }
 
-h1{
+h2{
   margin-top:0;
-  font-size:34px;
-}
-
-.notice{
-  background:#11476b;
-  border:1px solid #2d7cac;
-  padding:15px;
-  border-radius:14px;
-  margin-bottom:22px;
-  color:#d7f2ff;
-}
-
-.controls{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:18px;
-}
-
-label{
-  display:block;
-  font-weight:700;
-  margin-bottom:8px;
-  font-size:18px;
 }
 
 input,
 select,
+textarea,
 button{
   width:100%;
-  padding:14px;
-  border-radius:13px;
-  border:1px solid #2f79a8;
-  font-size:17px;
+  padding:13px;
+  margin:8px 0;
+  border-radius:10px;
+  border:1px solid #2b6c99;
+  font-size:16px;
 }
 
 input,
-select{
+select,
+textarea{
   background:#fff;
   color:#111;
 }
 
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
 button{
-  border:0;
-  background:#1d638f;
+  background:#13b868;
   color:#fff;
+  border:0;
   font-weight:800;
   cursor:pointer;
 }
 
-button:hover{
-  background:#2877a6;
+.secondary{
+  background:#2877a8;
 }
 
-.refresh{
-  margin-top:18px;
-  background:#1a74a6;
+.danger{
+  background:#c94747;
 }
 
-.home{
-  display:inline-block;
-  margin-bottom:20px;
-  text-decoration:none;
-  color:#fff;
-  background:#1c628c;
-  padding:12px 18px;
-  border-radius:12px;
-  font-weight:700;
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
 }
 
-.tableWrap{
-  overflow-x:auto;
-  margin-top:28px;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:650px;
-}
-
-th,
-td{
-  padding:14px 10px;
-  border-bottom:1px solid #316584;
-  text-align:left;
-}
-
-th{
-  background:#0d4267;
-}
-
-.empty{
+.status{
   text-align:center;
-  color:#9bcbe5;
-  padding:30px;
+  color:#69ddff;
+  margin-bottom:20px;
 }
 
-.small{
-  margin-top:22px;
-  color:#a8cee3;
-  line-height:1.5;
+.link{
+  display:block;
+  text-align:center;
+  color:#4bd0ff;
+  text-decoration:none;
+  margin-top:20px;
 }
 
 @media(max-width:650px){
-  .controls{
+  .grid{
     grid-template-columns:1fr;
-  }
-
-  h1{
-    font-size:29px;
   }
 }
 </style>
@@ -154,120 +125,246 @@ th{
 
 <body>
 
+<div class="header">
+  <h1>VOICE OF PEACE</h1>
+  <p>Admin Control Panel</p>
+</div>
+
 <div class="wrap">
 
-  <div class="card">
-
-    <h1>Voice of Peace Admin</h1>
-
-    <a class="home" href="index.html">← Voice of Peace Home</a>
-
-    <div class="notice">
-      TEMPORARY OPEN ACCESS MODE<br><br>
-      Login protection is currently disabled.
-      We can reconnect Supabase authentication later.
-    </div>
-
-    <div class="controls">
-
-      <div>
-        <label for="statusFilter">Filter Status</label>
-
-        <select id="statusFilter">
-          <option value="all">All</option>
-          <option value="approved">Approved</option>
-          <option value="pending">Pending</option>
-          <option value="suspended">Suspended</option>
-          <option value="deleted">Deleted</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="searchBox">Search</label>
-
-        <input
-          id="searchBox"
-          type="text"
-          placeholder="Name or email"
-        >
-      </div>
-
-    </div>
-
-    <button
-      class="refresh"
-      id="refreshBtn"
-      type="button">
-      REFRESH MEMBERS
-    </button>
-
-    <div class="tableWrap">
-
-      <table>
-
-        <thead>
-          <tr>
-            <th>Name / Email</th>
-            <th>Phone</th>
-            <th>Role</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-
-        <tbody id="memberTable">
-
-          <tr>
-            <td colspan="4" class="empty">
-              Member database temporarily disconnected.
-            </td>
-          </tr>
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-    <div class="small">
-      This temporary admin page does not require a login and does not use
-      <b>getClient()</b>.<br><br>
-
-      The member-editing controls are temporarily disabled so a public visitor
-      cannot approve, suspend, or delete members.
-    </div>
-
+  <div class="status">
+    Temporary open admin access enabled
   </div>
+
+  <div class="card">
+    <h2>Channel Settings</h2>
+
+    <label>Channel Name</label>
+    <input id="channelName" placeholder="Example: Fox News">
+
+    <label>Category</label>
+    <input id="category" placeholder="Example: News">
+
+    <label>YouTube URL</label>
+    <input id="youtubeUrl" placeholder="Paste YouTube link">
+
+    <button onclick="addChannel()">
+      ADD CHANNEL
+    </button>
+  </div>
+
+  <div class="card">
+    <h2>Main Message</h2>
+
+    <textarea id="message" placeholder="Enter Voice of Peace message"></textarea>
+
+    <button onclick="saveMessage()">
+      SAVE MESSAGE
+    </button>
+  </div>
+
+  <div class="card">
+    <h2>Site Controls</h2>
+
+    <div class="grid">
+      <button class="secondary" onclick="openSite()">
+        OPEN VOICE OF PEACE
+      </button>
+
+      <button class="secondary" onclick="openMusic()">
+        OPEN MUSIC
+      </button>
+
+      <button class="secondary" onclick="openRegister()">
+        OPEN REGISTRATION
+      </button>
+
+      <button class="danger" onclick="clearLocalData()">
+        CLEAR LOCAL DATA
+      </button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Saved Channels</h2>
+
+    <div id="channelList">
+      No channels added yet.
+    </div>
+  </div>
+
+  <a class="link" href="index.html">
+    Return to Voice of Peace
+  </a>
 
 </div>
 
 <script>
+const STORAGE_CHANNELS = "voiceOfPeaceChannels";
+const STORAGE_MESSAGE = "voiceOfPeaceMessage";
 
-const statusFilter = document.getElementById("statusFilter");
-const searchBox = document.getElementById("searchBox");
-const refreshBtn = document.getElementById("refreshBtn");
-const memberTable = document.getElementById("memberTable");
-
-function showTemporaryMessage(){
-
-  memberTable.innerHTML = `
-    <tr>
-      <td colspan="4" class="empty">
-        Open access is active.<br><br>
-        Supabase member management will be restored after we repair the login system.
-      </td>
-    </tr>
-  `;
-
+function getChannels(){
+  try{
+    return JSON.parse(localStorage.getItem(STORAGE_CHANNELS)) || [];
+  }catch(e){
+    return [];
+  }
 }
 
-refreshBtn.addEventListener("click", showTemporaryMessage);
+function saveChannels(channels){
+  localStorage.setItem(
+    STORAGE_CHANNELS,
+    JSON.stringify(channels)
+  );
+}
 
-statusFilter.addEventListener("change", showTemporaryMessage);
+function addChannel(){
 
-searchBox.addEventListener("input", showTemporaryMessage);
+  const name =
+    document.getElementById("channelName").value.trim();
 
-showTemporaryMessage();
+  const category =
+    document.getElementById("category").value.trim();
 
+  const url =
+    document.getElementById("youtubeUrl").value.trim();
+
+  if(!name || !url){
+    alert("Enter a channel name and YouTube URL.");
+    return;
+  }
+
+  const channels = getChannels();
+
+  channels.push({
+    id: Date.now(),
+    name:name,
+    category:category,
+    url:url
+  });
+
+  saveChannels(channels);
+
+  document.getElementById("channelName").value = "";
+  document.getElementById("category").value = "";
+  document.getElementById("youtubeUrl").value = "";
+
+  renderChannels();
+}
+
+function deleteChannel(id){
+
+  let channels = getChannels();
+
+  channels = channels.filter(
+    channel => channel.id !== id
+  );
+
+  saveChannels(channels);
+  renderChannels();
+}
+
+function renderChannels(){
+
+  const box =
+    document.getElementById("channelList");
+
+  const channels = getChannels();
+
+  if(channels.length === 0){
+    box.innerHTML = "No channels added yet.";
+    return;
+  }
+
+  box.innerHTML = "";
+
+  channels.forEach(channel => {
+
+    const item =
+      document.createElement("div");
+
+    item.style.padding = "14px";
+    item.style.marginBottom = "12px";
+    item.style.background = "#0a3557";
+    item.style.borderRadius = "12px";
+
+    item.innerHTML = `
+      <strong>${escapeHtml(channel.name)}</strong>
+      <br>
+      ${escapeHtml(channel.category || "Uncategorized")}
+      <br>
+      <small>${escapeHtml(channel.url)}</small>
+      <br><br>
+      <button
+        class="danger"
+        onclick="deleteChannel(${channel.id})">
+        DELETE
+      </button>
+    `;
+
+    box.appendChild(item);
+  });
+}
+
+function saveMessage(){
+
+  const message =
+    document.getElementById("message").value;
+
+  localStorage.setItem(
+    STORAGE_MESSAGE,
+    message
+  );
+
+  alert("Message saved.");
+}
+
+function loadMessage(){
+
+  const message =
+    localStorage.getItem(STORAGE_MESSAGE) || "";
+
+  document.getElementById("message").value =
+    message;
+}
+
+function openSite(){
+  window.location.href = "index.html";
+}
+
+function openMusic(){
+  window.location.href = "music.html";
+}
+
+function openRegister(){
+  window.location.href = "register.html";
+}
+
+function clearLocalData(){
+
+  if(!confirm("Clear saved Voice of Peace data?")){
+    return;
+  }
+
+  localStorage.removeItem(STORAGE_CHANNELS);
+  localStorage.removeItem(STORAGE_MESSAGE);
+
+  renderChannels();
+  loadMessage();
+}
+
+function escapeHtml(text){
+
+  return String(text)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+loadMessage();
+renderChannels();
 </script>
 
 </body>

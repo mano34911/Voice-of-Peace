@@ -4,134 +4,271 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store">
-<title>Voice of Peace - Admin</title>
-<link rel="stylesheet" href="common.css">
-</head>
-<body>
-<div class="wrap" style="max-width:1200px"><div class="card">
-  <div class="topbar">
-    <div><h2 style="margin:0;text-align:left">Voice of Peace Admin</h2><div id="adminName" class="small" style="text-align:left;margin:4px 0 0"></div></div>
-    <button class="secondary" style="width:auto;margin:0" onclick="logout(true)">LOGOUT</button>
-  </div>
 
-  <div id="msg" class="msg"></div>
+<title>Voice of Peace Admin</title>
 
-  <div class="row">
-    <div>
-      <label>Filter status</label>
-      <select id="filterStatus">
-        <option value="">All</option>
-        <option value="pending">Pending</option>
-        <option value="approved">Approved</option>
-        <option value="suspended">Suspended</option>
-        <option value="deleted">Deleted/Disabled</option>
-      </select>
-    </div>
-    <div>
-      <label>Search</label>
-      <input id="search" placeholder="Name or email">
-    </div>
-  </div>
-
-  <button class="secondary" onclick="loadMembers()">REFRESH MEMBERS</button>
-
-  <div class="tableWrap" style="margin-top:16px">
-    <table>
-      <thead>
-        <tr>
-          <th>Name / Email</th>
-          <th>Phone</th>
-          <th>Role</th>
-          <th>Status</th>
-          <th>Payment</th>
-          <th>Trial Ends</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="members"></tbody>
-    </table>
-  </div>
-
-  <div class="small">“Delete” here safely disables access by changing status to deleted. It does not remove the Supabase Auth record.</div>
-</div></div>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="auth.js"></script>
-<script>
-let allMembers=[];
-
-function show(t,c=""){const m=document.getElementById("msg");m.textContent=t;m.className="msg "+c;}
-function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
-function dateText(v){return v ? new Date(v).toLocaleString() : "";}
-
-async function loadMembers(){
-  show("Loading members...","warning");
-  try{
-    const client=getClient();
-    const {data,error}=await client.from("profiles").select("*").order("created_at",{ascending:false});
-    if(error) throw error;
-    allMembers=data||[];
-    render();
-    show(`Loaded ${allMembers.length} member record(s).`,"success");
-  }catch(err){show(err.message,"error");}
+<style>
+*{
+  box-sizing:border-box;
 }
 
-function render(){
-  const status=document.getElementById("filterStatus").value;
-  const q=document.getElementById("search").value.trim().toLowerCase();
-  const rows=allMembers.filter(x=>{
-    if(status && x.status!==status) return false;
-    if(q && !(`${x.full_name||""} ${x.email||""}`.toLowerCase().includes(q))) return false;
-    return true;
-  });
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at top,#0b4f7c 0,#062d4f 35%,#02182e 70%,#010b15 100%);
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+}
 
-  document.getElementById("members").innerHTML=rows.map(x=>`
+.wrap{
+  max-width:900px;
+  margin:30px auto;
+  padding:20px;
+}
+
+.card{
+  background:#062746;
+  border:1px solid #2f78a9;
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 12px 30px rgba(0,0,0,.25);
+}
+
+h1{
+  margin-top:0;
+  font-size:34px;
+}
+
+.notice{
+  background:#11476b;
+  border:1px solid #2d7cac;
+  padding:15px;
+  border-radius:14px;
+  margin-bottom:22px;
+  color:#d7f2ff;
+}
+
+.controls{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+label{
+  display:block;
+  font-weight:700;
+  margin-bottom:8px;
+  font-size:18px;
+}
+
+input,
+select,
+button{
+  width:100%;
+  padding:14px;
+  border-radius:13px;
+  border:1px solid #2f79a8;
+  font-size:17px;
+}
+
+input,
+select{
+  background:#fff;
+  color:#111;
+}
+
+button{
+  border:0;
+  background:#1d638f;
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#2877a6;
+}
+
+.refresh{
+  margin-top:18px;
+  background:#1a74a6;
+}
+
+.home{
+  display:inline-block;
+  margin-bottom:20px;
+  text-decoration:none;
+  color:#fff;
+  background:#1c628c;
+  padding:12px 18px;
+  border-radius:12px;
+  font-weight:700;
+}
+
+.tableWrap{
+  overflow-x:auto;
+  margin-top:28px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
+}
+
+th,
+td{
+  padding:14px 10px;
+  border-bottom:1px solid #316584;
+  text-align:left;
+}
+
+th{
+  background:#0d4267;
+}
+
+.empty{
+  text-align:center;
+  color:#9bcbe5;
+  padding:30px;
+}
+
+.small{
+  margin-top:22px;
+  color:#a8cee3;
+  line-height:1.5;
+}
+
+@media(max-width:650px){
+  .controls{
+    grid-template-columns:1fr;
+  }
+
+  h1{
+    font-size:29px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+  <div class="card">
+
+    <h1>Voice of Peace Admin</h1>
+
+    <a class="home" href="index.html">← Voice of Peace Home</a>
+
+    <div class="notice">
+      TEMPORARY OPEN ACCESS MODE<br><br>
+      Login protection is currently disabled.
+      We can reconnect Supabase authentication later.
+    </div>
+
+    <div class="controls">
+
+      <div>
+        <label for="statusFilter">Filter Status</label>
+
+        <select id="statusFilter">
+          <option value="all">All</option>
+          <option value="approved">Approved</option>
+          <option value="pending">Pending</option>
+          <option value="suspended">Suspended</option>
+          <option value="deleted">Deleted</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="searchBox">Search</label>
+
+        <input
+          id="searchBox"
+          type="text"
+          placeholder="Name or email"
+        >
+      </div>
+
+    </div>
+
+    <button
+      class="refresh"
+      id="refreshBtn"
+      type="button">
+      REFRESH MEMBERS
+    </button>
+
+    <div class="tableWrap">
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>Name / Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody id="memberTable">
+
+          <tr>
+            <td colspan="4" class="empty">
+              Member database temporarily disconnected.
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <div class="small">
+      This temporary admin page does not require a login and does not use
+      <b>getClient()</b>.<br><br>
+
+      The member-editing controls are temporarily disabled so a public visitor
+      cannot approve, suspend, or delete members.
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const statusFilter = document.getElementById("statusFilter");
+const searchBox = document.getElementById("searchBox");
+const refreshBtn = document.getElementById("refreshBtn");
+const memberTable = document.getElementById("memberTable");
+
+function showTemporaryMessage(){
+
+  memberTable.innerHTML = `
     <tr>
-      <td><strong>${esc(x.full_name||"")}</strong><br>${esc(x.email||"")}</td>
-      <td>${esc(x.phone||"")}</td>
-      <td><span class="badge">${esc(x.role)}</span></td>
-      <td><span class="badge">${esc(x.status)}</span></td>
-      <td><span class="badge">${esc(x.payment_status)}</span></td>
-      <td>${esc(dateText(x.trial_ends_at))}</td>
-      <td>
-        <div class="actions">
-          <button onclick="setStatus('${x.id}','approved')">Approve</button>
-          <button class="warn" onclick="setStatus('${x.id}','suspended')">Suspend</button>
-          <button class="danger" onclick="setStatus('${x.id}','deleted')">Delete</button>
-          <button class="secondary" onclick="setPayment('${x.id}','active')">Payment Active</button>
-          <button class="secondary" onclick="setPayment('${x.id}','inactive')">Payment Off</button>
-          <button class="secondary" onclick="toggleRole('${x.id}','${x.role}')">${x.role==="admin"?"Make Member":"Make Admin"}</button>
-        </div>
+      <td colspan="4" class="empty">
+        Open access is active.<br><br>
+        Supabase member management will be restored after we repair the login system.
       </td>
     </tr>
-  `).join("");
+  `;
+
 }
 
-async function updateMember(id,patch){
-  try{
-    const client=getClient();
-    const {error}=await client.from("profiles").update(patch).eq("id",id);
-    if(error) throw error;
-    await loadMembers();
-  }catch(err){show(err.message,"error");}
-}
+refreshBtn.addEventListener("click", showTemporaryMessage);
 
-async function setStatus(id,status){
-  if(status==="deleted" && !confirm("Disable this member account?")) return;
-  await updateMember(id,{status});
-}
-async function setPayment(id,payment_status){await updateMember(id,{payment_status});}
-async function toggleRole(id,current){await updateMember(id,{role:current==="admin"?"member":"admin"});}
+statusFilter.addEventListener("change", showTemporaryMessage);
 
-document.getElementById("filterStatus").addEventListener("change",render);
-document.getElementById("search").addEventListener("input",render);
+searchBox.addEventListener("input", showTemporaryMessage);
 
-(async()=>{
-  const result=await requireAdmin();
-  if(!result) return;
-  document.getElementById("adminName").textContent=result.profile.full_name || result.user.email;
-  await loadMembers();
-})();
+showTemporaryMessage();
+
 </script>
-</body></html>
+
+</body>
+</html>

@@ -32,6 +32,10 @@ h1{
   margin-top:0;
 }
 
+h2{
+  text-align:center;
+}
+
 input,button{
   width:100%;
   padding:14px;
@@ -50,6 +54,10 @@ button{
   cursor:pointer;
 }
 
+button:hover{
+  filter:brightness(1.08);
+}
+
 button:disabled{
   opacity:.6;
   cursor:not-allowed;
@@ -61,6 +69,11 @@ button:disabled{
   color:#4bd0ff;
   margin-top:14px;
   font-size:18px;
+  text-decoration:none;
+}
+
+.link:hover{
+  text-decoration:underline;
 }
 
 .msg{
@@ -68,6 +81,7 @@ button:disabled{
   text-align:center;
   min-height:24px;
   margin-bottom:8px;
+  line-height:1.4;
 }
 </style>
 </head>
@@ -126,11 +140,15 @@ button:disabled{
 
 <script>
 
+/* =========================================================
+   SUPABASE
+========================================================= */
+
 const SUPABASE_URL =
-  'https://oyeeeooymrzemxfrvcon.supabase.co';
+  'https://dpejswtreoqzmrlcnfde.supabase.co';
 
 const SUPABASE_KEY =
-  'sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j';
+  'sb_publishable_92C4dFnhmFBCsasew_6WhQ_InvX4yDX';
 
 const sb = window.supabase.createClient(
   SUPABASE_URL,
@@ -138,9 +156,9 @@ const sb = window.supabase.createClient(
 );
 
 
-/* ================================
+/* =========================================================
    ELEMENTS
-================================ */
+========================================================= */
 
 const fullNameInput =
   document.getElementById('fullName');
@@ -161,209 +179,361 @@ const msgBox =
   document.getElementById('msg');
 
 
+/* =========================================================
+   MESSAGE
+========================================================= */
+
 function showMessage(text,color='#ffd34f'){
   msgBox.textContent=text;
   msgBox.style.color=color;
 }
 
 
-/* ================================
+/* =========================================================
+   EMAIL CHECK
+========================================================= */
+
+function validEmail(email){
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+
+/* =========================================================
    REGISTER
-================================ */
+========================================================= */
 
-registerBtn.addEventListener('click', async function(){
+registerBtn.addEventListener(
+  'click',
+  async function(){
 
-  const full_name =
-    fullNameInput.value.trim();
+    const full_name =
+      fullNameInput.value.trim();
 
-  const phone =
-    phoneInput.value.trim();
+    const phone =
+      phoneInput.value.trim();
 
-  const email =
-    emailInput.value.trim().toLowerCase();
+    const email =
+      emailInput.value.trim().toLowerCase();
 
-  const password =
-    passwordInput.value;
+    const password =
+      passwordInput.value;
 
 
-  /* VALIDATION */
+    /* =====================================================
+       VALIDATION
+    ===================================================== */
 
-  if(!full_name){
-    showMessage('Please enter your full name.');
-    return;
-  }
+    if(!full_name){
 
-  if(!email){
-    showMessage('Please enter your email.');
-    return;
-  }
+      showMessage(
+        'Please enter your full name.'
+      );
 
-  if(password.length < 6){
+      fullNameInput.focus();
+
+      return;
+    }
+
+
+    if(!email){
+
+      showMessage(
+        'Please enter your email.'
+      );
+
+      emailInput.focus();
+
+      return;
+    }
+
+
+    if(!validEmail(email)){
+
+      showMessage(
+        'Please enter a valid email address.'
+      );
+
+      emailInput.focus();
+
+      return;
+    }
+
+
+    if(password.length < 6){
+
+      showMessage(
+        'Password must contain at least 6 characters.'
+      );
+
+      passwordInput.focus();
+
+      return;
+    }
+
+
+    registerBtn.disabled=true;
+
+    registerBtn.textContent=
+      'REGISTERING...';
+
     showMessage(
-      'Password must contain at least 6 characters.'
+      'Creating your account...'
     );
-    return;
-  }
 
 
-  registerBtn.disabled=true;
-  registerBtn.textContent='REGISTERING...';
+    try{
 
-  showMessage('Creating your account...');
+      /* ===================================================
+         CREATE SUPABASE AUTH USER
+      =================================================== */
 
+      const {
+        data:authData,
+        error:authError
+      } = await sb.auth.signUp({
 
-  try{
+        email:email,
 
-    /* ================================
-       CREATE SUPABASE AUTH ACCOUNT
-    ================================ */
+        password:password,
 
-    const {
-      data:authData,
-      error:authError
-    } = await sb.auth.signUp({
-
-      email:email,
-
-      password:password,
-
-      options:{
-        data:{
-          full_name:full_name,
-          phone:phone
+        options:{
+          data:{
+            full_name:full_name,
+            phone:phone
+          }
         }
+
+      });
+
+
+      if(authError){
+
+        console.error(
+          'AUTH ERROR:',
+          authError
+        );
+
+        throw authError;
       }
 
-    });
+
+      if(!authData || !authData.user){
+
+        throw new Error(
+          'Supabase did not return a user account.'
+        );
+      }
 
 
-    if(authError){
-      throw authError;
-    }
+      const userId =
+        authData.user.id;
 
 
-    if(!authData.user){
-      throw new Error(
-        'Account could not be created.'
+      showMessage(
+        'Account created. Saving membership...'
       );
+
+
+      /* ===================================================
+         MEMBER RECORD
+      =================================================== */
+
+      const memberRecord = {
+
+        user_id:userId,
+
+        full_name:full_name,
+
+        phone:phone || null,
+
+        email:email,
+
+        status:'pending'
+
+      };
+
+
+      const {
+        data:memberData,
+        error:memberError
+      } = await sb
+
+        .from('members')
+
+        .insert([
+          memberRecord
+        ])
+
+        .select();
+
+
+      if(memberError){
+
+        console.error(
+          'MEMBER ERROR:',
+          memberError
+        );
+
+
+        /*
+          Account exists in Supabase Auth but
+          members table insert failed.
+        */
+
+        throw new Error(
+          'Your login account was created, but your membership could not be saved. ' +
+          memberError.message
+        );
+
+      }
+
+
+      console.log(
+        'Member created:',
+        memberData
+      );
+
+
+      /* ===================================================
+         SUCCESS
+      =================================================== */
+
+      showMessage(
+        'Registration successful! Your account is waiting for administrator approval.',
+        '#43e38b'
+      );
+
+
+      fullNameInput.value='';
+      phoneInput.value='';
+      emailInput.value='';
+      passwordInput.value='';
+
+
+      /*
+        Redirect after 3 seconds
+      */
+
+      setTimeout(
+        function(){
+
+          window.location.href =
+            'login.html';
+
+        },
+        3000
+      );
+
+
     }
-
-
-    const userId =
-      authData.user.id;
-
-
-    showMessage(
-      'Account created. Saving membership...'
-    );
-
-
-    /* ================================
-       CREATE MEMBERS TABLE RECORD
-    ================================ */
-
-    const memberRecord = {
-
-      user_id:userId,
-
-      full_name:full_name,
-
-      phone:phone,
-
-      email:email,
-
-      status:'pending'
-
-    };
-
-
-    const {
-      error:memberError
-    } = await sb
-      .from('members')
-      .insert([memberRecord]);
-
-
-    if(memberError){
+    catch(error){
 
       console.error(
-        'Members table error:',
-        memberError
+        'REGISTRATION ERROR:',
+        error
       );
 
-      throw new Error(
-        'Account was created, but the membership record could not be saved: ' +
-        memberError.message
+
+      let message =
+        error?.message ||
+        'Registration failed. Please try again.';
+
+
+      /*
+        Friendlier Supabase messages
+      */
+
+      if(
+        message
+        .toLowerCase()
+        .includes('already registered')
+      ){
+
+        message =
+          'This email is already registered. Please use the Login page.';
+      }
+
+
+      if(
+        message
+        .toLowerCase()
+        .includes('user already registered')
+      ){
+
+        message =
+          'This email is already registered. Please use the Login page.';
+      }
+
+
+      if(
+        message
+        .toLowerCase()
+        .includes('load failed')
+      ){
+
+        message =
+          'Could not connect to Supabase. Please check the internet connection and Supabase project settings.';
+      }
+
+
+      if(
+        message
+        .toLowerCase()
+        .includes('row-level security')
+      ){
+
+        message =
+          'The account was created, but Supabase is blocking the members table. Run the members-table SQL policy.';
+      }
+
+
+      showMessage(
+        message,
+        '#ff8080'
       );
 
     }
+    finally{
 
+      registerBtn.disabled=false;
 
-    /* ================================
-       SUCCESS
-    ================================ */
+      registerBtn.textContent=
+        'REGISTER';
 
-    showMessage(
-      'Registration successful! Your account is waiting for administrator approval.',
-      '#43e38b'
-    );
-
-
-    fullNameInput.value='';
-    phoneInput.value='';
-    emailInput.value='';
-    passwordInput.value='';
-
-
-    /*
-       Send member to login page
-       after successful registration.
-    */
-
-    setTimeout(function(){
-
-      window.location.href =
-        'login.html';
-
-    },3000);
-
-
-  }
-  catch(error){
-
-    console.error(error);
-
-    showMessage(
-      error.message ||
-      'Registration failed. Please try again.',
-      '#ff8080'
-    );
-
-  }
-  finally{
-
-    registerBtn.disabled=false;
-    registerBtn.textContent='REGISTER';
-
-  }
-
-});
-
-
-/* ================================
-   ENTER KEY
-================================ */
-
-passwordInput.addEventListener(
-  'keydown',
-  function(event){
-
-    if(event.key === 'Enter'){
-      registerBtn.click();
     }
 
   }
 );
+
+
+/* =========================================================
+   ENTER KEY
+========================================================= */
+
+[
+  fullNameInput,
+  phoneInput,
+  emailInput,
+  passwordInput
+]
+.forEach(function(input){
+
+  input.addEventListener(
+    'keydown',
+    function(event){
+
+      if(event.key === 'Enter'){
+
+        event.preventDefault();
+
+        registerBtn.click();
+
+      }
+
+    }
+  );
+
+});
 
 </script>
 

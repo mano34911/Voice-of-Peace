@@ -48,6 +48,22 @@ button.red{background:#661b29;border-color:#d65a6c}
 .row{display:flex;gap:9px;flex-wrap:wrap}
 .footer{text-align:center;color:#8fb0c8;font-size:12px;padding:18px 8px}
 @media(max-width:820px){.grid{grid-template-columns:1fr}.songList{max-height:55vh}}
+
+/* 2026 Voice of Peace music-channel layout */
+.cats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:18px 0 4px}
+.cats button{min-height:112px;border-radius:20px;background:linear-gradient(145deg,#0a416d,#073154);border:2px solid #287fb4;font-size:20px;line-height:1.18;padding:15px;text-transform:none;box-shadow:inset 0 0 20px #0b568033,0 8px 18px #0003}
+.cats button::before{display:block;color:var(--gold);font-size:12px;letter-spacing:.6px;margin-bottom:8px;content:"MUSIC CATEGORY"}
+.cats button.active{border-color:var(--gold);box-shadow:0 0 0 4px #ffd34f33,inset 0 0 24px #0a6aa655;background:linear-gradient(145deg,#0c5c92,#07385d)}
+.card{border-radius:24px}
+.listHeader strong{font-size:22px}
+.song{min-height:72px}
+.song .title{font-size:17px}
+.nowTitle{font-size:clamp(22px,4vw,32px)}
+.playerWrap{border-radius:20px 20px 0 0;overflow:hidden}
+#player,#player iframe{width:100%;height:100%;border:0}
+@media(max-width:820px){.grid{grid-template-columns:1fr}.songList{max-height:none}.cats{grid-template-columns:repeat(2,1fr)}.cats button{min-height:104px;font-size:18px}}
+@media(max-width:520px){.app{width:min(96%,720px)}.cats{gap:10px}.cats button{min-height:94px;font-size:16px;padding:10px}.toolbar{display:grid;grid-template-columns:1fr 1fr}.toolbar .search{grid-column:1/-1;width:100%}.controls{display:grid;grid-template-columns:1fr 1fr}.controls button{width:100%}}
+
 </style>
 </head>
 <body>
@@ -72,9 +88,9 @@ button.red{background:#661b29;border-color:#d65a6c}
   <div class="grid" style="margin-top:12px">
     <section class="card">
       <div class="playerWrap">
-        <iframe id="player" title="YouTube player" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        <div id="player" aria-label="YouTube player"></div>
         <div id="empty" class="empty">
-          <div><b style="font-size:24px">Select a song</b><br><br>The app will search YouTube and play an embeddable video here.</div>
+          <div><b style="font-size:24px">Choose a music category</b><br><br>The first title will start automatically, and the next song will play when it ends.</div>
         </div>
       </div>
       <div class="controls" style="padding:12px">
@@ -85,7 +101,7 @@ button.red{background:#661b29;border-color:#d65a6c}
       </div>
       <div class="now">
         <div id="nowTitle" class="nowTitle">Nothing playing</div>
-        <div id="nowMeta" class="nowMeta">Choose American, Israeli, Greek 1970s, or one of your own categories.</div>
+        <div id="nowMeta" class="nowMeta">Tap a category above to start continuous music.</div>
       </div>
       <div id="status" class="status">Ready.</div>
     </section>
@@ -99,7 +115,7 @@ button.red{background:#661b29;border-color:#d65a6c}
     </aside>
   </div>
 
-  <div class="footer">VOICE OF PEACE • Music player powered by YouTube • Saved additions are stored in this browser.</div>
+  <div class="footer">VOICE OF PEACE • Continuous Music TV • YouTube playback • Saved additions are stored in this browser.</div>
 </div>
 
 <div id="videoModal" class="modal">
@@ -141,38 +157,52 @@ let filtered=[];
 let currentIndex=-1;
 let currentVideoId='';
 let keyCursor=0;
+let ytPlayer=null;
+let ytReady=false;
+let pendingVideoId='';
+let playToken=0;
 
 const $=id=>document.getElementById(id);
 const baseCats=['All','American Top 100','Israeli Top 100','Greek 1970s Top 25'];
+const catIcons={
+  'All':'🎵 All Music',
+  'American Top 100':'🇺🇸 American Top 100',
+  'Israeli Top 100':'🇮🇱 Israeli Top 100',
+  'Greek 1970s Top 25':'🇬🇷 Greek 1970s Top 25'
+};
 
-function allSongs(){
-  return [...BUILTIN, ...customSongs];
-}
-function categories(){
-  return [...new Set([...baseCats, ...customCats, ...customSongs.map(x=>x.category).filter(Boolean)])];
-}
-function esc(s=''){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function allSongs(){ return [...BUILTIN, ...customSongs]; }
+function categories(){ return [...new Set([...baseCats, ...customCats, ...customSongs.map(x=>x.category).filter(Boolean)])]; }
+function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function categoryLabel(c){return catIcons[c]||('🎼 '+c)}
+
 function renderCategories(){
-  $('categories').innerHTML = categories().map(c=>`<button class="${c===currentCategory?'active':''}" onclick="setCategory(${JSON.stringify(c)})">${esc(c)}</button>`).join('');
+  $('categories').innerHTML = categories().map(c=>`<button class="${c===currentCategory?'active':''}" onclick='setCategory(${JSON.stringify(c)})'>${esc(categoryLabel(c))}</button>`).join('');
   $('vCategory').innerHTML = categories().filter(x=>x!=='All').map(c=>`<option>${esc(c)}</option>`).join('');
 }
-function setCategory(c){
+
+async function setCategory(c){
   currentCategory=c;
+  currentIndex=-1;
   renderCategories();
   renderList();
+  // A category behaves like a TV channel: clicking it starts its first song automatically.
+  if(filtered.length) await playIndex(0);
 }
+
 function renderList(){
   const q=$('search').value.trim().toLowerCase();
   filtered=allSongs().filter(s=>(currentCategory==='All'||s.category===currentCategory) && (!q || `${s.title} ${s.artist} ${s.category}`.toLowerCase().includes(q)));
-  $('listTitle').textContent=currentCategory;
+  $('listTitle').textContent=currentCategory==='All'?'🎵 All Music':categoryLabel(currentCategory);
   $('countBadge').textContent=`${filtered.length} songs`;
   $('songList').innerHTML=filtered.map((s,i)=>`
     <div class="song ${i===currentIndex?'playing':''}" onclick="playIndex(${i})">
       <div class="num">${i+1}</div>
       <div><div class="title">${esc(s.title)}</div><div class="artist">${esc(s.artist||'')}</div></div>
-      <span class="badge">${s.videoId?'saved':'search'}</span>
+      <span class="badge">▶ PLAY</span>
     </div>`).join('') || `<div style="padding:24px;color:#b9cfdf">No songs found.</div>`;
 }
+
 function extractVideoId(input){
   input=(input||'').trim();
   if(/^[\w-]{11}$/.test(input)) return input;
@@ -185,61 +215,94 @@ function extractVideoId(input){
   }catch(e){}
   return '';
 }
+
 async function apiSearch(song){
-  const q=`${song.title} ${song.artist||''} official`;
+  // Prefer official audio/topic uploads because they are generally more reliable for embedding.
+  const queries=[
+    `${song.title} ${song.artist||''} official audio`,
+    `${song.title} ${song.artist||''} topic`,
+    `${song.title} ${song.artist||''} official`
+  ];
   let lastErr='YouTube search failed';
-  for(let n=0;n<YOUTUBE_API_KEYS.length;n++){
-    const key=YOUTUBE_API_KEYS[(keyCursor+n)%YOUTUBE_API_KEYS.length];
-    try{
-      $('status').textContent=`Searching YouTube for “${song.title}”…`;
-      const url='https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoEmbeddable=true&videoSyndicated=true&maxResults=5&safeSearch=moderate&q='+encodeURIComponent(q)+'&key='+encodeURIComponent(key);
-      const r=await fetch(url);
-      const data=await r.json();
-      if(!r.ok) throw new Error(data?.error?.message||('HTTP '+r.status));
-      const id=data.items?.find(x=>x.id?.videoId)?.id?.videoId;
-      if(id){
-        keyCursor=(keyCursor+n)%YOUTUBE_API_KEYS.length;
-        return id;
-      }
-      lastErr='No embeddable result found';
-    }catch(e){
-      lastErr=e.message||String(e);
+  for(const q of queries){
+    for(let n=0;n<YOUTUBE_API_KEYS.length;n++){
+      const key=YOUTUBE_API_KEYS[(keyCursor+n)%YOUTUBE_API_KEYS.length];
+      try{
+        $('status').textContent=`Finding “${song.title}”…`;
+        const url='https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&videoEmbeddable=true&videoSyndicated=true&maxResults=8&safeSearch=moderate&q='+encodeURIComponent(q)+'&key='+encodeURIComponent(key);
+        const r=await fetch(url);
+        const data=await r.json();
+        if(!r.ok) throw new Error(data?.error?.message||('HTTP '+r.status));
+        const id=data.items?.find(x=>x.id?.videoId)?.id?.videoId;
+        if(id){ keyCursor=(keyCursor+n)%YOUTUBE_API_KEYS.length; return id; }
+        lastErr='No embeddable result found';
+      }catch(e){ lastErr=e.message||String(e); }
     }
   }
   throw new Error(lastErr);
 }
+
+function loadYouTubeAPI(){
+  if(window.YT && window.YT.Player){ onYouTubeIframeAPIReady(); return; }
+  const tag=document.createElement('script');
+  tag.src='https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+}
+
+window.onYouTubeIframeAPIReady=function(){
+  if(ytPlayer) return;
+  ytPlayer=new YT.Player('player',{
+    width:'100%',height:'100%',
+    playerVars:{autoplay:1,playsinline:1,rel:0,modestbranding:1,controls:1,iv_load_policy:3,fs:1},
+    events:{
+      onReady:()=>{
+        ytReady=true;
+        if(pendingVideoId){ ytPlayer.loadVideoById(pendingVideoId); pendingVideoId=''; }
+      },
+      onStateChange:(e)=>{
+        if(e.data===YT.PlayerState.ENDED){ setTimeout(next,350); }
+        if(e.data===YT.PlayerState.PLAYING){ $('status').textContent='▶ Playing automatically inside Voice of Peace.'; }
+      },
+      onError:()=>{
+        $('status').textContent='This YouTube upload cannot play here. Trying the next song…';
+        setTimeout(next,900);
+      }
+    }
+  });
+};
+
+function playVideoId(id){
+  currentVideoId=id;
+  $('empty').style.display='none';
+  if(ytReady && ytPlayer?.loadVideoById){ ytPlayer.loadVideoById(id); }
+  else pendingVideoId=id;
+}
+
 async function playIndex(i){
   if(i<0||i>=filtered.length)return;
+  const myToken=++playToken;
   currentIndex=i;
   renderList();
   const s=filtered[i];
-  $('nowTitle').textContent=s.title;
+  $('nowTitle').textContent=`▶ ${s.title}`;
   $('nowMeta').textContent=`${s.artist||''} • ${s.category}`;
   try{
     let id=s.videoId||'';
     if(!id) id=await apiSearch(s);
-    currentVideoId=id;
-    $('empty').style.display='none';
-    $('player').src=`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`;
-    $('status').textContent='Playing inside Voice of Peace.';
+    if(myToken!==playToken) return;
+    playVideoId(id);
   }catch(e){
-    $('status').textContent='Could not load this song: '+e.message;
+    if(myToken!==playToken) return;
+    $('status').textContent='Could not load this song: '+e.message+' — trying next.';
     currentVideoId='';
-    $('empty').style.display='grid';
+    setTimeout(next,1000);
   }
 }
-function next(){
-  if(!filtered.length)return;
-  playIndex(currentIndex<0?0:(currentIndex+1)%filtered.length);
-}
-function prev(){
-  if(!filtered.length)return;
-  playIndex(currentIndex<=0?filtered.length-1:currentIndex-1);
-}
-function shuffle(){
-  if(!filtered.length)return;
-  playIndex(Math.floor(Math.random()*filtered.length));
-}
+
+function next(){ if(!filtered.length)return; playIndex(currentIndex<0?0:(currentIndex+1)%filtered.length); }
+function prev(){ if(!filtered.length)return; playIndex(currentIndex<=0?filtered.length-1:currentIndex-1); }
+function shuffle(){ if(!filtered.length)return; playIndex(Math.floor(Math.random()*filtered.length)); }
+
 $('search').addEventListener('input',()=>{currentIndex=-1;renderList()});
 $('nextBtn').onclick=next;
 $('prevBtn').onclick=prev;
@@ -281,6 +344,7 @@ $('saveVideoBtn').onclick=()=>{
 
 renderCategories();
 renderList();
+loadYouTubeAPI();
 </script>
 </body>
 </html>

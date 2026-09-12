@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store">
+<title>Voice of Peace - Member</title>
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="wrap"><div class="card">
+  <div class="topbar">
+    <div><strong>VOICE OF PEACE</strong><br><span id="who" class="small"></span></div>
+    <button class="secondary" style="width:auto;margin:0" onclick="logout(false)">LOGOUT</button>
+  </div>
+  <h2>Member Area</h2>
+  <div id="msg" class="msg">Checking membership...</div>
+  <a class="button" href="index.html">OPEN VOICE OF PEACE</a>
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script>
+(async()=>{
+  const result=await requireMember();
+  if(!result) return;
+  document.getElementById("who").textContent=result.profile.full_name || result.user.email;
+  document.getElementById("msg").textContent="Access approved.";
+  document.getElementById("msg").className="msg success";
+})();
+</script>
+</body></html>

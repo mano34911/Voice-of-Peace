@@ -1,15 +1,137 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Voice of Peace - Members Admin</title><style>body{margin:0;background:#02182e;color:#fff;font-family:Arial}.wrap{max-width:1000px;margin:auto;padding:20px}.card{background:#062746;border:1px solid #245d88;border-radius:18px;padding:16px;margin:12px 0}.row{display:grid;grid-template-columns:1.6fr 1fr 1fr auto;gap:8px;align-items:center}.btns button{margin:3px;padding:8px 10px;border:0;border-radius:9px;font-weight:700}.approve{background:#11ba5d}.suspend{background:#ffd34f}.delete{background:#df3343;color:#fff}.msg{color:#ffd34f}@media(max-width:720px){.row{grid-template-columns:1fr}}</style></head><body><div class="wrap"><h1>Voice of Peace Members Admin</h1><div id="msg" class="msg"></div><div id="list"></div></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
-const sb=window.supabase.createClient('https://oyeeeooymrzemxfrvcon.supabase.co','sb_publishable_F5jtSPiZ-BCxTiPT4XCW7w_LVJcOJ8j');
-const msg=t=>document.getElementById('msg').textContent=t;
-const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-async function load(){
- const {data:{session}}=await sb.auth.getSession(); if(!session){location.href='login.html';return}
- const {data:me}=await sb.from('voice_members').select('is_admin').eq('user_id',session.user.id).maybeSingle();
- if(!me?.is_admin){msg('Administrator access required.');return}
- const {data,error}=await sb.from('voice_members').select('*').order('created_at',{ascending:false});
- if(error){msg(error.message);return}
- document.getElementById('list').innerHTML=data.map(m=>`<div class="card"><div class="row"><div><b>${esc(m.full_name||m.email)}</b><br><small>${esc(m.email)}</small></div><div>Status: ${esc(m.member_status)}</div><div>Payment: ${esc(m.payment_status)}</div><div class="btns"><button class="approve" onclick="setStatus('${m.user_id}','approved')">Approve</button><button class="suspend" onclick="setStatus('${m.user_id}','suspended')">Suspend</button><button class="delete" onclick="setStatus('${m.user_id}','deleted')">Delete</button></div></div></div>`).join('');
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store">
+<title>Voice of Peace - Admin</title>
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="wrap" style="max-width:1200px"><div class="card">
+  <div class="topbar">
+    <div><h2 style="margin:0;text-align:left">Voice of Peace Admin</h2><div id="adminName" class="small" style="text-align:left;margin:4px 0 0"></div></div>
+    <button class="secondary" style="width:auto;margin:0" onclick="logout(true)">LOGOUT</button>
+  </div>
+
+  <div id="msg" class="msg"></div>
+
+  <div class="row">
+    <div>
+      <label>Filter status</label>
+      <select id="filterStatus">
+        <option value="">All</option>
+        <option value="pending">Pending</option>
+        <option value="approved">Approved</option>
+        <option value="suspended">Suspended</option>
+        <option value="deleted">Deleted/Disabled</option>
+      </select>
+    </div>
+    <div>
+      <label>Search</label>
+      <input id="search" placeholder="Name or email">
+    </div>
+  </div>
+
+  <button class="secondary" onclick="loadMembers()">REFRESH MEMBERS</button>
+
+  <div class="tableWrap" style="margin-top:16px">
+    <table>
+      <thead>
+        <tr>
+          <th>Name / Email</th>
+          <th>Phone</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Payment</th>
+          <th>Trial Ends</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="members"></tbody>
+    </table>
+  </div>
+
+  <div class="small">“Delete” here safely disables access by changing status to deleted. It does not remove the Supabase Auth record.</div>
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script>
+let allMembers=[];
+
+function show(t,c=""){const m=document.getElementById("msg");m.textContent=t;m.className="msg "+c;}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
+function dateText(v){return v ? new Date(v).toLocaleString() : "";}
+
+async function loadMembers(){
+  show("Loading members...","warning");
+  try{
+    const client=getClient();
+    const {data,error}=await client.from("profiles").select("*").order("created_at",{ascending:false});
+    if(error) throw error;
+    allMembers=data||[];
+    render();
+    show(`Loaded ${allMembers.length} member record(s).`,"success");
+  }catch(err){show(err.message,"error");}
 }
-async function setStatus(id,status){const {error}=await sb.from('voice_members').update({member_status:status}).eq('user_id',id);if(error)msg(error.message);else load()}
-load();
-</script></body></html>
+
+function render(){
+  const status=document.getElementById("filterStatus").value;
+  const q=document.getElementById("search").value.trim().toLowerCase();
+  const rows=allMembers.filter(x=>{
+    if(status && x.status!==status) return false;
+    if(q && !(`${x.full_name||""} ${x.email||""}`.toLowerCase().includes(q))) return false;
+    return true;
+  });
+
+  document.getElementById("members").innerHTML=rows.map(x=>`
+    <tr>
+      <td><strong>${esc(x.full_name||"")}</strong><br>${esc(x.email||"")}</td>
+      <td>${esc(x.phone||"")}</td>
+      <td><span class="badge">${esc(x.role)}</span></td>
+      <td><span class="badge">${esc(x.status)}</span></td>
+      <td><span class="badge">${esc(x.payment_status)}</span></td>
+      <td>${esc(dateText(x.trial_ends_at))}</td>
+      <td>
+        <div class="actions">
+          <button onclick="setStatus('${x.id}','approved')">Approve</button>
+          <button class="warn" onclick="setStatus('${x.id}','suspended')">Suspend</button>
+          <button class="danger" onclick="setStatus('${x.id}','deleted')">Delete</button>
+          <button class="secondary" onclick="setPayment('${x.id}','active')">Payment Active</button>
+          <button class="secondary" onclick="setPayment('${x.id}','inactive')">Payment Off</button>
+          <button class="secondary" onclick="toggleRole('${x.id}','${x.role}')">${x.role==="admin"?"Make Member":"Make Admin"}</button>
+        </div>
+      </td>
+    </tr>
+  `).join("");
+}
+
+async function updateMember(id,patch){
+  try{
+    const client=getClient();
+    const {error}=await client.from("profiles").update(patch).eq("id",id);
+    if(error) throw error;
+    await loadMembers();
+  }catch(err){show(err.message,"error");}
+}
+
+async function setStatus(id,status){
+  if(status==="deleted" && !confirm("Disable this member account?")) return;
+  await updateMember(id,{status});
+}
+async function setPayment(id,payment_status){await updateMember(id,{payment_status});}
+async function toggleRole(id,current){await updateMember(id,{role:current==="admin"?"member":"admin"});}
+
+document.getElementById("filterStatus").addEventListener("change",render);
+document.getElementById("search").addEventListener("input",render);
+
+(async()=>{
+  const result=await requireAdmin();
+  if(!result) return;
+  document.getElementById("adminName").textContent=result.profile.full_name || result.user.email;
+  await loadMembers();
+})();
+</script>
+</body></html>

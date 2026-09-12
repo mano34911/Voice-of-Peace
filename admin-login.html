@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store">
+<title>Voice of Peace - Admin Login</title>
+<link rel="stylesheet" href="common.css">
+</head>
+<body>
+<div class="wrap"><div class="card">
+  <div class="logo"><h1>VOICE OF PEACE</h1><p>Administrator</p></div>
+  <h2>Admin Login</h2>
+  <div id="msg" class="msg"></div>
+  <form id="form">
+    <label>Email</label>
+    <input id="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" required>
+    <label>Password</label>
+    <input id="password" type="password" autocomplete="current-password" required>
+    <button id="submit" type="submit">ADMIN LOGIN</button>
+  </form>
+  <a class="link" href="login.html">Member login</a>
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="auth.js"></script>
+<script>
+const msg=document.getElementById("msg");
+function show(t,c=""){msg.textContent=t;msg.className="msg "+c;}
+
+document.getElementById("form").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const btn=document.getElementById("submit");
+  btn.disabled=true;btn.textContent="CHECKING...";
+  try{
+    const client=getClient();
+    const email=document.getElementById("email").value.trim().toLowerCase();
+    const password=document.getElementById("password").value;
+    const {data,error}=await client.auth.signInWithPassword({email,password});
+    if(error) throw error;
+
+    const {data:profile,error:pe}=await client.from("profiles").select("*").eq("id",data.user.id).single();
+    if(pe) throw pe;
+
+    if(profile.role!=="admin" || profile.status!=="approved"){
+      await client.auth.signOut();
+      throw new Error("This account is not an approved administrator.");
+    }
+
+    go(cfg("ADMIN_PAGE"));
+  }catch(err){
+    show(err.message || "Admin login failed.","error");
+    btn.disabled=false;btn.textContent="ADMIN LOGIN";
+  }
+});
+</script>
+</body></html>

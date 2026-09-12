@@ -93,11 +93,6 @@ button{
   cursor:pointer;
 }
 
-button:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-}
-
 .link{
   display:block;
   text-align:center;
@@ -106,17 +101,12 @@ button:disabled{
   text-decoration:none;
 }
 
-.link:hover{
-  text-decoration:underline;
-}
-
 .msg{
   min-height:28px;
   text-align:center;
   margin:12px 0;
   color:#ffd34f;
   font-weight:bold;
-  line-height:1.4;
 }
 
 .success{
@@ -180,7 +170,6 @@ button:disabled{
       id="password"
       type="password"
       placeholder="Create password"
-      autocomplete="new-password"
     >
 
     <label for="confirmPassword">Confirm Password</label>
@@ -188,76 +177,35 @@ button:disabled{
       id="confirmPassword"
       type="password"
       placeholder="Confirm password"
-      autocomplete="new-password"
     >
 
     <button id="registerBtn" type="button">
       REGISTER
     </button>
 
-    <a
-      class="link"
-      href="login.html"
-    >
+    <a class="link" href="login.html">
       Already registered? Login
     </a>
 
+    <a class="link" href="index.html">
+      Continue to Voice of Peace
+    </a>
+
     <div class="small">
-      Registration requires email confirmation.
+      Temporary open registration enabled.
     </div>
 
   </div>
 
 </div>
 
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-
-/* =========================================================
-   SUPABASE SETTINGS
-========================================================= */
-
-const SUPABASE_URL =
-  "https://dpejswtreoqzmrlcnfde.supabase.co";
-
-const SUPABASE_ANON_KEY =
-  "sb_publishable_92C4dFnhmFBCsasew_6WhQ_InvX4yDX";
-
-
-/* =========================================================
-   IMPORTANT PUBLIC URLs
-========================================================= */
-
-const BASE_URL =
-  "https://mano34911.github.io/Voice-of-Peace/";
-
-const LOGIN_URL =
-  BASE_URL + "login.html";
-
-
-/* =========================================================
-   CREATE SUPABASE CLIENT
-========================================================= */
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-  );
-
-
-/* =========================================================
-   PAGE ELEMENTS
-========================================================= */
 
 const registerBtn =
   document.getElementById("registerBtn");
 
 const msg =
   document.getElementById("msg");
-
 
 function showMessage(text,type=""){
   msg.textContent = text;
@@ -268,36 +216,33 @@ function showMessage(text,type=""){
   }
 }
 
+registerBtn.addEventListener(
+  "click",
+  registerUser
+);
 
-/* =========================================================
-   REGISTER
-========================================================= */
-
-registerBtn.addEventListener("click",registerUser);
-
-
-async function registerUser(){
+function registerUser(){
 
   const name =
-    document.getElementById("name").value.trim();
+    document.getElementById("name")
+    .value.trim();
 
   const email =
-    document.getElementById("email").value
-      .trim()
-      .toLowerCase();
+    document.getElementById("email")
+    .value.trim()
+    .toLowerCase();
 
   const phone =
-    document.getElementById("phone").value.trim();
+    document.getElementById("phone")
+    .value.trim();
 
   const password =
-    document.getElementById("password").value;
+    document.getElementById("password")
+    .value;
 
   const confirmPassword =
-    document.getElementById("confirmPassword").value;
-
-
-  showMessage("");
-
+    document.getElementById("confirmPassword")
+    .value;
 
   if(!name){
     showMessage(
@@ -307,7 +252,6 @@ async function registerUser(){
     return;
   }
 
-
   if(!email){
     showMessage(
       "Please enter your email.",
@@ -315,25 +259,6 @@ async function registerUser(){
     );
     return;
   }
-
-
-  if(!password){
-    showMessage(
-      "Please enter a password.",
-      "error"
-    );
-    return;
-  }
-
-
-  if(password.length < 6){
-    showMessage(
-      "Password must be at least 6 characters.",
-      "error"
-    );
-    return;
-  }
-
 
   if(password !== confirmPassword){
     showMessage(
@@ -343,130 +268,68 @@ async function registerUser(){
     return;
   }
 
+  const member = {
+    id: Date.now(),
+    name: name,
+    email: email,
+    phone: phone,
+    createdAt: new Date().toISOString()
+  };
 
-  registerBtn.disabled = true;
-  registerBtn.textContent = "CREATING ACCOUNT...";
-
-  showMessage(
-    "Creating your Voice of Peace account..."
-  );
-
+  let members = [];
 
   try{
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.auth.signUp({
-
-        email: email,
-
-        password: password,
-
-        options:{
-
-          /*
-          THIS FIXES THE LOCALHOST PROBLEM
-          */
-
-          emailRedirectTo: LOGIN_URL,
-
-          data:{
-            full_name:name,
-            phone:phone,
-            role:"member"
-          }
-
-        }
-
-      });
-
-
-    if(error){
-      throw error;
-    }
-
-
-    console.log(
-      "Registration result:",
-      data
-    );
-
-
-    /*
-    If email confirmation is enabled,
-    session will normally be null until
-    the user confirms the email.
-    */
-
-    if(
-      data.user &&
-      !data.session
-    ){
-
-      showMessage(
-        "Registration successful! Check your email and tap the confirmation link. After confirmation you will return to the Voice of Peace login page.",
-        "success"
-      );
-
-      registerBtn.textContent =
-        "CHECK YOUR EMAIL";
-
-      return;
-    }
-
-
-    /*
-    If Supabase email confirmation is disabled
-    and the user receives a session immediately.
-    */
-
-    if(data.session){
-
-      showMessage(
-        "Account created successfully. Opening login...",
-        "success"
-      );
-
-      setTimeout(function(){
-        window.location.href = LOGIN_URL;
-      },1500);
-
-      return;
-    }
-
-
-    showMessage(
-      "Account created. Check your email.",
-      "success"
-    );
-
-
+    members =
+      JSON.parse(
+        localStorage.getItem(
+          "voiceOfPeaceMembers"
+        )
+      ) || [];
+  }
+  catch(e){
+    members = [];
   }
 
-  catch(error){
+  const exists =
+    members.some(function(existing){
 
-    console.error(error);
+      return String(existing.email)
+        .toLowerCase() === email;
 
-    showMessage(
-      error.message ||
-      "Registration failed. Please try again.",
-      "error"
+    });
+
+  if(!exists){
+
+    members.push(member);
+
+    localStorage.setItem(
+      "voiceOfPeaceMembers",
+      JSON.stringify(members)
     );
-
-    registerBtn.disabled = false;
-
-    registerBtn.textContent =
-      "REGISTER";
   }
 
+  localStorage.setItem(
+    "voiceOfPeaceAccess",
+    "granted"
+  );
+
+  localStorage.setItem(
+    "voiceOfPeaceCurrentUser",
+    email
+  );
+
+  showMessage(
+    "Account created. Opening Voice of Peace...",
+    "success"
+  );
+
+  setTimeout(function(){
+
+    window.location.href =
+      "index.html";
+
+  },700);
 }
-
-
-/* =========================================================
-   ALLOW ENTER KEY
-========================================================= */
 
 document.addEventListener(
   "keydown",

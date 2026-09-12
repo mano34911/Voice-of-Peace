@@ -4,76 +4,250 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store">
-<title>Voice of Peace - Login</title>
-<link rel="stylesheet" href="common.css">
-</head>
-<body>
-<div class="wrap"><div class="card">
-  <div class="logo"><h1>VOICE OF PEACE</h1><p>Member Login</p></div>
-  <div id="msg" class="msg"></div>
 
-  <form id="form">
-    <label>Email</label>
-    <input id="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" required>
+<title>Voice of Peace - Member Login</title>
 
-    <label>Password</label>
-    <input id="password" type="password" autocomplete="current-password" required>
+<style>
+*{
+  box-sizing:border-box;
+}
 
-    <button id="submit" type="submit">LOGIN</button>
-  </form>
+html,body{
+  margin:0;
+  min-height:100%;
+}
 
-  <a class="link" href="register.html">Create account</a>
-  <a class="link" href="forgot-password.html">Forgot password?</a>
-  <a class="link" href="admin-login.html">Admin login</a>
-  <a class="link" href="index.html">Return to Voice of Peace</a>
-</div></div>
+body{
+  min-height:100vh;
+  background:
+    linear-gradient(180deg,#0b4c78 0,#052944 20%,#00172a 100%);
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+}
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script src="auth.js"></script>
-<script>
-const p=new URLSearchParams(location.search);
-const msg=document.getElementById("msg");
-function show(t,c=""){msg.textContent=t;msg.className="msg "+c;}
-const reason=p.get("reason");
-if(reason==="pending") show("Your account is waiting for admin approval.","warning");
-if(reason==="suspended") show("Your account is suspended. Contact the administrator.","error");
-if(reason==="deleted") show("This account is disabled.","error");
+.wrap{
+  width:100%;
+  max-width:820px;
+  margin:0 auto;
+  padding:75px 48px 60px;
+}
 
-document.getElementById("form").addEventListener("submit",async e=>{
-  e.preventDefault();
-  const btn=document.getElementById("submit");
-  const email=document.getElementById("email").value.trim().toLowerCase();
-  const password=document.getElementById("password").value;
-  btn.disabled=true; btn.textContent="SIGNING IN...";
-  show("Checking account...","warning");
+.card{
+  background:#052c4b;
+  border:2px solid #1f6b9c;
+  border-radius:38px;
+  padding:48px 44px 46px;
+  box-shadow:0 10px 35px rgba(0,0,0,.25);
+}
 
-  try{
-    const client=getClient();
-    const {data,error}=await client.auth.signInWithPassword({email,password});
-    if(error) throw error;
+.logo{
+  text-align:center;
+  margin-bottom:38px;
+}
 
-    const {data:profile,error:pe}=await client.from("profiles").select("*").eq("id",data.user.id).single();
-    if(pe) throw pe;
+.logo h1{
+  margin:0;
+  font-size:56px;
+  line-height:1.05;
+  letter-spacing:6px;
+  font-weight:900;
+}
 
-    if(profile.status!=="approved"){
-      await client.auth.signOut();
-      show(profile.status==="pending" ? "Your email is confirmed, but your account is waiting for admin approval." : "Your account is not allowed to sign in.","error");
-      btn.disabled=false; btn.textContent="LOGIN";
-      return;
-    }
+.logo p{
+  margin:22px 0 0;
+  color:#43c8ff;
+  font-size:30px;
+}
 
-    if(!subscriptionAllowed(profile)){
-      await client.auth.signOut();
-      window.location.href=cfg("BASE_URL")+cfg("PAYMENT_PAGE");
-      return;
-    }
+.notice{
+  background:#0c4268;
+  border:1px solid #287eb2;
+  border-radius:15px;
+  padding:16px 18px;
+  text-align:center;
+  margin:0 0 28px;
+  font-size:19px;
+  color:#bfeaff;
+}
 
-    go(cfg("MEMBER_PAGE"));
-  }catch(err){
-    show(err.message || "Invalid login.","error");
-    btn.disabled=false; btn.textContent="LOGIN";
+label{
+  display:block;
+  margin:24px 0 10px;
+  font-size:28px;
+  font-weight:800;
+  color:#d7ecff;
+}
+
+input{
+  width:100%;
+  height:92px;
+  padding:0 26px;
+  border:2px solid #3d91c4;
+  border-radius:22px;
+  font-size:29px;
+  background:#fff;
+  color:#111;
+  outline:none;
+}
+
+input:focus{
+  border-color:#57cfff;
+  box-shadow:0 0 0 4px rgba(87,207,255,.15);
+}
+
+button{
+  width:100%;
+  height:94px;
+  margin-top:38px;
+  border:0;
+  border-radius:24px;
+  background:#16c66e;
+  color:#fff;
+  font-size:33px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+button:active{
+  transform:scale(.99);
+}
+
+.link{
+  display:block;
+  text-align:center;
+  color:#4ed0ff;
+  font-size:27px;
+  text-decoration:none;
+  margin-top:30px;
+}
+
+.link:hover{
+  text-decoration:underline;
+}
+
+.small{
+  font-size:22px;
+  opacity:.9;
+}
+
+@media(max-width:650px){
+  .wrap{
+    padding:55px 22px;
   }
-});
+
+  .card{
+    padding:38px 24px 40px;
+    border-radius:28px;
+  }
+
+  .logo h1{
+    font-size:39px;
+    letter-spacing:4px;
+  }
+
+  .logo p{
+    font-size:25px;
+  }
+
+  label{
+    font-size:23px;
+  }
+
+  input{
+    height:72px;
+    font-size:22px;
+  }
+
+  button{
+    height:76px;
+    font-size:27px;
+  }
+
+  .link{
+    font-size:23px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+  <div class="card">
+
+    <div class="logo">
+      <h1>VOICE OF PEACE</h1>
+      <p>Member Login</p>
+    </div>
+
+    <div class="notice">
+      Temporary open access is enabled.
+    </div>
+
+    <form id="loginForm">
+
+      <label for="email">Email</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="Email"
+        autocomplete="email"
+      >
+
+      <label for="password">Password</label>
+      <input
+        id="password"
+        type="password"
+        placeholder="Password"
+        autocomplete="current-password"
+      >
+
+      <button type="submit">
+        LOGIN
+      </button>
+
+    </form>
+
+    <a class="link" href="register.html">
+      Create account
+    </a>
+
+    <a class="link" href="forgot-password.html">
+      Forgot password?
+    </a>
+
+    <a class="link" href="admin-login.html">
+      Admin login
+    </a>
+
+    <a class="link" href="index.html">
+      Return to Voice of Peace
+    </a>
+
+  </div>
+</div>
+
+<script>
+(function(){
+
+  const form = document.getElementById("loginForm");
+
+  form.addEventListener("submit", function(event){
+    event.preventDefault();
+
+    // TEMPORARY OPEN ACCESS
+    // No Supabase.
+    // No password validation.
+    // No getClient().
+    // Everyone gets access.
+
+    localStorage.setItem("voiceOfPeaceAccess", "granted");
+
+    window.location.href = "index.html";
+  });
+
+})();
 </script>
-</body></html>
+
+</body>
+</html>

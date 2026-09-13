@@ -302,6 +302,8 @@ function allCategories(){
 let currentCategory = Object.keys(allCategories())[0];
 let currentIndex = -1;
 let currentSong = null;
+let ytPlayer = null;
+let pendingVideo = null;
 
 /* =========================================================
    RENDER
@@ -321,6 +323,8 @@ function renderTabs(){
       document.getElementById("filter").value = "";
       renderTabs();
       renderSongs();
+      const songs = allCategories()[currentCategory] || [];
+      if(songs.length) playSong(0);
     };
     tabs.appendChild(b);
   });
@@ -473,21 +477,60 @@ function showError(text){
 }
 
 function loadVideo(videoId,title,artist){
-  const origin = encodeURIComponent(location.origin);
-  const src =
-    "https://www.youtube-nocookie.com/embed/"+encodeURIComponent(videoId)+
-    "?autoplay=1&playsinline=1&rel=0&controls=1&enablejsapi=1&origin="+origin;
-
-  document.getElementById("player").innerHTML =
-    '<iframe id="ytFrame" src="'+src+'" '+
-    'title="'+escapeHtml(title)+'" '+
-    'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" '+
-    'referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+  document.getElementById("player").innerHTML = '<div id="ytPlayer"></div>';
 
   document.getElementById("nowPlaying").textContent =
     "Playing: "+title+(artist ? " — "+artist : "");
 
-  window.scrollTo({top:document.getElementById("player").offsetTop-10,behavior:"smooth"});
+  pendingVideo = videoId;
+
+  if(window.YT && YT.Player){
+    createYTPlayer(videoId);
+  }
+
+  window.scrollTo({
+    top:document.getElementById("player").offsetTop-10,
+    behavior:"smooth"
+  });
+}
+
+function onYouTubeIframeAPIReady(){
+  if(pendingVideo){
+    createYTPlayer(pendingVideo);
+  }
+}
+
+function createYTPlayer(videoId){
+  try{
+    if(ytPlayer && typeof ytPlayer.destroy === "function"){
+      ytPlayer.destroy();
+    }
+  }catch(e){}
+
+  ytPlayer = new YT.Player("ytPlayer",{
+    width:"100%",
+    height:"500",
+    videoId:videoId,
+    playerVars:{
+      autoplay:1,
+      playsinline:1,
+      rel:0,
+      controls:1
+    },
+    events:{
+      onReady:function(event){
+        event.target.playVideo();
+      },
+      onStateChange:function(event){
+        if(event.data === YT.PlayerState.ENDED){
+          nextSong();
+        }
+      },
+      onError:function(){
+        nextSong();
+      }
+    }
+  });
 }
 
 function nextSong(){
@@ -602,7 +645,15 @@ function escapeHtml(text){
 
 renderTabs();
 renderSongs();
+
+/* Try to start the first USA song automatically.
+   iPhone/Safari may block sound until the first user tap. */
+setTimeout(function(){
+  const songs = allCategories()[currentCategory] || [];
+  if(songs.length) playSong(0);
+},500);
 </script>
 
+<script src="https://www.youtube.com/iframe_api"></script>
 </body>
 </html>

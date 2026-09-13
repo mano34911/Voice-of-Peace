@@ -1,1428 +1,608 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-
 <meta charset="utf-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1,viewport-fit=cover"
->
-
-<meta
-  http-equiv="Cache-Control"
-  content="no-store"
->
-
-<title>Voice of Peace</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Cache-Control" content="no-store">
+<title>Voice of Peace Music</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
-}
-
-html,
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
 body{
-  margin:0;
-  min-height:100%;
-}
-
-body{
-
   min-height:100vh;
-
-  font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  color:white;
-
-  background:
-    radial-gradient(
-      circle at top,
-      #12669a 0,
-      #073b62 30%,
-      #02182e 65%,
-      #010a13 100%
-    );
-
+  font-family:Arial,Helvetica,sans-serif;
+  color:#fff;
+  background:radial-gradient(circle at top,#12669a 0,#073b62 30%,#02182e 65%,#010a13 100%);
 }
-
-
-/* ========================================
-   HEADER
-======================================== */
-
-header{
-
-  text-align:center;
-
-  padding:
-    35px
-    15px
-    20px;
-
+header{text-align:center;padding:26px 14px 16px}
+header h1{margin:0;font-size:42px;letter-spacing:3px;text-shadow:0 4px 18px #000}
+header p{margin:8px 0;color:#63d8ff;font-size:18px}
+.wrap{width:94%;max-width:1100px;margin:auto;padding-bottom:60px}
+.card{
+  background:#062746;border:1px solid #2876a8;border-radius:22px;
+  padding:18px;margin-top:18px;box-shadow:0 12px 30px rgba(0,0,0,.25)
 }
-
-header h1{
-
-  margin:0;
-
-  font-size:46px;
-
-  letter-spacing:5px;
-
-  text-shadow:
-    0 4px 18px #000;
-
-}
-
-header .peace{
-
-  font-size:42px;
-
-  margin:
-    12px 0;
-
-}
-
-header p{
-
-  color:#63d8ff;
-
-  font-size:20px;
-
-  margin:5px;
-
-}
-
-
-/* ========================================
-   MAIN WRAPPER
-======================================== */
-
-.wrap{
-
-  width:94%;
-
-  max-width:1000px;
-
-  margin:auto;
-
-  padding-bottom:60px;
-
-}
-
-
-/* ========================================
-   WELCOME
-======================================== */
-
-.welcome{
-
-  background:
-    rgba(
-      6,
-      39,
-      70,
-      .95
-    );
-
-  border:
-    1px solid
-    #2876a8;
-
-  border-radius:22px;
-
-  padding:25px;
-
-  text-align:center;
-
-  box-shadow:
-    0 15px 40px
-    rgba(
-      0,
-      0,
-      0,
-      .3
-    );
-
-}
-
-.welcome h2{
-
-  margin-top:0;
-
-  font-size:30px;
-
-}
-
-.welcome p{
-
-  line-height:1.6;
-
-  color:#d8efff;
-
-  font-size:17px;
-
-}
-
-.status{
-
-  display:inline-block;
-
-  margin-top:10px;
-
-  padding:
-    9px
-    18px;
-
-  background:#0d7148;
-
-  border-radius:30px;
-
-  font-weight:bold;
-
-}
-
-
-/* ========================================
-   VIDEO PLAYER
-======================================== */
-
 .player{
-
-  margin-top:22px;
-
-  background:#000;
-
-  border:
-    2px solid
-    #245d88;
-
-  border-radius:22px;
-
-  overflow:hidden;
-
-  min-height:300px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  position:relative;
-
+  background:#000;border:2px solid #245d88;border-radius:20px;overflow:hidden;
+  min-height:260px;display:flex;align-items:center;justify-content:center
 }
-
-.player iframe{
-
-  width:100%;
-
-  height:500px;
-
-  border:0;
-
+.player iframe{width:100%;height:500px;border:0}
+.placeholder{text-align:center;color:#9ddcff;padding:40px 20px}
+.now{
+  margin-top:10px;padding:12px;border-radius:14px;background:#031b30;
+  color:#62d6ff;text-align:center;font-weight:700
 }
-
-.playerMessage{
-
-  text-align:center;
-
-  padding:
-    50px
-    20px;
-
-  color:#9ddcff;
-
+.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+button,.buttonlike,input,select{
+  font:inherit
 }
-
-.playerMessage .icon{
-
-  font-size:70px;
-
+button,.buttonlike{
+  border:0;border-radius:12px;padding:13px 12px;font-weight:800;
+  cursor:pointer;color:#fff;background:#1579ad;touch-action:manipulation
 }
-
-.nowPlaying{
-
-  background:#062746;
-
-  border:
-    1px solid
-    #245d88;
-
-  border-radius:15px;
-
-  padding:14px;
-
-  margin-top:12px;
-
-  text-align:center;
-
-  color:#62d6ff;
-
-  font-weight:bold;
-
+button:active,.buttonlike:active{transform:scale(.98)}
+.green{background:#13a963}.gold{background:#b78315}.red{background:#a93e45}.purple{background:#7148a8}
+.tabs{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.tab{background:#0a3b60;border:1px solid #2877a8}
+.tab.active{background:#1579ad}
+.toolbar{display:grid;grid-template-columns:1fr auto;gap:10px;margin-top:14px}
+input,select{
+  width:100%;padding:13px;border-radius:12px;border:1px solid #2b6c99;
+  background:#031b30;color:white;outline:none
 }
-
-
-/* ========================================
-   SECTIONS
-======================================== */
-
-.section{
-
-  margin-top:25px;
-
-  background:#062746;
-
-  border:
-    1px solid
-    #245d88;
-
-  border-radius:22px;
-
-  padding:22px;
-
+.songList{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px}
+.song{
+  text-align:left;background:#0a3b60;border:1px solid #2877a8;
+  min-height:72px;display:flex;align-items:center;gap:12px
 }
-
-.section h2{
-
-  text-align:center;
-
-  margin-top:0;
-
+.song .num{
+  min-width:34px;height:34px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;background:#031b30;color:#63d8ff
 }
+.song small{display:block;color:#a8d8f3;margin-top:3px;font-weight:400}
+.adminGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.adminBlock{background:#031b30;border-radius:16px;padding:14px}
+.adminBlock h3{margin-top:0}
+.msg{min-height:22px;color:#ffe17a;margin-top:8px}
+footer{text-align:center;color:#81b6d3;padding:26px 10px;font-size:13px}
+.hidden{display:none!important}
 
-
-/* ========================================
-   CHANNELS
-======================================== */
-
-.channels{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(
-      3,
-      1fr
-    );
-
-  gap:12px;
-
+@media(max-width:700px){
+  header h1{font-size:31px}
+  .player iframe{height:250px}
+  .songList{grid-template-columns:1fr}
+  .adminGrid{grid-template-columns:1fr}
+  .controls{grid-template-columns:repeat(2,1fr)}
+  .toolbar{grid-template-columns:1fr}
 }
-
-.channel{
-
-  border:
-    1px solid
-    #2877a8;
-
-  border-radius:15px;
-
-  padding:
-    18px
-    10px;
-
-  background:#0a3b60;
-
-  color:white;
-
-  text-align:center;
-
-  font-weight:bold;
-
-  cursor:pointer;
-
-  min-height:95px;
-
-  position:relative;
-
-  z-index:10;
-
-  touch-action:manipulation;
-
-  -webkit-tap-highlight-color:
-    rgba(255,255,255,.15);
-
-  appearance:none;
-
-  -webkit-appearance:none;
-
-  font-family:inherit;
-
-  font-size:16px;
-
-}
-
-.channel:hover{
-
-  background:#10527f;
-
-}
-
-.channel:active{
-
-  transform:scale(.98);
-
-}
-
-.channel span{
-
-  display:block;
-
-  font-size:30px;
-
-  margin-bottom:8px;
-
-}
-
-
-/* ========================================
-   MAIN BUTTONS
-======================================== */
-
-.buttons{
-
-  display:grid;
-
-  grid-template-columns:
-    repeat(
-      2,
-      1fr
-    );
-
-  gap:12px;
-
-}
-
-.btn{
-
-  display:block;
-
-  width:100%;
-
-  text-decoration:none;
-
-  text-align:center;
-
-  padding:17px;
-
-  border-radius:14px;
-
-  background:#1579ad;
-
-  color:white;
-
-  font-weight:800;
-
-  font-size:17px;
-
-  border:0;
-
-  cursor:pointer;
-
-  position:relative;
-
-  z-index:10;
-
-  touch-action:manipulation;
-
-  appearance:none;
-
-  -webkit-appearance:none;
-
-  font-family:inherit;
-
-}
-
-.btn:hover{
-
-  filter:brightness(1.15);
-
-}
-
-.btn:active{
-
-  transform:scale(.98);
-
-}
-
-.btn.green{
-
-  background:#13a963;
-
-}
-
-.btn.gold{
-
-  background:#b78315;
-
-}
-
-.btn.red{
-
-  background:#a93e45;
-
-}
-
-.btn.purple{
-
-  background:#7148a8;
-
-}
-
-
-/* ========================================
-   MESSAGE TICKER
-======================================== */
-
-.message{
-
-  overflow:hidden;
-
-  white-space:nowrap;
-
-  background:#031b30;
-
-  border:
-    1px solid
-    #245d88;
-
-  border-radius:12px;
-
-  margin-top:25px;
-
-  padding:
-    14px
-    0;
-
-}
-
-.scroll{
-
-  display:inline-block;
-
-  padding-left:100%;
-
-  animation:
-    scroll
-    25s
-    linear
-    infinite;
-
-  color:#ffe17a;
-
-  font-size:18px;
-
-  font-weight:bold;
-
-}
-
-@keyframes scroll{
-
-  from{
-    transform:translateX(0);
-  }
-
-  to{
-    transform:translateX(-100%);
-  }
-
-}
-
-
-/* ========================================
-   FOOTER
-======================================== */
-
-footer{
-
-  text-align:center;
-
-  color:#81b6d3;
-
-  padding:
-    35px
-    10px;
-
-  font-size:13px;
-
-}
-
-
-/* ========================================
-   MOBILE
-======================================== */
-
-@media(
-  max-width:700px
-){
-
-  header h1{
-    font-size:34px;
-  }
-
-  .channels{
-    grid-template-columns:
-      repeat(
-        2,
-        1fr
-      );
-  }
-
-  .buttons{
-    grid-template-columns:
-      1fr;
-  }
-
-  .player iframe{
-    height:260px;
-  }
-
-}
-
 </style>
-
 </head>
 
-
 <body>
-
-
-<!-- ========================================
-     HEADER
-========================================= -->
-
 <header>
-
-  <div class="peace">
-    🕊️ 🇮🇱 🇺🇸 🕊️
-  </div>
-
-  <h1>
-    VOICE OF PEACE
-  </h1>
-
-  <p>
-    By Emmanuel &amp; Camili Hileah
-  </p>
-
+  <div style="font-size:34px">🕊️ 🇺🇸 🎵 🇬🇧 🕊️</div>
+  <h1>VOICE OF PEACE MUSIC</h1>
+  <p>USA Hits • UK Hits • Your Categories • Your Songs</p>
 </header>
-
-
 
 <div class="wrap">
 
-
-<!-- ========================================
-     WELCOME
-========================================= -->
-
-<div class="welcome">
-
-  <h2>
-    Welcome to Voice of Peace
-  </h2>
-
-  <p>
-
-    News • Israel • Jewish Learning •
-    Music • History • Entertainment •
-    Technology • Health • Peace
-
-  </p>
-
-  <div class="status">
-    ✓ OPEN ACCESS
-  </div>
-
-</div>
-
-
-
-<!-- ========================================
-     VIDEO PLAYER
-========================================= -->
-
-<div
-  id="player"
-  class="player"
->
-
-  <div class="playerMessage">
-
-    <div class="icon">
-      ▶️
+  <div class="card">
+    <div id="player" class="player">
+      <div class="placeholder">
+        <div style="font-size:64px">▶️</div>
+        <h2>Select a song</h2>
+        <p>The video will play inside this page.</p>
+      </div>
     </div>
 
-    <h2>
-      Voice of Peace TV
-    </h2>
+    <div id="nowPlaying" class="now">Nothing playing</div>
 
-    <p>
-      Select a channel below.
-    </p>
+    <div class="controls">
+      <button onclick="previousSong()">⏮ PREVIOUS</button>
+      <button class="green" onclick="replayCurrent()">🔄 REPLAY</button>
+      <button onclick="nextSong()">NEXT ⏭</button>
+      <button class="purple" onclick="scrollToLibrary()">🎵 SONGS</button>
+    </div>
+  </div>
 
+  <div id="library" class="card">
+    <h2 style="text-align:center;margin-top:0">🎶 MUSIC LIBRARY</h2>
+
+    <div id="tabs" class="tabs"></div>
+
+    <div class="toolbar">
+      <input id="filter" type="search" placeholder="Search songs in this category..." oninput="renderSongs()">
+      <button class="gold" onclick="toggleAddPanel()">➕ ADD MUSIC</button>
+    </div>
+
+    <div id="songList" class="songList"></div>
+  </div>
+
+  <div id="addPanel" class="card hidden">
+    <h2 style="text-align:center;margin-top:0">➕ ADD CATEGORY OR SONG</h2>
+
+    <div class="adminGrid">
+      <div class="adminBlock">
+        <h3>New Category</h3>
+        <input id="newCategoryName" placeholder="Example: Greek 70s">
+        <button class="green" style="width:100%;margin-top:10px" onclick="addCategory()">CREATE CATEGORY</button>
+      </div>
+
+      <div class="adminBlock">
+        <h3>Add Song</h3>
+        <select id="songCategory"></select>
+        <input id="songTitle" placeholder="Song title" style="margin-top:10px">
+        <input id="songArtist" placeholder="Artist" style="margin-top:10px">
+        <button class="green" style="width:100%;margin-top:10px" onclick="addSong()">ADD SONG</button>
+      </div>
+    </div>
+
+    <div id="adminMsg" class="msg"></div>
   </div>
 
 </div>
-
-
-<div
-  id="nowPlaying"
-  class="nowPlaying"
->
-  Select a channel
-</div>
-
-
-
-<!-- ========================================
-     CHANNELS
-========================================= -->
-
-<div class="section">
-
-<h2>
-  📺 CHANNELS
-</h2>
-
-
-<div class="channels">
-
-
-<button
-  type="button"
-  class="channel"
-  onclick="playChannel('Rabbi Zamir Cohen','Rabbi Zamir Cohen')"
->
-  <span>✡️</span>
-  Rabbi Zamir Cohen
-</button>
-
-
-<button
-  type="button"
-  class="channel"
-  onclick="playChannel('Israel Channel 14 news','Israel News')"
->
-  <span>🇮🇱</span>
-  Israel News
-</button>
-
-
-<button
-  type="button"
-  class="channel"
-  onclick="playChannel('Fox News live','U.S. News')"
->
-  <span>🇺🇸</span>
-  U.S. News
-</button>
-
-
-<button
-  type="button"
-  class="channel"
-  onclick="playChannel('Yemenite Jewish music','Yemenite Music')"
->
-  <span>🎵</span>
-  Yemenite Music
-</button>
-
-
-<button
-  type="button"
-  class="channel"
-  onclick="playChannel('Sephardic Jewish music','Sephardi Music')"
->
-  <span>🎶</span>
-  Sephardi Music
-</button>
-
-
-<button
-  type="button"
-  class="channel"
-  onclick="playChannel('Israel history documentary','Israel History')"
->
-  <span>📜</span>
-  Israel History
-</button>
-
-
-<button
-  type="button"
-  class="channel"
-  onclick="playChannel('classic western full movie','Western Movies')"
->
-  <span>🤠</span>
-  Western Movies
-</button>
-
-
-<button
-  type="button"
-  class="channel"
-  onclick="playChannel('new inventions technology','Inventions')"
->
-  <span>💡</span>
-  Inventions
-</button>
-
-
-<button
-  type="button"
-  class="channel"
-  onclick="playChannel('nature documentary','Nature')"
->
-  <span>🌎</span>
-  Nature
-</button>
-
-
-</div>
-
-</div>
-
-
-
-<!-- ========================================
-     MUSIC / MEMBER / ADMIN BUTTONS
-========================================= -->
-
-<div class="section">
-
-<h2>
-  🎵 MUSIC &amp; MORE
-</h2>
-
-
-<div class="buttons">
-
-
-<button
-  type="button"
-  class="btn green"
-  onclick="goToPage('music.html')"
->
-  🎵 MUSIC
-</button>
-
-
-<button
-  type="button"
-  class="btn purple"
-  onclick="goToPage('index5.html')"
->
-  ❤️ CAMILI'S MUSIC
-</button>
-
-
-<button
-  type="button"
-  class="btn gold"
-  onclick="goToPage('register.html')"
->
-  👤 REGISTER
-</button>
-
-
-<button
-  type="button"
-  class="btn"
-  onclick="goToPage('login.html')"
->
-  🔑 MEMBER LOGIN
-</button>
-
-
-<button
-  type="button"
-  class="btn red"
-  onclick="goToPage('admin.html')"
->
-  ⚙️ ADMIN CONTROL PANEL
-</button>
-
-
-<button
-  type="button"
-  class="btn"
-  onclick="goToPage('https://keren3491.github.io/Mb/index2.html')"
->
-  ✡️ SYNAGOGUE BOARD
-</button>
-
-
-</div>
-
-</div>
-
-
-
-<!-- ========================================
-     MESSAGE TICKER
-========================================= -->
-
-<div class="message">
-
-  <div
-    id="ticker"
-    class="scroll"
-  >
-
-    🕊️ VOICE OF PEACE •
-    SUPPORT ISRAEL •
-    PEACE •
-    UNITY •
-    FAITH •
-    FAMILY •
-    AM YISRAEL CHAI 🇮🇱
-
-  </div>
-
-</div>
-
-
-</div>
-
-
-
-<!-- ========================================
-     FOOTER
-========================================= -->
 
 <footer>
-
-  VOICE OF PEACE
-
-  <br><br>
-
-  By Emmanuel &amp; Camili Hileah
-
+  VOICE OF PEACE MUSIC<br><br>
+  All videos play inside this app through YouTube embeds.
 </footer>
 
-
-
 <script>
-
-/* ========================================
-   OPEN ACCESS
-======================================== */
-
-localStorage.setItem(
-  "voiceOfPeaceAccess",
-  "granted"
-);
-
-
-/* ========================================
-   YOUTUBE API KEYS
-======================================== */
+/* =========================================================
+   YOUTUBE API
+   Restrict these keys in Google Cloud to your GitHub Pages
+   domain and YouTube Data API v3.
+========================================================= */
 
 const YOUTUBE_API_KEYS = [
-
   "AIzaSyAADTL39rYmKO52pS7CV7gFT3ECVeHCM8Y",
-
   "AIzaSyD-dXf1oH6M83JHK8ivc11QSZXY0q4xJI8"
-
 ];
 
+let apiKeyIndex = 0;
 
-/* ========================================
-   CURRENT API KEY
-======================================== */
+/* =========================================================
+   BUILT-IN MUSIC
+========================================================= */
 
-let currentKeyIndex = 0;
+const builtIn = {
+  "🇺🇸 USA TOP 50": [
+    ["Billie Jean","Michael Jackson"],
+    ["Hotel California","Eagles"],
+    ["Purple Rain","Prince"],
+    ["Like a Prayer","Madonna"],
+    ["I Will Always Love You","Whitney Houston"],
+    ["Born in the U.S.A.","Bruce Springsteen"],
+    ["Sweet Child O' Mine","Guns N' Roses"],
+    ["Livin' on a Prayer","Bon Jovi"],
+    ["Every Breath You Take","The Police"],
+    ["Girls Just Want to Have Fun","Cyndi Lauper"],
+    ["Take On Me","a-ha"],
+    ["Footloose","Kenny Loggins"],
+    ["Faith","George Michael"],
+    ["Man in the Mirror","Michael Jackson"],
+    ["What's Love Got to Do with It","Tina Turner"],
+    ["Time After Time","Cyndi Lauper"],
+    ["Africa","Toto"],
+    ["Don't Stop Believin'","Journey"],
+    ["Open Arms","Journey"],
+    ["Eye of the Tiger","Survivor"],
+    ["The Power of Love","Huey Lewis and the News"],
+    ["Heaven Is a Place on Earth","Belinda Carlisle"],
+    ["Walk This Way","Aerosmith"],
+    ["Free Fallin'","Tom Petty"],
+    ["Fast Car","Tracy Chapman"],
+    ["We Didn't Start the Fire","Billy Joel"],
+    ["Uptown Girl","Billy Joel"],
+    ["Endless Love","Diana Ross & Lionel Richie"],
+    ["Celebration","Kool & The Gang"],
+    ["All Night Long","Lionel Richie"],
+    ["How Will I Know","Whitney Houston"],
+    ["Greatest Love of All","Whitney Houston"],
+    ["Smooth Criminal","Michael Jackson"],
+    ["Beat It","Michael Jackson"],
+    ["Thriller","Michael Jackson"],
+    ["Material Girl","Madonna"],
+    ["Papa Don't Preach","Madonna"],
+    ["Alone","Heart"],
+    ["Heaven","Bryan Adams"],
+    ["Danger Zone","Kenny Loggins"],
+    ["Here I Go Again","Whitesnake"],
+    ["Nothing's Gonna Stop Us Now","Starship"],
+    ["The Way You Make Me Feel","Michael Jackson"],
+    ["Straight Up","Paula Abdul"],
+    ["Opposites Attract","Paula Abdul"],
+    ["We Built This City","Starship"],
+    ["Kokomo","The Beach Boys"],
+    ["I Think We're Alone Now","Tiffany"],
+    ["Heaven Is a Place on Earth","Belinda Carlisle"],
+    ["Forever Young","Alphaville"]
+  ],
 
+  "🇬🇧 UK TOP 50": [
+    ["Bohemian Rhapsody","Queen"],
+    ["Don't Stop Me Now","Queen"],
+    ["Another One Bites the Dust","Queen"],
+    ["Careless Whisper","George Michael"],
+    ["Wake Me Up Before You Go-Go","Wham!"],
+    ["Freedom","Wham!"],
+    ["Faith","George Michael"],
+    ["Against All Odds","Phil Collins"],
+    ["In the Air Tonight","Phil Collins"],
+    ["Invisible Touch","Genesis"],
+    ["Sledgehammer","Peter Gabriel"],
+    ["Every Little Thing She Does Is Magic","The Police"],
+    ["Every Breath You Take","The Police"],
+    ["West End Girls","Pet Shop Boys"],
+    ["It's a Sin","Pet Shop Boys"],
+    ["True","Spandau Ballet"],
+    ["Gold","Spandau Ballet"],
+    ["Everybody Wants to Rule the World","Tears for Fears"],
+    ["Shout","Tears for Fears"],
+    ["The Reflex","Duran Duran"],
+    ["Hungry Like the Wolf","Duran Duran"],
+    ["Rio","Duran Duran"],
+    ["Don't You Want Me","The Human League"],
+    ["Tainted Love","Soft Cell"],
+    ["Sweet Dreams (Are Made of This)","Eurythmics"],
+    ["Here Comes the Rain Again","Eurythmics"],
+    ["Red Red Wine","UB40"],
+    ["I Got You Babe","UB40 & Chrissie Hynde"],
+    ["Do You Really Want to Hurt Me","Culture Club"],
+    ["Karma Chameleon","Culture Club"],
+    ["Relax","Frankie Goes to Hollywood"],
+    ["The Power of Love","Frankie Goes to Hollywood"],
+    ["Holding Back the Years","Simply Red"],
+    ["If You Don't Know Me by Now","Simply Red"],
+    ["With or Without You","U2"],
+    ["Where the Streets Have No Name","U2"],
+    ["Pride (In the Name of Love)","U2"],
+    ["Don't Dream It's Over","Crowded House"],
+    ["Baker Street","Gerry Rafferty"],
+    ["Stuck in the Middle with You","Stealers Wheel"],
+    ["The Boys of Summer","Don Henley"],
+    ["Running Up That Hill","Kate Bush"],
+    ["Wuthering Heights","Kate Bush"],
+    ["I'm Still Standing","Elton John"],
+    ["I Guess That's Why They Call It the Blues","Elton John"],
+    ["Your Song","Elton John"],
+    ["Rocket Man","Elton John"],
+    ["Everytime You Go Away","Paul Young"],
+    ["Never Gonna Give You Up","Rick Astley"],
+    ["Together Forever","Rick Astley"]
+  ]
+};
 
-/* ========================================
-   PAGE NAVIGATION
-======================================== */
+/* =========================================================
+   STORAGE
+========================================================= */
 
-function goToPage(page){
+const STORAGE_KEY = "voiceOfPeaceCustomMusicV2";
 
-  window.location.href = page;
-
-}
-
-
-/* ========================================
-   CHANNEL PLAYER
-======================================== */
-
-async function playChannel(search,title){
-
-  const player =
-    document.getElementById(
-      "player"
-    );
-
-  const now =
-    document.getElementById(
-      "nowPlaying"
-    );
-
-
-  now.textContent =
-    "Searching: " +
-    title;
-
-
-  player.innerHTML =
-
-    '<div class="playerMessage">' +
-
-    '<div class="icon">⏳</div>' +
-
-    '<h2>Loading...</h2>' +
-
-    '<p>Finding a video for ' +
-
-    escapeHtml(title) +
-
-    '</p>' +
-
-    '</div>';
-
-
+function loadCustom(){
   try{
-
-    const videoId =
-      await findYouTubeVideo(
-        search
-      );
-
-
-    if(!videoId){
-
-      throw new Error(
-        "No playable video found."
-      );
-
-    }
-
-
-    loadVideo(
-      videoId,
-      title
-    );
-
-
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+  }catch(e){
+    return {};
   }
-
-  catch(error){
-
-    console.error(
-      error
-    );
-
-
-    player.innerHTML =
-
-      '<div class="playerMessage">' +
-
-      '<div class="icon">⚠️</div>' +
-
-      '<h2>Video unavailable</h2>' +
-
-      '<p>Please tap the channel again or try another channel.</p>' +
-
-      '</div>';
-
-
-    now.textContent =
-      title +
-      " unavailable";
-
-  }
-
 }
 
+function saveCustom(data){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
 
-/* ========================================
-   SEARCH YOUTUBE API
-======================================== */
+let custom = loadCustom();
 
-async function findYouTubeVideo(search){
+function allCategories(){
+  return {...builtIn, ...custom};
+}
 
-  for(
-    let attempt = 0;
-    attempt < YOUTUBE_API_KEYS.length;
-    attempt++
-  ){
+let currentCategory = Object.keys(allCategories())[0];
+let currentIndex = -1;
+let currentSong = null;
 
-    const key =
-      YOUTUBE_API_KEYS[
-        currentKeyIndex
-      ];
+/* =========================================================
+   RENDER
+========================================================= */
 
+function renderTabs(){
+  const tabs = document.getElementById("tabs");
+  tabs.innerHTML = "";
+
+  Object.keys(allCategories()).forEach(name=>{
+    const b = document.createElement("button");
+    b.className = "tab" + (name === currentCategory ? " active" : "");
+    b.textContent = name;
+    b.onclick = ()=>{
+      currentCategory = name;
+      currentIndex = -1;
+      document.getElementById("filter").value = "";
+      renderTabs();
+      renderSongs();
+    };
+    tabs.appendChild(b);
+  });
+
+  refreshCategorySelect();
+}
+
+function renderSongs(){
+  const list = document.getElementById("songList");
+  const filter = document.getElementById("filter").value.trim().toLowerCase();
+  const songs = allCategories()[currentCategory] || [];
+  list.innerHTML = "";
+
+  songs.forEach((song,index)=>{
+    const title = song[0];
+    const artist = song[1] || "";
+    const haystack = (title+" "+artist).toLowerCase();
+    if(filter && !haystack.includes(filter)) return;
+
+    const b = document.createElement("button");
+    b.className = "song";
+    b.innerHTML =
+      '<span class="num">'+(index+1)+'</span>'+
+      '<span><strong>'+escapeHtml(title)+'</strong>'+
+      '<small>'+escapeHtml(artist)+'</small></span>';
+
+    b.onclick = ()=>playSong(index);
+    list.appendChild(b);
+  });
+
+  if(!list.children.length){
+    list.innerHTML = '<div style="color:#9ddcff;padding:12px">No songs found.</div>';
+  }
+}
+
+function refreshCategorySelect(){
+  const select = document.getElementById("songCategory");
+  select.innerHTML = "";
+  Object.keys(allCategories()).forEach(name=>{
+    const o = document.createElement("option");
+    o.value = name;
+    o.textContent = name;
+    select.appendChild(o);
+  });
+}
+
+/* =========================================================
+   CATEGORY / SONG CREATION
+========================================================= */
+
+function toggleAddPanel(){
+  document.getElementById("addPanel").classList.toggle("hidden");
+  refreshCategorySelect();
+}
+
+function addCategory(){
+  const input = document.getElementById("newCategoryName");
+  const name = input.value.trim();
+
+  if(!name){
+    setAdminMsg("Enter a category name.");
+    return;
+  }
+
+  if(allCategories()[name]){
+    setAdminMsg("That category already exists.");
+    return;
+  }
+
+  custom[name] = [];
+  saveCustom(custom);
+  input.value = "";
+  currentCategory = name;
+  renderTabs();
+  renderSongs();
+  setAdminMsg("Category created: "+name);
+}
+
+function addSong(){
+  const category = document.getElementById("songCategory").value;
+  const title = document.getElementById("songTitle").value.trim();
+  const artist = document.getElementById("songArtist").value.trim();
+
+  if(!title){
+    setAdminMsg("Enter the song title.");
+    return;
+  }
+
+  if(!custom[category]){
+    custom[category] = (builtIn[category] || []).map(x=>[x[0],x[1]]);
+  }
+
+  custom[category].push([title,artist]);
+  saveCustom(custom);
+
+  document.getElementById("songTitle").value = "";
+  document.getElementById("songArtist").value = "";
+
+  currentCategory = category;
+  renderTabs();
+  renderSongs();
+  setAdminMsg("Song added: "+title);
+}
+
+function setAdminMsg(text){
+  document.getElementById("adminMsg").textContent = text;
+}
+
+/* =========================================================
+   PLAYBACK
+========================================================= */
+
+async function playSong(index){
+  const songs = allCategories()[currentCategory] || [];
+  if(!songs[index]) return;
+
+  currentIndex = index;
+  currentSong = songs[index];
+
+  const title = currentSong[0];
+  const artist = currentSong[1] || "";
+  const query = [title,artist,"official audio"].filter(Boolean).join(" ");
+
+  showLoading(title,artist);
+
+  const video = await findPlayableVideo(query);
+
+  if(!video){
+    showError("No playable YouTube result found. Tap again or try another song.");
+    return;
+  }
+
+  loadVideo(video.id,title,artist);
+}
+
+function showLoading(title,artist){
+  document.getElementById("nowPlaying").textContent =
+    "Searching: "+title+(artist ? " — "+artist : "");
+
+  document.getElementById("player").innerHTML =
+    '<div class="placeholder"><div style="font-size:60px">⏳</div>'+
+    '<h2>Finding video...</h2><p>'+escapeHtml(title)+'</p></div>';
+}
+
+function showError(text){
+  document.getElementById("player").innerHTML =
+    '<div class="placeholder"><div style="font-size:60px">⚠️</div>'+
+    '<h2>Video unavailable</h2><p>'+escapeHtml(text)+'</p></div>';
+  document.getElementById("nowPlaying").textContent = "Video unavailable";
+}
+
+function loadVideo(videoId,title,artist){
+  const origin = encodeURIComponent(location.origin);
+  const src =
+    "https://www.youtube-nocookie.com/embed/"+encodeURIComponent(videoId)+
+    "?autoplay=1&playsinline=1&rel=0&controls=1&enablejsapi=1&origin="+origin;
+
+  document.getElementById("player").innerHTML =
+    '<iframe id="ytFrame" src="'+src+'" '+
+    'title="'+escapeHtml(title)+'" '+
+    'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" '+
+    'referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+
+  document.getElementById("nowPlaying").textContent =
+    "Playing: "+title+(artist ? " — "+artist : "");
+
+  window.scrollTo({top:document.getElementById("player").offsetTop-10,behavior:"smooth"});
+}
+
+function nextSong(){
+  const songs = allCategories()[currentCategory] || [];
+  if(!songs.length) return;
+  currentIndex = currentIndex < 0 ? 0 : (currentIndex+1)%songs.length;
+  playSong(currentIndex);
+}
+
+function previousSong(){
+  const songs = allCategories()[currentCategory] || [];
+  if(!songs.length) return;
+  currentIndex = currentIndex < 0 ? 0 : (currentIndex-1+songs.length)%songs.length;
+  playSong(currentIndex);
+}
+
+function replayCurrent(){
+  if(currentIndex >= 0) playSong(currentIndex);
+}
+
+function scrollToLibrary(){
+  document.getElementById("library").scrollIntoView({behavior:"smooth"});
+}
+
+/* =========================================================
+   YOUTUBE DATA API
+   Search -> status check -> embeddable public video
+========================================================= */
+
+async function findPlayableVideo(query){
+  for(let keyTry=0; keyTry<YOUTUBE_API_KEYS.length; keyTry++){
+    const key = YOUTUBE_API_KEYS[apiKeyIndex];
 
     try{
+      const searchUrl =
+        "https://www.googleapis.com/youtube/v3/search"+
+        "?part=snippet&type=video&videoEmbeddable=true&safeSearch=moderate"+
+        "&maxResults=10&q="+encodeURIComponent(query)+
+        "&key="+encodeURIComponent(key);
 
-      const url =
+      const r = await fetch(searchUrl);
 
-        "https://www.googleapis.com/youtube/v3/search" +
-
-        "?part=snippet" +
-
-        "&type=video" +
-
-        "&videoEmbeddable=true" +
-
-        "&maxResults=10" +
-
-        "&q=" +
-
-        encodeURIComponent(
-          search
-        ) +
-
-        "&key=" +
-
-        encodeURIComponent(
-          key
-        );
-
-
-      const response =
-        await fetch(
-          url
-        );
-
-
-      if(!response.ok){
-
-        currentKeyIndex =
-          (
-            currentKeyIndex + 1
-          )
-          %
-          YOUTUBE_API_KEYS.length;
-
+      if(!r.ok){
+        apiKeyIndex = (apiKeyIndex+1)%YOUTUBE_API_KEYS.length;
         continue;
-
       }
 
+      const data = await r.json();
+      const ids = (data.items||[])
+        .map(x=>x.id && x.id.videoId)
+        .filter(Boolean);
 
-      const data =
-        await response.json();
+      if(!ids.length) return null;
 
+      const checked = await checkVideos(ids,key);
+      if(checked) return checked;
 
-      if(
-        !data.items ||
-        data.items.length === 0
-      ){
-
-        return null;
-
-      }
-
-
-      const ids =
-        data.items
-          .map(
-            item =>
-              item.id &&
-              item.id.videoId
-          )
-          .filter(
-            Boolean
-          );
-
-
-      if(
-        ids.length === 0
-      ){
-
-        return null;
-
-      }
-
-
-      const playable =
-        await findPlayableVideo(
-          ids,
-          key
-        );
-
-
-      if(playable){
-
-        return playable;
-
-      }
-
-
+    }catch(err){
+      console.error(err);
     }
 
-    catch(error){
-
-      console.error(
-        error
-      );
-
-    }
-
-
-    currentKeyIndex =
-      (
-        currentKeyIndex + 1
-      )
-      %
-      YOUTUBE_API_KEYS.length;
-
+    apiKeyIndex = (apiKeyIndex+1)%YOUTUBE_API_KEYS.length;
   }
 
-
   return null;
-
 }
 
-
-/* ========================================
-   CHECK IF VIDEO CAN BE EMBEDDED
-======================================== */
-
-async function findPlayableVideo(ids,key){
-
+async function checkVideos(ids,key){
   try{
-
     const url =
+      "https://www.googleapis.com/youtube/v3/videos"+
+      "?part=status,contentDetails&id="+encodeURIComponent(ids.join(","))+
+      "&key="+encodeURIComponent(key);
 
-      "https://www.googleapis.com/youtube/v3/videos" +
+    const r = await fetch(url);
+    if(!r.ok) return {id:ids[0]};
 
-      "?part=status" +
+    const data = await r.json();
 
-      "&id=" +
-
-      encodeURIComponent(
-        ids.join(",")
-      ) +
-
-      "&key=" +
-
-      encodeURIComponent(
-        key
-      );
-
-
-    const response =
-      await fetch(
-        url
-      );
-
-
-    if(!response.ok){
-
-      return ids[0];
-
-    }
-
-
-    const data =
-      await response.json();
-
-
-    if(
-      !data.items ||
-      data.items.length === 0
-    ){
-
-      return ids[0];
-
-    }
-
-
-    for(
-      const item of data.items
-    ){
-
+    for(const item of (data.items||[])){
       if(
         item.status &&
         item.status.embeddable === true &&
         item.status.privacyStatus === "public"
       ){
-
-        return item.id;
-
+        return {id:item.id};
       }
-
     }
-
-
-    return ids[0];
-
+  }catch(err){
+    console.error(err);
   }
 
-  catch(error){
-
-    console.error(
-      error
-    );
-
-    return ids[0];
-
-  }
-
+  return null;
 }
 
-
-/* ========================================
-   LOAD VIDEO
-======================================== */
-
-function loadVideo(videoId,title){
-
-  const player =
-    document.getElementById(
-      "player"
-    );
-
-  const now =
-    document.getElementById(
-      "nowPlaying"
-    );
-
-
-  const src =
-
-    "https://www.youtube-nocookie.com/embed/" +
-
-    encodeURIComponent(
-      videoId
-    ) +
-
-    "?autoplay=1" +
-
-    "&playsinline=1" +
-
-    "&rel=0" +
-
-    "&modestbranding=1" +
-
-    "&controls=1";
-
-
-  player.innerHTML =
-
-    '<iframe ' +
-
-    'src="' +
-    src +
-    '" ' +
-
-    'title="' +
-    escapeHtml(title) +
-    '" ' +
-
-    'allow="' +
-
-    'accelerometer; ' +
-
-    'autoplay; ' +
-
-    'clipboard-write; ' +
-
-    'encrypted-media; ' +
-
-    'gyroscope; ' +
-
-    'picture-in-picture; ' +
-
-    'web-share' +
-
-    '" ' +
-
-    'referrerpolicy="strict-origin-when-cross-origin" ' +
-
-    'allowfullscreen>' +
-
-    '</iframe>';
-
-
-  now.textContent =
-    "Playing: " +
-    title;
-
-
-  window.scrollTo({
-    top:
-      player.offsetTop - 20,
-    behavior:"smooth"
-  });
-
-}
-
-
-/* ========================================
-   SAFE TEXT
-======================================== */
+/* =========================================================
+   HELPERS
+========================================================= */
 
 function escapeHtml(text){
-
   return String(text)
-
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-
-    .replace(
-      /</g,
-      "&lt;"
-    )
-
-    .replace(
-      />/g,
-      "&gt;"
-    )
-
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-
-    .replace(
-      /'/g,
-      "&#039;"
-    );
-
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 }
 
+/* =========================================================
+   START
+========================================================= */
 
-/* ========================================
-   LOAD ADMIN MESSAGE
-======================================== */
-
-const savedMessage =
-  localStorage.getItem(
-    "voiceOfPeaceMessage"
-  );
-
-
-if(savedMessage){
-
-  document.getElementById(
-    "ticker"
-  ).textContent =
-
-    "🕊️ " +
-    savedMessage;
-
-}
-
+renderTabs();
+renderSongs();
 </script>
 
-
 </body>
-
 </html>

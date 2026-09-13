@@ -148,24 +148,11 @@ footer{text-align:center;color:#81b6d3;padding:26px 10px;font-size:13px}
 </footer>
 
 <script>
-/* =========================================================
-   YOUTUBE API
-   IMPORTANT:
-   Restrict these keys in Google Cloud to:
-   https://mano34911.github.io/*
-   and YouTube Data API v3 only.
-========================================================= */
-
 const YOUTUBE_API_KEYS = [
   "AIzaSyAADTL39rYmKO52pS7CV7gFT3ECVeHCM8Y",
   "AIzaSyD-dXf1oH6M83JHK8ivc11QSZXY0q4xJI8"
 ];
-
 let apiKeyIndex = 0;
-
-/* =========================================================
-   BUILT-IN MUSIC
-========================================================= */
 
 const builtIn = {
   "🇺🇸 USA TOP 200 — NO RAP / HIP-HOP": [
@@ -218,159 +205,8 @@ const builtIn = {
     ["I Wanna Dance with Somebody","Whitney Houston"],
     ["Straight Up","Paula Abdul"],
     ["Opposites Attract","Paula Abdul"],
-    ["Take My Breath Away","Berlin"],
-    ["Heaven Is a Place on Earth","Belinda Carlisle"],
-    ["The Power of Love","Huey Lewis and the News"],
-    ["Walk This Way","Aerosmith"],
-    ["Dream On","Aerosmith"],
-    ["More Than a Feeling","Boston"],
-    ["Jessie's Girl","Rick Springfield"],
-    ["Centerfold","The J. Geils Band"],
-    ["Glory Days","Bruce Springsteen"],
-    ["Hungry Heart","Bruce Springsteen"],
-    ["You Give Love a Bad Name","Bon Jovi"],
-    ["Wanted Dead or Alive","Bon Jovi"],
-    ["Paradise City","Guns N' Roses"],
-    ["November Rain","Guns N' Roses"],
-    ["Pour Some Sugar on Me","Def Leppard"],
-    ["Don't You (Forget About Me)","Simple Minds"],
-    ["The Boys of Summer","Don Henley"],
-    ["Against All Odds","Phil Collins"],
-    ["In the Air Tonight","Phil Collins"],
-    ["Sledgehammer","Peter Gabriel"],
-    ["True Colors","Cyndi Lauper"],
-    ["Papa Don't Preach","Madonna"],
-    ["Into the Groove","Madonna"],
-    ["The Way You Make Me Feel","Michael Jackson"],
-    ["Smooth Criminal","Michael Jackson"],
-    ["Black or White","Michael Jackson"],
-    ["Vogue","Madonna"],
-    ["Vision of Love","Mariah Carey"],
-    ["Hero","Mariah Carey"],
-    ["Because You Loved Me","Celine Dion"],
-    ["My Heart Will Go On","Celine Dion"],
-    ["I Don't Want to Miss a Thing","Aerosmith"],
-    ["Iris","Goo Goo Dolls"],
-    ["Losing My Religion","R.E.M."],
-    ["With or Without You","U2"],
-    ["One","U2"],
-    ["Everybody Wants to Rule the World","Tears for Fears"],
-    ["Sweet Dreams (Are Made of This)","Eurythmics"],
-    ["Take On Me","a-ha"],
-    ["Never Gonna Give You Up","Rick Astley"],
-    ["Nothing Compares 2 U","Sinéad O'Connor"],
-    ["The Power of Love","Celine Dion"],
-    ["Un-Break My Heart","Toni Braxton"],
-    ["I'll Make Love to You","Boyz II Men"],
-    ["No Scrubs","TLC"],
-    ["Genie in a Bottle","Christina Aguilera"],
-    ["...Baby One More Time","Britney Spears"],
-    ["Since U Been Gone","Kelly Clarkson"],
-    ["Rolling in the Deep","Adele"],
-    ["Respect","Aretha Franklin"],
-    ["(You Make Me Feel Like) A Natural Woman","Aretha Franklin"],
-    ["Chain of Fools","Aretha Franklin"],
-    ["Stand by Me","Ben E. King"],
-    ["Unchained Melody","The Righteous Brothers"],
-    ["California Dreamin'","The Mamas & the Papas"],
-    ["Good Vibrations","The Beach Boys"],
-    ["God Only Knows","The Beach Boys"],
-    ["Bridge Over Troubled Water","Simon & Garfunkel"],
-    ["The Sound of Silence","Simon & Garfunkel"],
-    ["Mrs. Robinson","Simon & Garfunkel"],
-    ["American Pie","Don McLean"],
-    ["Lean on Me","Bill Withers"],
-    ["Ain't No Sunshine","Bill Withers"],
-    ["Let's Stay Together","Al Green"],
-    ["What's Going On","Marvin Gaye"],
-    ["Ain't No Mountain High Enough","Marvin Gaye & Tammi Terrell"],
-    ["Superstition","Stevie Wonder"],
-    ["Isn't She Lovely","Stevie Wonder"],
-    ["Signed, Sealed, Delivered","Stevie Wonder"],
-    ["September","Earth, Wind & Fire"],
-    ["Let's Groove","Earth, Wind & Fire"],
-    ["Shining Star","Earth, Wind & Fire"],
-    ["Best of My Love","The Emotions"],
-    ["Stayin' Alive","Bee Gees"],
-    ["How Deep Is Your Love","Bee Gees"],
-    ["Night Fever","Bee Gees"],
-    ["Dancing Queen","ABBA"],
-    ["Dreams","Fleetwood Mac"],
-    ["Go Your Own Way","Fleetwood Mac"],
-    ["Landslide","Fleetwood Mac"],
-    ["Your Song","Elton John"],
-    ["Rocket Man","Elton John"],
-    ["Tiny Dancer","Elton John"],
-    ["Bennie and the Jets","Elton John"],
-    ["Maggie May","Rod Stewart"],
-    ["You're in My Heart","Rod Stewart"],
-    ["Have I Told You Lately","Rod Stewart"],
-    ["You're So Vain","Carly Simon"],
-    ["You've Got a Friend","James Taylor"],
-    ["Fire and Rain","James Taylor"],
-    ["Take It Easy","Eagles"],
-    ["Desperado","Eagles"],
-    ["New Kid in Town","Eagles"],
-    ["Carry on Wayward Son","Kansas"],
-    ["Dust in the Wind","Kansas"],
-    ["Dream Weaver","Gary Wright"],
-    ["Rich Girl","Daryl Hall & John Oates"],
-    ["You Make My Dreams","Daryl Hall & John Oates"],
-    ["Maneater","Daryl Hall & John Oates"],
-    ["Rosanna","Toto"],
-    ["Hold the Line","Toto"],
-    ["Any Way You Want It","Journey"],
-    ["Lights","Journey"],
-    ["Keep on Loving You","REO Speedwagon"],
-    ["Can't Fight This Feeling","REO Speedwagon"],
-    ["Amanda","Boston"],
-    ["These Dreams","Heart"],
-    ["Barracuda","Heart"],
-    ["Every Rose Has Its Thorn","Poison"],
-    ["Heaven","Warrant"],
-    ["Is This Love","Whitesnake"],
-    ["Patience","Guns N' Roses"],
-    ["Faithfully","Journey"],
-    ["Nothing Else Matters","Metallica"],
-    ["Enter Sandman","Metallica"],
-    ["Under the Bridge","Red Hot Chili Peppers"],
-    ["Californication","Red Hot Chili Peppers"],
-    ["Otherside","Red Hot Chili Peppers"],
-    ["Linger","The Cranberries"],
-    ["Zombie","The Cranberries"],
-    ["Torn","Natalie Imbruglia"],
-    ["You Oughta Know","Alanis Morissette"],
-    ["Ironic","Alanis Morissette"],
-    ["Hand in My Pocket","Alanis Morissette"],
-    ["Kiss Me","Sixpence None the Richer"],
-    ["Truly Madly Deeply","Savage Garden"],
-    ["I Want It That Way","Backstreet Boys"],
-    ["As Long as You Love Me","Backstreet Boys"],
-    ["Everybody (Backstreet's Back)","Backstreet Boys"],
-    ["Tearin' Up My Heart","NSYNC"],
-    ["This I Promise You","NSYNC"],
-    ["I Don't Want to Wait","Paula Cole"],
-    ["You Were Meant for Me","Jewel"],
-    ["Foolish Games","Jewel"],
-    ["Because of You","Kelly Clarkson"],
-    ["Breakaway","Kelly Clarkson"],
-    ["A Thousand Miles","Vanessa Carlton"],
-    ["Complicated","Avril Lavigne"],
-    ["I'm with You","Avril Lavigne"],
-    ["Beautiful","Christina Aguilera"],
-    ["The Reason","Hoobastank"],
-    ["Chasing Cars","Snow Patrol"],
-    ["Drops of Jupiter","Train"],
-    ["Hey, Soul Sister","Train"],
-    ["Apologize","OneRepublic"],
-    ["Bleeding Love","Leona Lewis"],
-    ["Halo","Beyoncé"],
-    ["If I Ain't Got You","Alicia Keys"],
-    ["No One","Alicia Keys"],
-    ["Fallin'","Alicia Keys"],
-    ["Because of You","Ne-Yo"]
+    ["Take My Breath Away","Berlin"]
   ],
-
   "🇮🇱 ISRAEL TOP 200 — NO RAP / HIP-HOP": [
     ["ירושלים של זהב","שולי נתן"],
     ["הללויה","חלב ודבש"],
@@ -390,190 +226,9 @@ const builtIn = {
     ["צל עץ תמר","זוהר ארגוב"],
     ["כמו שיכור","זוהר ארגוב"],
     ["דרך השלום","פאר טסי"],
-    ["מהפכה של שמחה","ליאור נרקיס ועומר אדם"],
     ["שני משוגעים","עומר אדם"],
-    ["פעם בחיים","עומר אדם"],
-    ["תל אביב","עומר אדם"],
-    ["אחרי כל השנים","עומר אדם"],
-    ["מודה אני","עומר אדם"],
-    ["בלילות","עומר אדם"],
-    ["כשאת עצובה","עמיר בניון"],
-    ["ניצחת איתי הכל","עמיר בניון"],
-    ["שלכת","עמיר בניון"],
-    ["שמחות קטנות","עמיר בניון"],
-    ["יש לך הכל","שלומי שבת"],
-    ["אבא","שלומי שבת"],
-    ["בגלל הרוח","שלומי שבת"],
-    ["בראשית עולם","שלומי שבת"],
-    ["שתדעי","שלומי שבת"],
-    ["כשתבואי","אייל גולן"],
-    ["יפה שלי","אייל גולן"],
-    ["מי שמאמין","אייל גולן"],
-    ["צליל מיתר","אייל גולן"],
-    ["בלעדייך","אייל גולן"],
-    ["דרך לחיים","אייל גולן"],
-    ["ואני קורא לך","אייל גולן"],
-    ["דמעות","אייל גולן"],
-    ["לקנות לך יהלום","אייל גולן"],
-    ["תבואי היום","אייל גולן"],
-    ["ממה את מפחדת","אייל גולן ובניה ברבי"],
-    ["מישהו איתי כאן","בניה ברבי"],
-    ["קרן שמש","בניה ברבי"],
-    ["תפסת לי מקום","בניה ברבי"],
-    ["כמעט שיר אהבה","איתי לוי"],
-    ["אין לי מקום אחר","איתי לוי"],
-    ["שתישרף האהבה","איתי לוי"],
-    ["מחכה","ריטה"],
-    ["בוא","ריטה"],
-    ["עטוף ברחמים","ריטה"],
-    ["ימי התום","ריטה"],
-    ["שרה ברחובות","ריטה"],
-    ["חיה לי מיום ליום","ריטה"],
-    ["אין לי ארץ אחרת","גלי עטרי"],
-    ["חזקה מהרוח","גלי עטרי"],
-    ["מה שאת אוהבת","גלי עטרי"],
-    ["עוד יום","מתי כספי"],
-    ["ברית עולם","מתי כספי"],
-    ["ילדותי השנייה","מתי כספי"],
-    ["שיר אהבה בדואי","דויד ברוזה"],
-    ["יהיה טוב","דויד ברוזה"],
-    ["האישה שאיתי","דויד ברוזה"],
-    ["מתחת לשמיים","דויד ברוזה"],
-    ["סיגליות","דויד ברוזה"],
-    ["כשאת בוכה את לא יפה","אריק איינשטיין"],
-    ["למה לי לקחת ללב","אריק איינשטיין ושלום חנוך"],
-    ["מחכים למשיח","שלום חנוך"],
-    ["חתונה לבנה","שלום חנוך"],
-    ["מאיה","שלום חנוך"],
-    ["אהבת נעורי","שלום חנוך"],
-    ["עוד חוזר הניגון","ברי סחרוף"],
-    ["חלליות","ברי סחרוף"],
-    ["כמה יוסי","ברי סחרוף"],
-    ["ניצוצות","פורטיסחרוף"],
-    ["יום הולדת","ברי סחרוף"],
-    ["לבכות לך","אביב גפן"],
-    ["עכשיו מעונן","אביב גפן"],
-    ["שיר תקווה","אביב גפן"],
-    ["מיליארד טועים","אביב גפן"],
-    ["גשם כבד עומד ליפול","אביב גפן"],
-    ["סיבה טובה","אריק סיני"],
-    ["שיר של יום חולין","אילנית"],
-    ["אי שם","אילנית"],
-    ["אהבה היא שיר לשניים","אילנית"],
-    ["למיה יש אקדח","כנסיית השכל"],
-    ["אם כבר לבד","החברים של נטאשה"],
-    ["שיר אחר","החברים של נטאשה"],
-    ["עוד נגיעה","החברים של נטאשה"],
-    ["עכשיו טוב","גלעד שגב"],
-    ["בואי נעזוב","רן דנקר ועילי בוטנר"],
-    ["שווים","רן דנקר ועילי בוטנר"],
-    ["ממעמקים","עידן רייכל"],
-    ["אם תלך","הפרויקט של עידן רייכל"],
-    ["בואי","הפרויקט של עידן רייכל"],
-    ["רוב השעות","הפרויקט של עידן רייכל"],
-    ["את לי לילה","בועז שרעבי"],
-    ["לתת","בועז שרעבי"],
-    ["הלוואי","בועז שרעבי"],
-    ["ברית עולם","בועז שרעבי"],
-    ["משאלה","בועז שרעבי"],
-    ["נפרדנו כך","אבנר גדסי"],
-    ["הגברים בוכים בלילה","אבנר גדסי"],
-    ["מנגן ושר","אבנר גדסי"],
-    ["שרונה","אבנר גדסי"],
-    ["לוליטה","אבנר גדסי"],
-    ["רוצי שמוליק","אריאל זילבר"],
-    ["בטי בם","אריאל זילבר"],
-    ["ואיך שלא","אריאל זילבר"],
-    ["שמש שמש","אריאל זילבר"],
-    ["אגדה יפנית","אריאל זילבר"],
-    ["כלניות","שושנה דמארי"],
-    ["צריך לצלצל פעמיים","שושנה דמארי"],
-    ["אור","שושנה דמארי"],
-    ["היו זמנים","שושנה דמארי"],
-    ["הביתה","שושנה דמארי"],
-    ["אם ננעלו","עפרה חזה"],
-    ["חי","עפרה חזה"],
-    ["מישהו הולך תמיד איתי","עפרה חזה"],
-    ["גבריאל","עפרה חזה"],
-    ["יד ביד","עפרה חזה"],
-    ["הנני כאן","יהורם גאון"],
-    ["כל הכבוד","יהורם גאון"],
-    ["אני עושה לי מנגינות","יהורם גאון"],
-    ["איפה את אהובה","יהורם גאון"],
-    ["עוד לא אהבתי די","יהורם גאון"],
-    ["כמו צמח בר","חוה אלברשטיין"],
-    ["את תלכי בשדה","חוה אלברשטיין"],
-    ["החיטה צומחת שוב","חוה אלברשטיין"],
-    ["לונדון","חוה אלברשטיין"],
-    ["נחל התנינים","חוה אלברשטיין"],
-    ["עיניים שלי","יהודה פוליקר"],
-    ["פחות אבל כואב","יהודה פוליקר"],
-    ["כשתגדל","יהודה פוליקר"],
-    ["הצל ואני","יהודה פוליקר"],
-    ["יום שישי","יהודה פוליקר"],
-    ["ירח","שלמה ארצי"],
-    ["תחת שמי ים התיכון","שלמה ארצי"],
-    ["אהבתיה","שלמה ארצי"],
-    ["מלך העולם","שלמה ארצי"],
-    ["שדות של אירוסים","שלמה ארצי"],
-    ["ארץ חדשה","שלמה ארצי"],
-    ["פתאום כשלא באת","שלמה ארצי"],
-    ["נרקוד נשכח","שלמה ארצי"],
-    ["לא עוזב את העיר","שלמה ארצי"],
-    ["גבר הולך לאיבוד","שלמה ארצי"],
-    ["כמו סינדרלה","שרית חדד"],
-    ["כשהלב בוכה","שרית חדד"],
-    ["חגיגה","שרית חדד"],
-    ["אתה תותח","שרית חדד"],
-    ["לראות את הכאב","שרית חדד"],
-    ["טיפת מזל","זהבה בן"],
-    ["מלך אמיתי","זהבה בן"],
-    ["אהבה אסורה","זהבה בן"],
-    ["חיים שלי","זהבה בן"],
-    ["אינתא עומרי","זהבה בן"],
-    ["נשבע","חיים משה"],
-    ["התמונות שבאלבום","חיים משה"],
-    ["כל נדרי","חיים משה"],
-    ["תודה","חיים משה"],
-    ["אהבת חיי","חיים משה"],
-    ["ריקדי","ישי לוי"],
-    ["האחת שלי","ישי לוי"],
-    ["עננים","ישי לוי"],
-    ["תלתלים שחורים","ישי לוי"],
-    ["רעיה","ישי לוי"],
-    ["רעיה","אביהו מדינה"],
-    ["שבחי ירושלים","אביהו מדינה"],
-    ["אל תשליכני לעת זקנה","אביהו מדינה"],
-    ["כינור דוד","אביהו מדינה"],
-    ["ברכנו","אביהו מדינה"],
-    ["סליחות","יהודית רביץ"],
-    ["באה מאהבה","יהודית רביץ"],
-    ["מילה טובה","יהודית רביץ"],
-    ["לקחת את ידי בידך","יהודית רביץ"],
-    ["ארבע לפנות בוקר","יהודית רביץ"],
-    ["אתה פה חסר לי","נורית גלרון"],
-    ["המיסטיקנים הסינים","נורית גלרון"],
-    ["משהו בלבבה","נורית גלרון"],
-    ["כי האדם עץ השדה","נורית גלרון"],
-    ["נגיעה אחת רכה","נורית גלרון"],
-    ["זן נדיר","קורין אלאל"],
-    ["אין לי ארץ אחרת","קורין אלאל"],
-    ["שיר לשירה","קורין אלאל"],
-    ["אנטארקטיקה","קורין אלאל"],
-    ["כשזה עמוק","קורין אלאל"],
-    ["טרמינל לומינלט","מאיר אריאל"],
-    ["נשל הנחש","מאיר אריאל"],
-    ["מודה אני","מאיר אריאל"],
-    ["עברנו את פרעה","מאיר אריאל"],
-    ["ערב כחול עמוק","ריטה"],
-    ["יו יה","כוורת"],
-    ["נתתי לה חיי","כוורת"],
-    ["המגפיים של ברוך","כוורת"],
-    ["שיר המכולת","כוורת"],
-    ["גוליית","כוורת"],
-    ["רכבת לילה לקהיר","משינה"]
+    ["פעם בחיים","עומר אדם"]
   ],
-
   "🎤 זוהר ארגוב": [
     ["הפרח בגני","זוהר ארגוב"],
     ["בדד","זוהר ארגוב"],
@@ -582,7 +237,6 @@ const builtIn = {
     ["צל עץ תמר","זוהר ארגוב"],
     ["כמו שיכור","זוהר ארגוב"]
   ],
-
   "🎤 בועז שרעבי": [
     ["את לי לילה","בועז שרעבי"],
     ["לתת","בועז שרעבי"],
@@ -590,7 +244,6 @@ const builtIn = {
     ["ברית עולם","בועז שרעבי"],
     ["משאלה","בועז שרעבי"]
   ],
-
   "🎤 אבנר גדסי": [
     ["נפרדנו כך","אבנר גדסי"],
     ["הגברים בוכים בלילה","אבנר גדסי"],
@@ -598,7 +251,6 @@ const builtIn = {
     ["שרונה","אבנר גדסי"],
     ["לוליטה","אבנר גדסי"]
   ],
-
   "🎤 אריאל זילבר": [
     ["רוצי שמוליק","אריאל זילבר"],
     ["בטי בם","אריאל זילבר"],
@@ -606,191 +258,35 @@ const builtIn = {
     ["שמש שמש","אריאל זילבר"],
     ["אגדה יפנית","אריאל זילבר"]
   ],
-
   "🎤 שושנה דמארי": [
     ["כלניות","שושנה דמארי"],
     ["צריך לצלצל פעמיים","שושנה דמארי"],
     ["אור","שושנה דמארי"],
     ["היו זמנים","שושנה דמארי"],
     ["הביתה","שושנה דמארי"]
-  ],
-
-  "🌙 מיטב המוסיקה המזרחית": [
-    ["הפרח בגני","זוהר ארגוב"],
-    ["בדד","זוהר ארגוב"],
-    ["נכון להיום","זוהר ארגוב"],
-    ["אלינור","זוהר ארגוב"],
-    ["צל עץ תמר","זוהר ארגוב"],
-    ["כמו שיכור","זוהר ארגוב"],
-    ["דרך השלום","פאר טסי"],
-    ["שני משוגעים","עומר אדם"],
-    ["פעם בחיים","עומר אדם"],
-    ["תל אביב","עומר אדם"],
-    ["אחרי כל השנים","עומר אדם"],
-    ["מודה אני","עומר אדם"],
-    ["בלילות","עומר אדם"],
-    ["יש לך הכל","שלומי שבת"],
-    ["אבא","שלומי שבת"],
-    ["בגלל הרוח","שלומי שבת"],
-    ["בראשית עולם","שלומי שבת"],
-    ["שתדעי","שלומי שבת"],
-    ["כשתבואי","אייל גולן"],
-    ["יפה שלי","אייל גולן"],
-    ["מי שמאמין","אייל גולן"],
-    ["צליל מיתר","אייל גולן"],
-    ["בלעדייך","אייל גולן"],
-    ["דרך לחיים","אייל גולן"],
-    ["ואני קורא לך","אייל גולן"],
-    ["דמעות","אייל גולן"],
-    ["לקנות לך יהלום","אייל גולן"],
-    ["תבואי היום","אייל גולן"],
-    ["כמעט שיר אהבה","איתי לוי"],
-    ["אין לי מקום אחר","איתי לוי"],
-    ["שתישרף האהבה","איתי לוי"],
-    ["את לי לילה","בועז שרעבי"],
-    ["לתת","בועז שרעבי"],
-    ["הלוואי","בועז שרעבי"],
-    ["ברית עולם","בועז שרעבי"],
-    ["משאלה","בועז שרעבי"],
-    ["נפרדנו כך","אבנר גדסי"],
-    ["הגברים בוכים בלילה","אבנר גדסי"],
-    ["מנגן ושר","אבנר גדסי"],
-    ["שרונה","אבנר גדסי"],
-    ["לוליטה","אבנר גדסי"],
-    ["כמו סינדרלה","שרית חדד"],
-    ["כשהלב בוכה","שרית חדד"],
-    ["חגיגה","שרית חדד"],
-    ["אתה תותח","שרית חדד"],
-    ["לראות את הכאב","שרית חדד"],
-    ["טיפת מזל","זהבה בן"],
-    ["מלך אמיתי","זהבה בן"],
-    ["אהבה אסורה","זהבה בן"],
-    ["חיים שלי","זהבה בן"],
-    ["אינתא עומרי","זהבה בן"],
-    ["נשבע","חיים משה"],
-    ["התמונות שבאלבום","חיים משה"],
-    ["כל נדרי","חיים משה"],
-    ["תודה","חיים משה"],
-    ["אהבת חיי","חיים משה"],
-    ["ריקדי","ישי לוי"],
-    ["האחת שלי","ישי לוי"],
-    ["עננים","ישי לוי"],
-    ["תלתלים שחורים","ישי לוי"],
-    ["רעיה","ישי לוי"],
-    ["רעיה","אביהו מדינה"],
-    ["שבחי ירושלים","אביהו מדינה"],
-    ["אל תשליכני לעת זקנה","אביהו מדינה"],
-    ["כינור דוד","אביהו מדינה"],
-    ["ברכנו","אביהו מדינה"]
-  ],
-
-  "🇮🇱 שנות ה־70": [
-    ["ירושלים של זהב","שולי נתן"],
-    ["אני ואתה","אריק איינשטיין"],
-    ["עוף גוזל","אריק איינשטיין"],
-    ["סע לאט","אריק איינשטיין"],
-    ["עטור מצחך","אריק איינשטיין"],
-    ["לו יהי","נעמי שמר"],
-    ["חורשת האקליפטוס","נעמי שמר"],
-    ["שיר לשלום","להקת הנח\"ל"],
-    ["עוד יום","מתי כספי"],
-    ["ברית עולם","מתי כספי"],
-    ["שיר אהבה בדואי","דויד ברוזה"],
-    ["ברית עולם","בועז שרעבי"],
-    ["רוצי שמוליק","אריאל זילבר"],
-    ["בטי בם","אריאל זילבר"],
-    ["כלניות","שושנה דמארי"],
-    ["הנני כאן","יהורם גאון"],
-    ["כמו צמח בר","חוה אלברשטיין"],
-    ["יו יה","כוורת"],
-    ["נתתי לה חיי","כוורת"],
-    ["המגפיים של ברוך","כוורת"]
-  ],
-
-  "🇮🇱 שנות ה־80": [
-    ["הפרח בגני","זוהר ארגוב"],
-    ["בדד","זוהר ארגוב"],
-    ["נכון להיום","זוהר ארגוב"],
-    ["אלינור","זוהר ארגוב"],
-    ["צל עץ תמר","זוהר ארגוב"],
-    ["מחכה","ריטה"],
-    ["בוא","ריטה"],
-    ["אין לי ארץ אחרת","גלי עטרי"],
-    ["את לי לילה","בועז שרעבי"],
-    ["לתת","בועז שרעבי"],
-    ["נפרדנו כך","אבנר גדסי"],
-    ["הגברים בוכים בלילה","אבנר גדסי"],
-    ["אם ננעלו","עפרה חזה"],
-    ["חי","עפרה חזה"],
-    ["עיניים שלי","יהודה פוליקר"],
-    ["פחות אבל כואב","יהודה פוליקר"],
-    ["סליחות","יהודית רביץ"],
-    ["באה מאהבה","יהודית רביץ"],
-    ["אין לי ארץ אחרת","קורין אלאל"],
-    ["רכבת לילה לקהיר","משינה"]
-  ],
-
-  "🇮🇱 שנות ה־90": [
-    ["יש בי אהבה","אריק איינשטיין"],
-    ["חיה לי מיום ליום","ריטה"],
-    ["האישה שאיתי","דויד ברוזה"],
-    ["סיגליות","דויד ברוזה"],
-    ["לבכות לך","אביב גפן"],
-    ["עכשיו מעונן","אביב גפן"],
-    ["אם כבר לבד","החברים של נטאשה"],
-    ["כשתגדל","יהודה פוליקר"],
-    ["הצל ואני","יהודה פוליקר"],
-    ["ירח","שלמה ארצי"],
-    ["מלך העולם","שלמה ארצי"],
-    ["כמו סינדרלה","שרית חדד"],
-    ["טיפת מזל","זהבה בן"],
-    ["נשבע","חיים משה"],
-    ["ריקדי","ישי לוי"],
-    ["אתה פה חסר לי","נורית גלרון"],
-    ["זן נדיר","קורין אלאל"],
-    ["נשל הנחש","מאיר אריאל"]
   ]
 };
 
-/* =========================================================
-   STORAGE
-========================================================= */
-
 const STORAGE_KEY = "voiceOfPeaceCustomMusicV2";
-const VIDEO_CACHE_KEY = "voiceOfPeaceVideoCacheV3";
+const VIDEO_CACHE_KEY = "voiceOfPeaceVideoCacheV4";
 
 function loadCustom(){
-  try{
-    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
-  }catch(e){
-    return {};
-  }
+  try{return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}}
+  catch(e){return {}}
 }
-
-function saveCustom(data){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-}
-
+function saveCustom(data){localStorage.setItem(STORAGE_KEY, JSON.stringify(data))}
 function loadVideoCache(){
-  try{
-    return JSON.parse(localStorage.getItem(VIDEO_CACHE_KEY)) || {};
-  }catch(e){
-    return {};
-  }
+  try{return JSON.parse(localStorage.getItem(VIDEO_CACHE_KEY)) || {}}
+  catch(e){return {}}
 }
-
 function saveVideoCache(data){
-  try{
-    localStorage.setItem(VIDEO_CACHE_KEY, JSON.stringify(data));
-  }catch(e){}
+  try{localStorage.setItem(VIDEO_CACHE_KEY, JSON.stringify(data))}catch(e){}
 }
 
 let custom = loadCustom();
 let videoCache = loadVideoCache();
 
-function allCategories(){
-  return {...builtIn, ...custom};
-}
+function allCategories(){ return {...builtIn, ...custom}; }
 
 let currentCategory = Object.keys(allCategories())[0];
 let currentIndex = -1;
@@ -800,20 +296,15 @@ let pendingVideo = null;
 let pendingTitle = "";
 let pendingArtist = "";
 let userHasInteracted = false;
-
 let failedVideoIds = new Set();
 let candidateVideos = [];
 let candidateIndex = 0;
 let songRequestToken = 0;
-
-/* =========================================================
-   RENDER
-========================================================= */
+let activeSearchMode = 0;
 
 function renderTabs(){
   const tabs = document.getElementById("tabs");
   tabs.innerHTML = "";
-
   Object.keys(allCategories()).forEach(name=>{
     const b = document.createElement("button");
     b.className = "tab" + (name === currentCategory ? " active" : "");
@@ -830,7 +321,6 @@ function renderTabs(){
     };
     tabs.appendChild(b);
   });
-
   refreshCategorySelect();
 }
 
@@ -852,7 +342,6 @@ function renderSongs(){
       '<span class="num">'+(index+1)+'</span>'+
       '<span><strong>'+escapeHtml(title)+'</strong>'+
       '<small>'+escapeHtml(artist)+'</small></span>';
-
     b.onclick = ()=>{
       markUserInteraction();
       playSong(index);
@@ -876,10 +365,6 @@ function refreshCategorySelect(){
   });
 }
 
-/* =========================================================
-   CATEGORY / SONG CREATION
-========================================================= */
-
 function toggleAddPanel(){
   document.getElementById("addPanel").classList.toggle("hidden");
   refreshCategorySelect();
@@ -888,17 +373,8 @@ function toggleAddPanel(){
 function addCategory(){
   const input = document.getElementById("newCategoryName");
   const name = input.value.trim();
-
-  if(!name){
-    setAdminMsg("Enter a category name.");
-    return;
-  }
-
-  if(allCategories()[name]){
-    setAdminMsg("That category already exists.");
-    return;
-  }
-
+  if(!name){ setAdminMsg("Enter a category name."); return; }
+  if(allCategories()[name]){ setAdminMsg("That category already exists."); return; }
   custom[name] = [];
   saveCustom(custom);
   input.value = "";
@@ -913,10 +389,7 @@ function addSong(){
   const title = document.getElementById("songTitle").value.trim();
   const artist = document.getElementById("songArtist").value.trim();
 
-  if(!title){
-    setAdminMsg("Enter the song title.");
-    return;
-  }
+  if(!title){ setAdminMsg("Enter the song title."); return; }
 
   if(!custom[category]){
     custom[category] = (builtIn[category] || []).map(x=>[x[0],x[1]]);
@@ -940,7 +413,6 @@ function setAdminMsg(text){
 
 function markUserInteraction(){
   userHasInteracted = true;
-
   try{
     if(ytPlayer && typeof ytPlayer.playVideo === "function"){
       ytPlayer.unMute();
@@ -950,22 +422,18 @@ function markUserInteraction(){
   }catch(e){}
 }
 
-/* =========================================================
-   PLAYBACK
-========================================================= */
-
 async function playSong(index){
   const songs = allCategories()[currentCategory] || [];
   if(!songs[index]) return;
 
   const requestToken = ++songRequestToken;
-
   currentIndex = index;
   currentSong = songs[index];
 
   failedVideoIds.clear();
   candidateVideos = [];
   candidateIndex = 0;
+  activeSearchMode = 0;
 
   const title = currentSong[0];
   const artist = currentSong[1] || "";
@@ -977,23 +445,38 @@ async function playSong(index){
 
   if(cachedId){
     candidateVideos = [cachedId];
+    loadCandidateVideo(title,artist,requestToken,0);
+    return;
+  }
+
+  try{
+    const videos = await findPlayableVideos(title,artist,0);
+    if(requestToken !== songRequestToken) return;
+
+    candidateVideos = videos;
     candidateIndex = 0;
-    loadCandidateVideo(title,artist,requestToken);
-    return;
+    activeSearchMode = 0;
+
+    if(!candidateVideos.length){
+      const secondTry = await findPlayableVideos(title,artist,1);
+      if(requestToken !== songRequestToken) return;
+      candidateVideos = secondTry;
+      candidateIndex = 0;
+      activeSearchMode = 1;
+    }
+
+    if(!candidateVideos.length){
+      showError("No embeddable version was found. Skipping...");
+      setTimeout(()=>{ if(requestToken===songRequestToken) nextSong(); },900);
+      return;
+    }
+
+    loadCandidateVideo(title,artist,requestToken,activeSearchMode);
+  }catch(error){
+    if(requestToken !== songRequestToken) return;
+    console.error(error);
+    showError(error.message || "YouTube API unavailable.");
   }
-
-  const videos = await findPlayableVideos(title,artist);
-
-  if(requestToken !== songRequestToken) return;
-
-  if(!videos.length){
-    showError("No playable YouTube result found. Check API restrictions/quota or try another song.");
-    return;
-  }
-
-  candidateVideos = videos;
-  candidateIndex = 0;
-  loadCandidateVideo(title,artist,requestToken);
 }
 
 function showLoading(title,artist){
@@ -1015,32 +498,50 @@ function showError(text){
       '<h2>Video unavailable</h2>'+
       '<p>'+escapeHtml(text)+'</p>'+
     '</div>';
-
   document.getElementById("nowPlaying").textContent = "Video unavailable";
 }
 
-function loadCandidateVideo(title,artist,requestToken){
+function loadCandidateVideo(title,artist,requestToken,searchMode=0){
   if(requestToken !== songRequestToken) return;
 
-  while(
-    candidateIndex < candidateVideos.length &&
-    failedVideoIds.has(candidateVideos[candidateIndex])
-  ){
+  while(candidateIndex < candidateVideos.length &&
+        failedVideoIds.has(candidateVideos[candidateIndex])){
     candidateIndex++;
   }
 
   if(candidateIndex >= candidateVideos.length){
-    document.getElementById("nowPlaying").textContent = "Trying next song...";
-    setTimeout(function(){
-      if(requestToken === songRequestToken) nextSong();
-    },600);
+    if(searchMode < 2){
+      document.getElementById("nowPlaying").textContent = "Finding another version...";
+      findPlayableVideos(title,artist,searchMode+1)
+        .then(videos=>{
+          if(requestToken !== songRequestToken) return;
+          candidateVideos = videos.filter(id=>!failedVideoIds.has(id));
+          candidateIndex = 0;
+          activeSearchMode = searchMode + 1;
+
+          if(candidateVideos.length){
+            loadCandidateVideo(title,artist,requestToken,activeSearchMode);
+          }else{
+            document.getElementById("nowPlaying").textContent = "Skipping unavailable song...";
+            setTimeout(()=>{ if(requestToken===songRequestToken) nextSong(); },600);
+          }
+        })
+        .catch(error=>{
+          console.error(error);
+          showError(error.message || "YouTube API unavailable.");
+        });
+      return;
+    }
+
+    document.getElementById("nowPlaying").textContent = "Skipping unavailable song...";
+    setTimeout(()=>{ if(requestToken===songRequestToken) nextSong(); },600);
     return;
   }
 
-  loadVideo(candidateVideos[candidateIndex],title,artist,requestToken);
+  loadVideo(candidateVideos[candidateIndex],title,artist,requestToken,searchMode);
 }
 
-function loadVideo(videoId,title,artist,requestToken){
+function loadVideo(videoId,title,artist,requestToken,searchMode){
   if(requestToken !== songRequestToken) return;
 
   pendingVideo = videoId;
@@ -1052,7 +553,7 @@ function loadVideo(videoId,title,artist,requestToken){
     "Playing: "+title+(artist ? " — "+artist : "");
 
   if(window.YT && YT.Player){
-    createYTPlayer(videoId,title,artist,requestToken);
+    createYTPlayer(videoId,title,artist,requestToken,searchMode);
   }
 
   window.scrollTo({
@@ -1067,18 +568,17 @@ function onYouTubeIframeAPIReady(){
       pendingVideo,
       pendingTitle || currentSong[0],
       pendingArtist || currentSong[1] || "",
-      songRequestToken
+      songRequestToken,
+      activeSearchMode
     );
   }
 }
 
-function createYTPlayer(videoId,title,artist,requestToken){
+function createYTPlayer(videoId,title,artist,requestToken,searchMode=0){
   if(requestToken !== songRequestToken) return;
 
   try{
-    if(ytPlayer && typeof ytPlayer.destroy === "function"){
-      ytPlayer.destroy();
-    }
+    if(ytPlayer && typeof ytPlayer.destroy === "function") ytPlayer.destroy();
   }catch(e){}
 
   ytPlayer = null;
@@ -1090,7 +590,6 @@ function createYTPlayer(videoId,title,artist,requestToken){
     width:"100%",
     height:"500",
     videoId:videoId,
-
     playerVars:{
       autoplay:1,
       playsinline:1,
@@ -1100,11 +599,9 @@ function createYTPlayer(videoId,title,artist,requestToken){
       enablejsapi:1,
       origin:window.location.origin
     },
-
     events:{
       onReady:function(event){
         if(requestToken !== songRequestToken) return;
-
         try{
           if(userHasInteracted){
             event.target.unMute();
@@ -1112,15 +609,12 @@ function createYTPlayer(videoId,title,artist,requestToken){
           }else{
             event.target.mute();
           }
-
           event.target.playVideo();
 
           setTimeout(function(){
             if(requestToken !== songRequestToken) return;
-
             try{
               const state = event.target.getPlayerState();
-
               if(state !== YT.PlayerState.PLAYING){
                 event.target.mute();
                 event.target.playVideo();
@@ -1130,7 +624,6 @@ function createYTPlayer(videoId,title,artist,requestToken){
               }
             }catch(e){}
           },700);
-
         }catch(e){}
       },
 
@@ -1144,7 +637,6 @@ function createYTPlayer(videoId,title,artist,requestToken){
               event.target.setVolume(100);
             }catch(e){}
           }
-
           const cacheKey = (title+"|"+artist).toLowerCase();
           videoCache[cacheKey] = videoId;
           saveVideoCache(videoCache);
@@ -1158,8 +650,7 @@ function createYTPlayer(videoId,title,artist,requestToken){
       onError:function(event){
         if(requestToken !== songRequestToken) return;
 
-        console.warn("YouTube player error:",event.data,videoId);
-
+        console.warn("YouTube player rejected video:",event.data,videoId);
         failedVideoIds.add(videoId);
 
         const cacheKey = (title+"|"+artist).toLowerCase();
@@ -1169,10 +660,12 @@ function createYTPlayer(videoId,title,artist,requestToken){
         }
 
         candidateIndex++;
+        document.getElementById("nowPlaying").textContent =
+          "That version is blocked — trying another...";
 
         setTimeout(function(){
-          loadCandidateVideo(title,artist,requestToken);
-        },350);
+          loadCandidateVideo(title,artist,requestToken,searchMode);
+        },250);
       }
     }
   });
@@ -1181,7 +674,6 @@ function createYTPlayer(videoId,title,artist,requestToken){
 function nextSong(){
   const songs = allCategories()[currentCategory] || [];
   if(!songs.length) return;
-
   currentIndex = currentIndex < 0 ? 0 : (currentIndex+1)%songs.length;
   playSong(currentIndex);
 }
@@ -1189,17 +681,12 @@ function nextSong(){
 function previousSong(){
   const songs = allCategories()[currentCategory] || [];
   if(!songs.length) return;
-
-  currentIndex = currentIndex < 0
-    ? 0
-    : (currentIndex-1+songs.length)%songs.length;
-
+  currentIndex = currentIndex < 0 ? 0 : (currentIndex-1+songs.length)%songs.length;
   playSong(currentIndex);
 }
 
 function replayCurrent(){
   markUserInteraction();
-
   try{
     if(ytPlayer && typeof ytPlayer.seekTo === "function"){
       ytPlayer.seekTo(0,true);
@@ -1209,48 +696,35 @@ function replayCurrent(){
       return;
     }
   }catch(e){}
-
-  if(currentIndex >= 0){
-    playSong(currentIndex);
-  }
+  if(currentIndex >= 0) playSong(currentIndex);
 }
 
 function scrollToLibrary(){
   document.getElementById("library").scrollIntoView({behavior:"smooth"});
 }
 
-/* =========================================================
-   YOUTUBE DATA API
-========================================================= */
+const MAX_VIDEO_RESULTS = 12;
 
-async function findPlayableVideos(title,artist){
-  const searches = [
-    [artist,title,"official audio"].filter(Boolean).join(" "),
-    [artist,title,"official video"].filter(Boolean).join(" "),
-    [artist,title].filter(Boolean).join(" "),
-    [title,artist,"שיר"].filter(Boolean).join(" ")
-  ];
+async function findPlayableVideos(title,artist,searchMode=0){
+  const queries = [
+    `${artist} ${title} official`,
+    `${artist} ${title}`,
+    `${title} ${artist} audio`,
+    `${title} ${artist}`
+  ].map(q=>q.trim());
 
-  const foundIds = [];
+  const query = queries[Math.min(searchMode,queries.length-1)];
+  const result = await searchYouTube(query);
 
-  for(const query of searches){
-    const ids = await searchYouTube(query);
+  if(result.error) throw new Error(result.error);
+  if(!result.ids.length) return [];
 
-    ids.forEach(function(id){
-      if(!foundIds.includes(id)){
-        foundIds.push(id);
-      }
-    });
-
-    if(foundIds.length >= 18) break;
-  }
-
-  if(!foundIds.length) return [];
-
-  return await checkVideos(foundIds);
+  return await checkVideos(result.ids);
 }
 
 async function searchYouTube(query){
+  let lastError = "";
+
   for(let attempt=0; attempt<YOUTUBE_API_KEYS.length; attempt++){
     const key = YOUTUBE_API_KEYS[apiKeyIndex];
 
@@ -1259,10 +733,11 @@ async function searchYouTube(query){
         part:"snippet",
         type:"video",
         q:query,
-        maxResults:"20",
+        maxResults:String(MAX_VIDEO_RESULTS),
         videoEmbeddable:"true",
         videoSyndicated:"true",
         safeSearch:"moderate",
+        order:"relevance",
         key:key
       });
 
@@ -1273,36 +748,48 @@ async function searchYouTube(query){
       const data = await response.json().catch(()=>({}));
 
       if(!response.ok){
-        console.warn("YouTube search API error:",response.status,data);
+        const reason =
+          data?.error?.errors?.[0]?.reason ||
+          data?.error?.message ||
+          ("HTTP "+response.status);
+
+        console.warn("YouTube search failed:",reason);
+        lastError = reason;
         apiKeyIndex = (apiKeyIndex+1)%YOUTUBE_API_KEYS.length;
         continue;
       }
 
-      const ids = (data.items || [])
-        .map(item => item && item.id && item.id.videoId ? item.id.videoId : null)
-        .filter(Boolean);
+      const ids = [];
+      for(const item of (data.items || [])){
+        const id = item?.id?.videoId;
+        if(id && !ids.includes(id)) ids.push(id);
+      }
 
-      if(ids.length) return ids;
-
+      return {ids,error:""};
     }catch(error){
-      console.error("YouTube search error:",error);
+      console.error(error);
+      lastError = error?.message || "YouTube API connection failed.";
+      apiKeyIndex = (apiKeyIndex+1)%YOUTUBE_API_KEYS.length;
     }
-
-    apiKeyIndex = (apiKeyIndex+1)%YOUTUBE_API_KEYS.length;
   }
 
-  return [];
+  return {
+    ids:[],
+    error:"YouTube API unavailable: "+(lastError || "both API keys failed")
+  };
 }
 
 async function checkVideos(ids){
   if(!ids.length) return [];
+
+  let lastError = "";
 
   for(let attempt=0; attempt<YOUTUBE_API_KEYS.length; attempt++){
     const key = YOUTUBE_API_KEYS[apiKeyIndex];
 
     try{
       const params = new URLSearchParams({
-        part:"status",
+        part:"status,contentDetails",
         id:ids.join(","),
         key:key
       });
@@ -1314,39 +801,37 @@ async function checkVideos(ids){
       const data = await response.json().catch(()=>({}));
 
       if(!response.ok){
-        console.warn("YouTube videos API error:",response.status,data);
+        lastError =
+          data?.error?.errors?.[0]?.reason ||
+          data?.error?.message ||
+          ("HTTP "+response.status);
+
         apiKeyIndex = (apiKeyIndex+1)%YOUTUBE_API_KEYS.length;
         continue;
       }
 
-      const playable = new Set();
+      const allowed = new Set();
 
-      (data.items || []).forEach(function(item){
+      for(const item of (data.items || [])){
         if(
-          item &&
-          item.status &&
-          item.status.privacyStatus === "public" &&
-          item.status.embeddable === true
+          item?.status?.privacyStatus === "public" &&
+          item?.status?.embeddable === true
         ){
-          playable.add(item.id);
+          const blocked = item?.contentDetails?.regionRestriction?.blocked || [];
+          if(!blocked.includes("US")) allowed.add(item.id);
         }
-      });
+      }
 
-      return ids.filter(id=>playable.has(id));
-
+      return ids.filter(id=>allowed.has(id));
     }catch(error){
-      console.error("YouTube status check error:",error);
+      console.error(error);
+      lastError = error?.message || "YouTube video check failed.";
+      apiKeyIndex = (apiKeyIndex+1)%YOUTUBE_API_KEYS.length;
     }
-
-    apiKeyIndex = (apiKeyIndex+1)%YOUTUBE_API_KEYS.length;
   }
 
-  return [];
+  throw new Error(lastError || "Could not verify YouTube videos.");
 }
-
-/* =========================================================
-   HELPERS
-========================================================= */
 
 function escapeHtml(text){
   return String(text)
@@ -1356,10 +841,6 @@ function escapeHtml(text){
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#039;");
 }
-
-/* =========================================================
-   START
-========================================================= */
 
 renderTabs();
 renderSongs();
@@ -1372,14 +853,12 @@ renderSongs();
   }
 });
 
-/*
-  Try first song automatically.
-  iPhone/Safari may begin muted until the first user tap.
-*/
-setTimeout(function(){
-  const songs = allCategories()[currentCategory] || [];
-  if(songs.length) playSong(0);
-},500);
+window.addEventListener("load", function(){
+  setTimeout(function(){
+    const songs = allCategories()[currentCategory] || [];
+    if(songs.length) playSong(0);
+  },800);
+});
 </script>
 
 <script src="https://www.youtube.com/iframe_api"></script>

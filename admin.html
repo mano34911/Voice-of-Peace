@@ -8,9 +8,7 @@
 <title>Voice of Peace - Admin</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -33,15 +31,25 @@ header h1{
 }
 
 header p{
+  margin:8px 0;
   color:#4bd0ff;
-  margin-top:8px;
+  font-size:20px;
+}
+
+.open{
+  display:inline-block;
+  background:#117147;
+  padding:7px 14px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:bold;
 }
 
 .wrap{
   width:95%;
   max-width:1100px;
   margin:auto;
-  padding-bottom:50px;
+  padding-bottom:60px;
 }
 
 .card{
@@ -53,19 +61,19 @@ header p{
   box-shadow:0 15px 40px rgba(0,0,0,.25);
 }
 
-.topButtons{
+.navigation{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:10px;
-  margin-bottom:20px;
 }
 
 button,
 .btn{
+  display:block;
   border:0;
   border-radius:11px;
-  padding:12px 14px;
-  font-size:15px;
+  padding:13px;
+  font-size:14px;
   font-weight:800;
   cursor:pointer;
   text-decoration:none;
@@ -73,24 +81,58 @@ button,
   text-align:center;
 }
 
-.green{
-  background:#13b868;
+.blue{background:#247bb1}
+.green{background:#13a963}
+.orange{background:#c77a16}
+.red{background:#bd4141}
+.gray{background:#566b7c}
+
+#message{
+  text-align:center;
+  min-height:24px;
+  margin:12px 0;
+  font-weight:bold;
+  color:#65d9ff;
 }
 
-.blue{
-  background:#247bb1;
+.error{
+  color:#ff8b8b !important;
 }
 
-.red{
-  background:#c84545;
+.success{
+  color:#61e697 !important;
 }
 
-.orange{
-  background:#d88921;
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:20px;
 }
 
-.gray{
-  background:#536575;
+.stat{
+  background:#031b30;
+  border:1px solid #275f85;
+  border-radius:14px;
+  padding:16px;
+  text-align:center;
+}
+
+.stat strong{
+  display:block;
+  font-size:28px;
+  color:#58d4ff;
+}
+
+.search{
+  width:100%;
+  padding:14px;
+  border:1px solid #3179a7;
+  border-radius:12px;
+  background:#031b30;
+  color:white;
+  font-size:16px;
+  margin-bottom:18px;
 }
 
 .member{
@@ -104,8 +146,8 @@ button,
 .memberTop{
   display:flex;
   justify-content:space-between;
-  gap:10px;
   align-items:center;
+  gap:12px;
 }
 
 .memberName{
@@ -116,21 +158,21 @@ button,
 .status{
   padding:6px 12px;
   border-radius:20px;
-  font-size:13px;
-  font-weight:bold;
+  font-size:12px;
+  font-weight:900;
 }
 
-.active{
-  background:#127348;
+.status.active{
+  background:#117147;
 }
 
-.suspended{
-  background:#9a3535;
+.status.suspended{
+  background:#9e3636;
 }
 
 .info{
   margin-top:12px;
-  color:#cae8fa;
+  color:#c9e8fa;
   line-height:1.7;
   word-break:break-word;
 }
@@ -142,47 +184,44 @@ button,
   margin-top:15px;
 }
 
-input{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #2b6c99;
-  margin:5px 0 12px;
-  font-size:16px;
+.editBox{
+  display:none;
+  margin-top:16px;
+  padding-top:16px;
+  border-top:1px solid #275f85;
+}
+
+.editBox.show{
+  display:block;
 }
 
 label{
   display:block;
-  margin-top:7px;
-  color:#bcdff5;
+  margin:8px 0 4px;
+  color:#bfe4f8;
+  font-size:14px;
 }
 
-.editBox{
-  margin-top:15px;
-  padding-top:15px;
-  border-top:1px solid #285c80;
-}
-
-.hidden{
-  display:none;
+input{
+  width:100%;
+  padding:12px;
+  border:1px solid #3179a7;
+  border-radius:10px;
+  background:white;
+  color:#111;
+  font-size:16px;
 }
 
 .empty{
   text-align:center;
-  padding:40px 15px;
-  color:#91bdd8;
-}
-
-.count{
-  text-align:center;
-  color:#5ed7ff;
-  font-weight:bold;
-  margin-bottom:18px;
+  padding:40px 10px;
+  color:#9dc5dc;
 }
 
 @media(max-width:700px){
 
-  .topButtons{
+  .navigation,
+  .stats{
     grid-template-columns:1fr;
   }
 
@@ -191,10 +230,9 @@ label{
   }
 
   .memberTop{
-    align-items:flex-start;
     flex-direction:column;
+    align-items:flex-start;
   }
-
 }
 </style>
 </head>
@@ -202,25 +240,59 @@ label{
 <body>
 
 <header>
+
   <h1>VOICE OF PEACE</h1>
-  <p>Admin Control Panel</p>
+
+  <p>Administrator Control Panel</p>
+
+  <div class="open">
+    DIRECT ADMIN ACCESS
+  </div>
+
 </header>
+
 
 <div class="wrap">
 
-  <div class="topButtons">
+  <div class="card">
 
-    <a class="btn blue" href="index.html">
-      🏠 MAIN PAGE
-    </a>
+    <div class="navigation">
 
-    <a class="btn green" href="register.html">
-      ➕ REGISTER MEMBER
-    </a>
+      <a class="btn blue" href="index.html">
+        🏠 MAIN PAGE
+      </a>
 
-    <button class="gray" onclick="refreshMembers()">
-      🔄 REFRESH
-    </button>
+      <a class="btn green" href="register.html">
+        ➕ REGISTER MEMBER
+      </a>
+
+      <button class="gray" onclick="loadMembers()">
+        🔄 REFRESH MEMBERS
+      </button>
+
+    </div>
+
+    <div id="message"></div>
+
+  </div>
+
+
+  <div class="stats">
+
+    <div class="stat">
+      <strong id="totalCount">0</strong>
+      TOTAL MEMBERS
+    </div>
+
+    <div class="stat">
+      <strong id="activeCount">0</strong>
+      ACTIVE
+    </div>
+
+    <div class="stat">
+      <strong id="suspendedCount">0</strong>
+      SUSPENDED
+    </div>
 
   </div>
 
@@ -229,58 +301,71 @@ label{
 
     <h2>👥 Members</h2>
 
-    <div id="memberCount" class="count">
-      0 members
-    </div>
+    <input
+      id="search"
+      class="search"
+      placeholder="Search member by name, email or phone..."
+      oninput="renderMembers()"
+    >
 
-    <div id="members"></div>
+    <div id="members">
+
+      Loading members...
+
+    </div>
 
   </div>
 
 </div>
 
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
-const STORAGE_KEY =
-  "voiceOfPeaceMembers";
+/* =============================================
+   SUPABASE
+============================================= */
 
+const SUPABASE_URL =
+  "https://dpejswtreoqzmrlcnfde.supabase.co";
 
-function getMembers(){
+const SUPABASE_KEY =
+  "sb_publishable_92C4dFnhmFBCsasew_6WhQ_InvX4yDX";
 
-  try{
-
-    const members =
-      JSON.parse(
-        localStorage.getItem(STORAGE_KEY)
-      );
-
-    return Array.isArray(members)
-      ? members
-      : [];
-
-  }catch(error){
-
-    return [];
-
-  }
-
-}
-
-
-function saveMembers(members){
-
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(members)
+const db =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
   );
 
+
+let allMembers = [];
+
+
+/* =============================================
+   MESSAGE
+============================================= */
+
+function showMessage(text,type=""){
+
+  const box =
+    document.getElementById("message");
+
+  box.textContent = text;
+
+  box.className = type;
+
 }
 
+
+/* =============================================
+   ESCAPE HTML
+============================================= */
 
 function escapeHtml(value){
 
-  return String(value || "")
+  return String(value ?? "")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
@@ -290,31 +375,166 @@ function escapeHtml(value){
 }
 
 
-function refreshMembers(){
+/* =============================================
+   LOAD MEMBERS
+============================================= */
+
+async function loadMembers(){
+
+  showMessage(
+    "Loading members..."
+  );
+
+  const {
+    data,
+    error
+  } =
+    await db
+      .from("members")
+      .select("*")
+      .order(
+        "created_at",
+        {ascending:false}
+      );
+
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Error loading members: " +
+      error.message,
+      "error"
+    );
+
+    return;
+  }
+
+
+  allMembers =
+    data || [];
+
+
+  updateStatistics();
+
+  renderMembers();
+
+
+  showMessage(
+    allMembers.length +
+    " members loaded.",
+    "success"
+  );
+
+}
+
+
+/* =============================================
+   STATISTICS
+============================================= */
+
+function updateStatistics(){
+
+  const active =
+    allMembers.filter(
+      m =>
+        (m.status || "active")
+          .toLowerCase() ===
+        "active"
+    ).length;
+
+
+  const suspended =
+    allMembers.filter(
+      m =>
+        (m.status || "")
+          .toLowerCase() ===
+        "suspended"
+    ).length;
+
+
+  document.getElementById(
+    "totalCount"
+  ).textContent =
+    allMembers.length;
+
+
+  document.getElementById(
+    "activeCount"
+  ).textContent =
+    active;
+
+
+  document.getElementById(
+    "suspendedCount"
+  ).textContent =
+    suspended;
+
+}
+
+
+/* =============================================
+   RENDER MEMBERS
+============================================= */
+
+function renderMembers(){
+
+  const container =
+    document.getElementById(
+      "members"
+    );
+
+
+  const search =
+    document.getElementById(
+      "search"
+    ).value
+      .trim()
+      .toLowerCase();
+
 
   const members =
-    getMembers();
+    allMembers.filter(
+      member => {
 
-  const list =
-    document.getElementById("members");
+        const text =
 
-  const counter =
-    document.getElementById("memberCount");
+          String(
+            member.name || ""
+          ) +
+
+          " " +
+
+          String(
+            member.email || ""
+          ) +
+
+          " " +
+
+          String(
+            member.phone || ""
+          );
 
 
-  counter.textContent =
-    members.length +
-    (members.length === 1
-      ? " member"
-      : " members");
+        return text
+          .toLowerCase()
+          .includes(search);
+
+      }
+    );
 
 
   if(members.length === 0){
 
-    list.innerHTML = `
+    container.innerHTML = `
+
       <div class="empty">
-        No registered members found on this device.
+
+        No members found.
+
       </div>
+
     `;
 
     return;
@@ -322,281 +542,384 @@ function refreshMembers(){
   }
 
 
-  list.innerHTML = "";
+  container.innerHTML = "";
 
 
-  members.forEach(function(member,index){
+  members.forEach(
+    member => {
 
-    if(!member.status){
-      member.status = "active";
-    }
-
-    const statusClass =
-      member.status === "suspended"
-      ? "suspended"
-      : "active";
-
-    const statusText =
-      member.status === "suspended"
-      ? "SUSPENDED"
-      : "ACTIVE";
+      const status =
+        (
+          member.status ||
+          "active"
+        ).toLowerCase();
 
 
-    const box =
-      document.createElement("div");
+      const box =
+        document.createElement(
+          "div"
+        );
 
-    box.className = "member";
 
-    box.innerHTML = `
+      box.className =
+        "member";
 
-      <div class="memberTop">
 
-        <div class="memberName">
+      box.innerHTML = `
+
+        <div class="memberTop">
+
+          <div class="memberName">
+
+            ${escapeHtml(
+              member.name ||
+              "Member"
+            )}
+
+          </div>
+
+          <div class="status ${
+            status === "suspended"
+            ? "suspended"
+            : "active"
+          }">
+
+            ${
+              status === "suspended"
+              ? "SUSPENDED"
+              : "ACTIVE"
+            }
+
+          </div>
+
+        </div>
+
+
+        <div class="info">
+
+          <strong>Email:</strong>
+
           ${escapeHtml(
-            member.name ||
-            (
-              (member.firstName || "") +
-              " " +
-              (member.lastName || "")
-            ).trim()
+            member.email
           )}
+
+          <br>
+
+          <strong>Phone:</strong>
+
+          ${escapeHtml(
+            member.phone
+          )}
+
+          <br>
+
+          <strong>Member ID:</strong>
+
+          ${escapeHtml(
+            member.id
+          )}
+
+          <br>
+
+          <strong>Joined:</strong>
+
+          ${
+            member.created_at
+              ? new Date(
+                  member.created_at
+                ).toLocaleString()
+              : ""
+          }
+
         </div>
 
-        <div class="status ${statusClass}">
-          ${statusText}
+
+        <div class="actions">
+
+          <button
+            class="blue"
+            onclick="toggleEdit('${member.id}')"
+          >
+            ✏️ EDIT
+          </button>
+
+
+          <button
+            class="green"
+            onclick="setStatus('${member.id}','active')"
+          >
+            ✓ ACTIVATE
+          </button>
+
+
+          <button
+            class="orange"
+            onclick="setStatus('${member.id}','suspended')"
+          >
+            ⏸ SUSPEND
+          </button>
+
+
+          <button
+            class="red"
+            onclick="deleteMember('${member.id}')"
+          >
+            🗑 DELETE
+          </button>
+
         </div>
 
-      </div>
 
-
-      <div class="info">
-
-        <strong>Email:</strong>
-        ${escapeHtml(member.email)}
-
-        <br>
-
-        <strong>Phone:</strong>
-        ${escapeHtml(member.phone)}
-
-        <br>
-
-        <strong>Joined:</strong>
-        ${
-          member.createdAt
-          ? new Date(
-              member.createdAt
-            ).toLocaleString()
-          : "Unknown"
-        }
-
-      </div>
-
-
-      <div class="actions">
-
-        <button
-          class="blue"
-          onclick="toggleEdit(${index})">
-          EDIT
-        </button>
-
-        <button
-          class="green"
-          onclick="activateMember(${index})">
-          ACTIVATE
-        </button>
-
-        <button
-          class="orange"
-          onclick="suspendMember(${index})">
-          SUSPEND
-        </button>
-
-        <button
-          class="red"
-          onclick="deleteMember(${index})">
-          DELETE
-        </button>
-
-      </div>
-
-
-      <div
-        id="edit-${index}"
-        class="editBox hidden">
-
-        <label>Name</label>
-
-        <input
-          id="name-${index}"
-          value="${escapeHtml(
-            member.name ||
-            (
-              (member.firstName || "") +
-              " " +
-              (member.lastName || "")
-            ).trim()
-          )}"
+        <div
+          id="edit-${member.id}"
+          class="editBox"
         >
 
+          <label>
+            Full Name
+          </label>
 
-        <label>Email</label>
-
-        <input
-          id="email-${index}"
-          value="${escapeHtml(member.email)}"
-        >
-
-
-        <label>Phone</label>
-
-        <input
-          id="phone-${index}"
-          value="${escapeHtml(member.phone)}"
-        >
+          <input
+            id="name-${member.id}"
+            value="${escapeHtml(
+              member.name
+            )}"
+          >
 
 
-        <button
-          class="green"
-          onclick="saveEdit(${index})">
-          SAVE CHANGES
-        </button>
+          <label>
+            Email
+          </label>
 
-      </div>
+          <input
+            id="email-${member.id}"
+            value="${escapeHtml(
+              member.email
+            )}"
+          >
 
-    `;
 
-    list.appendChild(box);
+          <label>
+            Phone
+          </label>
 
-  });
+          <input
+            id="phone-${member.id}"
+            value="${escapeHtml(
+              member.phone
+            )}"
+          >
+
+
+          <button
+            class="green"
+            style="margin-top:12px;width:100%"
+            onclick="saveMember('${member.id}')"
+          >
+
+            💾 SAVE CHANGES
+
+          </button>
+
+        </div>
+
+      `;
+
+
+      container.appendChild(
+        box
+      );
+
+    }
+  );
 
 }
 
 
-function toggleEdit(index){
+/* =============================================
+   EDIT BOX
+============================================= */
+
+function toggleEdit(id){
 
   const box =
     document.getElementById(
-      "edit-" + index
+      "edit-" + id
     );
 
-  box.classList.toggle("hidden");
+  box.classList.toggle(
+    "show"
+  );
 
 }
 
 
-function saveEdit(index){
+/* =============================================
+   SAVE MEMBER
+============================================= */
 
-  const members =
-    getMembers();
-
-  if(!members[index]){
-    return;
-  }
-
-
-  members[index].name =
-    document.getElementById(
-      "name-" + index
-    ).value.trim();
-
-
-  members[index].email =
-    document.getElementById(
-      "email-" + index
-    ).value.trim();
-
-
-  members[index].phone =
-    document.getElementById(
-      "phone-" + index
-    ).value.trim();
-
-
-  saveMembers(members);
-
-  refreshMembers();
-
-}
-
-
-function activateMember(index){
-
-  const members =
-    getMembers();
-
-  if(!members[index]){
-    return;
-  }
-
-  members[index].status =
-    "active";
-
-  saveMembers(members);
-
-  refreshMembers();
-
-}
-
-
-function suspendMember(index){
-
-  const members =
-    getMembers();
-
-  if(!members[index]){
-    return;
-  }
-
-  members[index].status =
-    "suspended";
-
-  saveMembers(members);
-
-  refreshMembers();
-
-}
-
-
-function deleteMember(index){
-
-  const members =
-    getMembers();
-
-  if(!members[index]){
-    return;
-  }
+async function saveMember(id){
 
   const name =
-    members[index].name ||
-    members[index].email ||
+    document.getElementById(
+      "name-" + id
+    ).value.trim();
+
+
+  const email =
+    document.getElementById(
+      "email-" + id
+    ).value.trim();
+
+
+  const phone =
+    document.getElementById(
+      "phone-" + id
+    ).value.trim();
+
+
+  showMessage(
+    "Saving member..."
+  );
+
+
+  const {
+    error
+  } =
+    await db
+      .from("members")
+      .update({
+        name:name,
+        email:email,
+        phone:phone
+      })
+      .eq(
+        "id",
+        id
+      );
+
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Save failed: " +
+      error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  showMessage(
+    "Member updated successfully.",
+    "success"
+  );
+
+
+  await loadMembers();
+
+}
+
+
+/* =============================================
+   ACTIVATE / SUSPEND
+============================================= */
+
+async function setStatus(
+  id,
+  status
+){
+
+  showMessage(
+    status === "active"
+      ? "Activating member..."
+      : "Suspending member..."
+  );
+
+
+  const {
+    error
+  } =
+    await db
+      .from("members")
+      .update({
+        status:status
+      })
+      .eq(
+        "id",
+        id
+      );
+
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Status update failed: " +
+      error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  showMessage(
+    status === "active"
+      ? "Member activated."
+      : "Member suspended.",
+    "success"
+  );
+
+
+  await loadMembers();
+
+}
+
+
+/* =============================================
+   DELETE
+============================================= */
+
+async function deleteMember(id){
+
+  const member =
+    allMembers.find(
+      m =>
+        String(m.id) ===
+        String(id)
+    );
+
+
+  const memberName =
+    member?.name ||
+    member?.email ||
     "this member";
 
 
-  if(
-    !confirm(
-      "Delete " +
-      name +
-      " permanently?"
-    )
-  ){
+  const confirmed =
+    confirm(
+      "Permanently delete " +
+      memberName +
+      "?"
+    );
+
+
+  if(!confirmed){
     return;
   }
 
 
-  members.splice(index,1);
-
-  saveMembers(members);
-
-  refreshMembers();
-
-}
+  showMessage(
+    "Deleting member..."
+  );
 
 
-refreshMembers();
-
-</script>
-
-</body>
-</html>
+  const {
+    error

@@ -83,7 +83,7 @@ footer{text-align:center;color:#81b6d3;padding:26px 10px;font-size:13px}
 <header>
   <div style="font-size:34px">🕊️ 🇺🇸 🎵 🇬🇧 🕊️</div>
   <h1>VOICE OF PEACE MUSIC</h1>
-  <p>USA Hits • UK Hits • Your Categories • Your Songs</p>
+  <p>100 USA Hits • 100 Israel Hits • Your Categories • Your Songs</p>
 </header>
 
 <div class="wrap">
@@ -168,111 +168,811 @@ let apiKeyIndex = 0;
 ========================================================= */
 
 const builtIn = {
-  "🇺🇸 USA TOP 50": [
-    ["Billie Jean","Michael Jackson"],
-    ["Hotel California","Eagles"],
-    ["Purple Rain","Prince"],
-    ["Like a Prayer","Madonna"],
-    ["I Will Always Love You","Whitney Houston"],
-    ["Born in the U.S.A.","Bruce Springsteen"],
-    ["Sweet Child O' Mine","Guns N' Roses"],
-    ["Livin' on a Prayer","Bon Jovi"],
-    ["Every Breath You Take","The Police"],
-    ["Girls Just Want to Have Fun","Cyndi Lauper"],
-    ["Take On Me","a-ha"],
-    ["Footloose","Kenny Loggins"],
-    ["Faith","George Michael"],
-    ["Man in the Mirror","Michael Jackson"],
-    ["What's Love Got to Do with It","Tina Turner"],
-    ["Time After Time","Cyndi Lauper"],
-    ["Africa","Toto"],
-    ["Don't Stop Believin'","Journey"],
-    ["Open Arms","Journey"],
-    ["Eye of the Tiger","Survivor"],
-    ["The Power of Love","Huey Lewis and the News"],
-    ["Heaven Is a Place on Earth","Belinda Carlisle"],
-    ["Walk This Way","Aerosmith"],
-    ["Free Fallin'","Tom Petty"],
-    ["Fast Car","Tracy Chapman"],
-    ["We Didn't Start the Fire","Billy Joel"],
-    ["Uptown Girl","Billy Joel"],
-    ["Endless Love","Diana Ross & Lionel Richie"],
-    ["Celebration","Kool & The Gang"],
-    ["All Night Long","Lionel Richie"],
-    ["How Will I Know","Whitney Houston"],
-    ["Greatest Love of All","Whitney Houston"],
-    ["Smooth Criminal","Michael Jackson"],
-    ["Beat It","Michael Jackson"],
-    ["Thriller","Michael Jackson"],
-    ["Material Girl","Madonna"],
-    ["Papa Don't Preach","Madonna"],
-    ["Alone","Heart"],
-    ["Heaven","Bryan Adams"],
-    ["Danger Zone","Kenny Loggins"],
-    ["Here I Go Again","Whitesnake"],
-    ["Nothing's Gonna Stop Us Now","Starship"],
-    ["The Way You Make Me Feel","Michael Jackson"],
-    ["Straight Up","Paula Abdul"],
-    ["Opposites Attract","Paula Abdul"],
-    ["We Built This City","Starship"],
-    ["Kokomo","The Beach Boys"],
-    ["I Think We're Alone Now","Tiffany"],
-    ["Heaven Is a Place on Earth","Belinda Carlisle"],
-    ["Forever Young","Alphaville"]
-  ],
+  "🇺🇸 USA TOP 100": [
+    [
+        "Billie Jean",
+        "Michael Jackson"
+    ],
+    [
+        "Hotel California",
+        "Eagles"
+    ],
+    [
+        "Purple Rain",
+        "Prince"
+    ],
+    [
+        "Like a Prayer",
+        "Madonna"
+    ],
+    [
+        "I Will Always Love You",
+        "Whitney Houston"
+    ],
+    [
+        "Born in the U.S.A.",
+        "Bruce Springsteen"
+    ],
+    [
+        "Sweet Child O' Mine",
+        "Guns N' Roses"
+    ],
+    [
+        "Livin' on a Prayer",
+        "Bon Jovi"
+    ],
+    [
+        "Don't Stop Believin'",
+        "Journey"
+    ],
+    [
+        "Every Breath You Take",
+        "The Police"
+    ],
+    [
+        "Thriller",
+        "Michael Jackson"
+    ],
+    [
+        "Beat It",
+        "Michael Jackson"
+    ],
+    [
+        "Man in the Mirror",
+        "Michael Jackson"
+    ],
+    [
+        "Material Girl",
+        "Madonna"
+    ],
+    [
+        "Time After Time",
+        "Cyndi Lauper"
+    ],
+    [
+        "Girls Just Want to Have Fun",
+        "Cyndi Lauper"
+    ],
+    [
+        "Footloose",
+        "Kenny Loggins"
+    ],
+    [
+        "Africa",
+        "Toto"
+    ],
+    [
+        "Eye of the Tiger",
+        "Survivor"
+    ],
+    [
+        "Free Fallin'",
+        "Tom Petty"
+    ],
+    [
+        "Fast Car",
+        "Tracy Chapman"
+    ],
+    [
+        "Uptown Girl",
+        "Billy Joel"
+    ],
+    [
+        "We Didn't Start the Fire",
+        "Billy Joel"
+    ],
+    [
+        "Piano Man",
+        "Billy Joel"
+    ],
+    [
+        "Born to Run",
+        "Bruce Springsteen"
+    ],
+    [
+        "Dancing in the Dark",
+        "Bruce Springsteen"
+    ],
+    [
+        "What's Love Got to Do with It",
+        "Tina Turner"
+    ],
+    [
+        "The Best",
+        "Tina Turner"
+    ],
+    [
+        "Faith",
+        "George Michael"
+    ],
+    [
+        "Careless Whisper",
+        "George Michael"
+    ],
+    [
+        "Open Arms",
+        "Journey"
+    ],
+    [
+        "Separate Ways",
+        "Journey"
+    ],
+    [
+        "Heaven",
+        "Bryan Adams"
+    ],
+    [
+        "Summer of '69",
+        "Bryan Adams"
+    ],
+    [
+        "Danger Zone",
+        "Kenny Loggins"
+    ],
+    [
+        "Here I Go Again",
+        "Whitesnake"
+    ],
+    [
+        "Alone",
+        "Heart"
+    ],
+    [
+        "Nothing's Gonna Stop Us Now",
+        "Starship"
+    ],
+    [
+        "We Built This City",
+        "Starship"
+    ],
+    [
+        "Kokomo",
+        "The Beach Boys"
+    ],
+    [
+        "Celebration",
+        "Kool & The Gang"
+    ],
+    [
+        "All Night Long",
+        "Lionel Richie"
+    ],
+    [
+        "Hello",
+        "Lionel Richie"
+    ],
+    [
+        "Endless Love",
+        "Diana Ross & Lionel Richie"
+    ],
+    [
+        "How Will I Know",
+        "Whitney Houston"
+    ],
+    [
+        "Greatest Love of All",
+        "Whitney Houston"
+    ],
+    [
+        "I Wanna Dance with Somebody",
+        "Whitney Houston"
+    ],
+    [
+        "Straight Up",
+        "Paula Abdul"
+    ],
+    [
+        "Opposites Attract",
+        "Paula Abdul"
+    ],
+    [
+        "Take My Breath Away",
+        "Berlin"
+    ],
+    [
+        "Heaven Is a Place on Earth",
+        "Belinda Carlisle"
+    ],
+    [
+        "The Power of Love",
+        "Huey Lewis and the News"
+    ],
+    [
+        "Walk This Way",
+        "Aerosmith"
+    ],
+    [
+        "Dream On",
+        "Aerosmith"
+    ],
+    [
+        "More Than a Feeling",
+        "Boston"
+    ],
+    [
+        "Jessie's Girl",
+        "Rick Springfield"
+    ],
+    [
+        "Centerfold",
+        "The J. Geils Band"
+    ],
+    [
+        "Glory Days",
+        "Bruce Springsteen"
+    ],
+    [
+        "Hungry Heart",
+        "Bruce Springsteen"
+    ],
+    [
+        "You Give Love a Bad Name",
+        "Bon Jovi"
+    ],
+    [
+        "Wanted Dead or Alive",
+        "Bon Jovi"
+    ],
+    [
+        "Paradise City",
+        "Guns N' Roses"
+    ],
+    [
+        "November Rain",
+        "Guns N' Roses"
+    ],
+    [
+        "Pour Some Sugar on Me",
+        "Def Leppard"
+    ],
+    [
+        "Don't You (Forget About Me)",
+        "Simple Minds"
+    ],
+    [
+        "The Boys of Summer",
+        "Don Henley"
+    ],
+    [
+        "Against All Odds",
+        "Phil Collins"
+    ],
+    [
+        "In the Air Tonight",
+        "Phil Collins"
+    ],
+    [
+        "Sledgehammer",
+        "Peter Gabriel"
+    ],
+    [
+        "True Colors",
+        "Cyndi Lauper"
+    ],
+    [
+        "Papa Don't Preach",
+        "Madonna"
+    ],
+    [
+        "Into the Groove",
+        "Madonna"
+    ],
+    [
+        "The Way You Make Me Feel",
+        "Michael Jackson"
+    ],
+    [
+        "Smooth Criminal",
+        "Michael Jackson"
+    ],
+    [
+        "Black or White",
+        "Michael Jackson"
+    ],
+    [
+        "Vogue",
+        "Madonna"
+    ],
+    [
+        "Vision of Love",
+        "Mariah Carey"
+    ],
+    [
+        "Hero",
+        "Mariah Carey"
+    ],
+    [
+        "Because You Loved Me",
+        "Celine Dion"
+    ],
+    [
+        "My Heart Will Go On",
+        "Celine Dion"
+    ],
+    [
+        "I Don't Want to Miss a Thing",
+        "Aerosmith"
+    ],
+    [
+        "Iris",
+        "Goo Goo Dolls"
+    ],
+    [
+        "Losing My Religion",
+        "R.E.M."
+    ],
+    [
+        "With or Without You",
+        "U2"
+    ],
+    [
+        "One",
+        "U2"
+    ],
+    [
+        "Everybody Wants to Rule the World",
+        "Tears for Fears"
+    ],
+    [
+        "Sweet Dreams (Are Made of This)",
+        "Eurythmics"
+    ],
+    [
+        "Take On Me",
+        "a-ha"
+    ],
+    [
+        "Never Gonna Give You Up",
+        "Rick Astley"
+    ],
+    [
+        "Nothing Compares 2 U",
+        "Sinéad O'Connor"
+    ],
+    [
+        "The Power of Love",
+        "Celine Dion"
+    ],
+    [
+        "Un-Break My Heart",
+        "Toni Braxton"
+    ],
+    [
+        "I'll Make Love to You",
+        "Boyz II Men"
+    ],
+    [
+        "No Scrubs",
+        "TLC"
+    ],
+    [
+        "Genie in a Bottle",
+        "Christina Aguilera"
+    ],
+    [
+        "...Baby One More Time",
+        "Britney Spears"
+    ],
+    [
+        "Since U Been Gone",
+        "Kelly Clarkson"
+    ],
+    [
+        "Yeah!",
+        "Usher"
+    ],
+    [
+        "Crazy in Love",
+        "Beyoncé"
+    ],
+    [
+        "Rolling in the Deep",
+        "Adele"
+    ]
+],
 
-  "🇬🇧 UK TOP 50": [
-    ["Bohemian Rhapsody","Queen"],
-    ["Don't Stop Me Now","Queen"],
-    ["Another One Bites the Dust","Queen"],
-    ["Careless Whisper","George Michael"],
-    ["Wake Me Up Before You Go-Go","Wham!"],
-    ["Freedom","Wham!"],
-    ["Faith","George Michael"],
-    ["Against All Odds","Phil Collins"],
-    ["In the Air Tonight","Phil Collins"],
-    ["Invisible Touch","Genesis"],
-    ["Sledgehammer","Peter Gabriel"],
-    ["Every Little Thing She Does Is Magic","The Police"],
-    ["Every Breath You Take","The Police"],
-    ["West End Girls","Pet Shop Boys"],
-    ["It's a Sin","Pet Shop Boys"],
-    ["True","Spandau Ballet"],
-    ["Gold","Spandau Ballet"],
-    ["Everybody Wants to Rule the World","Tears for Fears"],
-    ["Shout","Tears for Fears"],
-    ["The Reflex","Duran Duran"],
-    ["Hungry Like the Wolf","Duran Duran"],
-    ["Rio","Duran Duran"],
-    ["Don't You Want Me","The Human League"],
-    ["Tainted Love","Soft Cell"],
-    ["Sweet Dreams (Are Made of This)","Eurythmics"],
-    ["Here Comes the Rain Again","Eurythmics"],
-    ["Red Red Wine","UB40"],
-    ["I Got You Babe","UB40 & Chrissie Hynde"],
-    ["Do You Really Want to Hurt Me","Culture Club"],
-    ["Karma Chameleon","Culture Club"],
-    ["Relax","Frankie Goes to Hollywood"],
-    ["The Power of Love","Frankie Goes to Hollywood"],
-    ["Holding Back the Years","Simply Red"],
-    ["If You Don't Know Me by Now","Simply Red"],
-    ["With or Without You","U2"],
-    ["Where the Streets Have No Name","U2"],
-    ["Pride (In the Name of Love)","U2"],
-    ["Don't Dream It's Over","Crowded House"],
-    ["Baker Street","Gerry Rafferty"],
-    ["Stuck in the Middle with You","Stealers Wheel"],
-    ["The Boys of Summer","Don Henley"],
-    ["Running Up That Hill","Kate Bush"],
-    ["Wuthering Heights","Kate Bush"],
-    ["I'm Still Standing","Elton John"],
-    ["I Guess That's Why They Call It the Blues","Elton John"],
-    ["Your Song","Elton John"],
-    ["Rocket Man","Elton John"],
-    ["Everytime You Go Away","Paul Young"],
-    ["Never Gonna Give You Up","Rick Astley"],
-    ["Together Forever","Rick Astley"]
-  ]
+  "🇮🇱 ISRAEL TOP 100": [
+    [
+        "ירושלים של זהב",
+        "שולי נתן"
+    ],
+    [
+        "הללויה",
+        "חלב ודבש"
+    ],
+    [
+        "אני ואתה",
+        "אריק איינשטיין"
+    ],
+    [
+        "עוף גוזל",
+        "אריק איינשטיין"
+    ],
+    [
+        "סע לאט",
+        "אריק איינשטיין"
+    ],
+    [
+        "עטור מצחך",
+        "אריק איינשטיין"
+    ],
+    [
+        "יש בי אהבה",
+        "אריק איינשטיין"
+    ],
+    [
+        "לו יהי",
+        "נעמי שמר"
+    ],
+    [
+        "חורשת האקליפטוס",
+        "נעמי שמר"
+    ],
+    [
+        "על כל אלה",
+        "נעמי שמר"
+    ],
+    [
+        "שיר לשלום",
+        "להקת הנח\"ל"
+    ],
+    [
+        "הפרח בגני",
+        "זוהר ארגוב"
+    ],
+    [
+        "בדד",
+        "זוהר ארגוב"
+    ],
+    [
+        "נכון להיום",
+        "זוהר ארגוב"
+    ],
+    [
+        "אלינור",
+        "זוהר ארגוב"
+    ],
+    [
+        "צל עץ תמר",
+        "זוהר ארגוב"
+    ],
+    [
+        "כמו שיכור",
+        "זוהר ארגוב"
+    ],
+    [
+        "דרך השלום",
+        "פאר טסי"
+    ],
+    [
+        "מהפכה של שמחה",
+        "ליאור נרקיס ועומר אדם"
+    ],
+    [
+        "שני משוגעים",
+        "עומר אדם"
+    ],
+    [
+        "פעם בחיים",
+        "עומר אדם"
+    ],
+    [
+        "תל אביב",
+        "עומר אדם"
+    ],
+    [
+        "אחרי כל השנים",
+        "עומר אדם"
+    ],
+    [
+        "מודה אני",
+        "עומר אדם"
+    ],
+    [
+        "בלילות",
+        "עומר אדם"
+    ],
+    [
+        "כשאת עצובה",
+        "עמיר בניון"
+    ],
+    [
+        "ניצחת איתי הכל",
+        "עמיר בניון"
+    ],
+    [
+        "שלכת",
+        "עמיר בניון"
+    ],
+    [
+        "שמחות קטנות",
+        "עמיר בניון"
+    ],
+    [
+        "יש לך הכל",
+        "שלומי שבת"
+    ],
+    [
+        "אבא",
+        "שלומי שבת"
+    ],
+    [
+        "בגלל הרוח",
+        "שלומי שבת"
+    ],
+    [
+        "בראשית עולם",
+        "שלומי שבת"
+    ],
+    [
+        "שתדעי",
+        "שלומי שבת"
+    ],
+    [
+        "כשתבואי",
+        "אייל גולן"
+    ],
+    [
+        "יפה שלי",
+        "אייל גולן"
+    ],
+    [
+        "מי שמאמין",
+        "אייל גולן"
+    ],
+    [
+        "צליל מיתר",
+        "אייל גולן"
+    ],
+    [
+        "בלעדייך",
+        "אייל גולן"
+    ],
+    [
+        "דרך לחיים",
+        "אייל גולן"
+    ],
+    [
+        "ואני קורא לך",
+        "אייל גולן"
+    ],
+    [
+        "דמעות",
+        "אייל גולן"
+    ],
+    [
+        "לקנות לך יהלום",
+        "אייל גולן"
+    ],
+    [
+        "תבואי היום",
+        "אייל גולן"
+    ],
+    [
+        "ממה את מפחדת",
+        "אייל גולן ובניה ברבי"
+    ],
+    [
+        "מישהו איתי כאן",
+        "בניה ברבי"
+    ],
+    [
+        "קרן שמש",
+        "בניה ברבי"
+    ],
+    [
+        "תפסת לי מקום",
+        "בניה ברבי"
+    ],
+    [
+        "מסיבה בחיפה",
+        "האולטראס ואיתי לוי"
+    ],
+    [
+        "כמעט שיר אהבה",
+        "איתי לוי"
+    ],
+    [
+        "אין לי מקום אחר",
+        "איתי לוי"
+    ],
+    [
+        "שתישרף האהבה",
+        "איתי לוי"
+    ],
+    [
+        "מחכה",
+        "ריטה"
+    ],
+    [
+        "בוא",
+        "ריטה"
+    ],
+    [
+        "עטוף ברחמים",
+        "ריטה"
+    ],
+    [
+        "ימי התום",
+        "ריטה"
+    ],
+    [
+        "שרה ברחובות",
+        "ריטה"
+    ],
+    [
+        "חיה לי מיום ליום",
+        "ריטה"
+    ],
+    [
+        "אין לי ארץ אחרת",
+        "גלי עטרי"
+    ],
+    [
+        "חזקה מהרוח",
+        "גלי עטרי"
+    ],
+    [
+        "מה שאת אוהבת",
+        "גלי עטרי"
+    ],
+    [
+        "עוד יום",
+        "מתי כספי"
+    ],
+    [
+        "ברית עולם",
+        "מתי כספי"
+    ],
+    [
+        "ילדותי השנייה",
+        "מתי כספי"
+    ],
+    [
+        "שיר אהבה בדואי",
+        "דויד ברוזה"
+    ],
+    [
+        "יהיה טוב",
+        "דויד ברוזה"
+    ],
+    [
+        "האישה שאיתי",
+        "דויד ברוזה"
+    ],
+    [
+        "מתחת לשמיים",
+        "דויד ברוזה"
+    ],
+    [
+        "סיגליות",
+        "דויד ברוזה"
+    ],
+    [
+        "כשאת בוכה את לא יפה",
+        "אריק איינשטיין"
+    ],
+    [
+        "למה לי לקחת ללב",
+        "אריק איינשטיין ושלום חנוך"
+    ],
+    [
+        "מחכים למשיח",
+        "שלום חנוך"
+    ],
+    [
+        "חתונה לבנה",
+        "שלום חנוך"
+    ],
+    [
+        "מאיה",
+        "שלום חנוך"
+    ],
+    [
+        "אהבת נעורי",
+        "שלום חנוך"
+    ],
+    [
+        "עוד חוזר הניגון",
+        "ברי סחרוף"
+    ],
+    [
+        "חלליות",
+        "ברי סחרוף"
+    ],
+    [
+        "כמה יוסי",
+        "ברי סחרוף"
+    ],
+    [
+        "ניצוצות",
+        "פורטיסחרוף"
+    ],
+    [
+        "יום הולדת",
+        "ברי סחרוף"
+    ],
+    [
+        "לבכות לך",
+        "אביב גפן"
+    ],
+    [
+        "עכשיו מעונן",
+        "אביב גפן"
+    ],
+    [
+        "שיר תקווה",
+        "אביב גפן"
+    ],
+    [
+        "מיליארד טועים",
+        "אביב גפן"
+    ],
+    [
+        "גשם כבד עומד ליפול",
+        "אביב גפן"
+    ],
+    [
+        "סיבה טובה",
+        "אריק סיני"
+    ],
+    [
+        "שיר של יום חולין",
+        "אילנית"
+    ],
+    [
+        "אי שם",
+        "אילנית"
+    ],
+    [
+        "אהבה היא שיר לשניים",
+        "אילנית"
+    ],
+    [
+        "למיה יש אקדח",
+        "כנסיית השכל"
+    ],
+    [
+        "אם כבר לבד",
+        "החברים של נטאשה"
+    ],
+    [
+        "שיר אחר",
+        "החברים של נטאשה"
+    ],
+    [
+        "עוד נגיעה",
+        "החברים של נטאשה"
+    ],
+    [
+        "עכשיו טוב",
+        "גלעד שגב"
+    ],
+    [
+        "בואי נעזוב",
+        "רן דנקר ועילי בוטנר"
+    ],
+    [
+        "שווים",
+        "רן דנקר ועילי בוטנר"
+    ],
+    [
+        "ממעמקים",
+        "עידן רייכל"
+    ],
+    [
+        "אם תלך",
+        "הפרויקט של עידן רייכל"
+    ],
+    [
+        "בואי",
+        "הפרויקט של עידן רייכל"
+    ],
+    [
+        "רוב השעות",
+        "הפרויקט של עידן רייכל"
+    ]
+]
 };
 
 /* =========================================================
@@ -318,6 +1018,7 @@ function renderTabs(){
     b.className = "tab" + (name === currentCategory ? " active" : "");
     b.textContent = name;
     b.onclick = ()=>{
+      markUserInteraction();
       currentCategory = name;
       currentIndex = -1;
       document.getElementById("filter").value = "";
@@ -351,7 +1052,10 @@ function renderSongs(){
       '<span><strong>'+escapeHtml(title)+'</strong>'+
       '<small>'+escapeHtml(artist)+'</small></span>';
 
-    b.onclick = ()=>playSong(index);
+    b.onclick = ()=>{
+      markUserInteraction();
+      playSong(index);
+    };
     list.appendChild(b);
   });
 
@@ -431,6 +1135,22 @@ function addSong(){
 
 function setAdminMsg(text){
   document.getElementById("adminMsg").textContent = text;
+}
+
+let userHasInteracted = false;
+
+function markUserInteraction(){
+  userHasInteracted = true;
+
+  /* If a YouTube player already exists, resume it immediately
+     during this user gesture so no second PLAY tap is needed. */
+  try{
+    if(ytPlayer && typeof ytPlayer.playVideo === "function"){
+      ytPlayer.unMute();
+      ytPlayer.setVolume(100);
+      ytPlayer.playVideo();
+    }
+  }catch(e){}
 }
 
 /* =========================================================
@@ -519,9 +1239,41 @@ function createYTPlayer(videoId){
     },
     events:{
       onReady:function(event){
-        event.target.playVideo();
+        try{
+          event.target.unMute();
+          event.target.setVolume(100);
+          event.target.playVideo();
+
+          /* Some mobile browsers only permit guaranteed autoplay when muted.
+             If playback has not started after a short delay, start muted,
+             then immediately try to restore sound. */
+          setTimeout(function(){
+            try{
+              var state = event.target.getPlayerState();
+              if(state !== YT.PlayerState.PLAYING){
+                event.target.mute();
+                event.target.playVideo();
+
+                setTimeout(function(){
+                  try{
+                    event.target.unMute();
+                    event.target.setVolume(100);
+                  }catch(e){}
+                },250);
+              }
+            }catch(e){}
+          },450);
+
+        }catch(e){}
       },
       onStateChange:function(event){
+        if(event.data === YT.PlayerState.PLAYING){
+          try{
+            event.target.unMute();
+            event.target.setVolume(100);
+          }catch(e){}
+        }
+
         if(event.data === YT.PlayerState.ENDED){
           nextSong();
         }
@@ -645,6 +1397,16 @@ function escapeHtml(text){
 
 renderTabs();
 renderSongs();
+
+/* A single tap on any category or song is the playback gesture.
+   No separate tap on the YouTube player should be necessary. */
+["tabs","songList"].forEach(function(id){
+  var el = document.getElementById(id);
+  if(el){
+    el.addEventListener("touchstart",markUserInteraction,{passive:true});
+    el.addEventListener("pointerdown",markUserInteraction,{passive:true});
+  }
+});
 
 /* Try to start the first USA song automatically.
    iPhone/Safari may block sound until the first user tap. */

@@ -34,9 +34,7 @@ header p{margin:8px 0;color:#63d8ff;font-size:18px}
   color:#62d6ff;text-align:center;font-weight:700
 }
 .controls{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
-button,.buttonlike,input,select{
-  font:inherit
-}
+button,.buttonlike,input,select{font:inherit}
 button,.buttonlike{
   border:0;border-radius:12px;padding:13px 12px;font-weight:800;
   cursor:pointer;color:#fff;background:#1579ad;touch-action:manipulation
@@ -81,9 +79,9 @@ footer{text-align:center;color:#81b6d3;padding:26px 10px;font-size:13px}
 
 <body>
 <header>
-  <div style="font-size:34px">🕊️ 🇺🇸 🎵 🇬🇧 🕊️</div>
+  <div style="font-size:34px">🕊️ 🇺🇸 🎵 🇮🇱 🕊️</div>
   <h1>VOICE OF PEACE MUSIC</h1>
-  <p>100 USA Hits • 100 Israel Hits • Your Categories • Your Songs</p>
+  <p>USA Hits • Israel Hits • Your Categories • Your Songs</p>
 </header>
 
 <div class="wrap">
@@ -146,14 +144,16 @@ footer{text-align:center;color:#81b6d3;padding:26px 10px;font-size:13px}
 
 <footer>
   VOICE OF PEACE MUSIC<br><br>
-  All videos play inside this app through YouTube embeds.
+  All videos stay inside this app through YouTube embeds.
 </footer>
 
 <script>
 /* =========================================================
    YOUTUBE API
-   Restrict these keys in Google Cloud to your GitHub Pages
-   domain and YouTube Data API v3.
+   IMPORTANT:
+   Restrict these keys in Google Cloud to:
+   https://mano34911.github.io/*
+   and YouTube Data API v3 only.
 ========================================================= */
 
 const YOUTUBE_API_KEYS = [
@@ -169,2226 +169,586 @@ let apiKeyIndex = 0;
 
 const builtIn = {
   "🇺🇸 USA TOP 200 — NO RAP / HIP-HOP": [
-    [
-      "Billie Jean",
-      "Michael Jackson"
-    ],
-    [
-      "Hotel California",
-      "Eagles"
-    ],
-    [
-      "Purple Rain",
-      "Prince"
-    ],
-    [
-      "Like a Prayer",
-      "Madonna"
-    ],
-    [
-      "I Will Always Love You",
-      "Whitney Houston"
-    ],
-    [
-      "Born in the U.S.A.",
-      "Bruce Springsteen"
-    ],
-    [
-      "Sweet Child O' Mine",
-      "Guns N' Roses"
-    ],
-    [
-      "Livin' on a Prayer",
-      "Bon Jovi"
-    ],
-    [
-      "Don't Stop Believin'",
-      "Journey"
-    ],
-    [
-      "Every Breath You Take",
-      "The Police"
-    ],
-    [
-      "Thriller",
-      "Michael Jackson"
-    ],
-    [
-      "Beat It",
-      "Michael Jackson"
-    ],
-    [
-      "Man in the Mirror",
-      "Michael Jackson"
-    ],
-    [
-      "Material Girl",
-      "Madonna"
-    ],
-    [
-      "Time After Time",
-      "Cyndi Lauper"
-    ],
-    [
-      "Girls Just Want to Have Fun",
-      "Cyndi Lauper"
-    ],
-    [
-      "Footloose",
-      "Kenny Loggins"
-    ],
-    [
-      "Africa",
-      "Toto"
-    ],
-    [
-      "Eye of the Tiger",
-      "Survivor"
-    ],
-    [
-      "Free Fallin'",
-      "Tom Petty"
-    ],
-    [
-      "Fast Car",
-      "Tracy Chapman"
-    ],
-    [
-      "Uptown Girl",
-      "Billy Joel"
-    ],
-    [
-      "We Didn't Start the Fire",
-      "Billy Joel"
-    ],
-    [
-      "Piano Man",
-      "Billy Joel"
-    ],
-    [
-      "Born to Run",
-      "Bruce Springsteen"
-    ],
-    [
-      "Dancing in the Dark",
-      "Bruce Springsteen"
-    ],
-    [
-      "What's Love Got to Do with It",
-      "Tina Turner"
-    ],
-    [
-      "The Best",
-      "Tina Turner"
-    ],
-    [
-      "Faith",
-      "George Michael"
-    ],
-    [
-      "Careless Whisper",
-      "George Michael"
-    ],
-    [
-      "Open Arms",
-      "Journey"
-    ],
-    [
-      "Separate Ways",
-      "Journey"
-    ],
-    [
-      "Heaven",
-      "Bryan Adams"
-    ],
-    [
-      "Summer of '69",
-      "Bryan Adams"
-    ],
-    [
-      "Danger Zone",
-      "Kenny Loggins"
-    ],
-    [
-      "Here I Go Again",
-      "Whitesnake"
-    ],
-    [
-      "Alone",
-      "Heart"
-    ],
-    [
-      "Nothing's Gonna Stop Us Now",
-      "Starship"
-    ],
-    [
-      "We Built This City",
-      "Starship"
-    ],
-    [
-      "Kokomo",
-      "The Beach Boys"
-    ],
-    [
-      "Celebration",
-      "Kool & The Gang"
-    ],
-    [
-      "All Night Long",
-      "Lionel Richie"
-    ],
-    [
-      "Hello",
-      "Lionel Richie"
-    ],
-    [
-      "Endless Love",
-      "Diana Ross & Lionel Richie"
-    ],
-    [
-      "How Will I Know",
-      "Whitney Houston"
-    ],
-    [
-      "Greatest Love of All",
-      "Whitney Houston"
-    ],
-    [
-      "I Wanna Dance with Somebody",
-      "Whitney Houston"
-    ],
-    [
-      "Straight Up",
-      "Paula Abdul"
-    ],
-    [
-      "Opposites Attract",
-      "Paula Abdul"
-    ],
-    [
-      "Take My Breath Away",
-      "Berlin"
-    ],
-    [
-      "Heaven Is a Place on Earth",
-      "Belinda Carlisle"
-    ],
-    [
-      "The Power of Love",
-      "Huey Lewis and the News"
-    ],
-    [
-      "Walk This Way",
-      "Aerosmith"
-    ],
-    [
-      "Dream On",
-      "Aerosmith"
-    ],
-    [
-      "More Than a Feeling",
-      "Boston"
-    ],
-    [
-      "Jessie's Girl",
-      "Rick Springfield"
-    ],
-    [
-      "Centerfold",
-      "The J. Geils Band"
-    ],
-    [
-      "Glory Days",
-      "Bruce Springsteen"
-    ],
-    [
-      "Hungry Heart",
-      "Bruce Springsteen"
-    ],
-    [
-      "You Give Love a Bad Name",
-      "Bon Jovi"
-    ],
-    [
-      "Wanted Dead or Alive",
-      "Bon Jovi"
-    ],
-    [
-      "Paradise City",
-      "Guns N' Roses"
-    ],
-    [
-      "November Rain",
-      "Guns N' Roses"
-    ],
-    [
-      "Pour Some Sugar on Me",
-      "Def Leppard"
-    ],
-    [
-      "Don't You (Forget About Me)",
-      "Simple Minds"
-    ],
-    [
-      "The Boys of Summer",
-      "Don Henley"
-    ],
-    [
-      "Against All Odds",
-      "Phil Collins"
-    ],
-    [
-      "In the Air Tonight",
-      "Phil Collins"
-    ],
-    [
-      "Sledgehammer",
-      "Peter Gabriel"
-    ],
-    [
-      "True Colors",
-      "Cyndi Lauper"
-    ],
-    [
-      "Papa Don't Preach",
-      "Madonna"
-    ],
-    [
-      "Into the Groove",
-      "Madonna"
-    ],
-    [
-      "The Way You Make Me Feel",
-      "Michael Jackson"
-    ],
-    [
-      "Smooth Criminal",
-      "Michael Jackson"
-    ],
-    [
-      "Black or White",
-      "Michael Jackson"
-    ],
-    [
-      "Vogue",
-      "Madonna"
-    ],
-    [
-      "Vision of Love",
-      "Mariah Carey"
-    ],
-    [
-      "Hero",
-      "Mariah Carey"
-    ],
-    [
-      "Because You Loved Me",
-      "Celine Dion"
-    ],
-    [
-      "My Heart Will Go On",
-      "Celine Dion"
-    ],
-    [
-      "I Don't Want to Miss a Thing",
-      "Aerosmith"
-    ],
-    [
-      "Iris",
-      "Goo Goo Dolls"
-    ],
-    [
-      "Losing My Religion",
-      "R.E.M."
-    ],
-    [
-      "With or Without You",
-      "U2"
-    ],
-    [
-      "One",
-      "U2"
-    ],
-    [
-      "Everybody Wants to Rule the World",
-      "Tears for Fears"
-    ],
-    [
-      "Sweet Dreams (Are Made of This)",
-      "Eurythmics"
-    ],
-    [
-      "Take On Me",
-      "a-ha"
-    ],
-    [
-      "Never Gonna Give You Up",
-      "Rick Astley"
-    ],
-    [
-      "Nothing Compares 2 U",
-      "Sinéad O'Connor"
-    ],
-    [
-      "The Power of Love",
-      "Celine Dion"
-    ],
-    [
-      "Un-Break My Heart",
-      "Toni Braxton"
-    ],
-    [
-      "I'll Make Love to You",
-      "Boyz II Men"
-    ],
-    [
-      "No Scrubs",
-      "TLC"
-    ],
-    [
-      "Genie in a Bottle",
-      "Christina Aguilera"
-    ],
-    [
-      "...Baby One More Time",
-      "Britney Spears"
-    ],
-    [
-      "Since U Been Gone",
-      "Kelly Clarkson"
-    ],
-    [
-      "Rolling in the Deep",
-      "Adele"
-    ],
-    [
-      "Respect",
-      "Aretha Franklin"
-    ],
-    [
-      "(You Make Me Feel Like) A Natural Woman",
-      "Aretha Franklin"
-    ],
-    [
-      "Chain of Fools",
-      "Aretha Franklin"
-    ],
-    [
-      "Stand by Me",
-      "Ben E. King"
-    ],
-    [
-      "Unchained Melody",
-      "The Righteous Brothers"
-    ],
-    [
-      "California Dreamin'",
-      "The Mamas & the Papas"
-    ],
-    [
-      "Good Vibrations",
-      "The Beach Boys"
-    ],
-    [
-      "God Only Knows",
-      "The Beach Boys"
-    ],
-    [
-      "Bridge Over Troubled Water",
-      "Simon & Garfunkel"
-    ],
-    [
-      "The Sound of Silence",
-      "Simon & Garfunkel"
-    ],
-    [
-      "Mrs. Robinson",
-      "Simon & Garfunkel"
-    ],
-    [
-      "American Pie",
-      "Don McLean"
-    ],
-    [
-      "Lean on Me",
-      "Bill Withers"
-    ],
-    [
-      "Ain't No Sunshine",
-      "Bill Withers"
-    ],
-    [
-      "Let's Stay Together",
-      "Al Green"
-    ],
-    [
-      "What's Going On",
-      "Marvin Gaye"
-    ],
-    [
-      "Ain't No Mountain High Enough",
-      "Marvin Gaye & Tammi Terrell"
-    ],
-    [
-      "Superstition",
-      "Stevie Wonder"
-    ],
-    [
-      "Isn't She Lovely",
-      "Stevie Wonder"
-    ],
-    [
-      "Signed, Sealed, Delivered",
-      "Stevie Wonder"
-    ],
-    [
-      "September",
-      "Earth, Wind & Fire"
-    ],
-    [
-      "Let's Groove",
-      "Earth, Wind & Fire"
-    ],
-    [
-      "Shining Star",
-      "Earth, Wind & Fire"
-    ],
-    [
-      "Best of My Love",
-      "The Emotions"
-    ],
-    [
-      "Stayin' Alive",
-      "Bee Gees"
-    ],
-    [
-      "How Deep Is Your Love",
-      "Bee Gees"
-    ],
-    [
-      "Night Fever",
-      "Bee Gees"
-    ],
-    [
-      "Dancing Queen",
-      "ABBA"
-    ],
-    [
-      "Dreams",
-      "Fleetwood Mac"
-    ],
-    [
-      "Go Your Own Way",
-      "Fleetwood Mac"
-    ],
-    [
-      "Landslide",
-      "Fleetwood Mac"
-    ],
-    [
-      "Your Song",
-      "Elton John"
-    ],
-    [
-      "Rocket Man",
-      "Elton John"
-    ],
-    [
-      "Tiny Dancer",
-      "Elton John"
-    ],
-    [
-      "Bennie and the Jets",
-      "Elton John"
-    ],
-    [
-      "Maggie May",
-      "Rod Stewart"
-    ],
-    [
-      "You're in My Heart",
-      "Rod Stewart"
-    ],
-    [
-      "Have I Told You Lately",
-      "Rod Stewart"
-    ],
-    [
-      "You're So Vain",
-      "Carly Simon"
-    ],
-    [
-      "You've Got a Friend",
-      "James Taylor"
-    ],
-    [
-      "Fire and Rain",
-      "James Taylor"
-    ],
-    [
-      "Take It Easy",
-      "Eagles"
-    ],
-    [
-      "Desperado",
-      "Eagles"
-    ],
-    [
-      "New Kid in Town",
-      "Eagles"
-    ],
-    [
-      "Carry on Wayward Son",
-      "Kansas"
-    ],
-    [
-      "Dust in the Wind",
-      "Kansas"
-    ],
-    [
-      "Dream Weaver",
-      "Gary Wright"
-    ],
-    [
-      "Rich Girl",
-      "Daryl Hall & John Oates"
-    ],
-    [
-      "You Make My Dreams",
-      "Daryl Hall & John Oates"
-    ],
-    [
-      "Maneater",
-      "Daryl Hall & John Oates"
-    ],
-    [
-      "Rosanna",
-      "Toto"
-    ],
-    [
-      "Hold the Line",
-      "Toto"
-    ],
-    [
-      "Any Way You Want It",
-      "Journey"
-    ],
-    [
-      "Lights",
-      "Journey"
-    ],
-    [
-      "Keep on Loving You",
-      "REO Speedwagon"
-    ],
-    [
-      "Can't Fight This Feeling",
-      "REO Speedwagon"
-    ],
-    [
-      "Amanda",
-      "Boston"
-    ],
-    [
-      "These Dreams",
-      "Heart"
-    ],
-    [
-      "Barracuda",
-      "Heart"
-    ],
-    [
-      "Every Rose Has Its Thorn",
-      "Poison"
-    ],
-    [
-      "Heaven",
-      "Warrant"
-    ],
-    [
-      "Is This Love",
-      "Whitesnake"
-    ],
-    [
-      "Patience",
-      "Guns N' Roses"
-    ],
-    [
-      "Faithfully",
-      "Journey"
-    ],
-    [
-      "Nothing Else Matters",
-      "Metallica"
-    ],
-    [
-      "Enter Sandman",
-      "Metallica"
-    ],
-    [
-      "Under the Bridge",
-      "Red Hot Chili Peppers"
-    ],
-    [
-      "Californication",
-      "Red Hot Chili Peppers"
-    ],
-    [
-      "Otherside",
-      "Red Hot Chili Peppers"
-    ],
-    [
-      "Linger",
-      "The Cranberries"
-    ],
-    [
-      "Zombie",
-      "The Cranberries"
-    ],
-    [
-      "Torn",
-      "Natalie Imbruglia"
-    ],
-    [
-      "You Oughta Know",
-      "Alanis Morissette"
-    ],
-    [
-      "Ironic",
-      "Alanis Morissette"
-    ],
-    [
-      "Hand in My Pocket",
-      "Alanis Morissette"
-    ],
-    [
-      "Kiss Me",
-      "Sixpence None the Richer"
-    ],
-    [
-      "Truly Madly Deeply",
-      "Savage Garden"
-    ],
-    [
-      "I Want It That Way",
-      "Backstreet Boys"
-    ],
-    [
-      "As Long as You Love Me",
-      "Backstreet Boys"
-    ],
-    [
-      "Everybody (Backstreet's Back)",
-      "Backstreet Boys"
-    ],
-    [
-      "Tearin' Up My Heart",
-      "NSYNC"
-    ],
-    [
-      "This I Promise You",
-      "NSYNC"
-    ],
-    [
-      "I Don't Want to Wait",
-      "Paula Cole"
-    ],
-    [
-      "You Were Meant for Me",
-      "Jewel"
-    ],
-    [
-      "Foolish Games",
-      "Jewel"
-    ],
-    [
-      "Because of You",
-      "Kelly Clarkson"
-    ],
-    [
-      "Breakaway",
-      "Kelly Clarkson"
-    ],
-    [
-      "A Thousand Miles",
-      "Vanessa Carlton"
-    ],
-    [
-      "Complicated",
-      "Avril Lavigne"
-    ],
-    [
-      "I'm with You",
-      "Avril Lavigne"
-    ],
-    [
-      "Beautiful",
-      "Christina Aguilera"
-    ],
-    [
-      "The Reason",
-      "Hoobastank"
-    ],
-    [
-      "Chasing Cars",
-      "Snow Patrol"
-    ],
-    [
-      "Drops of Jupiter",
-      "Train"
-    ],
-    [
-      "Hey, Soul Sister",
-      "Train"
-    ],
-    [
-      "Apologize",
-      "OneRepublic"
-    ],
-    [
-      "Bleeding Love",
-      "Leona Lewis"
-    ],
-    [
-      "Halo",
-      "Beyoncé"
-    ],
-    [
-      "If I Ain't Got You",
-      "Alicia Keys"
-    ],
-    [
-      "No One",
-      "Alicia Keys"
-    ],
-    [
-      "Fallin'",
-      "Alicia Keys"
-    ],
-    [
-      "Because of You",
-      "Ne-Yo"
-    ]
+    ["Billie Jean","Michael Jackson"],
+    ["Hotel California","Eagles"],
+    ["Purple Rain","Prince"],
+    ["Like a Prayer","Madonna"],
+    ["I Will Always Love You","Whitney Houston"],
+    ["Born in the U.S.A.","Bruce Springsteen"],
+    ["Sweet Child O' Mine","Guns N' Roses"],
+    ["Livin' on a Prayer","Bon Jovi"],
+    ["Don't Stop Believin'","Journey"],
+    ["Every Breath You Take","The Police"],
+    ["Thriller","Michael Jackson"],
+    ["Beat It","Michael Jackson"],
+    ["Man in the Mirror","Michael Jackson"],
+    ["Material Girl","Madonna"],
+    ["Time After Time","Cyndi Lauper"],
+    ["Girls Just Want to Have Fun","Cyndi Lauper"],
+    ["Footloose","Kenny Loggins"],
+    ["Africa","Toto"],
+    ["Eye of the Tiger","Survivor"],
+    ["Free Fallin'","Tom Petty"],
+    ["Fast Car","Tracy Chapman"],
+    ["Uptown Girl","Billy Joel"],
+    ["We Didn't Start the Fire","Billy Joel"],
+    ["Piano Man","Billy Joel"],
+    ["Born to Run","Bruce Springsteen"],
+    ["Dancing in the Dark","Bruce Springsteen"],
+    ["What's Love Got to Do with It","Tina Turner"],
+    ["The Best","Tina Turner"],
+    ["Faith","George Michael"],
+    ["Careless Whisper","George Michael"],
+    ["Open Arms","Journey"],
+    ["Separate Ways","Journey"],
+    ["Heaven","Bryan Adams"],
+    ["Summer of '69","Bryan Adams"],
+    ["Danger Zone","Kenny Loggins"],
+    ["Here I Go Again","Whitesnake"],
+    ["Alone","Heart"],
+    ["Nothing's Gonna Stop Us Now","Starship"],
+    ["We Built This City","Starship"],
+    ["Kokomo","The Beach Boys"],
+    ["Celebration","Kool & The Gang"],
+    ["All Night Long","Lionel Richie"],
+    ["Hello","Lionel Richie"],
+    ["Endless Love","Diana Ross & Lionel Richie"],
+    ["How Will I Know","Whitney Houston"],
+    ["Greatest Love of All","Whitney Houston"],
+    ["I Wanna Dance with Somebody","Whitney Houston"],
+    ["Straight Up","Paula Abdul"],
+    ["Opposites Attract","Paula Abdul"],
+    ["Take My Breath Away","Berlin"],
+    ["Heaven Is a Place on Earth","Belinda Carlisle"],
+    ["The Power of Love","Huey Lewis and the News"],
+    ["Walk This Way","Aerosmith"],
+    ["Dream On","Aerosmith"],
+    ["More Than a Feeling","Boston"],
+    ["Jessie's Girl","Rick Springfield"],
+    ["Centerfold","The J. Geils Band"],
+    ["Glory Days","Bruce Springsteen"],
+    ["Hungry Heart","Bruce Springsteen"],
+    ["You Give Love a Bad Name","Bon Jovi"],
+    ["Wanted Dead or Alive","Bon Jovi"],
+    ["Paradise City","Guns N' Roses"],
+    ["November Rain","Guns N' Roses"],
+    ["Pour Some Sugar on Me","Def Leppard"],
+    ["Don't You (Forget About Me)","Simple Minds"],
+    ["The Boys of Summer","Don Henley"],
+    ["Against All Odds","Phil Collins"],
+    ["In the Air Tonight","Phil Collins"],
+    ["Sledgehammer","Peter Gabriel"],
+    ["True Colors","Cyndi Lauper"],
+    ["Papa Don't Preach","Madonna"],
+    ["Into the Groove","Madonna"],
+    ["The Way You Make Me Feel","Michael Jackson"],
+    ["Smooth Criminal","Michael Jackson"],
+    ["Black or White","Michael Jackson"],
+    ["Vogue","Madonna"],
+    ["Vision of Love","Mariah Carey"],
+    ["Hero","Mariah Carey"],
+    ["Because You Loved Me","Celine Dion"],
+    ["My Heart Will Go On","Celine Dion"],
+    ["I Don't Want to Miss a Thing","Aerosmith"],
+    ["Iris","Goo Goo Dolls"],
+    ["Losing My Religion","R.E.M."],
+    ["With or Without You","U2"],
+    ["One","U2"],
+    ["Everybody Wants to Rule the World","Tears for Fears"],
+    ["Sweet Dreams (Are Made of This)","Eurythmics"],
+    ["Take On Me","a-ha"],
+    ["Never Gonna Give You Up","Rick Astley"],
+    ["Nothing Compares 2 U","Sinéad O'Connor"],
+    ["The Power of Love","Celine Dion"],
+    ["Un-Break My Heart","Toni Braxton"],
+    ["I'll Make Love to You","Boyz II Men"],
+    ["No Scrubs","TLC"],
+    ["Genie in a Bottle","Christina Aguilera"],
+    ["...Baby One More Time","Britney Spears"],
+    ["Since U Been Gone","Kelly Clarkson"],
+    ["Rolling in the Deep","Adele"],
+    ["Respect","Aretha Franklin"],
+    ["(You Make Me Feel Like) A Natural Woman","Aretha Franklin"],
+    ["Chain of Fools","Aretha Franklin"],
+    ["Stand by Me","Ben E. King"],
+    ["Unchained Melody","The Righteous Brothers"],
+    ["California Dreamin'","The Mamas & the Papas"],
+    ["Good Vibrations","The Beach Boys"],
+    ["God Only Knows","The Beach Boys"],
+    ["Bridge Over Troubled Water","Simon & Garfunkel"],
+    ["The Sound of Silence","Simon & Garfunkel"],
+    ["Mrs. Robinson","Simon & Garfunkel"],
+    ["American Pie","Don McLean"],
+    ["Lean on Me","Bill Withers"],
+    ["Ain't No Sunshine","Bill Withers"],
+    ["Let's Stay Together","Al Green"],
+    ["What's Going On","Marvin Gaye"],
+    ["Ain't No Mountain High Enough","Marvin Gaye & Tammi Terrell"],
+    ["Superstition","Stevie Wonder"],
+    ["Isn't She Lovely","Stevie Wonder"],
+    ["Signed, Sealed, Delivered","Stevie Wonder"],
+    ["September","Earth, Wind & Fire"],
+    ["Let's Groove","Earth, Wind & Fire"],
+    ["Shining Star","Earth, Wind & Fire"],
+    ["Best of My Love","The Emotions"],
+    ["Stayin' Alive","Bee Gees"],
+    ["How Deep Is Your Love","Bee Gees"],
+    ["Night Fever","Bee Gees"],
+    ["Dancing Queen","ABBA"],
+    ["Dreams","Fleetwood Mac"],
+    ["Go Your Own Way","Fleetwood Mac"],
+    ["Landslide","Fleetwood Mac"],
+    ["Your Song","Elton John"],
+    ["Rocket Man","Elton John"],
+    ["Tiny Dancer","Elton John"],
+    ["Bennie and the Jets","Elton John"],
+    ["Maggie May","Rod Stewart"],
+    ["You're in My Heart","Rod Stewart"],
+    ["Have I Told You Lately","Rod Stewart"],
+    ["You're So Vain","Carly Simon"],
+    ["You've Got a Friend","James Taylor"],
+    ["Fire and Rain","James Taylor"],
+    ["Take It Easy","Eagles"],
+    ["Desperado","Eagles"],
+    ["New Kid in Town","Eagles"],
+    ["Carry on Wayward Son","Kansas"],
+    ["Dust in the Wind","Kansas"],
+    ["Dream Weaver","Gary Wright"],
+    ["Rich Girl","Daryl Hall & John Oates"],
+    ["You Make My Dreams","Daryl Hall & John Oates"],
+    ["Maneater","Daryl Hall & John Oates"],
+    ["Rosanna","Toto"],
+    ["Hold the Line","Toto"],
+    ["Any Way You Want It","Journey"],
+    ["Lights","Journey"],
+    ["Keep on Loving You","REO Speedwagon"],
+    ["Can't Fight This Feeling","REO Speedwagon"],
+    ["Amanda","Boston"],
+    ["These Dreams","Heart"],
+    ["Barracuda","Heart"],
+    ["Every Rose Has Its Thorn","Poison"],
+    ["Heaven","Warrant"],
+    ["Is This Love","Whitesnake"],
+    ["Patience","Guns N' Roses"],
+    ["Faithfully","Journey"],
+    ["Nothing Else Matters","Metallica"],
+    ["Enter Sandman","Metallica"],
+    ["Under the Bridge","Red Hot Chili Peppers"],
+    ["Californication","Red Hot Chili Peppers"],
+    ["Otherside","Red Hot Chili Peppers"],
+    ["Linger","The Cranberries"],
+    ["Zombie","The Cranberries"],
+    ["Torn","Natalie Imbruglia"],
+    ["You Oughta Know","Alanis Morissette"],
+    ["Ironic","Alanis Morissette"],
+    ["Hand in My Pocket","Alanis Morissette"],
+    ["Kiss Me","Sixpence None the Richer"],
+    ["Truly Madly Deeply","Savage Garden"],
+    ["I Want It That Way","Backstreet Boys"],
+    ["As Long as You Love Me","Backstreet Boys"],
+    ["Everybody (Backstreet's Back)","Backstreet Boys"],
+    ["Tearin' Up My Heart","NSYNC"],
+    ["This I Promise You","NSYNC"],
+    ["I Don't Want to Wait","Paula Cole"],
+    ["You Were Meant for Me","Jewel"],
+    ["Foolish Games","Jewel"],
+    ["Because of You","Kelly Clarkson"],
+    ["Breakaway","Kelly Clarkson"],
+    ["A Thousand Miles","Vanessa Carlton"],
+    ["Complicated","Avril Lavigne"],
+    ["I'm with You","Avril Lavigne"],
+    ["Beautiful","Christina Aguilera"],
+    ["The Reason","Hoobastank"],
+    ["Chasing Cars","Snow Patrol"],
+    ["Drops of Jupiter","Train"],
+    ["Hey, Soul Sister","Train"],
+    ["Apologize","OneRepublic"],
+    ["Bleeding Love","Leona Lewis"],
+    ["Halo","Beyoncé"],
+    ["If I Ain't Got You","Alicia Keys"],
+    ["No One","Alicia Keys"],
+    ["Fallin'","Alicia Keys"],
+    ["Because of You","Ne-Yo"]
   ],
+
   "🇮🇱 ISRAEL TOP 200 — NO RAP / HIP-HOP": [
-    [
-      "ירושלים של זהב",
-      "שולי נתן"
-    ],
-    [
-      "הללויה",
-      "חלב ודבש"
-    ],
-    [
-      "אני ואתה",
-      "אריק איינשטיין"
-    ],
-    [
-      "עוף גוזל",
-      "אריק איינשטיין"
-    ],
-    [
-      "סע לאט",
-      "אריק איינשטיין"
-    ],
-    [
-      "עטור מצחך",
-      "אריק איינשטיין"
-    ],
-    [
-      "יש בי אהבה",
-      "אריק איינשטיין"
-    ],
-    [
-      "לו יהי",
-      "נעמי שמר"
-    ],
-    [
-      "חורשת האקליפטוס",
-      "נעמי שמר"
-    ],
-    [
-      "על כל אלה",
-      "נעמי שמר"
-    ],
-    [
-      "שיר לשלום",
-      "להקת הנח\"ל"
-    ],
-    [
-      "הפרח בגני",
-      "זוהר ארגוב"
-    ],
-    [
-      "בדד",
-      "זוהר ארגוב"
-    ],
-    [
-      "נכון להיום",
-      "זוהר ארגוב"
-    ],
-    [
-      "אלינור",
-      "זוהר ארגוב"
-    ],
-    [
-      "צל עץ תמר",
-      "זוהר ארגוב"
-    ],
-    [
-      "כמו שיכור",
-      "זוהר ארגוב"
-    ],
-    [
-      "דרך השלום",
-      "פאר טסי"
-    ],
-    [
-      "מהפכה של שמחה",
-      "ליאור נרקיס ועומר אדם"
-    ],
-    [
-      "שני משוגעים",
-      "עומר אדם"
-    ],
-    [
-      "פעם בחיים",
-      "עומר אדם"
-    ],
-    [
-      "תל אביב",
-      "עומר אדם"
-    ],
-    [
-      "אחרי כל השנים",
-      "עומר אדם"
-    ],
-    [
-      "מודה אני",
-      "עומר אדם"
-    ],
-    [
-      "בלילות",
-      "עומר אדם"
-    ],
-    [
-      "כשאת עצובה",
-      "עמיר בניון"
-    ],
-    [
-      "ניצחת איתי הכל",
-      "עמיר בניון"
-    ],
-    [
-      "שלכת",
-      "עמיר בניון"
-    ],
-    [
-      "שמחות קטנות",
-      "עמיר בניון"
-    ],
-    [
-      "יש לך הכל",
-      "שלומי שבת"
-    ],
-    [
-      "אבא",
-      "שלומי שבת"
-    ],
-    [
-      "בגלל הרוח",
-      "שלומי שבת"
-    ],
-    [
-      "בראשית עולם",
-      "שלומי שבת"
-    ],
-    [
-      "שתדעי",
-      "שלומי שבת"
-    ],
-    [
-      "כשתבואי",
-      "אייל גולן"
-    ],
-    [
-      "יפה שלי",
-      "אייל גולן"
-    ],
-    [
-      "מי שמאמין",
-      "אייל גולן"
-    ],
-    [
-      "צליל מיתר",
-      "אייל גולן"
-    ],
-    [
-      "בלעדייך",
-      "אייל גולן"
-    ],
-    [
-      "דרך לחיים",
-      "אייל גולן"
-    ],
-    [
-      "ואני קורא לך",
-      "אייל גולן"
-    ],
-    [
-      "דמעות",
-      "אייל גולן"
-    ],
-    [
-      "לקנות לך יהלום",
-      "אייל גולן"
-    ],
-    [
-      "תבואי היום",
-      "אייל גולן"
-    ],
-    [
-      "ממה את מפחדת",
-      "אייל גולן ובניה ברבי"
-    ],
-    [
-      "מישהו איתי כאן",
-      "בניה ברבי"
-    ],
-    [
-      "קרן שמש",
-      "בניה ברבי"
-    ],
-    [
-      "תפסת לי מקום",
-      "בניה ברבי"
-    ],
-    [
-      "כמעט שיר אהבה",
-      "איתי לוי"
-    ],
-    [
-      "אין לי מקום אחר",
-      "איתי לוי"
-    ],
-    [
-      "שתישרף האהבה",
-      "איתי לוי"
-    ],
-    [
-      "מחכה",
-      "ריטה"
-    ],
-    [
-      "בוא",
-      "ריטה"
-    ],
-    [
-      "עטוף ברחמים",
-      "ריטה"
-    ],
-    [
-      "ימי התום",
-      "ריטה"
-    ],
-    [
-      "שרה ברחובות",
-      "ריטה"
-    ],
-    [
-      "חיה לי מיום ליום",
-      "ריטה"
-    ],
-    [
-      "אין לי ארץ אחרת",
-      "גלי עטרי"
-    ],
-    [
-      "חזקה מהרוח",
-      "גלי עטרי"
-    ],
-    [
-      "מה שאת אוהבת",
-      "גלי עטרי"
-    ],
-    [
-      "עוד יום",
-      "מתי כספי"
-    ],
-    [
-      "ברית עולם",
-      "מתי כספי"
-    ],
-    [
-      "ילדותי השנייה",
-      "מתי כספי"
-    ],
-    [
-      "שיר אהבה בדואי",
-      "דויד ברוזה"
-    ],
-    [
-      "יהיה טוב",
-      "דויד ברוזה"
-    ],
-    [
-      "האישה שאיתי",
-      "דויד ברוזה"
-    ],
-    [
-      "מתחת לשמיים",
-      "דויד ברוזה"
-    ],
-    [
-      "סיגליות",
-      "דויד ברוזה"
-    ],
-    [
-      "כשאת בוכה את לא יפה",
-      "אריק איינשטיין"
-    ],
-    [
-      "למה לי לקחת ללב",
-      "אריק איינשטיין ושלום חנוך"
-    ],
-    [
-      "מחכים למשיח",
-      "שלום חנוך"
-    ],
-    [
-      "חתונה לבנה",
-      "שלום חנוך"
-    ],
-    [
-      "מאיה",
-      "שלום חנוך"
-    ],
-    [
-      "אהבת נעורי",
-      "שלום חנוך"
-    ],
-    [
-      "עוד חוזר הניגון",
-      "ברי סחרוף"
-    ],
-    [
-      "חלליות",
-      "ברי סחרוף"
-    ],
-    [
-      "כמה יוסי",
-      "ברי סחרוף"
-    ],
-    [
-      "ניצוצות",
-      "פורטיסחרוף"
-    ],
-    [
-      "יום הולדת",
-      "ברי סחרוף"
-    ],
-    [
-      "לבכות לך",
-      "אביב גפן"
-    ],
-    [
-      "עכשיו מעונן",
-      "אביב גפן"
-    ],
-    [
-      "שיר תקווה",
-      "אביב גפן"
-    ],
-    [
-      "מיליארד טועים",
-      "אביב גפן"
-    ],
-    [
-      "גשם כבד עומד ליפול",
-      "אביב גפן"
-    ],
-    [
-      "סיבה טובה",
-      "אריק סיני"
-    ],
-    [
-      "שיר של יום חולין",
-      "אילנית"
-    ],
-    [
-      "אי שם",
-      "אילנית"
-    ],
-    [
-      "אהבה היא שיר לשניים",
-      "אילנית"
-    ],
-    [
-      "למיה יש אקדח",
-      "כנסיית השכל"
-    ],
-    [
-      "אם כבר לבד",
-      "החברים של נטאשה"
-    ],
-    [
-      "שיר אחר",
-      "החברים של נטאשה"
-    ],
-    [
-      "עוד נגיעה",
-      "החברים של נטאשה"
-    ],
-    [
-      "עכשיו טוב",
-      "גלעד שגב"
-    ],
-    [
-      "בואי נעזוב",
-      "רן דנקר ועילי בוטנר"
-    ],
-    [
-      "שווים",
-      "רן דנקר ועילי בוטנר"
-    ],
-    [
-      "ממעמקים",
-      "עידן רייכל"
-    ],
-    [
-      "אם תלך",
-      "הפרויקט של עידן רייכל"
-    ],
-    [
-      "בואי",
-      "הפרויקט של עידן רייכל"
-    ],
-    [
-      "רוב השעות",
-      "הפרויקט של עידן רייכל"
-    ],
-    [
-      "את לי לילה",
-      "בועז שרעבי"
-    ],
-    [
-      "לתת",
-      "בועז שרעבי"
-    ],
-    [
-      "הלוואי",
-      "בועז שרעבי"
-    ],
-    [
-      "ברית עולם",
-      "בועז שרעבי"
-    ],
-    [
-      "משאלה",
-      "בועז שרעבי"
-    ],
-    [
-      "נפרדנו כך",
-      "אבנר גדסי"
-    ],
-    [
-      "הגברים בוכים בלילה",
-      "אבנר גדסי"
-    ],
-    [
-      "מנגן ושר",
-      "אבנר גדסי"
-    ],
-    [
-      "שרונה",
-      "אבנר גדסי"
-    ],
-    [
-      "לוליטה",
-      "אבנר גדסי"
-    ],
-    [
-      "רוצי שמוליק",
-      "אריאל זילבר"
-    ],
-    [
-      "בטי בם",
-      "אריאל זילבר"
-    ],
-    [
-      "ואיך שלא",
-      "אריאל זילבר"
-    ],
-    [
-      "שמש שמש",
-      "אריאל זילבר"
-    ],
-    [
-      "אגדה יפנית",
-      "אריאל זילבר"
-    ],
-    [
-      "כלניות",
-      "שושנה דמארי"
-    ],
-    [
-      "צריך לצלצל פעמיים",
-      "שושנה דמארי"
-    ],
-    [
-      "אור",
-      "שושנה דמארי"
-    ],
-    [
-      "היו זמנים",
-      "שושנה דמארי"
-    ],
-    [
-      "הביתה",
-      "שושנה דמארי"
-    ],
-    [
-      "אם ננעלו",
-      "עפרה חזה"
-    ],
-    [
-      "חי",
-      "עפרה חזה"
-    ],
-    [
-      "מישהו הולך תמיד איתי",
-      "עפרה חזה"
-    ],
-    [
-      "גבריאל",
-      "עפרה חזה"
-    ],
-    [
-      "יד ביד",
-      "עפרה חזה"
-    ],
-    [
-      "הנני כאן",
-      "יהורם גאון"
-    ],
-    [
-      "כל הכבוד",
-      "יהורם גאון"
-    ],
-    [
-      "אני עושה לי מנגינות",
-      "יהורם גאון"
-    ],
-    [
-      "איפה את אהובה",
-      "יהורם גאון"
-    ],
-    [
-      "עוד לא אהבתי די",
-      "יהורם גאון"
-    ],
-    [
-      "כמו צמח בר",
-      "חוה אלברשטיין"
-    ],
-    [
-      "את תלכי בשדה",
-      "חוה אלברשטיין"
-    ],
-    [
-      "החיטה צומחת שוב",
-      "חוה אלברשטיין"
-    ],
-    [
-      "לונדון",
-      "חוה אלברשטיין"
-    ],
-    [
-      "נחל התנינים",
-      "חוה אלברשטיין"
-    ],
-    [
-      "עיניים שלי",
-      "יהודה פוליקר"
-    ],
-    [
-      "פחות אבל כואב",
-      "יהודה פוליקר"
-    ],
-    [
-      "כשתגדל",
-      "יהודה פוליקר"
-    ],
-    [
-      "הצל ואני",
-      "יהודה פוליקר"
-    ],
-    [
-      "יום שישי",
-      "יהודה פוליקר"
-    ],
-    [
-      "ירח",
-      "שלמה ארצי"
-    ],
-    [
-      "תחת שמי ים התיכון",
-      "שלמה ארצי"
-    ],
-    [
-      "אהבתיה",
-      "שלמה ארצי"
-    ],
-    [
-      "מלך העולם",
-      "שלמה ארצי"
-    ],
-    [
-      "שדות של אירוסים",
-      "שלמה ארצי"
-    ],
-    [
-      "ארץ חדשה",
-      "שלמה ארצי"
-    ],
-    [
-      "פתאום כשלא באת",
-      "שלמה ארצי"
-    ],
-    [
-      "נרקוד נשכח",
-      "שלמה ארצי"
-    ],
-    [
-      "לא עוזב את העיר",
-      "שלמה ארצי"
-    ],
-    [
-      "גבר הולך לאיבוד",
-      "שלמה ארצי"
-    ],
-    [
-      "כמו סינדרלה",
-      "שרית חדד"
-    ],
-    [
-      "כשהלב בוכה",
-      "שרית חדד"
-    ],
-    [
-      "חגיגה",
-      "שרית חדד"
-    ],
-    [
-      "אתה תותח",
-      "שרית חדד"
-    ],
-    [
-      "לראות את הכאב",
-      "שרית חדד"
-    ],
-    [
-      "טיפת מזל",
-      "זהבה בן"
-    ],
-    [
-      "מלך אמיתי",
-      "זהבה בן"
-    ],
-    [
-      "אהבה אסורה",
-      "זהבה בן"
-    ],
-    [
-      "חיים שלי",
-      "זהבה בן"
-    ],
-    [
-      "אינתא עומרי",
-      "זהבה בן"
-    ],
-    [
-      "נשבע",
-      "חיים משה"
-    ],
-    [
-      "התמונות שבאלבום",
-      "חיים משה"
-    ],
-    [
-      "כל נדרי",
-      "חיים משה"
-    ],
-    [
-      "תודה",
-      "חיים משה"
-    ],
-    [
-      "אהבת חיי",
-      "חיים משה"
-    ],
-    [
-      "ריקדי",
-      "ישי לוי"
-    ],
-    [
-      "האחת שלי",
-      "ישי לוי"
-    ],
-    [
-      "עננים",
-      "ישי לוי"
-    ],
-    [
-      "תלתלים שחורים",
-      "ישי לוי"
-    ],
-    [
-      "רעיה",
-      "ישי לוי"
-    ],
-    [
-      "רעיה",
-      "אביהו מדינה"
-    ],
-    [
-      "שבחי ירושלים",
-      "אביהו מדינה"
-    ],
-    [
-      "אל תשליכני לעת זקנה",
-      "אביהו מדינה"
-    ],
-    [
-      "כינור דוד",
-      "אביהו מדינה"
-    ],
-    [
-      "ברכנו",
-      "אביהו מדינה"
-    ],
-    [
-      "סליחות",
-      "יהודית רביץ"
-    ],
-    [
-      "באה מאהבה",
-      "יהודית רביץ"
-    ],
-    [
-      "מילה טובה",
-      "יהודית רביץ"
-    ],
-    [
-      "לקחת את ידי בידך",
-      "יהודית רביץ"
-    ],
-    [
-      "ארבע לפנות בוקר",
-      "יהודית רביץ"
-    ],
-    [
-      "אתה פה חסר לי",
-      "נורית גלרון"
-    ],
-    [
-      "המיסטיקנים הסינים",
-      "נורית גלרון"
-    ],
-    [
-      "משהו בלבבה",
-      "נורית גלרון"
-    ],
-    [
-      "כי האדם עץ השדה",
-      "נורית גלרון"
-    ],
-    [
-      "נגיעה אחת רכה",
-      "נורית גלרון"
-    ],
-    [
-      "זן נדיר",
-      "קורין אלאל"
-    ],
-    [
-      "אין לי ארץ אחרת",
-      "קורין אלאל"
-    ],
-    [
-      "שיר לשירה",
-      "קורין אלאל"
-    ],
-    [
-      "אנטארקטיקה",
-      "קורין אלאל"
-    ],
-    [
-      "כשזה עמוק",
-      "קורין אלאל"
-    ],
-    [
-      "טרמינל לומינלט",
-      "מאיר אריאל"
-    ],
-    [
-      "נשל הנחש",
-      "מאיר אריאל"
-    ],
-    [
-      "מודה אני",
-      "מאיר אריאל"
-    ],
-    [
-      "עברנו את פרעה",
-      "מאיר אריאל"
-    ],
-    [
-      "ערב כחול עמוק",
-      "ריטה"
-    ],
-    [
-      "יו יה",
-      "כוורת"
-    ],
-    [
-      "נתתי לה חיי",
-      "כוורת"
-    ],
-    [
-      "המגפיים של ברוך",
-      "כוורת"
-    ],
-    [
-      "שיר המכולת",
-      "כוורת"
-    ],
-    [
-      "גוליית",
-      "כוורת"
-    ],
-    [
-      "רכבת לילה לקהיר",
-      "משינה"
-    ]
+    ["ירושלים של זהב","שולי נתן"],
+    ["הללויה","חלב ודבש"],
+    ["אני ואתה","אריק איינשטיין"],
+    ["עוף גוזל","אריק איינשטיין"],
+    ["סע לאט","אריק איינשטיין"],
+    ["עטור מצחך","אריק איינשטיין"],
+    ["יש בי אהבה","אריק איינשטיין"],
+    ["לו יהי","נעמי שמר"],
+    ["חורשת האקליפטוס","נעמי שמר"],
+    ["על כל אלה","נעמי שמר"],
+    ["שיר לשלום","להקת הנח\"ל"],
+    ["הפרח בגני","זוהר ארגוב"],
+    ["בדד","זוהר ארגוב"],
+    ["נכון להיום","זוהר ארגוב"],
+    ["אלינור","זוהר ארגוב"],
+    ["צל עץ תמר","זוהר ארגוב"],
+    ["כמו שיכור","זוהר ארגוב"],
+    ["דרך השלום","פאר טסי"],
+    ["מהפכה של שמחה","ליאור נרקיס ועומר אדם"],
+    ["שני משוגעים","עומר אדם"],
+    ["פעם בחיים","עומר אדם"],
+    ["תל אביב","עומר אדם"],
+    ["אחרי כל השנים","עומר אדם"],
+    ["מודה אני","עומר אדם"],
+    ["בלילות","עומר אדם"],
+    ["כשאת עצובה","עמיר בניון"],
+    ["ניצחת איתי הכל","עמיר בניון"],
+    ["שלכת","עמיר בניון"],
+    ["שמחות קטנות","עמיר בניון"],
+    ["יש לך הכל","שלומי שבת"],
+    ["אבא","שלומי שבת"],
+    ["בגלל הרוח","שלומי שבת"],
+    ["בראשית עולם","שלומי שבת"],
+    ["שתדעי","שלומי שבת"],
+    ["כשתבואי","אייל גולן"],
+    ["יפה שלי","אייל גולן"],
+    ["מי שמאמין","אייל גולן"],
+    ["צליל מיתר","אייל גולן"],
+    ["בלעדייך","אייל גולן"],
+    ["דרך לחיים","אייל גולן"],
+    ["ואני קורא לך","אייל גולן"],
+    ["דמעות","אייל גולן"],
+    ["לקנות לך יהלום","אייל גולן"],
+    ["תבואי היום","אייל גולן"],
+    ["ממה את מפחדת","אייל גולן ובניה ברבי"],
+    ["מישהו איתי כאן","בניה ברבי"],
+    ["קרן שמש","בניה ברבי"],
+    ["תפסת לי מקום","בניה ברבי"],
+    ["כמעט שיר אהבה","איתי לוי"],
+    ["אין לי מקום אחר","איתי לוי"],
+    ["שתישרף האהבה","איתי לוי"],
+    ["מחכה","ריטה"],
+    ["בוא","ריטה"],
+    ["עטוף ברחמים","ריטה"],
+    ["ימי התום","ריטה"],
+    ["שרה ברחובות","ריטה"],
+    ["חיה לי מיום ליום","ריטה"],
+    ["אין לי ארץ אחרת","גלי עטרי"],
+    ["חזקה מהרוח","גלי עטרי"],
+    ["מה שאת אוהבת","גלי עטרי"],
+    ["עוד יום","מתי כספי"],
+    ["ברית עולם","מתי כספי"],
+    ["ילדותי השנייה","מתי כספי"],
+    ["שיר אהבה בדואי","דויד ברוזה"],
+    ["יהיה טוב","דויד ברוזה"],
+    ["האישה שאיתי","דויד ברוזה"],
+    ["מתחת לשמיים","דויד ברוזה"],
+    ["סיגליות","דויד ברוזה"],
+    ["כשאת בוכה את לא יפה","אריק איינשטיין"],
+    ["למה לי לקחת ללב","אריק איינשטיין ושלום חנוך"],
+    ["מחכים למשיח","שלום חנוך"],
+    ["חתונה לבנה","שלום חנוך"],
+    ["מאיה","שלום חנוך"],
+    ["אהבת נעורי","שלום חנוך"],
+    ["עוד חוזר הניגון","ברי סחרוף"],
+    ["חלליות","ברי סחרוף"],
+    ["כמה יוסי","ברי סחרוף"],
+    ["ניצוצות","פורטיסחרוף"],
+    ["יום הולדת","ברי סחרוף"],
+    ["לבכות לך","אביב גפן"],
+    ["עכשיו מעונן","אביב גפן"],
+    ["שיר תקווה","אביב גפן"],
+    ["מיליארד טועים","אביב גפן"],
+    ["גשם כבד עומד ליפול","אביב גפן"],
+    ["סיבה טובה","אריק סיני"],
+    ["שיר של יום חולין","אילנית"],
+    ["אי שם","אילנית"],
+    ["אהבה היא שיר לשניים","אילנית"],
+    ["למיה יש אקדח","כנסיית השכל"],
+    ["אם כבר לבד","החברים של נטאשה"],
+    ["שיר אחר","החברים של נטאשה"],
+    ["עוד נגיעה","החברים של נטאשה"],
+    ["עכשיו טוב","גלעד שגב"],
+    ["בואי נעזוב","רן דנקר ועילי בוטנר"],
+    ["שווים","רן דנקר ועילי בוטנר"],
+    ["ממעמקים","עידן רייכל"],
+    ["אם תלך","הפרויקט של עידן רייכל"],
+    ["בואי","הפרויקט של עידן רייכל"],
+    ["רוב השעות","הפרויקט של עידן רייכל"],
+    ["את לי לילה","בועז שרעבי"],
+    ["לתת","בועז שרעבי"],
+    ["הלוואי","בועז שרעבי"],
+    ["ברית עולם","בועז שרעבי"],
+    ["משאלה","בועז שרעבי"],
+    ["נפרדנו כך","אבנר גדסי"],
+    ["הגברים בוכים בלילה","אבנר גדסי"],
+    ["מנגן ושר","אבנר גדסי"],
+    ["שרונה","אבנר גדסי"],
+    ["לוליטה","אבנר גדסי"],
+    ["רוצי שמוליק","אריאל זילבר"],
+    ["בטי בם","אריאל זילבר"],
+    ["ואיך שלא","אריאל זילבר"],
+    ["שמש שמש","אריאל זילבר"],
+    ["אגדה יפנית","אריאל זילבר"],
+    ["כלניות","שושנה דמארי"],
+    ["צריך לצלצל פעמיים","שושנה דמארי"],
+    ["אור","שושנה דמארי"],
+    ["היו זמנים","שושנה דמארי"],
+    ["הביתה","שושנה דמארי"],
+    ["אם ננעלו","עפרה חזה"],
+    ["חי","עפרה חזה"],
+    ["מישהו הולך תמיד איתי","עפרה חזה"],
+    ["גבריאל","עפרה חזה"],
+    ["יד ביד","עפרה חזה"],
+    ["הנני כאן","יהורם גאון"],
+    ["כל הכבוד","יהורם גאון"],
+    ["אני עושה לי מנגינות","יהורם גאון"],
+    ["איפה את אהובה","יהורם גאון"],
+    ["עוד לא אהבתי די","יהורם גאון"],
+    ["כמו צמח בר","חוה אלברשטיין"],
+    ["את תלכי בשדה","חוה אלברשטיין"],
+    ["החיטה צומחת שוב","חוה אלברשטיין"],
+    ["לונדון","חוה אלברשטיין"],
+    ["נחל התנינים","חוה אלברשטיין"],
+    ["עיניים שלי","יהודה פוליקר"],
+    ["פחות אבל כואב","יהודה פוליקר"],
+    ["כשתגדל","יהודה פוליקר"],
+    ["הצל ואני","יהודה פוליקר"],
+    ["יום שישי","יהודה פוליקר"],
+    ["ירח","שלמה ארצי"],
+    ["תחת שמי ים התיכון","שלמה ארצי"],
+    ["אהבתיה","שלמה ארצי"],
+    ["מלך העולם","שלמה ארצי"],
+    ["שדות של אירוסים","שלמה ארצי"],
+    ["ארץ חדשה","שלמה ארצי"],
+    ["פתאום כשלא באת","שלמה ארצי"],
+    ["נרקוד נשכח","שלמה ארצי"],
+    ["לא עוזב את העיר","שלמה ארצי"],
+    ["גבר הולך לאיבוד","שלמה ארצי"],
+    ["כמו סינדרלה","שרית חדד"],
+    ["כשהלב בוכה","שרית חדד"],
+    ["חגיגה","שרית חדד"],
+    ["אתה תותח","שרית חדד"],
+    ["לראות את הכאב","שרית חדד"],
+    ["טיפת מזל","זהבה בן"],
+    ["מלך אמיתי","זהבה בן"],
+    ["אהבה אסורה","זהבה בן"],
+    ["חיים שלי","זהבה בן"],
+    ["אינתא עומרי","זהבה בן"],
+    ["נשבע","חיים משה"],
+    ["התמונות שבאלבום","חיים משה"],
+    ["כל נדרי","חיים משה"],
+    ["תודה","חיים משה"],
+    ["אהבת חיי","חיים משה"],
+    ["ריקדי","ישי לוי"],
+    ["האחת שלי","ישי לוי"],
+    ["עננים","ישי לוי"],
+    ["תלתלים שחורים","ישי לוי"],
+    ["רעיה","ישי לוי"],
+    ["רעיה","אביהו מדינה"],
+    ["שבחי ירושלים","אביהו מדינה"],
+    ["אל תשליכני לעת זקנה","אביהו מדינה"],
+    ["כינור דוד","אביהו מדינה"],
+    ["ברכנו","אביהו מדינה"],
+    ["סליחות","יהודית רביץ"],
+    ["באה מאהבה","יהודית רביץ"],
+    ["מילה טובה","יהודית רביץ"],
+    ["לקחת את ידי בידך","יהודית רביץ"],
+    ["ארבע לפנות בוקר","יהודית רביץ"],
+    ["אתה פה חסר לי","נורית גלרון"],
+    ["המיסטיקנים הסינים","נורית גלרון"],
+    ["משהו בלבבה","נורית גלרון"],
+    ["כי האדם עץ השדה","נורית גלרון"],
+    ["נגיעה אחת רכה","נורית גלרון"],
+    ["זן נדיר","קורין אלאל"],
+    ["אין לי ארץ אחרת","קורין אלאל"],
+    ["שיר לשירה","קורין אלאל"],
+    ["אנטארקטיקה","קורין אלאל"],
+    ["כשזה עמוק","קורין אלאל"],
+    ["טרמינל לומינלט","מאיר אריאל"],
+    ["נשל הנחש","מאיר אריאל"],
+    ["מודה אני","מאיר אריאל"],
+    ["עברנו את פרעה","מאיר אריאל"],
+    ["ערב כחול עמוק","ריטה"],
+    ["יו יה","כוורת"],
+    ["נתתי לה חיי","כוורת"],
+    ["המגפיים של ברוך","כוורת"],
+    ["שיר המכולת","כוורת"],
+    ["גוליית","כוורת"],
+    ["רכבת לילה לקהיר","משינה"]
   ],
+
   "🎤 זוהר ארגוב": [
-    [
-      "הפרח בגני",
-      "זוהר ארגוב"
-    ],
-    [
-      "בדד",
-      "זוהר ארגוב"
-    ],
-    [
-      "נכון להיום",
-      "זוהר ארגוב"
-    ],
-    [
-      "אלינור",
-      "זוהר ארגוב"
-    ],
-    [
-      "צל עץ תמר",
-      "זוהר ארגוב"
-    ],
-    [
-      "כמו שיכור",
-      "זוהר ארגוב"
-    ]
+    ["הפרח בגני","זוהר ארגוב"],
+    ["בדד","זוהר ארגוב"],
+    ["נכון להיום","זוהר ארגוב"],
+    ["אלינור","זוהר ארגוב"],
+    ["צל עץ תמר","זוהר ארגוב"],
+    ["כמו שיכור","זוהר ארגוב"]
   ],
+
   "🎤 בועז שרעבי": [
-    [
-      "את לי לילה",
-      "בועז שרעבי"
-    ],
-    [
-      "לתת",
-      "בועז שרעבי"
-    ],
-    [
-      "הלוואי",
-      "בועז שרעבי"
-    ],
-    [
-      "ברית עולם",
-      "בועז שרעבי"
-    ],
-    [
-      "משאלה",
-      "בועז שרעבי"
-    ]
+    ["את לי לילה","בועז שרעבי"],
+    ["לתת","בועז שרעבי"],
+    ["הלוואי","בועז שרעבי"],
+    ["ברית עולם","בועז שרעבי"],
+    ["משאלה","בועז שרעבי"]
   ],
+
   "🎤 אבנר גדסי": [
-    [
-      "נפרדנו כך",
-      "אבנר גדסי"
-    ],
-    [
-      "הגברים בוכים בלילה",
-      "אבנר גדסי"
-    ],
-    [
-      "מנגן ושר",
-      "אבנר גדסי"
-    ],
-    [
-      "שרונה",
-      "אבנר גדסי"
-    ],
-    [
-      "לוליטה",
-      "אבנר גדסי"
-    ]
+    ["נפרדנו כך","אבנר גדסי"],
+    ["הגברים בוכים בלילה","אבנר גדסי"],
+    ["מנגן ושר","אבנר גדסי"],
+    ["שרונה","אבנר גדסי"],
+    ["לוליטה","אבנר גדסי"]
   ],
+
   "🎤 אריאל זילבר": [
-    [
-      "רוצי שמוליק",
-      "אריאל זילבר"
-    ],
-    [
-      "בטי בם",
-      "אריאל זילבר"
-    ],
-    [
-      "ואיך שלא",
-      "אריאל זילבר"
-    ],
-    [
-      "שמש שמש",
-      "אריאל זילבר"
-    ],
-    [
-      "אגדה יפנית",
-      "אריאל זילבר"
-    ]
+    ["רוצי שמוליק","אריאל זילבר"],
+    ["בטי בם","אריאל זילבר"],
+    ["ואיך שלא","אריאל זילבר"],
+    ["שמש שמש","אריאל זילבר"],
+    ["אגדה יפנית","אריאל זילבר"]
   ],
+
   "🎤 שושנה דמארי": [
-    [
-      "כלניות",
-      "שושנה דמארי"
-    ],
-    [
-      "צריך לצלצל פעמיים",
-      "שושנה דמארי"
-    ],
-    [
-      "אור",
-      "שושנה דמארי"
-    ],
-    [
-      "היו זמנים",
-      "שושנה דמארי"
-    ],
-    [
-      "הביתה",
-      "שושנה דמארי"
-    ]
+    ["כלניות","שושנה דמארי"],
+    ["צריך לצלצל פעמיים","שושנה דמארי"],
+    ["אור","שושנה דמארי"],
+    ["היו זמנים","שושנה דמארי"],
+    ["הביתה","שושנה דמארי"]
   ],
+
   "🌙 מיטב המוסיקה המזרחית": [
-    [
-      "הפרח בגני",
-      "זוהר ארגוב"
-    ],
-    [
-      "בדד",
-      "זוהר ארגוב"
-    ],
-    [
-      "נכון להיום",
-      "זוהר ארגוב"
-    ],
-    [
-      "אלינור",
-      "זוהר ארגוב"
-    ],
-    [
-      "צל עץ תמר",
-      "זוהר ארגוב"
-    ],
-    [
-      "כמו שיכור",
-      "זוהר ארגוב"
-    ],
-    [
-      "דרך השלום",
-      "פאר טסי"
-    ],
-    [
-      "שני משוגעים",
-      "עומר אדם"
-    ],
-    [
-      "פעם בחיים",
-      "עומר אדם"
-    ],
-    [
-      "תל אביב",
-      "עומר אדם"
-    ],
-    [
-      "אחרי כל השנים",
-      "עומר אדם"
-    ],
-    [
-      "מודה אני",
-      "עומר אדם"
-    ],
-    [
-      "בלילות",
-      "עומר אדם"
-    ],
-    [
-      "יש לך הכל",
-      "שלומי שבת"
-    ],
-    [
-      "אבא",
-      "שלומי שבת"
-    ],
-    [
-      "בגלל הרוח",
-      "שלומי שבת"
-    ],
-    [
-      "בראשית עולם",
-      "שלומי שבת"
-    ],
-    [
-      "שתדעי",
-      "שלומי שבת"
-    ],
-    [
-      "כשתבואי",
-      "אייל גולן"
-    ],
-    [
-      "יפה שלי",
-      "אייל גולן"
-    ],
-    [
-      "מי שמאמין",
-      "אייל גולן"
-    ],
-    [
-      "צליל מיתר",
-      "אייל גולן"
-    ],
-    [
-      "בלעדייך",
-      "אייל גולן"
-    ],
-    [
-      "דרך לחיים",
-      "אייל גולן"
-    ],
-    [
-      "ואני קורא לך",
-      "אייל גולן"
-    ],
-    [
-      "דמעות",
-      "אייל גולן"
-    ],
-    [
-      "לקנות לך יהלום",
-      "אייל גולן"
-    ],
-    [
-      "תבואי היום",
-      "אייל גולן"
-    ],
-    [
-      "כמעט שיר אהבה",
-      "איתי לוי"
-    ],
-    [
-      "אין לי מקום אחר",
-      "איתי לוי"
-    ],
-    [
-      "שתישרף האהבה",
-      "איתי לוי"
-    ],
-    [
-      "את לי לילה",
-      "בועז שרעבי"
-    ],
-    [
-      "לתת",
-      "בועז שרעבי"
-    ],
-    [
-      "הלוואי",
-      "בועז שרעבי"
-    ],
-    [
-      "ברית עולם",
-      "בועז שרעבי"
-    ],
-    [
-      "משאלה",
-      "בועז שרעבי"
-    ],
-    [
-      "נפרדנו כך",
-      "אבנר גדסי"
-    ],
-    [
-      "הגברים בוכים בלילה",
-      "אבנר גדסי"
-    ],
-    [
-      "מנגן ושר",
-      "אבנר גדסי"
-    ],
-    [
-      "שרונה",
-      "אבנר גדסי"
-    ],
-    [
-      "לוליטה",
-      "אבנר גדסי"
-    ],
-    [
-      "כמו סינדרלה",
-      "שרית חדד"
-    ],
-    [
-      "כשהלב בוכה",
-      "שרית חדד"
-    ],
-    [
-      "חגיגה",
-      "שרית חדד"
-    ],
-    [
-      "אתה תותח",
-      "שרית חדד"
-    ],
-    [
-      "לראות את הכאב",
-      "שרית חדד"
-    ],
-    [
-      "טיפת מזל",
-      "זהבה בן"
-    ],
-    [
-      "מלך אמיתי",
-      "זהבה בן"
-    ],
-    [
-      "אהבה אסורה",
-      "זהבה בן"
-    ],
-    [
-      "חיים שלי",
-      "זהבה בן"
-    ],
-    [
-      "אינתא עומרי",
-      "זהבה בן"
-    ],
-    [
-      "נשבע",
-      "חיים משה"
-    ],
-    [
-      "התמונות שבאלבום",
-      "חיים משה"
-    ],
-    [
-      "כל נדרי",
-      "חיים משה"
-    ],
-    [
-      "תודה",
-      "חיים משה"
-    ],
-    [
-      "אהבת חיי",
-      "חיים משה"
-    ],
-    [
-      "ריקדי",
-      "ישי לוי"
-    ],
-    [
-      "האחת שלי",
-      "ישי לוי"
-    ],
-    [
-      "עננים",
-      "ישי לוי"
-    ],
-    [
-      "תלתלים שחורים",
-      "ישי לוי"
-    ],
-    [
-      "רעיה",
-      "ישי לוי"
-    ],
-    [
-      "רעיה",
-      "אביהו מדינה"
-    ],
-    [
-      "שבחי ירושלים",
-      "אביהו מדינה"
-    ],
-    [
-      "אל תשליכני לעת זקנה",
-      "אביהו מדינה"
-    ],
-    [
-      "כינור דוד",
-      "אביהו מדינה"
-    ],
-    [
-      "ברכנו",
-      "אביהו מדינה"
-    ]
+    ["הפרח בגני","זוהר ארגוב"],
+    ["בדד","זוהר ארגוב"],
+    ["נכון להיום","זוהר ארגוב"],
+    ["אלינור","זוהר ארגוב"],
+    ["צל עץ תמר","זוהר ארגוב"],
+    ["כמו שיכור","זוהר ארגוב"],
+    ["דרך השלום","פאר טסי"],
+    ["שני משוגעים","עומר אדם"],
+    ["פעם בחיים","עומר אדם"],
+    ["תל אביב","עומר אדם"],
+    ["אחרי כל השנים","עומר אדם"],
+    ["מודה אני","עומר אדם"],
+    ["בלילות","עומר אדם"],
+    ["יש לך הכל","שלומי שבת"],
+    ["אבא","שלומי שבת"],
+    ["בגלל הרוח","שלומי שבת"],
+    ["בראשית עולם","שלומי שבת"],
+    ["שתדעי","שלומי שבת"],
+    ["כשתבואי","אייל גולן"],
+    ["יפה שלי","אייל גולן"],
+    ["מי שמאמין","אייל גולן"],
+    ["צליל מיתר","אייל גולן"],
+    ["בלעדייך","אייל גולן"],
+    ["דרך לחיים","אייל גולן"],
+    ["ואני קורא לך","אייל גולן"],
+    ["דמעות","אייל גולן"],
+    ["לקנות לך יהלום","אייל גולן"],
+    ["תבואי היום","אייל גולן"],
+    ["כמעט שיר אהבה","איתי לוי"],
+    ["אין לי מקום אחר","איתי לוי"],
+    ["שתישרף האהבה","איתי לוי"],
+    ["את לי לילה","בועז שרעבי"],
+    ["לתת","בועז שרעבי"],
+    ["הלוואי","בועז שרעבי"],
+    ["ברית עולם","בועז שרעבי"],
+    ["משאלה","בועז שרעבי"],
+    ["נפרדנו כך","אבנר גדסי"],
+    ["הגברים בוכים בלילה","אבנר גדסי"],
+    ["מנגן ושר","אבנר גדסי"],
+    ["שרונה","אבנר גדסי"],
+    ["לוליטה","אבנר גדסי"],
+    ["כמו סינדרלה","שרית חדד"],
+    ["כשהלב בוכה","שרית חדד"],
+    ["חגיגה","שרית חדד"],
+    ["אתה תותח","שרית חדד"],
+    ["לראות את הכאב","שרית חדד"],
+    ["טיפת מזל","זהבה בן"],
+    ["מלך אמיתי","זהבה בן"],
+    ["אהבה אסורה","זהבה בן"],
+    ["חיים שלי","זהבה בן"],
+    ["אינתא עומרי","זהבה בן"],
+    ["נשבע","חיים משה"],
+    ["התמונות שבאלבום","חיים משה"],
+    ["כל נדרי","חיים משה"],
+    ["תודה","חיים משה"],
+    ["אהבת חיי","חיים משה"],
+    ["ריקדי","ישי לוי"],
+    ["האחת שלי","ישי לוי"],
+    ["עננים","ישי לוי"],
+    ["תלתלים שחורים","ישי לוי"],
+    ["רעיה","ישי לוי"],
+    ["רעיה","אביהו מדינה"],
+    ["שבחי ירושלים","אביהו מדינה"],
+    ["אל תשליכני לעת זקנה","אביהו מדינה"],
+    ["כינור דוד","אביהו מדינה"],
+    ["ברכנו","אביהו מדינה"]
   ],
+
   "🇮🇱 שנות ה־70": [
-    [
-      "ירושלים של זהב",
-      "שולי נתן"
-    ],
-    [
-      "אני ואתה",
-      "אריק איינשטיין"
-    ],
-    [
-      "עוף גוזל",
-      "אריק איינשטיין"
-    ],
-    [
-      "סע לאט",
-      "אריק איינשטיין"
-    ],
-    [
-      "עטור מצחך",
-      "אריק איינשטיין"
-    ],
-    [
-      "לו יהי",
-      "נעמי שמר"
-    ],
-    [
-      "חורשת האקליפטוס",
-      "נעמי שמר"
-    ],
-    [
-      "שיר לשלום",
-      "להקת הנח\"ל"
-    ],
-    [
-      "עוד יום",
-      "מתי כספי"
-    ],
-    [
-      "ברית עולם",
-      "מתי כספי"
-    ],
-    [
-      "שיר אהבה בדואי",
-      "דויד ברוזה"
-    ],
-    [
-      "ברית עולם",
-      "בועז שרעבי"
-    ],
-    [
-      "רוצי שמוליק",
-      "אריאל זילבר"
-    ],
-    [
-      "בטי בם",
-      "אריאל זילבר"
-    ],
-    [
-      "כלניות",
-      "שושנה דמארי"
-    ],
-    [
-      "הנני כאן",
-      "יהורם גאון"
-    ],
-    [
-      "כמו צמח בר",
-      "חוה אלברשטיין"
-    ],
-    [
-      "יו יה",
-      "כוורת"
-    ],
-    [
-      "נתתי לה חיי",
-      "כוורת"
-    ],
-    [
-      "המגפיים של ברוך",
-      "כוורת"
-    ]
+    ["ירושלים של זהב","שולי נתן"],
+    ["אני ואתה","אריק איינשטיין"],
+    ["עוף גוזל","אריק איינשטיין"],
+    ["סע לאט","אריק איינשטיין"],
+    ["עטור מצחך","אריק איינשטיין"],
+    ["לו יהי","נעמי שמר"],
+    ["חורשת האקליפטוס","נעמי שמר"],
+    ["שיר לשלום","להקת הנח\"ל"],
+    ["עוד יום","מתי כספי"],
+    ["ברית עולם","מתי כספי"],
+    ["שיר אהבה בדואי","דויד ברוזה"],
+    ["ברית עולם","בועז שרעבי"],
+    ["רוצי שמוליק","אריאל זילבר"],
+    ["בטי בם","אריאל זילבר"],
+    ["כלניות","שושנה דמארי"],
+    ["הנני כאן","יהורם גאון"],
+    ["כמו צמח בר","חוה אלברשטיין"],
+    ["יו יה","כוורת"],
+    ["נתתי לה חיי","כוורת"],
+    ["המגפיים של ברוך","כוורת"]
   ],
+
   "🇮🇱 שנות ה־80": [
-    [
-      "הפרח בגני",
-      "זוהר ארגוב"
-    ],
-    [
-      "בדד",
-      "זוהר ארגוב"
-    ],
-    [
-      "נכון להיום",
-      "זוהר ארגוב"
-    ],
-    [
-      "אלינור",
-      "זוהר ארגוב"
-    ],
-    [
-      "צל עץ תמר",
-      "זוהר ארגוב"
-    ],
-    [
-      "מחכה",
-      "ריטה"
-    ],
-    [
-      "בוא",
-      "ריטה"
-    ],
-    [
-      "אין לי ארץ אחרת",
-      "גלי עטרי"
-    ],
-    [
-      "את לי לילה",
-      "בועז שרעבי"
-    ],
-    [
-      "לתת",
-      "בועז שרעבי"
-    ],
-    [
-      "נפרדנו כך",
-      "אבנר גדסי"
-    ],
-    [
-      "הגברים בוכים בלילה",
-      "אבנר גדסי"
-    ],
-    [
-      "אם ננעלו",
-      "עפרה חזה"
-    ],
-    [
-      "חי",
-      "עפרה חזה"
-    ],
-    [
-      "עיניים שלי",
-      "יהודה פוליקר"
-    ],
-    [
-      "פחות אבל כואב",
-      "יהודה פוליקר"
-    ],
-    [
-      "סליחות",
-      "יהודית רביץ"
-    ],
-    [
-      "באה מאהבה",
-      "יהודית רביץ"
-    ],
-    [
-      "אין לי ארץ אחרת",
-      "קורין אלאל"
-    ],
-    [
-      "רכבת לילה לקהיר",
-      "משינה"
-    ]
+    ["הפרח בגני","זוהר ארגוב"],
+    ["בדד","זוהר ארגוב"],
+    ["נכון להיום","זוהר ארגוב"],
+    ["אלינור","זוהר ארגוב"],
+    ["צל עץ תמר","זוהר ארגוב"],
+    ["מחכה","ריטה"],
+    ["בוא","ריטה"],
+    ["אין לי ארץ אחרת","גלי עטרי"],
+    ["את לי לילה","בועז שרעבי"],
+    ["לתת","בועז שרעבי"],
+    ["נפרדנו כך","אבנר גדסי"],
+    ["הגברים בוכים בלילה","אבנר גדסי"],
+    ["אם ננעלו","עפרה חזה"],
+    ["חי","עפרה חזה"],
+    ["עיניים שלי","יהודה פוליקר"],
+    ["פחות אבל כואב","יהודה פוליקר"],
+    ["סליחות","יהודית רביץ"],
+    ["באה מאהבה","יהודית רביץ"],
+    ["אין לי ארץ אחרת","קורין אלאל"],
+    ["רכבת לילה לקהיר","משינה"]
   ],
+
   "🇮🇱 שנות ה־90": [
-    [
-      "יש בי אהבה",
-      "אריק איינשטיין"
-    ],
-    [
-      "חיה לי מיום ליום",
-      "ריטה"
-    ],
-    [
-      "האישה שאיתי",
-      "דויד ברוזה"
-    ],
-    [
-      "סיגליות",
-      "דויד ברוזה"
-    ],
-    [
-      "לבכות לך",
-      "אביב גפן"
-    ],
-    [
-      "עכשיו מעונן",
-      "אביב גפן"
-    ],
-    [
-      "אם כבר לבד",
-      "החברים של נטאשה"
-    ],
-    [
-      "כשתגדל",
-      "יהודה פוליקר"
-    ],
-    [
-      "הצל ואני",
-      "יהודה פוליקר"
-    ],
-    [
-      "ירח",
-      "שלמה ארצי"
-    ],
-    [
-      "מלך העולם",
-      "שלמה ארצי"
-    ],
-    [
-      "כמו סינדרלה",
-      "שרית חדד"
-    ],
-    [
-      "טיפת מזל",
-      "זהבה בן"
-    ],
-    [
-      "נשבע",
-      "חיים משה"
-    ],
-    [
-      "ריקדי",
-      "ישי לוי"
-    ],
-    [
-      "אתה פה חסר לי",
-      "נורית גלרון"
-    ],
-    [
-      "זן נדיר",
-      "קורין אלאל"
-    ],
-    [
-      "נשל הנחש",
-      "מאיר אריאל"
-    ]
+    ["יש בי אהבה","אריק איינשטיין"],
+    ["חיה לי מיום ליום","ריטה"],
+    ["האישה שאיתי","דויד ברוזה"],
+    ["סיגליות","דויד ברוזה"],
+    ["לבכות לך","אביב גפן"],
+    ["עכשיו מעונן","אביב גפן"],
+    ["אם כבר לבד","החברים של נטאשה"],
+    ["כשתגדל","יהודה פוליקר"],
+    ["הצל ואני","יהודה פוליקר"],
+    ["ירח","שלמה ארצי"],
+    ["מלך העולם","שלמה ארצי"],
+    ["כמו סינדרלה","שרית חדד"],
+    ["טיפת מזל","זהבה בן"],
+    ["נשבע","חיים משה"],
+    ["ריקדי","ישי לוי"],
+    ["אתה פה חסר לי","נורית גלרון"],
+    ["זן נדיר","קורין אלאל"],
+    ["נשל הנחש","מאיר אריאל"]
   ]
 };
 
@@ -2397,6 +757,7 @@ const builtIn = {
 ========================================================= */
 
 const STORAGE_KEY = "voiceOfPeaceCustomMusicV2";
+const VIDEO_CACHE_KEY = "voiceOfPeaceVideoCacheV3";
 
 function loadCustom(){
   try{
@@ -2410,7 +771,22 @@ function saveCustom(data){
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
+function loadVideoCache(){
+  try{
+    return JSON.parse(localStorage.getItem(VIDEO_CACHE_KEY)) || {};
+  }catch(e){
+    return {};
+  }
+}
+
+function saveVideoCache(data){
+  try{
+    localStorage.setItem(VIDEO_CACHE_KEY, JSON.stringify(data));
+  }catch(e){}
+}
+
 let custom = loadCustom();
+let videoCache = loadVideoCache();
 
 function allCategories(){
   return {...builtIn, ...custom};
@@ -2421,6 +797,14 @@ let currentIndex = -1;
 let currentSong = null;
 let ytPlayer = null;
 let pendingVideo = null;
+let pendingTitle = "";
+let pendingArtist = "";
+let userHasInteracted = false;
+
+let failedVideoIds = new Set();
+let candidateVideos = [];
+let candidateIndex = 0;
+let songRequestToken = 0;
 
 /* =========================================================
    RENDER
@@ -2554,13 +938,9 @@ function setAdminMsg(text){
   document.getElementById("adminMsg").textContent = text;
 }
 
-let userHasInteracted = false;
-
 function markUserInteraction(){
   userHasInteracted = true;
 
-  /* If a YouTube player already exists, resume it immediately
-     during this user gesture so no second PLAY tap is needed. */
   try{
     if(ytPlayer && typeof ytPlayer.playVideo === "function"){
       ytPlayer.unMute();
@@ -2578,23 +958,42 @@ async function playSong(index){
   const songs = allCategories()[currentCategory] || [];
   if(!songs[index]) return;
 
+  const requestToken = ++songRequestToken;
+
   currentIndex = index;
   currentSong = songs[index];
 
+  failedVideoIds.clear();
+  candidateVideos = [];
+  candidateIndex = 0;
+
   const title = currentSong[0];
   const artist = currentSong[1] || "";
-  const query = [title,artist,"official audio"].filter(Boolean).join(" ");
 
   showLoading(title,artist);
 
-  const video = await findPlayableVideo(query);
+  const cacheKey = (title+"|"+artist).toLowerCase();
+  const cachedId = videoCache[cacheKey];
 
-  if(!video){
-    showError("No playable YouTube result found. Tap again or try another song.");
+  if(cachedId){
+    candidateVideos = [cachedId];
+    candidateIndex = 0;
+    loadCandidateVideo(title,artist,requestToken);
     return;
   }
 
-  loadVideo(video.id,title,artist);
+  const videos = await findPlayableVideos(title,artist);
+
+  if(requestToken !== songRequestToken) return;
+
+  if(!videos.length){
+    showError("No playable YouTube result found. Check API restrictions/quota or try another song.");
+    return;
+  }
+
+  candidateVideos = videos;
+  candidateIndex = 0;
+  loadCandidateVideo(title,artist,requestToken);
 }
 
 function showLoading(title,artist){
@@ -2602,101 +1001,178 @@ function showLoading(title,artist){
     "Searching: "+title+(artist ? " — "+artist : "");
 
   document.getElementById("player").innerHTML =
-    '<div class="placeholder"><div style="font-size:60px">⏳</div>'+
-    '<h2>Finding video...</h2><p>'+escapeHtml(title)+'</p></div>';
+    '<div class="placeholder">'+
+      '<div style="font-size:60px">⏳</div>'+
+      '<h2>Finding playable video...</h2>'+
+      '<p>'+escapeHtml(title)+(artist ? " — "+escapeHtml(artist) : "")+'</p>'+
+    '</div>';
 }
 
 function showError(text){
   document.getElementById("player").innerHTML =
-    '<div class="placeholder"><div style="font-size:60px">⚠️</div>'+
-    '<h2>Video unavailable</h2><p>'+escapeHtml(text)+'</p></div>';
+    '<div class="placeholder">'+
+      '<div style="font-size:60px">⚠️</div>'+
+      '<h2>Video unavailable</h2>'+
+      '<p>'+escapeHtml(text)+'</p>'+
+    '</div>';
+
   document.getElementById("nowPlaying").textContent = "Video unavailable";
 }
 
-function loadVideo(videoId,title,artist){
-  document.getElementById("player").innerHTML = '<div id="ytPlayer"></div>';
+function loadCandidateVideo(title,artist,requestToken){
+  if(requestToken !== songRequestToken) return;
 
+  while(
+    candidateIndex < candidateVideos.length &&
+    failedVideoIds.has(candidateVideos[candidateIndex])
+  ){
+    candidateIndex++;
+  }
+
+  if(candidateIndex >= candidateVideos.length){
+    document.getElementById("nowPlaying").textContent = "Trying next song...";
+    setTimeout(function(){
+      if(requestToken === songRequestToken) nextSong();
+    },600);
+    return;
+  }
+
+  loadVideo(candidateVideos[candidateIndex],title,artist,requestToken);
+}
+
+function loadVideo(videoId,title,artist,requestToken){
+  if(requestToken !== songRequestToken) return;
+
+  pendingVideo = videoId;
+  pendingTitle = title;
+  pendingArtist = artist;
+
+  document.getElementById("player").innerHTML = '<div id="ytPlayer"></div>';
   document.getElementById("nowPlaying").textContent =
     "Playing: "+title+(artist ? " — "+artist : "");
 
-  pendingVideo = videoId;
-
   if(window.YT && YT.Player){
-    createYTPlayer(videoId);
+    createYTPlayer(videoId,title,artist,requestToken);
   }
 
   window.scrollTo({
-    top:document.getElementById("player").offsetTop-10,
+    top:Math.max(0,document.getElementById("player").offsetTop-10),
     behavior:"smooth"
   });
 }
 
 function onYouTubeIframeAPIReady(){
-  if(pendingVideo){
-    createYTPlayer(pendingVideo);
+  if(pendingVideo && currentSong){
+    createYTPlayer(
+      pendingVideo,
+      pendingTitle || currentSong[0],
+      pendingArtist || currentSong[1] || "",
+      songRequestToken
+    );
   }
 }
 
-function createYTPlayer(videoId){
+function createYTPlayer(videoId,title,artist,requestToken){
+  if(requestToken !== songRequestToken) return;
+
   try{
     if(ytPlayer && typeof ytPlayer.destroy === "function"){
       ytPlayer.destroy();
     }
   }catch(e){}
 
+  ytPlayer = null;
+
+  const mount = document.getElementById("ytPlayer");
+  if(!mount) return;
+
   ytPlayer = new YT.Player("ytPlayer",{
     width:"100%",
     height:"500",
     videoId:videoId,
+
     playerVars:{
       autoplay:1,
       playsinline:1,
+      controls:1,
       rel:0,
-      controls:1
+      fs:1,
+      enablejsapi:1,
+      origin:window.location.origin
     },
+
     events:{
       onReady:function(event){
+        if(requestToken !== songRequestToken) return;
+
         try{
-          event.target.unMute();
-          event.target.setVolume(100);
+          if(userHasInteracted){
+            event.target.unMute();
+            event.target.setVolume(100);
+          }else{
+            event.target.mute();
+          }
+
           event.target.playVideo();
 
-          /* Some mobile browsers only permit guaranteed autoplay when muted.
-             If playback has not started after a short delay, start muted,
-             then immediately try to restore sound. */
           setTimeout(function(){
+            if(requestToken !== songRequestToken) return;
+
             try{
-              var state = event.target.getPlayerState();
+              const state = event.target.getPlayerState();
+
               if(state !== YT.PlayerState.PLAYING){
                 event.target.mute();
                 event.target.playVideo();
-
-                setTimeout(function(){
-                  try{
-                    event.target.unMute();
-                    event.target.setVolume(100);
-                  }catch(e){}
-                },250);
+              }else if(userHasInteracted){
+                event.target.unMute();
+                event.target.setVolume(100);
               }
             }catch(e){}
-          },450);
+          },700);
 
         }catch(e){}
       },
+
       onStateChange:function(event){
+        if(requestToken !== songRequestToken) return;
+
         if(event.data === YT.PlayerState.PLAYING){
-          try{
-            event.target.unMute();
-            event.target.setVolume(100);
-          }catch(e){}
+          if(userHasInteracted){
+            try{
+              event.target.unMute();
+              event.target.setVolume(100);
+            }catch(e){}
+          }
+
+          const cacheKey = (title+"|"+artist).toLowerCase();
+          videoCache[cacheKey] = videoId;
+          saveVideoCache(videoCache);
         }
 
         if(event.data === YT.PlayerState.ENDED){
           nextSong();
         }
       },
-      onError:function(){
-        nextSong();
+
+      onError:function(event){
+        if(requestToken !== songRequestToken) return;
+
+        console.warn("YouTube player error:",event.data,videoId);
+
+        failedVideoIds.add(videoId);
+
+        const cacheKey = (title+"|"+artist).toLowerCase();
+        if(videoCache[cacheKey] === videoId){
+          delete videoCache[cacheKey];
+          saveVideoCache(videoCache);
+        }
+
+        candidateIndex++;
+
+        setTimeout(function(){
+          loadCandidateVideo(title,artist,requestToken);
+        },350);
       }
     }
   });
@@ -2705,6 +1181,7 @@ function createYTPlayer(videoId){
 function nextSong(){
   const songs = allCategories()[currentCategory] || [];
   if(!songs.length) return;
+
   currentIndex = currentIndex < 0 ? 0 : (currentIndex+1)%songs.length;
   playSong(currentIndex);
 }
@@ -2712,12 +1189,30 @@ function nextSong(){
 function previousSong(){
   const songs = allCategories()[currentCategory] || [];
   if(!songs.length) return;
-  currentIndex = currentIndex < 0 ? 0 : (currentIndex-1+songs.length)%songs.length;
+
+  currentIndex = currentIndex < 0
+    ? 0
+    : (currentIndex-1+songs.length)%songs.length;
+
   playSong(currentIndex);
 }
 
 function replayCurrent(){
-  if(currentIndex >= 0) playSong(currentIndex);
+  markUserInteraction();
+
+  try{
+    if(ytPlayer && typeof ytPlayer.seekTo === "function"){
+      ytPlayer.seekTo(0,true);
+      ytPlayer.unMute();
+      ytPlayer.setVolume(100);
+      ytPlayer.playVideo();
+      return;
+    }
+  }catch(e){}
+
+  if(currentIndex >= 0){
+    playSong(currentIndex);
+  }
 }
 
 function scrollToLibrary(){
@@ -2726,73 +1221,127 @@ function scrollToLibrary(){
 
 /* =========================================================
    YOUTUBE DATA API
-   Search -> status check -> embeddable public video
 ========================================================= */
 
-async function findPlayableVideo(query){
-  for(let keyTry=0; keyTry<YOUTUBE_API_KEYS.length; keyTry++){
+async function findPlayableVideos(title,artist){
+  const searches = [
+    [artist,title,"official audio"].filter(Boolean).join(" "),
+    [artist,title,"official video"].filter(Boolean).join(" "),
+    [artist,title].filter(Boolean).join(" "),
+    [title,artist,"שיר"].filter(Boolean).join(" ")
+  ];
+
+  const foundIds = [];
+
+  for(const query of searches){
+    const ids = await searchYouTube(query);
+
+    ids.forEach(function(id){
+      if(!foundIds.includes(id)){
+        foundIds.push(id);
+      }
+    });
+
+    if(foundIds.length >= 18) break;
+  }
+
+  if(!foundIds.length) return [];
+
+  return await checkVideos(foundIds);
+}
+
+async function searchYouTube(query){
+  for(let attempt=0; attempt<YOUTUBE_API_KEYS.length; attempt++){
     const key = YOUTUBE_API_KEYS[apiKeyIndex];
 
     try{
-      const searchUrl =
-        "https://www.googleapis.com/youtube/v3/search"+
-        "?part=snippet&type=video&videoEmbeddable=true&safeSearch=moderate"+
-        "&maxResults=10&q="+encodeURIComponent(query)+
-        "&key="+encodeURIComponent(key);
+      const params = new URLSearchParams({
+        part:"snippet",
+        type:"video",
+        q:query,
+        maxResults:"20",
+        videoEmbeddable:"true",
+        videoSyndicated:"true",
+        safeSearch:"moderate",
+        key:key
+      });
 
-      const r = await fetch(searchUrl);
+      const response = await fetch(
+        "https://www.googleapis.com/youtube/v3/search?"+params.toString()
+      );
 
-      if(!r.ok){
+      const data = await response.json().catch(()=>({}));
+
+      if(!response.ok){
+        console.warn("YouTube search API error:",response.status,data);
         apiKeyIndex = (apiKeyIndex+1)%YOUTUBE_API_KEYS.length;
         continue;
       }
 
-      const data = await r.json();
-      const ids = (data.items||[])
-        .map(x=>x.id && x.id.videoId)
+      const ids = (data.items || [])
+        .map(item => item && item.id && item.id.videoId ? item.id.videoId : null)
         .filter(Boolean);
 
-      if(!ids.length) return null;
+      if(ids.length) return ids;
 
-      const checked = await checkVideos(ids,key);
-      if(checked) return checked;
-
-    }catch(err){
-      console.error(err);
+    }catch(error){
+      console.error("YouTube search error:",error);
     }
 
     apiKeyIndex = (apiKeyIndex+1)%YOUTUBE_API_KEYS.length;
   }
 
-  return null;
+  return [];
 }
 
-async function checkVideos(ids,key){
-  try{
-    const url =
-      "https://www.googleapis.com/youtube/v3/videos"+
-      "?part=status,contentDetails&id="+encodeURIComponent(ids.join(","))+
-      "&key="+encodeURIComponent(key);
+async function checkVideos(ids){
+  if(!ids.length) return [];
 
-    const r = await fetch(url);
-    if(!r.ok) return {id:ids[0]};
+  for(let attempt=0; attempt<YOUTUBE_API_KEYS.length; attempt++){
+    const key = YOUTUBE_API_KEYS[apiKeyIndex];
 
-    const data = await r.json();
+    try{
+      const params = new URLSearchParams({
+        part:"status",
+        id:ids.join(","),
+        key:key
+      });
 
-    for(const item of (data.items||[])){
-      if(
-        item.status &&
-        item.status.embeddable === true &&
-        item.status.privacyStatus === "public"
-      ){
-        return {id:item.id};
+      const response = await fetch(
+        "https://www.googleapis.com/youtube/v3/videos?"+params.toString()
+      );
+
+      const data = await response.json().catch(()=>({}));
+
+      if(!response.ok){
+        console.warn("YouTube videos API error:",response.status,data);
+        apiKeyIndex = (apiKeyIndex+1)%YOUTUBE_API_KEYS.length;
+        continue;
       }
+
+      const playable = new Set();
+
+      (data.items || []).forEach(function(item){
+        if(
+          item &&
+          item.status &&
+          item.status.privacyStatus === "public" &&
+          item.status.embeddable === true
+        ){
+          playable.add(item.id);
+        }
+      });
+
+      return ids.filter(id=>playable.has(id));
+
+    }catch(error){
+      console.error("YouTube status check error:",error);
     }
-  }catch(err){
-    console.error(err);
+
+    apiKeyIndex = (apiKeyIndex+1)%YOUTUBE_API_KEYS.length;
   }
 
-  return null;
+  return [];
 }
 
 /* =========================================================
@@ -2815,18 +1364,18 @@ function escapeHtml(text){
 renderTabs();
 renderSongs();
 
-/* A single tap on any category or song is the playback gesture.
-   No separate tap on the YouTube player should be necessary. */
 ["tabs","songList"].forEach(function(id){
-  var el = document.getElementById(id);
+  const el = document.getElementById(id);
   if(el){
     el.addEventListener("touchstart",markUserInteraction,{passive:true});
     el.addEventListener("pointerdown",markUserInteraction,{passive:true});
   }
 });
 
-/* Try to start the first USA song automatically.
-   iPhone/Safari may block sound until the first user tap. */
+/*
+  Try first song automatically.
+  iPhone/Safari may begin muted until the first user tap.
+*/
 setTimeout(function(){
   const songs = allCategories()[currentCategory] || [];
   if(songs.length) playSong(0);

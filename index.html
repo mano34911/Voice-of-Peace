@@ -1,408 +1,954 @@
 <!doctype html>
 <html lang="en">
+
 <head>
+
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta http-equiv="Cache-Control" content="no-store">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,viewport-fit=cover"
+>
+
+<meta
+  http-equiv="Cache-Control"
+  content="no-store"
+>
 
 <title>Voice of Peace</title>
 
-<style>
-*{box-sizing:border-box}
 
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:Arial,Helvetica,sans-serif;
-  color:white;
-  background:
-    radial-gradient(circle at top,#12669a 0,#073b62 30%,#02182e 65%,#010a13 100%);
+<style>
+
+*{
+  box-sizing:border-box;
 }
 
+html,
+body{
+  margin:0;
+  min-height:100%;
+}
+
+body{
+
+  min-height:100vh;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color:white;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #12669a 0,
+      #073b62 30%,
+      #02182e 65%,
+      #010a13 100%
+    );
+
+}
+
+
+/* ========================================
+   HEADER
+======================================== */
+
 header{
+
   text-align:center;
-  padding:35px 15px 20px;
+
+  padding:
+    35px
+    15px
+    20px;
+
 }
 
 header h1{
+
   margin:0;
+
   font-size:46px;
+
   letter-spacing:5px;
-  text-shadow:0 4px 18px #000;
+
+  text-shadow:
+    0 4px 18px #000;
+
 }
 
 header .peace{
+
   font-size:42px;
-  margin:12px 0;
+
+  margin:
+    12px 0;
+
 }
 
 header p{
+
   color:#63d8ff;
+
   font-size:20px;
+
   margin:5px;
+
 }
+
+
+/* ========================================
+   MAIN WRAPPER
+======================================== */
 
 .wrap{
+
   width:94%;
+
   max-width:1000px;
+
   margin:auto;
+
   padding-bottom:60px;
+
 }
 
+
+/* ========================================
+   WELCOME
+======================================== */
+
 .welcome{
-  background:rgba(6,39,70,.95);
-  border:1px solid #2876a8;
+
+  background:
+    rgba(
+      6,
+      39,
+      70,
+      .95
+    );
+
+  border:
+    1px solid
+    #2876a8;
+
   border-radius:22px;
+
   padding:25px;
+
   text-align:center;
-  box-shadow:0 15px 40px rgba(0,0,0,.3);
+
+  box-shadow:
+    0 15px 40px
+    rgba(
+      0,
+      0,
+      0,
+      .3
+    );
+
 }
 
 .welcome h2{
+
   margin-top:0;
+
   font-size:30px;
+
 }
 
 .welcome p{
+
   line-height:1.6;
+
   color:#d8efff;
+
   font-size:17px;
+
 }
 
 .status{
+
   display:inline-block;
+
   margin-top:10px;
-  padding:9px 18px;
+
+  padding:
+    9px
+    18px;
+
   background:#0d7148;
+
   border-radius:30px;
+
   font-weight:bold;
+
 }
 
+
+/* ========================================
+   VIDEO PLAYER
+======================================== */
+
 .player{
+
   margin-top:22px;
+
   background:#000;
-  border:2px solid #245d88;
+
+  border:
+    2px solid
+    #245d88;
+
   border-radius:22px;
+
   overflow:hidden;
+
   min-height:300px;
+
   display:flex;
+
   align-items:center;
+
   justify-content:center;
+
   position:relative;
+
 }
 
 .player iframe{
+
   width:100%;
+
   height:500px;
+
   border:0;
+
 }
 
 .playerMessage{
+
   text-align:center;
-  padding:50px 20px;
+
+  padding:
+    50px
+    20px;
+
   color:#9ddcff;
+
 }
 
 .playerMessage .icon{
+
   font-size:70px;
+
 }
 
 .nowPlaying{
+
   background:#062746;
-  border:1px solid #245d88;
+
+  border:
+    1px solid
+    #245d88;
+
   border-radius:15px;
+
   padding:14px;
+
   margin-top:12px;
+
   text-align:center;
+
   color:#62d6ff;
+
   font-weight:bold;
+
 }
 
+
+/* ========================================
+   SECTIONS
+======================================== */
+
 .section{
+
   margin-top:25px;
+
   background:#062746;
-  border:1px solid #245d88;
+
+  border:
+    1px solid
+    #245d88;
+
   border-radius:22px;
+
   padding:22px;
+
 }
 
 .section h2{
+
   text-align:center;
+
   margin-top:0;
+
 }
 
+
+/* ========================================
+   CHANNELS
+======================================== */
+
 .channels{
+
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+
+  grid-template-columns:
+    repeat(
+      3,
+      1fr
+    );
+
   gap:12px;
+
 }
 
 .channel{
-  border:1px solid #2877a8;
+
+  border:
+    1px solid
+    #2877a8;
+
   border-radius:15px;
-  padding:18px 10px;
+
+  padding:
+    18px
+    10px;
+
   background:#0a3b60;
+
   color:white;
+
   text-align:center;
+
   font-weight:bold;
+
   cursor:pointer;
+
   min-height:75px;
+
 }
 
 .channel:hover{
+
   background:#10527f;
+
 }
 
 .channel span{
+
   display:block;
+
   font-size:24px;
+
   margin-bottom:6px;
+
 }
 
+
+/* ========================================
+   MAIN BUTTONS
+======================================== */
+
 .buttons{
+
   display:grid;
-  grid-template-columns:repeat(2,1fr);
+
+  grid-template-columns:
+    repeat(
+      2,
+      1fr
+    );
+
   gap:12px;
+
 }
 
 .btn{
+
   display:block;
+
   text-decoration:none;
+
   text-align:center;
+
   padding:17px;
+
   border-radius:14px;
+
   background:#1579ad;
+
   color:white;
+
   font-weight:800;
+
   font-size:17px;
+
 }
 
-.btn.green{background:#13a963}
-.btn.gold{background:#b78315}
-.btn.red{background:#a93e45}
+.btn:hover{
+
+  filter:brightness(1.15);
+
+}
+
+.btn.green{
+
+  background:#13a963;
+
+}
+
+.btn.gold{
+
+  background:#b78315;
+
+}
+
+.btn.red{
+
+  background:#a93e45;
+
+}
+
+.btn.purple{
+
+  background:#7148a8;
+
+}
+
+
+/* ========================================
+   MESSAGE TICKER
+======================================== */
 
 .message{
+
   overflow:hidden;
+
   white-space:nowrap;
+
   background:#031b30;
-  border:1px solid #245d88;
+
+  border:
+    1px solid
+    #245d88;
+
   border-radius:12px;
+
   margin-top:25px;
-  padding:14px 0;
+
+  padding:
+    14px
+    0;
+
 }
 
 .scroll{
+
   display:inline-block;
+
   padding-left:100%;
-  animation:scroll 25s linear infinite;
+
+  animation:
+    scroll
+    25s
+    linear
+    infinite;
+
   color:#ffe17a;
+
   font-size:18px;
+
   font-weight:bold;
+
 }
 
 @keyframes scroll{
-  from{transform:translateX(0)}
-  to{transform:translateX(-100%)}
+
+  from{
+
+    transform:
+      translateX(0);
+
+  }
+
+  to{
+
+    transform:
+      translateX(-100%);
+
+  }
+
 }
+
+
+/* ========================================
+   FOOTER
+======================================== */
 
 footer{
+
   text-align:center;
+
   color:#81b6d3;
-  padding:35px 10px;
+
+  padding:
+    35px
+    10px;
+
   font-size:13px;
+
 }
 
-@media(max-width:700px){
-  header h1{font-size:34px}
-  .channels{grid-template-columns:repeat(2,1fr)}
-  .buttons{grid-template-columns:1fr}
-  .player iframe{height:260px}
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media(
+  max-width:700px
+){
+
+  header h1{
+
+    font-size:34px;
+
+  }
+
+  .channels{
+
+    grid-template-columns:
+      repeat(
+        2,
+        1fr
+      );
+
+  }
+
+  .buttons{
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .player iframe{
+
+    height:260px;
+
+  }
+
 }
 
 </style>
+
 </head>
+
 
 <body>
 
+
+<!-- ========================================
+     HEADER
+========================================= -->
+
 <header>
 
-  <div class="peace">🕊️ 🇮🇱 🇺🇸 🕊️</div>
+  <div class="peace">
 
-  <h1>VOICE OF PEACE</h1>
+    🕊️ 🇮🇱 🇺🇸 🕊️
 
-  <p>By Emmanuel &amp; Camili Hileah</p>
+  </div>
+
+  <h1>
+
+    VOICE OF PEACE
+
+  </h1>
+
+  <p>
+
+    By Emmanuel &amp; Camili Hileah
+
+  </p>
 
 </header>
 
 
+
 <div class="wrap">
 
-  <div class="welcome">
 
-    <h2>Welcome to Voice of Peace</h2>
+<!-- ========================================
+     WELCOME
+========================================= -->
 
-    <p>
-      News • Israel • Jewish Learning • Music • History •
-      Entertainment • Technology • Health • Peace
-    </p>
+<div class="welcome">
 
-    <div class="status">
-      ✓ OPEN ACCESS
-    </div>
+  <h2>
 
-  </div>
+    Welcome to Voice of Peace
 
+  </h2>
 
-  <div id="player" class="player">
+  <p>
 
-    <div class="playerMessage">
+    News • Israel • Jewish Learning •
+    Music • History • Entertainment •
+    Technology • Health • Peace
 
-      <div class="icon">▶️</div>
+  </p>
 
-      <h2>Voice of Peace TV</h2>
+  <div class="status">
 
-      <p>Select a channel below.</p>
-
-    </div>
-
-  </div>
-
-  <div id="nowPlaying" class="nowPlaying">
-    Select a channel
-  </div>
-
-
-  <div class="section">
-
-    <h2>📺 CHANNELS</h2>
-
-    <div class="channels">
-
-      <button class="channel"
-        onclick="searchYouTube('Rabbi Zamir Cohen')">
-        <span>✡️</span>
-        Rabbi Zamir Cohen
-      </button>
-
-      <button class="channel"
-        onclick="searchYouTube('Israel Channel 14 news')">
-        <span>🇮🇱</span>
-        Israel News
-      </button>
-
-      <button class="channel"
-        onclick="searchYouTube('Fox News live')">
-        <span>🇺🇸</span>
-        U.S. News
-      </button>
-
-      <button class="channel"
-        onclick="searchYouTube('Yemenite Jewish music')">
-        <span>🎵</span>
-        Yemenite Music
-      </button>
-
-      <button class="channel"
-        onclick="searchYouTube('Sephardic Jewish music')">
-        <span>🎶</span>
-        Sephardi Music
-      </button>
-
-      <button class="channel"
-        onclick="searchYouTube('Israel history documentary')">
-        <span>📜</span>
-        Israel History
-      </button>
-
-      <button class="channel"
-        onclick="searchYouTube('classic western full movie')">
-        <span>🤠</span>
-        Western Movies
-      </button>
-
-      <button class="channel"
-        onclick="searchYouTube('new inventions technology')">
-        <span>💡</span>
-        Inventions
-      </button>
-
-      <button class="channel"
-        onclick="searchYouTube('nature documentary')">
-        <span>🌎</span>
-        Nature
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <div class="section">
-
-    <h2>🎵 MUSIC &amp; MORE</h2>
-
-    <div class="buttons">
-
-      <a class="btn green" href="music.html">
-        🎵 MUSIC
-      </a>
-
-      <a class="btn" href="index5.html">
-        ❤️ CAMILI'S MUSIC
-      </a>
-
-      <a class="btn gold" href="register.html">
-        👤 REGISTER
-      </a>
-
-      <a class="btn" href="login.html">
-        🔑 MEMBER LOGIN
-      </a>
-
-      <a class="btn red" href="admin-login.html">
-        ⚙️ ADMIN
-      </a>
-
-      <a class="btn" href="https://keren3491.github.io/Mb/index2.html">
-        ✡️ SYNAGOGUE BOARD
-      </a>
-
-    </div>
-
-  </div>
-
-
-  <div class="message">
-
-    <div id="ticker" class="scroll">
-      🕊️ VOICE OF PEACE • SUPPORT ISRAEL • PEACE • UNITY •
-      FAITH • FAMILY • AM YISRAEL CHAI 🇮🇱
-    </div>
+    ✓ OPEN ACCESS
 
   </div>
 
 </div>
 
 
+
+<!-- ========================================
+     VIDEO PLAYER
+========================================= -->
+
+<div
+  id="player"
+  class="player"
+>
+
+  <div class="playerMessage">
+
+    <div class="icon">
+
+      ▶️
+
+    </div>
+
+    <h2>
+
+      Voice of Peace TV
+
+    </h2>
+
+    <p>
+
+      Select a channel below.
+
+    </p>
+
+  </div>
+
+</div>
+
+
+<div
+  id="nowPlaying"
+  class="nowPlaying"
+>
+
+  Select a channel
+
+</div>
+
+
+
+<!-- ========================================
+     CHANNELS
+========================================= -->
+
+<div class="section">
+
+<h2>
+
+  📺 CHANNELS
+
+</h2>
+
+
+<div class="channels">
+
+
+<button
+  class="channel"
+  onclick="searchYouTube('Rabbi Zamir Cohen')"
+>
+
+  <span>✡️</span>
+
+  Rabbi Zamir Cohen
+
+</button>
+
+
+
+<button
+  class="channel"
+  onclick="searchYouTube('Israel Channel 14 news')"
+>
+
+  <span>🇮🇱</span>
+
+  Israel News
+
+</button>
+
+
+
+<button
+  class="channel"
+  onclick="searchYouTube('Fox News live')"
+>
+
+  <span>🇺🇸</span>
+
+  U.S. News
+
+</button>
+
+
+
+<button
+  class="channel"
+  onclick="searchYouTube('Yemenite Jewish music')"
+>
+
+  <span>🎵</span>
+
+  Yemenite Music
+
+</button>
+
+
+
+<button
+  class="channel"
+  onclick="searchYouTube('Sephardic Jewish music')"
+>
+
+  <span>🎶</span>
+
+  Sephardi Music
+
+</button>
+
+
+
+<button
+  class="channel"
+  onclick="searchYouTube('Israel history documentary')"
+>
+
+  <span>📜</span>
+
+  Israel History
+
+</button>
+
+
+
+<button
+  class="channel"
+  onclick="searchYouTube('classic western full movie')"
+>
+
+  <span>🤠</span>
+
+  Western Movies
+
+</button>
+
+
+
+<button
+  class="channel"
+  onclick="searchYouTube('new inventions technology')"
+>
+
+  <span>💡</span>
+
+  Inventions
+
+</button>
+
+
+
+<button
+  class="channel"
+  onclick="searchYouTube('nature documentary')"
+>
+
+  <span>🌎</span>
+
+  Nature
+
+</button>
+
+
+</div>
+
+</div>
+
+
+
+<!-- ========================================
+     MUSIC / MEMBER / ADMIN BUTTONS
+========================================= -->
+
+<div class="section">
+
+<h2>
+
+  🎵 MUSIC &amp; MORE
+
+</h2>
+
+
+<div class="buttons">
+
+
+<a
+  class="btn green"
+  href="music.html"
+>
+
+  🎵 MUSIC
+
+</a>
+
+
+
+<a
+  class="btn purple"
+  href="index5.html"
+>
+
+  ❤️ CAMILI'S MUSIC
+
+</a>
+
+
+
+<a
+  class="btn gold"
+  href="register.html"
+>
+
+  👤 REGISTER
+
+</a>
+
+
+
+<a
+  class="btn"
+  href="login.html"
+>
+
+  🔑 MEMBER LOGIN
+
+</a>
+
+
+
+<!--
+IMPORTANT:
+ADMIN NOW GOES DIRECTLY TO admin.html
+NO LOGIN REQUIRED
+-->
+
+<a
+  class="btn red"
+  href="admin.html"
+>
+
+  ⚙️ ADMIN CONTROL PANEL
+
+</a>
+
+
+
+<a
+  class="btn"
+  href="https://keren3491.github.io/Mb/index2.html"
+>
+
+  ✡️ SYNAGOGUE BOARD
+
+</a>
+
+
+</div>
+
+</div>
+
+
+
+<!-- ========================================
+     MESSAGE TICKER
+========================================= -->
+
+<div class="message">
+
+  <div
+    id="ticker"
+    class="scroll"
+  >
+
+    🕊️ VOICE OF PEACE •
+    SUPPORT ISRAEL •
+    PEACE •
+    UNITY •
+    FAITH •
+    FAMILY •
+    AM YISRAEL CHAI 🇮🇱
+
+  </div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- ========================================
+     FOOTER
+========================================= -->
+
 <footer>
 
-  VOICE OF PEACE<br><br>
+  VOICE OF PEACE
+
+  <br><br>
 
   By Emmanuel &amp; Camili Hileah
 
 </footer>
 
 
+
 <script>
 
-/*
-==========================================================
-OPEN ACCESS
-==========================================================
-No Supabase
-No getClient()
-No authentication requirement
-*/
+/* ========================================
+   OPEN ACCESS
+======================================== */
 
 localStorage.setItem(
   "voiceOfPeaceAccess",
@@ -410,61 +956,77 @@ localStorage.setItem(
 );
 
 
-/*
-==========================================================
-YOUTUBE SEARCH
-==========================================================
-This uses YouTube's embeddable search playlist.
-It keeps playback inside the Voice of Peace page.
-==========================================================
-*/
+/* ========================================
+   YOUTUBE PLAYER
+======================================== */
 
 function searchYouTube(search){
 
   const player =
-    document.getElementById("player");
+    document.getElementById(
+      "player"
+    );
 
   const now =
-    document.getElementById("nowPlaying");
+    document.getElementById(
+      "nowPlaying"
+    );
+
 
   now.textContent =
-    "Playing: " + search;
+    "Playing: " +
+    search;
+
 
   const query =
-    encodeURIComponent(search);
+    encodeURIComponent(
+      search
+    );
+
 
   player.innerHTML =
+
     '<iframe ' +
+
     'src="https://www.youtube.com/embed?listType=search&list=' +
+
     query +
+
     '&autoplay=1&rel=0" ' +
+
     'allow="autoplay; encrypted-media; picture-in-picture" ' +
+
     'allowfullscreen>' +
+
     '</iframe>';
+
 }
 
 
-/*
-==========================================================
-LOAD ADMIN MESSAGE
-==========================================================
-*/
+/* ========================================
+   LOAD ADMIN MESSAGE
+======================================== */
 
 const savedMessage =
   localStorage.getItem(
     "voiceOfPeaceMessage"
   );
 
+
 if(savedMessage){
 
   document.getElementById(
     "ticker"
   ).textContent =
-    "🕊️ " + savedMessage;
+
+    "🕊️ " +
+    savedMessage;
 
 }
 
 </script>
 
+
 </body>
+
 </html>

@@ -2,19 +2,31 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1,viewport-fit=cover">
+
 <meta http-equiv="Cache-Control" content="no-store">
 
 <title>Voice of Peace - Admin</title>
 
 <style>
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box;
+}
 
 body{
   margin:0;
   min-height:100vh;
   background:
-    radial-gradient(circle at top,#0c4f7e 0,#062c4f 35%,#02182e 70%,#010b15 100%);
+    radial-gradient(
+      circle at top,
+      #0c4f7e 0,
+      #062c4f 35%,
+      #02182e 70%,
+      #010b15 100%
+    );
   color:#fff;
   font-family:Arial,Helvetica,sans-serif;
 }
@@ -81,11 +93,25 @@ button,
   text-align:center;
 }
 
-.blue{background:#247bb1}
-.green{background:#13a963}
-.orange{background:#c77a16}
-.red{background:#bd4141}
-.gray{background:#566b7c}
+.blue{
+  background:#247bb1;
+}
+
+.green{
+  background:#13a963;
+}
+
+.orange{
+  background:#c77a16;
+}
+
+.red{
+  background:#bd4141;
+}
+
+.gray{
+  background:#566b7c;
+}
 
 #message{
   text-align:center;
@@ -170,6 +196,10 @@ button,
   background:#9e3636;
 }
 
+.status.pending{
+  background:#a66c13;
+}
+
 .info{
   margin-top:12px;
   color:#c9e8fa;
@@ -233,7 +263,9 @@ input{
     flex-direction:column;
     align-items:flex-start;
   }
+
 }
+
 </style>
 </head>
 
@@ -241,80 +273,81 @@ input{
 
 <header>
 
-  <h1>VOICE OF PEACE</h1>
+<h1>VOICE OF PEACE</h1>
 
-  <p>Administrator Control Panel</p>
+<p>Administrator Control Panel</p>
 
-  <div class="open">
-    DIRECT ADMIN ACCESS
-  </div>
+<div class="open">
+DIRECT ADMIN ACCESS
+</div>
 
 </header>
 
 
 <div class="wrap">
 
-  <div class="card">
+<div class="card">
 
-    <div class="navigation">
+<div class="navigation">
 
-      <a class="btn blue" href="index.html">
-        🏠 MAIN PAGE
-      </a>
+<a class="btn blue"
+href="index.html">
+🏠 MAIN PAGE
+</a>
 
-      <a class="btn green" href="register.html">
-        ➕ REGISTER MEMBER
-      </a>
+<a class="btn green"
+href="register.html">
+➕ REGISTER MEMBER
+</a>
 
-      <button class="gray" onclick="loadMembers()">
-        🔄 REFRESH MEMBERS
-      </button>
+<button class="gray"
+onclick="loadMembers()">
+🔄 REFRESH MEMBERS
+</button>
 
-    </div>
+</div>
 
-    <div id="message"></div>
+<div id="message"></div>
 
-  </div>
-
-
-  <div class="stats">
-
-    <div class="stat">
-      <strong id="totalCount">0</strong>
-      TOTAL MEMBERS
-    </div>
-
-    <div class="stat">
-      <strong id="activeCount">0</strong>
-      ACTIVE
-    </div>
-
-    <div class="stat">
-      <strong id="suspendedCount">0</strong>
-      SUSPENDED
-    </div>
-
-  </div>
+</div>
 
 
-  <div class="card">
+<div class="stats">
 
-    <h2>👥 Members</h2>
+<div class="stat">
+<strong id="totalCount">0</strong>
+TOTAL MEMBERS
+</div>
 
-    <input
-      id="search"
-      class="search"
-      placeholder="Search member by name, email or phone..."
-      oninput="renderMembers()"
-    >
+<div class="stat">
+<strong id="activeCount">0</strong>
+ACTIVE
+</div>
 
-    <div id="members">
+<div class="stat">
+<strong id="suspendedCount">0</strong>
+SUSPENDED
+</div>
 
-      Loading members...
+</div>
 
-    </div>
 
-  </div>
+<div class="card">
+
+<h2>👥 Members</h2>
+
+<input
+id="search"
+class="search"
+placeholder="Search by name, email or phone..."
+oninput="renderMembers()"
+>
+
+<div id="members">
+Loading members...
+</div>
+
+</div>
 
 </div>
 
@@ -323,34 +356,33 @@ input{
 
 <script>
 
-/* =============================================
+/* ==============================
    SUPABASE
-============================================= */
+============================== */
 
 const SUPABASE_URL =
-  "https://dpejswtreoqzmrlcnfde.supabase.co";
+"https://dpejswtreoqzmrlcnfde.supabase.co";
 
 const SUPABASE_KEY =
-  "sb_publishable_92C4dFnhmFBCsasew_6WhQ_InvX4yDX";
+"sb_publishable_92C4dFnhmFBCsasew_6WhQ_InvX4yDX";
 
 const db =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 let allMembers = [];
 
 
-/* =============================================
+/* ==============================
    MESSAGE
-============================================= */
+============================== */
 
 function showMessage(text,type=""){
 
   const box =
-    document.getElementById("message");
+  document.getElementById("message");
 
   box.textContent = text;
 
@@ -359,9 +391,9 @@ function showMessage(text,type=""){
 }
 
 
-/* =============================================
+/* ==============================
    ESCAPE HTML
-============================================= */
+============================== */
 
 function escapeHtml(value){
 
@@ -375,9 +407,9 @@ function escapeHtml(value){
 }
 
 
-/* =============================================
+/* ==============================
    LOAD MEMBERS
-============================================= */
+============================== */
 
 async function loadMembers(){
 
@@ -385,86 +417,124 @@ async function loadMembers(){
     "Loading members..."
   );
 
-  const {
-    data,
-    error
-  } =
+  document.getElementById(
+    "members"
+  ).innerHTML =
+    '<div class="empty">Loading members...</div>';
+
+  try{
+
+    const {
+      data,
+      error
+    } =
     await db
       .from("members")
       .select("*")
       .order(
         "created_at",
-        {ascending:false}
+        {
+          ascending:false
+        }
       );
 
+    if(error){
 
-  if(error){
+      console.error(
+        "Supabase load error:",
+        error
+      );
 
-    console.error(error);
+      showMessage(
+        "Error loading members: " +
+        error.message,
+        "error"
+      );
+
+      document.getElementById(
+        "members"
+      ).innerHTML =
+        '<div class="empty">Unable to load members.</div>';
+
+      return;
+
+    }
+
+    console.log(
+      "Members received:",
+      data
+    );
+
+    allMembers =
+      Array.isArray(data)
+      ? data
+      : [];
+
+    updateStatistics();
+
+    renderMembers();
 
     showMessage(
-      "Error loading members: " +
-      error.message,
+      allMembers.length +
+      " member" +
+      (
+        allMembers.length === 1
+        ? ""
+        : "s"
+      ) +
+      " loaded.",
+      "success"
+    );
+
+  }
+  catch(err){
+
+    console.error(err);
+
+    showMessage(
+      "Connection error: " +
+      err.message,
       "error"
     );
 
-    return;
   }
-
-
-  allMembers =
-    data || [];
-
-
-  updateStatistics();
-
-  renderMembers();
-
-
-  showMessage(
-    allMembers.length +
-    " members loaded.",
-    "success"
-  );
 
 }
 
 
-/* =============================================
+/* ==============================
    STATISTICS
-============================================= */
+============================== */
 
 function updateStatistics(){
 
   const active =
     allMembers.filter(
-      m =>
-        (m.status || "active")
-          .toLowerCase() ===
-        "active"
+      member =>
+        String(
+          member.status || ""
+        ).toLowerCase()
+        === "active"
     ).length;
-
 
   const suspended =
     allMembers.filter(
-      m =>
-        (m.status || "")
-          .toLowerCase() ===
-        "suspended"
+      member =>
+        String(
+          member.status || ""
+        ).toLowerCase()
+        === "suspended"
     ).length;
-
 
   document.getElementById(
     "totalCount"
   ).textContent =
     allMembers.length;
 
-
   document.getElementById(
     "activeCount"
   ).textContent =
     active;
-
 
   document.getElementById(
     "suspendedCount"
@@ -474,9 +544,9 @@ function updateStatistics(){
 }
 
 
-/* =============================================
+/* ==============================
    RENDER MEMBERS
-============================================= */
+============================== */
 
 function renderMembers(){
 
@@ -485,7 +555,6 @@ function renderMembers(){
       "members"
     );
 
-
   const search =
     document.getElementById(
       "search"
@@ -493,37 +562,28 @@ function renderMembers(){
       .trim()
       .toLowerCase();
 
-
   const members =
     allMembers.filter(
       member => {
 
-        const text =
+        const searchText =
+          [
+            member.name,
+            member.full_name,
+            member.email,
+            member.phone,
+            member.status
+          ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
 
-          String(
-            member.name || ""
-          ) +
-
-          " " +
-
-          String(
-            member.email || ""
-          ) +
-
-          " " +
-
-          String(
-            member.phone || ""
-          );
-
-
-        return text
-          .toLowerCase()
-          .includes(search);
+        return searchText.includes(
+          search
+        );
 
       }
     );
-
 
   if(members.length === 0){
 
@@ -541,29 +601,55 @@ function renderMembers(){
 
   }
 
-
   container.innerHTML = "";
-
 
   members.forEach(
     member => {
 
+      const id =
+        member.id;
+
+      const name =
+        member.name ||
+        member.full_name ||
+        member.email ||
+        "Member";
+
       const status =
-        (
+        String(
           member.status ||
           "active"
         ).toLowerCase();
 
+      let statusClass =
+        "active";
+
+      if(
+        status ===
+        "suspended"
+      ){
+
+        statusClass =
+          "suspended";
+
+      }
+      else if(
+        status ===
+        "pending"
+      ){
+
+        statusClass =
+          "pending";
+
+      }
 
       const box =
         document.createElement(
           "div"
         );
 
-
       box.className =
         "member";
-
 
       box.innerHTML = `
 
@@ -571,24 +657,15 @@ function renderMembers(){
 
           <div class="memberName">
 
-            ${escapeHtml(
-              member.name ||
-              "Member"
-            )}
+            ${escapeHtml(name)}
 
           </div>
 
-          <div class="status ${
-            status === "suspended"
-            ? "suspended"
-            : "active"
-          }">
+          <div class="status ${statusClass}">
 
-            ${
-              status === "suspended"
-              ? "SUSPENDED"
-              : "ACTIVE"
-            }
+            ${escapeHtml(
+              status.toUpperCase()
+            )}
 
           </div>
 
@@ -600,7 +677,7 @@ function renderMembers(){
           <strong>Email:</strong>
 
           ${escapeHtml(
-            member.email
+            member.email || ""
           )}
 
           <br>
@@ -608,16 +685,20 @@ function renderMembers(){
           <strong>Phone:</strong>
 
           ${escapeHtml(
-            member.phone
+            member.phone || ""
           )}
+
+          <br>
+
+          <strong>Status:</strong>
+
+          ${escapeHtml(status)}
 
           <br>
 
           <strong>Member ID:</strong>
 
-          ${escapeHtml(
-            member.id
-          )}
+          ${escapeHtml(id)}
 
           <br>
 
@@ -625,10 +706,14 @@ function renderMembers(){
 
           ${
             member.created_at
-              ? new Date(
-                  member.created_at
-                ).toLocaleString()
-              : ""
+            ?
+            escapeHtml(
+              new Date(
+                member.created_at
+              ).toLocaleString()
+            )
+            :
+            ""
           }
 
         </div>
@@ -637,94 +722,89 @@ function renderMembers(){
         <div class="actions">
 
           <button
-            class="blue"
-            onclick="toggleEdit('${member.id}')"
-          >
-            ✏️ EDIT
+          class="blue"
+          onclick='toggleEdit(${JSON.stringify(String(id))})'>
+          ✏️ EDIT
           </button>
 
 
           <button
-            class="green"
-            onclick="setStatus('${member.id}','active')"
-          >
-            ✓ ACTIVATE
+          class="green"
+          onclick='setStatus(${JSON.stringify(String(id))},"active")'>
+          ✓ ACTIVATE
           </button>
 
 
           <button
-            class="orange"
-            onclick="setStatus('${member.id}','suspended')"
-          >
-            ⏸ SUSPEND
+          class="orange"
+          onclick='setStatus(${JSON.stringify(String(id))},"suspended")'>
+          ⏸ SUSPEND
           </button>
 
 
           <button
-            class="red"
-            onclick="deleteMember('${member.id}')"
-          >
-            🗑 DELETE
+          class="red"
+          onclick='deleteMember(${JSON.stringify(String(id))})'>
+          🗑 DELETE
           </button>
 
         </div>
 
 
         <div
-          id="edit-${member.id}"
-          class="editBox"
-        >
+        id="edit-${escapeHtml(id)}"
+        class="editBox">
 
           <label>
-            Full Name
+          Full Name
           </label>
 
           <input
-            id="name-${member.id}"
-            value="${escapeHtml(
-              member.name
-            )}"
-          >
+          id="name-${escapeHtml(id)}"
+          value="${escapeHtml(
+            member.name ||
+            member.full_name ||
+            ""
+          )}">
 
 
           <label>
-            Email
+          Email
           </label>
 
           <input
-            id="email-${member.id}"
-            value="${escapeHtml(
-              member.email
-            )}"
-          >
+          id="email-${escapeHtml(id)}"
+          value="${escapeHtml(
+            member.email || ""
+          )}">
 
 
           <label>
-            Phone
+          Phone
           </label>
 
           <input
-            id="phone-${member.id}"
-            value="${escapeHtml(
-              member.phone
-            )}"
-          >
+          id="phone-${escapeHtml(id)}"
+          value="${escapeHtml(
+            member.phone || ""
+          )}">
 
 
           <button
-            class="green"
-            style="margin-top:12px;width:100%"
-            onclick="saveMember('${member.id}')"
-          >
+          class="green"
+          style="
+            margin-top:12px;
+            width:100%;
+          "
+          onclick='saveMember(${JSON.stringify(String(id))})'>
 
-            💾 SAVE CHANGES
+          💾 SAVE CHANGES
 
           </button>
 
         </div>
 
       `;
-
 
       container.appendChild(
         box
@@ -736,9 +816,9 @@ function renderMembers(){
 }
 
 
-/* =============================================
+/* ==============================
    EDIT BOX
-============================================= */
+============================== */
 
 function toggleEdit(id){
 
@@ -747,16 +827,20 @@ function toggleEdit(id){
       "edit-" + id
     );
 
-  box.classList.toggle(
-    "show"
-  );
+  if(box){
+
+    box.classList.toggle(
+      "show"
+    );
+
+  }
 
 }
 
 
-/* =============================================
+/* ==============================
    SAVE MEMBER
-============================================= */
+============================== */
 
 async function saveMember(id){
 
@@ -765,39 +849,76 @@ async function saveMember(id){
       "name-" + id
     ).value.trim();
 
-
   const email =
     document.getElementById(
       "email-" + id
     ).value.trim();
-
 
   const phone =
     document.getElementById(
       "phone-" + id
     ).value.trim();
 
-
   showMessage(
     "Saving member..."
   );
 
+  const member =
+    allMembers.find(
+      m =>
+        String(m.id) ===
+        String(id)
+    );
+
+  let updates = {
+    email:email,
+    phone:phone
+  };
+
+  /*
+   Some versions of your members table
+   may use "name", while others may
+   use "full_name".
+  */
+
+  if(
+    member &&
+    Object.prototype.hasOwnProperty.call(
+      member,
+      "name"
+    )
+  ){
+
+    updates.name =
+      name;
+
+  }
+
+  if(
+    member &&
+    Object.prototype.hasOwnProperty.call(
+      member,
+      "full_name"
+    )
+  ){
+
+    updates.full_name =
+      name;
+
+  }
 
   const {
+    data,
     error
   } =
-    await db
-      .from("members")
-      .update({
-        name:name,
-        email:email,
-        phone:phone
-      })
-      .eq(
-        "id",
-        id
-      );
-
+  await db
+    .from("members")
+    .update(updates)
+    .eq(
+      "id",
+      id
+    )
+    .select();
 
   if(error){
 
@@ -813,21 +934,24 @@ async function saveMember(id){
 
   }
 
+  console.log(
+    "Updated:",
+    data
+  );
 
   showMessage(
     "Member updated successfully.",
     "success"
   );
 
-
   await loadMembers();
 
 }
 
 
-/* =============================================
+/* ==============================
    ACTIVATE / SUSPEND
-============================================= */
+============================== */
 
 async function setStatus(
   id,
@@ -836,24 +960,26 @@ async function setStatus(
 
   showMessage(
     status === "active"
-      ? "Activating member..."
-      : "Suspending member..."
+    ?
+    "Activating member..."
+    :
+    "Suspending member..."
   );
 
-
   const {
+    data,
     error
   } =
-    await db
-      .from("members")
-      .update({
-        status:status
-      })
-      .eq(
-        "id",
-        id
-      );
-
+  await db
+    .from("members")
+    .update({
+      status:status
+    })
+    .eq(
+      "id",
+      id
+    )
+    .select();
 
   if(error){
 
@@ -869,23 +995,28 @@ async function setStatus(
 
   }
 
+  console.log(
+    "Status updated:",
+    data
+  );
 
   showMessage(
     status === "active"
-      ? "Member activated."
-      : "Member suspended.",
+    ?
+    "Member activated."
+    :
+    "Member suspended.",
     "success"
   );
-
 
   await loadMembers();
 
 }
 
 
-/* =============================================
-   DELETE
-============================================= */
+/* ==============================
+   DELETE MEMBER
+============================== */
 
 async function deleteMember(id){
 
@@ -896,12 +1027,11 @@ async function deleteMember(id){
         String(id)
     );
 
-
   const memberName =
     member?.name ||
+    member?.full_name ||
     member?.email ||
     "this member";
-
 
   const confirmed =
     confirm(
@@ -910,16 +1040,72 @@ async function deleteMember(id){
       "?"
     );
 
-
   if(!confirmed){
-    return;
-  }
 
+    return;
+
+  }
 
   showMessage(
     "Deleting member..."
   );
 
-
   const {
+    data,
     error
+  } =
+  await db
+    .from("members")
+    .delete()
+    .eq(
+      "id",
+      id
+    )
+    .select();
+
+  if(error){
+
+    console.error(error);
+
+    showMessage(
+      "Delete failed: " +
+      error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+  console.log(
+    "Deleted:",
+    data
+  );
+
+  showMessage(
+    "Member deleted.",
+    "success"
+  );
+
+  await loadMembers();
+
+}
+
+
+/* ==============================
+   START
+============================== */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    loadMembers();
+
+  }
+);
+
+</script>
+
+</body>
+</html>

@@ -15,32 +15,33 @@
 body{
   margin:0;
   min-height:100vh;
-  background:#02182e;
+  background:
+    radial-gradient(circle at top,#0c4f7e 0,#062c4f 35%,#02182e 70%,#010b15 100%);
   color:#fff;
   font-family:Arial,Helvetica,sans-serif;
 }
 
-.header{
-  background:#062746;
-  border-bottom:1px solid #245d88;
-  padding:20px;
+header{
   text-align:center;
+  padding:28px 15px 18px;
 }
 
-.header h1{
+header h1{
   margin:0;
-  letter-spacing:2px;
+  font-size:38px;
+  letter-spacing:3px;
 }
 
-.header p{
-  margin:8px 0 0;
+header p{
   color:#4bd0ff;
+  margin-top:8px;
 }
 
 .wrap{
-  max-width:900px;
-  margin:30px auto;
-  padding:20px;
+  width:95%;
+  max-width:1100px;
+  margin:auto;
+  padding-bottom:50px;
 }
 
 .card{
@@ -49,322 +50,552 @@ body{
   border-radius:20px;
   padding:22px;
   margin-bottom:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,.25);
 }
 
-h2{
-  margin-top:0;
-}
-
-input,
-select,
-textarea,
-button{
-  width:100%;
-  padding:13px;
-  margin:8px 0;
-  border-radius:10px;
-  border:1px solid #2b6c99;
-  font-size:16px;
-}
-
-input,
-select,
-textarea{
-  background:#fff;
-  color:#111;
-}
-
-textarea{
-  min-height:120px;
-  resize:vertical;
-}
-
-button{
-  background:#13b868;
-  color:#fff;
-  border:0;
-  font-weight:800;
-  cursor:pointer;
-}
-
-.secondary{
-  background:#2877a8;
-}
-
-.danger{
-  background:#c94747;
-}
-
-.grid{
+.topButtons{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-
-.status{
-  text-align:center;
-  color:#69ddff;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
   margin-bottom:20px;
 }
 
-.link{
-  display:block;
-  text-align:center;
-  color:#4bd0ff;
+button,
+.btn{
+  border:0;
+  border-radius:11px;
+  padding:12px 14px;
+  font-size:15px;
+  font-weight:800;
+  cursor:pointer;
   text-decoration:none;
-  margin-top:20px;
+  color:#fff;
+  text-align:center;
 }
 
-@media(max-width:650px){
-  .grid{
+.green{
+  background:#13b868;
+}
+
+.blue{
+  background:#247bb1;
+}
+
+.red{
+  background:#c84545;
+}
+
+.orange{
+  background:#d88921;
+}
+
+.gray{
+  background:#536575;
+}
+
+.member{
+  background:#031b30;
+  border:1px solid #275f85;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:15px;
+}
+
+.memberTop{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+}
+
+.memberName{
+  font-size:20px;
+  font-weight:800;
+}
+
+.status{
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:bold;
+}
+
+.active{
+  background:#127348;
+}
+
+.suspended{
+  background:#9a3535;
+}
+
+.info{
+  margin-top:12px;
+  color:#cae8fa;
+  line-height:1.7;
+  word-break:break-word;
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:15px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #2b6c99;
+  margin:5px 0 12px;
+  font-size:16px;
+}
+
+label{
+  display:block;
+  margin-top:7px;
+  color:#bcdff5;
+}
+
+.editBox{
+  margin-top:15px;
+  padding-top:15px;
+  border-top:1px solid #285c80;
+}
+
+.hidden{
+  display:none;
+}
+
+.empty{
+  text-align:center;
+  padding:40px 15px;
+  color:#91bdd8;
+}
+
+.count{
+  text-align:center;
+  color:#5ed7ff;
+  font-weight:bold;
+  margin-bottom:18px;
+}
+
+@media(max-width:700px){
+
+  .topButtons{
     grid-template-columns:1fr;
   }
+
+  .actions{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .memberTop{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
 }
 </style>
 </head>
 
 <body>
 
-<div class="header">
+<header>
   <h1>VOICE OF PEACE</h1>
   <p>Admin Control Panel</p>
-</div>
+</header>
 
 <div class="wrap">
 
-  <div class="status">
-    Temporary open admin access enabled
-  </div>
+  <div class="topButtons">
 
-  <div class="card">
-    <h2>Channel Settings</h2>
+    <a class="btn blue" href="index.html">
+      🏠 MAIN PAGE
+    </a>
 
-    <label>Channel Name</label>
-    <input id="channelName" placeholder="Example: Fox News">
+    <a class="btn green" href="register.html">
+      ➕ REGISTER MEMBER
+    </a>
 
-    <label>Category</label>
-    <input id="category" placeholder="Example: News">
-
-    <label>YouTube URL</label>
-    <input id="youtubeUrl" placeholder="Paste YouTube link">
-
-    <button onclick="addChannel()">
-      ADD CHANNEL
+    <button class="gray" onclick="refreshMembers()">
+      🔄 REFRESH
     </button>
+
   </div>
 
-  <div class="card">
-    <h2>Main Message</h2>
-
-    <textarea id="message" placeholder="Enter Voice of Peace message"></textarea>
-
-    <button onclick="saveMessage()">
-      SAVE MESSAGE
-    </button>
-  </div>
 
   <div class="card">
-    <h2>Site Controls</h2>
 
-    <div class="grid">
-      <button class="secondary" onclick="openSite()">
-        OPEN VOICE OF PEACE
-      </button>
+    <h2>👥 Members</h2>
 
-      <button class="secondary" onclick="openMusic()">
-        OPEN MUSIC
-      </button>
-
-      <button class="secondary" onclick="openRegister()">
-        OPEN REGISTRATION
-      </button>
-
-      <button class="danger" onclick="clearLocalData()">
-        CLEAR LOCAL DATA
-      </button>
+    <div id="memberCount" class="count">
+      0 members
     </div>
+
+    <div id="members"></div>
+
   </div>
-
-  <div class="card">
-    <h2>Saved Channels</h2>
-
-    <div id="channelList">
-      No channels added yet.
-    </div>
-  </div>
-
-  <a class="link" href="index.html">
-    Return to Voice of Peace
-  </a>
 
 </div>
 
+
 <script>
-const STORAGE_CHANNELS = "voiceOfPeaceChannels";
-const STORAGE_MESSAGE = "voiceOfPeaceMessage";
 
-function getChannels(){
+const STORAGE_KEY =
+  "voiceOfPeaceMembers";
+
+
+function getMembers(){
+
   try{
-    return JSON.parse(localStorage.getItem(STORAGE_CHANNELS)) || [];
-  }catch(e){
+
+    const members =
+      JSON.parse(
+        localStorage.getItem(STORAGE_KEY)
+      );
+
+    return Array.isArray(members)
+      ? members
+      : [];
+
+  }catch(error){
+
     return [];
-  }
-}
 
-function saveChannels(channels){
-  localStorage.setItem(
-    STORAGE_CHANNELS,
-    JSON.stringify(channels)
-  );
-}
-
-function addChannel(){
-
-  const name =
-    document.getElementById("channelName").value.trim();
-
-  const category =
-    document.getElementById("category").value.trim();
-
-  const url =
-    document.getElementById("youtubeUrl").value.trim();
-
-  if(!name || !url){
-    alert("Enter a channel name and YouTube URL.");
-    return;
   }
 
-  const channels = getChannels();
-
-  channels.push({
-    id: Date.now(),
-    name:name,
-    category:category,
-    url:url
-  });
-
-  saveChannels(channels);
-
-  document.getElementById("channelName").value = "";
-  document.getElementById("category").value = "";
-  document.getElementById("youtubeUrl").value = "";
-
-  renderChannels();
 }
 
-function deleteChannel(id){
 
-  let channels = getChannels();
-
-  channels = channels.filter(
-    channel => channel.id !== id
-  );
-
-  saveChannels(channels);
-  renderChannels();
-}
-
-function renderChannels(){
-
-  const box =
-    document.getElementById("channelList");
-
-  const channels = getChannels();
-
-  if(channels.length === 0){
-    box.innerHTML = "No channels added yet.";
-    return;
-  }
-
-  box.innerHTML = "";
-
-  channels.forEach(channel => {
-
-    const item =
-      document.createElement("div");
-
-    item.style.padding = "14px";
-    item.style.marginBottom = "12px";
-    item.style.background = "#0a3557";
-    item.style.borderRadius = "12px";
-
-    item.innerHTML = `
-      <strong>${escapeHtml(channel.name)}</strong>
-      <br>
-      ${escapeHtml(channel.category || "Uncategorized")}
-      <br>
-      <small>${escapeHtml(channel.url)}</small>
-      <br><br>
-      <button
-        class="danger"
-        onclick="deleteChannel(${channel.id})">
-        DELETE
-      </button>
-    `;
-
-    box.appendChild(item);
-  });
-}
-
-function saveMessage(){
-
-  const message =
-    document.getElementById("message").value;
+function saveMembers(members){
 
   localStorage.setItem(
-    STORAGE_MESSAGE,
-    message
+    STORAGE_KEY,
+    JSON.stringify(members)
   );
 
-  alert("Message saved.");
 }
 
-function loadMessage(){
 
-  const message =
-    localStorage.getItem(STORAGE_MESSAGE) || "";
+function escapeHtml(value){
 
-  document.getElementById("message").value =
-    message;
-}
-
-function openSite(){
-  window.location.href = "index.html";
-}
-
-function openMusic(){
-  window.location.href = "music.html";
-}
-
-function openRegister(){
-  window.location.href = "register.html";
-}
-
-function clearLocalData(){
-
-  if(!confirm("Clear saved Voice of Peace data?")){
-    return;
-  }
-
-  localStorage.removeItem(STORAGE_CHANNELS);
-  localStorage.removeItem(STORAGE_MESSAGE);
-
-  renderChannels();
-  loadMessage();
-}
-
-function escapeHtml(text){
-
-  return String(text)
+  return String(value || "")
     .replaceAll("&","&amp;")
     .replaceAll("<","&lt;")
     .replaceAll(">","&gt;")
     .replaceAll('"',"&quot;")
     .replaceAll("'","&#039;");
+
 }
 
-loadMessage();
-renderChannels();
+
+function refreshMembers(){
+
+  const members =
+    getMembers();
+
+  const list =
+    document.getElementById("members");
+
+  const counter =
+    document.getElementById("memberCount");
+
+
+  counter.textContent =
+    members.length +
+    (members.length === 1
+      ? " member"
+      : " members");
+
+
+  if(members.length === 0){
+
+    list.innerHTML = `
+      <div class="empty">
+        No registered members found on this device.
+      </div>
+    `;
+
+    return;
+
+  }
+
+
+  list.innerHTML = "";
+
+
+  members.forEach(function(member,index){
+
+    if(!member.status){
+      member.status = "active";
+    }
+
+    const statusClass =
+      member.status === "suspended"
+      ? "suspended"
+      : "active";
+
+    const statusText =
+      member.status === "suspended"
+      ? "SUSPENDED"
+      : "ACTIVE";
+
+
+    const box =
+      document.createElement("div");
+
+    box.className = "member";
+
+    box.innerHTML = `
+
+      <div class="memberTop">
+
+        <div class="memberName">
+          ${escapeHtml(
+            member.name ||
+            (
+              (member.firstName || "") +
+              " " +
+              (member.lastName || "")
+            ).trim()
+          )}
+        </div>
+
+        <div class="status ${statusClass}">
+          ${statusText}
+        </div>
+
+      </div>
+
+
+      <div class="info">
+
+        <strong>Email:</strong>
+        ${escapeHtml(member.email)}
+
+        <br>
+
+        <strong>Phone:</strong>
+        ${escapeHtml(member.phone)}
+
+        <br>
+
+        <strong>Joined:</strong>
+        ${
+          member.createdAt
+          ? new Date(
+              member.createdAt
+            ).toLocaleString()
+          : "Unknown"
+        }
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="blue"
+          onclick="toggleEdit(${index})">
+          EDIT
+        </button>
+
+        <button
+          class="green"
+          onclick="activateMember(${index})">
+          ACTIVATE
+        </button>
+
+        <button
+          class="orange"
+          onclick="suspendMember(${index})">
+          SUSPEND
+        </button>
+
+        <button
+          class="red"
+          onclick="deleteMember(${index})">
+          DELETE
+        </button>
+
+      </div>
+
+
+      <div
+        id="edit-${index}"
+        class="editBox hidden">
+
+        <label>Name</label>
+
+        <input
+          id="name-${index}"
+          value="${escapeHtml(
+            member.name ||
+            (
+              (member.firstName || "") +
+              " " +
+              (member.lastName || "")
+            ).trim()
+          )}"
+        >
+
+
+        <label>Email</label>
+
+        <input
+          id="email-${index}"
+          value="${escapeHtml(member.email)}"
+        >
+
+
+        <label>Phone</label>
+
+        <input
+          id="phone-${index}"
+          value="${escapeHtml(member.phone)}"
+        >
+
+
+        <button
+          class="green"
+          onclick="saveEdit(${index})">
+          SAVE CHANGES
+        </button>
+
+      </div>
+
+    `;
+
+    list.appendChild(box);
+
+  });
+
+}
+
+
+function toggleEdit(index){
+
+  const box =
+    document.getElementById(
+      "edit-" + index
+    );
+
+  box.classList.toggle("hidden");
+
+}
+
+
+function saveEdit(index){
+
+  const members =
+    getMembers();
+
+  if(!members[index]){
+    return;
+  }
+
+
+  members[index].name =
+    document.getElementById(
+      "name-" + index
+    ).value.trim();
+
+
+  members[index].email =
+    document.getElementById(
+      "email-" + index
+    ).value.trim();
+
+
+  members[index].phone =
+    document.getElementById(
+      "phone-" + index
+    ).value.trim();
+
+
+  saveMembers(members);
+
+  refreshMembers();
+
+}
+
+
+function activateMember(index){
+
+  const members =
+    getMembers();
+
+  if(!members[index]){
+    return;
+  }
+
+  members[index].status =
+    "active";
+
+  saveMembers(members);
+
+  refreshMembers();
+
+}
+
+
+function suspendMember(index){
+
+  const members =
+    getMembers();
+
+  if(!members[index]){
+    return;
+  }
+
+  members[index].status =
+    "suspended";
+
+  saveMembers(members);
+
+  refreshMembers();
+
+}
+
+
+function deleteMember(index){
+
+  const members =
+    getMembers();
+
+  if(!members[index]){
+    return;
+  }
+
+  const name =
+    members[index].name ||
+    members[index].email ||
+    "this member";
+
+
+  if(
+    !confirm(
+      "Delete " +
+      name +
+      " permanently?"
+    )
+  ){
+    return;
+  }
+
+
+  members.splice(index,1);
+
+  saveMembers(members);
+
+  refreshMembers();
+
+}
+
+
+refreshMembers();
+
 </script>
 
 </body>

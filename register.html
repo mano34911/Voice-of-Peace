@@ -8,9 +8,7 @@
 <title>Voice of Peace - Register</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -22,7 +20,7 @@ body{
 }
 
 .wrap{
-  max-width:620px;
+  max-width:560px;
   margin:30px auto;
   padding:20px;
 }
@@ -31,66 +29,84 @@ body{
   background:#062746;
   border:1px solid #245d88;
   border-radius:22px;
-  padding:26px;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  padding:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.35);
 }
 
 .logo{
   text-align:center;
-  margin-bottom:25px;
+  margin-bottom:20px;
 }
 
 .logo h1{
   margin:0;
-  font-size:40px;
-  letter-spacing:3px;
+  font-size:34px;
+  letter-spacing:2px;
 }
 
 .logo p{
+  margin:8px 0 0;
   color:#4bd0ff;
-  font-size:22px;
 }
 
-.notice{
-  background:#0a3d64;
-  border:1px solid #2c73a0;
-  border-radius:12px;
-  padding:13px;
+h2{
   text-align:center;
-  color:#c9efff;
-  margin-bottom:20px;
 }
 
 label{
   display:block;
-  margin-top:14px;
-  font-weight:700;
+  margin-top:12px;
+  margin-bottom:4px;
+  color:#c9e8ff;
 }
 
-input,
-select,
-button{
+input{
   width:100%;
   padding:14px;
-  margin:7px 0;
+  margin:4px 0;
   border-radius:12px;
   border:1px solid #2b6c99;
+  background:#031b30;
+  color:white;
   font-size:16px;
 }
 
-input,
-select{
-  background:#fff;
-  color:#111;
+input:focus{
+  outline:none;
+  border-color:#4bd0ff;
 }
 
 button{
-  margin-top:24px;
+  width:100%;
+  padding:15px;
+  margin-top:20px;
+  border-radius:12px;
+  border:0;
   background:#13b868;
   color:white;
+  font-size:17px;
   font-weight:800;
-  border:0;
   cursor:pointer;
+}
+
+button:disabled{
+  opacity:.55;
+}
+
+.msg{
+  min-height:28px;
+  text-align:center;
+  margin:12px 0;
+  font-weight:bold;
+  color:#ffd34f;
+}
+
+.success{
+  color:#4cff91;
+}
+
+.error{
+  color:#ff8080;
 }
 
 .link{
@@ -101,11 +117,14 @@ button{
   text-decoration:none;
 }
 
-.msg{
-  min-height:24px;
+.notice{
   text-align:center;
-  margin-top:14px;
-  color:#ffd34f;
+  background:#0b3c60;
+  border:1px solid #276c97;
+  border-radius:12px;
+  padding:12px;
+  color:#bfe7ff;
+  margin-bottom:20px;
 }
 </style>
 </head>
@@ -113,164 +132,298 @@ button{
 <body>
 
 <div class="wrap">
-  <div class="card">
 
-    <div class="logo">
-      <h1>VOICE OF PEACE</h1>
-      <p>Create Account</p>
-    </div>
+<div class="card">
 
-    <div class="notice">
-      Temporary open registration is enabled.
-    </div>
-
-    <form id="registerForm">
-
-      <label>First Name</label>
-      <input id="firstName" type="text" placeholder="First name">
-
-      <label>Last Name</label>
-      <input id="lastName" type="text" placeholder="Last name">
-
-      <label>Email</label>
-      <input id="email" type="email" placeholder="Email">
-
-      <label>Phone</label>
-      <input id="phone" type="tel" placeholder="Phone number">
-
-      <label>Street Address</label>
-      <input id="address" type="text" placeholder="Street address">
-
-      <label>City</label>
-      <input id="city" type="text" placeholder="City">
-
-      <label>State</label>
-      <input id="state" type="text" placeholder="State">
-
-      <label>ZIP Code</label>
-      <input id="zip" type="text" placeholder="ZIP code">
-
-      <label>Referred By</label>
-      <input id="referredBy" type="text" placeholder="Who referred you?">
-
-      <label>Password</label>
-      <input id="password" type="password" placeholder="Password">
-
-      <label>Confirm Password</label>
-      <input id="confirmPassword" type="password" placeholder="Confirm password">
-
-      <button type="submit">
-        REGISTER
-      </button>
-
-    </form>
-
-    <div id="msg" class="msg"></div>
-
-    <a class="link" href="login.html">
-      Already registered? Login
-    </a>
-
-    <a class="link" href="index.html">
-      Return to Voice of Peace
-    </a>
-
+  <div class="logo">
+    <h1>VOICE OF PEACE</h1>
+    <p>By Emmanuel &amp; Camili Hileah</p>
   </div>
+
+  <h2>Create Your Account</h2>
+
+  <div class="notice">
+    Register for Voice of Peace
+  </div>
+
+  <div id="msg" class="msg"></div>
+
+  <label>Full Name</label>
+  <input
+    id="name"
+    type="text"
+    placeholder="Full name"
+    autocomplete="name"
+  >
+
+  <label>Email</label>
+  <input
+    id="email"
+    type="email"
+    placeholder="Email address"
+    autocomplete="email"
+  >
+
+  <label>Phone</label>
+  <input
+    id="phone"
+    type="tel"
+    placeholder="Phone number"
+    autocomplete="tel"
+  >
+
+  <label>Password</label>
+  <input
+    id="password"
+    type="password"
+    placeholder="Create password"
+    autocomplete="new-password"
+  >
+
+  <label>Confirm Password</label>
+  <input
+    id="confirmPassword"
+    type="password"
+    placeholder="Confirm password"
+    autocomplete="new-password"
+  >
+
+  <button
+    id="registerBtn"
+    type="button"
+  >
+    REGISTER
+  </button>
+
+  <a
+    class="link"
+    href="index.html"
+  >
+    ← Return to Voice of Peace
+  </a>
+
 </div>
 
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-(function(){
 
-  const form = document.getElementById("registerForm");
-  const msg = document.getElementById("msg");
+/* =========================================
+   SUPABASE
+========================================= */
 
-  form.addEventListener("submit", function(event){
+const SUPABASE_URL =
+  "https://dpejswtreoqzmrlcnfde.supabase.co";
 
-    event.preventDefault();
+const SUPABASE_KEY =
+  "sb_publishable_92C4dFnhmFBCsasew_6WhQ_InvX4yDX";
 
-    const firstName =
-      document.getElementById("firstName").value.trim();
+const db =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-    const lastName =
-      document.getElementById("lastName").value.trim();
 
-    const email =
-      document.getElementById("email").value.trim();
+/* =========================================
+   ELEMENTS
+========================================= */
 
-    const phone =
-      document.getElementById("phone").value.trim();
+const registerBtn =
+  document.getElementById("registerBtn");
 
-    const address =
-      document.getElementById("address").value.trim();
+const msg =
+  document.getElementById("msg");
 
-    const city =
-      document.getElementById("city").value.trim();
 
-    const state =
-      document.getElementById("state").value.trim();
+function showMessage(text,type=""){
 
-    const zip =
-      document.getElementById("zip").value.trim();
+  msg.textContent = text;
+  msg.className = "msg";
 
-    const referredBy =
-      document.getElementById("referredBy").value.trim();
+  if(type){
+    msg.classList.add(type);
+  }
 
-    const password =
-      document.getElementById("password").value;
+}
 
-    const confirmPassword =
-      document.getElementById("confirmPassword").value;
 
-    if(!firstName || !lastName || !email){
-      msg.textContent =
-        "Please enter your name and email.";
+/* =========================================
+   REGISTER
+========================================= */
+
+registerBtn.addEventListener(
+  "click",
+  registerMember
+);
+
+
+async function registerMember(){
+
+  const name =
+    document.getElementById("name")
+      .value.trim();
+
+  const email =
+    document.getElementById("email")
+      .value.trim()
+      .toLowerCase();
+
+  const phone =
+    document.getElementById("phone")
+      .value.trim();
+
+  const password =
+    document.getElementById("password")
+      .value;
+
+  const confirmPassword =
+    document.getElementById("confirmPassword")
+      .value;
+
+
+  showMessage("");
+
+
+  if(!name){
+
+    showMessage(
+      "Please enter your full name.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!email){
+
+    showMessage(
+      "Please enter your email.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!password){
+
+    showMessage(
+      "Please create a password.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(password.length < 6){
+
+    showMessage(
+      "Password must be at least 6 characters.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(password !== confirmPassword){
+
+    showMessage(
+      "Passwords do not match.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  registerBtn.disabled = true;
+
+  registerBtn.textContent =
+    "REGISTERING...";
+
+  showMessage(
+    "Creating member..."
+  );
+
+
+  try{
+
+    /* -----------------------------------------
+       Check if email already exists
+    ----------------------------------------- */
+
+    const {
+      data:existing,
+      error:checkError
+    } =
+      await db
+        .from("members")
+        .select("id,email")
+        .eq("email",email)
+        .limit(1);
+
+
+    if(checkError){
+      throw checkError;
+    }
+
+
+    if(
+      existing &&
+      existing.length > 0
+    ){
+
+      showMessage(
+        "This email is already registered.",
+        "error"
+      );
+
+      registerBtn.disabled = false;
+
+      registerBtn.textContent =
+        "REGISTER";
+
       return;
     }
 
-    if(password !== confirmPassword){
-      msg.textContent =
-        "Passwords do not match.";
-      return;
+
+    /* -----------------------------------------
+       Add member to Supabase
+    ----------------------------------------- */
+
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("members")
+        .insert({
+          name:name,
+          email:email,
+          phone:phone,
+          status:"active"
+        })
+        .select()
+        .single();
+
+
+    if(error){
+      throw error;
     }
 
-    const member = {
-      id: Date.now(),
-      firstName,
-      lastName,
-      email,
-      phone,
-      address,
-      city,
-      state,
-      zip,
-      referredBy,
-      status: "active",
-      createdAt: new Date().toISOString()
-    };
 
-    let members = [];
-
-    try{
-      members =
-        JSON.parse(localStorage.getItem("voiceOfPeaceMembers")) || [];
-    }catch(e){
-      members = [];
-    }
-
-    const alreadyExists =
-      members.some(m =>
-        String(m.email).toLowerCase() ===
-        email.toLowerCase()
-      );
-
-    if(!alreadyExists){
-      members.push(member);
-
-      localStorage.setItem(
-        "voiceOfPeaceMembers",
-        JSON.stringify(members)
-      );
-    }
+    /* -----------------------------------------
+       Temporary local login information
+       
+       We deliberately DO NOT save the password.
+    ----------------------------------------- */
 
     localStorage.setItem(
       "voiceOfPeaceAccess",
@@ -282,16 +435,69 @@ button{
       email
     );
 
-    msg.textContent =
-      "Registration complete. Opening Voice of Peace...";
 
-    setTimeout(function(){
-      window.location.href = "index.html";
-    },700);
+    showMessage(
+      "Registration successful! Opening Voice of Peace...",
+      "success"
+    );
 
-  });
 
-})();
+    setTimeout(
+      function(){
+
+        window.location.href =
+          "index.html";
+
+      },
+      1200
+    );
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    showMessage(
+      "Registration failed: " +
+      (
+        error.message ||
+        "Unknown error"
+      ),
+      "error"
+    );
+
+
+    registerBtn.disabled = false;
+
+    registerBtn.textContent =
+      "REGISTER";
+
+  }
+
+}
+
+
+/* =========================================
+   ENTER KEY
+========================================= */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(
+      event.key === "Enter" &&
+      !registerBtn.disabled
+    ){
+
+      registerMember();
+
+    }
+
+  }
+);
+
 </script>
 
 </body>

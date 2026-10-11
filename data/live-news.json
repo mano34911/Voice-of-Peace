@@ -1,8 +1,22 @@
 {
-  "updated": "2026-10-11T06:50:10.778326+00:00",
+  "updated": "2026-10-11T13:38:42.697923+00:00",
   "stories": [
     {
       "id": "live-1",
+      "category": "Peace",
+      "headline": "Elisha Wiesel: The Death of the Nobel Peace Prize - The Free Press",
+      "summary": "Latest report from The Free Press.",
+      "source_line": "LIVE • The Free Press • Sun, 11 Oct 2026 13:04:34 GMT",
+      "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFA5M0ZfYWlrNWJ6UE1QemRCTmZVMFU3OTFhOVZxd1UtTjhHc0RlRlFXdGtsVGRiQ3RuUUdhSU9KZEdlbzl1NWJ3dnFSV3FjbTJiaGIxT0lCUHlYRXVmRkxMYUNkTlgwMmpDQ3BoTFVoZFVqY0dT?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-2",
       "category": "Peace",
       "headline": "What has Trump’s Board of Peace achieved in a year since Gaza ‘ceasefire’? - Al Jazeera",
       "summary": "Latest report from Al Jazeera.",
@@ -16,7 +30,35 @@
       }
     },
     {
-      "id": "live-2",
+      "id": "live-3",
+      "category": "Peace",
+      "headline": "Trump rages over Nobel Peace Prize loss - Axios",
+      "summary": "Latest report from Axios.",
+      "source_line": "LIVE • Axios • Sat, 10 Oct 2026 22:15:23 GMT",
+      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFByM2M2QWd3NXh1TzdOZDg2cFpjMmRlSHdFRDRmNXM4V3ZoYTZnc2pjVVdoUEpNMkJzdlYyTTRDM0JRN24xUktnUFBGdXo5My1xd3VNcjc1dW5MMmlZLVZOd2Zyc2xwYnlMMVZHQ01iZUJqZ0E?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-4",
+      "category": "Peace",
+      "headline": "One year on, Gaza ceasefire exists ‘in name only,’ aid groups say amid near-daily Israeli strikes - NBC News",
+      "summary": "Latest report from NBC News.",
+      "source_line": "LIVE • NBC News • Sun, 11 Oct 2026 12:13:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxORE9vbjlaeGF3ZlVuVFZSRlVWNm0zeE92bEp2aENJcjU0c3ZuVnhpdmFFai1oY2t5NTV5b0lzcDNyRVhaTFpUUmhjZ1dtb2I2SmpxamF0dGlKSjhsZFhuYlloNWsxdW9jNnEzYzg3TEhDcmR5Yy04dGt0RldKM244Qm1kbDVKTEJmM2l4UTFvendMVXZETVpaaXZnX3Y1enpMbFpSVnk3WV9HYmdoYkYyUTljT2szMHNlVzNhVW9ZMA?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-5",
       "category": "Peace",
       "headline": "Photos: What a year of ceasefire in Gaza looks like - NPR",
       "summary": "Latest report from NPR.",
@@ -30,7 +72,21 @@
       }
     },
     {
-      "id": "live-3",
+      "id": "live-6",
+      "category": "Peace",
+      "headline": "Trump fumes over Nobel peace prize snub and criticizes Norway - The Guardian",
+      "summary": "Latest report from The Guardian.",
+      "source_line": "LIVE • The Guardian • Sat, 10 Oct 2026 22:57:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE4tbVF6dVBxanozYUM5ZVlxbC05NFhFRFZSdHhFUWtSTkhNNk0zQWpMeFFzS09MTzU0OFRIajZhOTJsMWRxZGtJelR5NFU5YnlWNFVGVE9WNnBHcEpWaHZnQkQ2Wk5YV0gtWWxsbjc3aFBzLTVTdkdEQ0x4dw?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-7",
       "category": "Peace",
       "headline": "Trump Says He Should Have Won ‘8 Nobel Peace Prizes’ After Being Snubbed - The New York Times",
       "summary": "Latest report from The New York Times.",
@@ -44,49 +100,7 @@
       }
     },
     {
-      "id": "live-4",
-      "category": "Peace",
-      "headline": "Trump fumes at ‘stain’ on Norway after missing out on Nobel Peace Prize - The Washington Post",
-      "summary": "Latest report from The Washington Post.",
-      "source_line": "LIVE • The Washington Post • Sat, 10 Oct 2026 19:45:50 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQTkZJbkNrSTEyWktRSldTXzliZDNtQmdzakNiazZnbmJEejdEQ2dwckZsUVFsUEFybkhqbXdCdlVld24xQXJnRmw0ci0yd0E5ZG1vU19GQjdjUXJvZzdodkk3UTc5REVuR3hlb0FUS1JkMmxZeVN5NmtYeDM3dUhFY1JaM1k2NnpNaWZIa2tJRnBvR0xCZXhyQ1JtWjlFRjN1MWdQVTZDZDRwNnBpdVFodFJSWnk2N1lGSGc?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-5",
-      "category": "Peace",
-      "headline": "Gaza ceasefire exists in name only, say more than 100 organizations - Amnesty International",
-      "summary": "Latest report from Amnesty International.",
-      "source_line": "LIVE • Amnesty International • Thu, 08 Oct 2026 23:01:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOYkJpOVhkT0I4VmpMbkxSVDZuTF9xWS11c1EwMUVqQ2d4T0lVSk0tSU1SRVFPWFBXaklSYmF2WHpzOERzNk5VSXFMV3NGRlhrbE5GVzhGWUNCbnJfdXBTbG4yMTZkSGZjOWROWDhHRVkwUmhxVDdISl9FSzVoTmVwTlVxQVpiYnVnYmlFd1ZDZHgwMzlTbVo4a0U0Z1I5NzRyME9NVGEteWZmS21rclJnLXFzbVY?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-6",
-      "category": "Peace",
-      "headline": "Trump rages over Nobel Peace Prize loss - Axios",
-      "summary": "Latest report from Axios.",
-      "source_line": "LIVE • Axios • Sat, 10 Oct 2026 11:12:24 GMT",
-      "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFByM2M2QWd3NXh1TzdOZDg2cFpjMmRlSHdFRDRmNXM4V3ZoYTZnc2pjVVdoUEpNMkJzdlYyTTRDM0JRN24xUktnUFBGdXo5My1xd3VNcjc1dW5MMmlZLVZOd2Zyc2xwYnlMMVZHQ01iZUJqZ0E?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-7",
+      "id": "live-8",
       "category": "Peace",
       "headline": "‘SNL’ Weekend Update Brutally Mocks Trump for Losing Nobel Peace Prize - Variety",
       "summary": "Latest report from Variety.",
@@ -100,26 +114,12 @@
       }
     },
     {
-      "id": "live-8",
-      "category": "Peace",
-      "headline": "'Disgraceful': Trump says he should have won Nobel Peace Prize - upi",
-      "summary": "Latest report from upi.",
-      "source_line": "LIVE • upi • Sat, 10 Oct 2026 20:22:34 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNbHVTRVlmLVRiWTAtbGhVaVdVU2FwZVVsYlRmZjZoUTZKV0RVQ2phYjZoa2MxS1lCak5wdjRWekNidXlrVWdVSnB5eWowYXRPNW1saGh2enlNZTZBZGdfVl9YUEhPbjF4ajB2ZGttNFRzM29OVE1lN2RVdTdBWFZ1UXNpWTBzdmxx0gGOAUFVX3lxTE9WQm5OMlZpNktiZm1EMTYyaDlBWmd3N0lEWGJ5cHRMWk10eTFlZm1wZlJUTFhOQ3pjNW9ZTS16Q0ZoWFlDR05JM3lPY3RwZ2RHWm91TUdHVlJ6YVpwYllUdHVDakI4MmdLR0ZzLVhDVWdLV0NTa2ZnLWlpMExOZnVBbDc1aDJqNlZHcl85MlE?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
       "id": "live-9",
       "category": "Peace",
-      "headline": "President Trump blasts Nobel Peace Prize snub with blistering list of accomplishments: 'WOW!' - Fox News",
-      "summary": "Latest report from Fox News.",
-      "source_line": "LIVE • Fox News • Sat, 10 Oct 2026 18:28:07 GMT",
-      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOOXk4SU1LZzMwOUxOYUJFSFpUWnhtOTM4bG1wOUhGd214WFdVbFJQS2s3TVBCa2NlaUxYYl9jY0prRG1tRi1mQjdUcjRWN3RFMWtic1FUNzcwOFFzc0QtaWFRX0s2QlRaQlQ1SHpROFlUcFlJWjdzZTNCV3lja3FxbzBCRHp6VWhFMm9xY3NubmRRbUFwYW5nb1c4WWk2c1RLam92Rnc5WFh6R2pjUmt2NW4zMFfSAboBQVVfeXFMTTA5ak1STU8weTJYRExkcm00WTM2STh3VzZ6RGNqUUlyTE5mZ1l2TGZvUzBkZTJhR0pySnlxcGt1YWtwMHRZYTMxbUxGeEdtaHBfRnQ0WG43RkgtRkJEZTlaV0lPc1Bxc1FUMFU5TVNmWm9FeFhRZllWdnFPci1jMHAxZ2NBdDhTSS1fVlJYNFFLTUM2NjRGOXhRMUEtNnhoWVB2cnRtNjVjbkV5SWJpTS11dFVkbVZTcG93?oc=5",
+      "headline": "President Trump took to social media on Friday and Saturday to criticize the Norwegian Nobel Committee for awarding the 2026 Peace Prize to Navi Pillay, a South African human rights lawyer and international judge. He called the decision “an indelible stain - Facebook",
+      "summary": "Latest report from Facebook.",
+      "source_line": "LIVE • Facebook • Sat, 10 Oct 2026 23:40:07 GMT",
+      "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxPUnZSQUllbWYzOUJTaTJZOVRLOG56Q2NZOG52WDFINGRPNlFOdXA1emlIN1BVZVFvbjN3bm93c3EtUjktNk5wYmg2WWQzdDY4dVJwMlRQak0wVFdHLThtSVk1SEJiN1lwUlAxV3NHNmhfbkxNdlhOMkdRYW9YdlRpbEhNM2JnVENOMlRZT3phMDZVVThmbDlFUloyQ1JJc3JLTl9iaVhJMFJUTFEtY2lRME8xdlBBVU5uYVZPY1ZfQVJ2Q0lLMUpOTTVSWGYxUXY4WTY4?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -129,6 +129,20 @@
     },
     {
       "id": "live-10",
+      "category": "Peace",
+      "headline": "Trump fumes at ‘stain’ on Norway after missing out on Nobel Peace Prize - The Washington Post",
+      "summary": "Latest report from The Washington Post.",
+      "source_line": "LIVE • The Washington Post • Sat, 10 Oct 2026 19:45:50 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQTkZJbkNrSTEyWktRSldTXzliZDNtQmdzakNiazZnbmJEejdEQ2dwckZsUVFsUEFybkhqbXdCdlVld24xQXJnRmw0ci0yd0E5ZG1vU19GQjdjUXJvZzdodkk3UTc5REVuR3hlb0FUS1JkMmxZeVN5NmtYeDM3dUhFY1JaM1k2NnpNaWZIa2tJRnBvR0xCZXhyQ1JtWjlFRjN1MWdQVTZDZDRwNnBpdVFodFJSWnk2N1lGSGc?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-11",
       "category": "Peace",
       "headline": "Prize announcement - NobelPrize.org",
       "summary": "Latest report from NobelPrize.org.",
@@ -142,7 +156,7 @@
       }
     },
     {
-      "id": "live-11",
+      "id": "live-12",
       "category": "Peace",
       "headline": "Navi Pillay wins Nobel Peace Prize after long career of investigating war crimes - PBS",
       "summary": "Latest report from PBS.",
@@ -156,26 +170,12 @@
       }
     },
     {
-      "id": "live-12",
-      "category": "Peace",
-      "headline": "Trump: I ‘should have won’ Nobel Peace Prize, award is ‘forever discredited’ - The Hill",
-      "summary": "Latest report from The Hill.",
-      "source_line": "LIVE • The Hill • Sat, 10 Oct 2026 11:55:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQcWpzWnBwRTd1LTFFVXJvWmM4TFNnSWRWc0EySzAxb1lhY1BOelcwT1pWeWR1WnBDNnMyTlVPbVd3TjN0bkVuOVhCNFk4UlF0dXpJejdQbGM4Y2szQl9VUHNiZHN1OG01ZWdxZXYxTjM1eThUa3Fpc1hhOUYzYTFnNktlS1lyS01sM1dVNkptRdIBlAFBVV95cUxQQU1pNWliS3R6UENoSzhGZk1JRkVUakhxWjhpX0ctdnh1NFY4aWNEYVRpckpCdC1RYXc5VWVkc0NZNGpQaDIxcmlOdzBUNmJPODJKMDBFRi1ySl9Ga2JvQkVHakVvU1B2R1pfRkREeWZlMGZqOUNHN2RBZnphbzd5OG1mbTgyUGN2azVyWmpDN1FER1cw?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
       "id": "live-13",
       "category": "Peace",
-      "headline": "Nobel peace laureate says US sanctions on ICC 'unacceptable' - BBC",
-      "summary": "Latest report from BBC.",
-      "source_line": "LIVE • BBC • Sat, 10 Oct 2026 15:23:47 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1rb2FYU2tneS1pdzNLcHFobnZpNFM3cjBCSE9MNWtFRVV6MG5uZDkxRmwwUWJ0QlRQQy03c2NsNUM5blh0bkFYQVhadjU2bkxCUVZNR2VpdVFlV1k?oc=5",
+      "headline": "Will the Armenia-Azerbaijan Peace Be the Latest to Come Undone? - Middle East Forum",
+      "summary": "Latest report from Middle East Forum.",
+      "source_line": "LIVE • Middle East Forum • Sun, 11 Oct 2026 10:01:09 GMT",
+      "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxNbDMzckdTSDdrVWxNRUJlMVNaS183TzBQNG9pNUdKdC1mMDNLSmNkcFlicDdCcnNkcHlZWmFKR09DX3FJRHhDX1VPZmhZa3M2OW1FeTJoZXA5RThKOVZmdU5PWmJvUGxoNDhaZjlka0llQTQycWJjbWp2ckJFNXNwcnpCODFvRHVNeFZrMzZJeW1NdzM4U2x1SW9kUlJHajdD?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -186,10 +186,10 @@
     {
       "id": "live-14",
       "category": "Peace",
-      "headline": "Former UN human rights chief Navi Pillay awarded Nobel Peace Prize - UN News",
-      "summary": "Latest report from UN News.",
-      "source_line": "LIVE • UN News • Fri, 09 Oct 2026 09:15:40 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE55N1F5NElCZGp4OGx3Mlk5LUVPNzFoYlo2bmVOT3JxNnZQeGZVb0NZVllFX0R0dXRBbFJmbERxQWFGZEozdWJDaE5VX1VaNlFVT2tnc3NBcw?oc=5",
+      "headline": "One year after Trump's ceasefire, the next challenge in Gaza is still unclear - analysis - The Jerusalem Post",
+      "summary": "Latest report from The Jerusalem Post.",
+      "source_line": "LIVE • The Jerusalem Post • Sun, 11 Oct 2026 11:02:50 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFAwUnhBbl9keE0xQnpfRUU4UGNHRU5scWFDcWhaamlidEU0eEJ5ZFNLbW03eHN1U0hIYkpJVXR5UVkxRmxNbGZ4TTNrZ3pHUXhFZzlrYnl0bjFSNFIt?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -199,6 +199,20 @@
     },
     {
       "id": "live-15",
+      "category": "Peace",
+      "headline": "'Disgraceful': Trump says he should have won Nobel Peace Prize - upi",
+      "summary": "Latest report from upi.",
+      "source_line": "LIVE • upi • Sat, 10 Oct 2026 20:22:34 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNbHVTRVlmLVRiWTAtbGhVaVdVU2FwZVVsYlRmZjZoUTZKV0RVQ2phYjZoa2MxS1lCak5wdjRWekNidXlrVWdVSnB5eWowYXRPNW1saGh2enlNZTZBZGdfVl9YUEhPbjF4ajB2ZGttNFRzM29OVE1lN2RVdTdBWFZ1UXNpWTBzdmxx0gGOAUFVX3lxTE9WQm5OMlZpNktiZm1EMTYyaDlBWmd3N0lEWGJ5cHRMWk10eTFlZm1wZlJUTFhOQ3pjNW9ZTS16Q0ZoWFlDR05JM3lPY3RwZ2RHWm91TUdHVlJ6YVpwYllUdHVDakI4MmdLR0ZzLVhDVWdLV0NTa2ZnLWlpMExOZnVBbDc1aDJqNlZHcl85MlE?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-16",
       "category": "Peace",
       "headline": "One year on, Trump's Gaza plan has not stopped Israeli fire or disarmed Hamas - Reuters",
       "summary": "Latest report from Reuters.",
@@ -212,26 +226,12 @@
       }
     },
     {
-      "id": "live-16",
-      "category": "Peace",
-      "headline": "Praise pours in for Nobel Peace Prize laureate Navi Pillay even as Israel criticizes selection - AP News",
-      "summary": "Latest report from AP News.",
-      "source_line": "LIVE • AP News • Sat, 10 Oct 2026 14:49:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPNGt5T2dWSENldmlfc3BDMXd2QTZoNUtFMVJQei1yX2NjSFNvOVlOOGFqdHlHLVRGbndrM1dhendOQTZLakRPRExkT3pqNkZqSlhwRTNfaXVaWnZ2LXd6UDctWF9uRm5GLU80TExZMVVoY2RZUXRLV1BRak00ODhWZlNNUDZrd2lGaWZV?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
       "id": "live-17",
       "category": "Peace",
-      "headline": "One year on, Gaza ceasefire exists ‘in name only,’ aid groups say amid near-daily Israeli strikes - NBC News",
-      "summary": "Latest report from NBC News.",
-      "source_line": "LIVE • NBC News • Sat, 10 Oct 2026 14:12:32 GMT",
-      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxORE9vbjlaeGF3ZlVuVFZSRlVWNm0zeE92bEp2aENJcjU0c3ZuVnhpdmFFai1oY2t5NTV5b0lzcDNyRVhaTFpUUmhjZ1dtb2I2SmpxamF0dGlKSjhsZFhuYlloNWsxdW9jNnEzYzg3TEhDcmR5Yy04dGt0RldKM244Qm1kbDVKTEJmM2l4UTFvendMVXZETVpaaXZnX3Y1enpMbFpSVnk3WV9HYmdoYkYyUTljT2szMHNlVzNhVW9ZMA?oc=5",
+      "headline": "A US-brokered ceasefire was supposed to end the war in Gaza. A year later, progress has stalled - AP News",
+      "summary": "Latest report from AP News.",
+      "source_line": "LIVE • AP News • Sat, 10 Oct 2026 06:50:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPOF84RWlSNXdiVWh3azNPMS12R0h4ZFBReGdLNTM4SFg5c3lHdFRVRVRYdTV1Qm5PX1hLSHZsanBlY09fWXlZUUVrQ1VIbjg3clF6RVlBWFBKNFVYYXZZQmxrd3dTQm1yeWZkeUZVYVFvSk05SWMzQV9jcE1XZWZncjdoanNsNEJiTWtvY2FTa255dDZMVzF6RGV6cjdfSjZKOHJhR3BEbWtPRnZBQ2ktOFBfeEc?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -242,10 +242,10 @@
     {
       "id": "live-18",
       "category": "Peace",
-      "headline": "Rebuking Ukraine Over Oil Strikes, Trump Says It Should ‘Get a New President’ - The New York Times",
-      "summary": "Latest report from The New York Times.",
-      "source_line": "LIVE • The New York Times • Sat, 10 Oct 2026 12:13:37 GMT",
-      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxPemRINWVHeU1PM2lHVjQ0RXNIamU0eDYwcDBkYW9PTnNxa2tNVjVhTHpLdFUzbVpOWnhXNmFvZVdmdEUtZ2pGT3VES2Z3c3R2bFBLdUVhOVBLRDA1VS1Fem9HWElCeWQ1ZjRpUjl2U0JvOUdMal9VNC1TRXBidDU4bW9ITGQ2aUFWM2UxclR2aw?oc=5",
+      "headline": "President Trump blasts Nobel Peace Prize snub with blistering list of accomplishments: 'WOW!' - Fox News",
+      "summary": "Latest report from Fox News.",
+      "source_line": "LIVE • Fox News • Sat, 10 Oct 2026 18:28:07 GMT",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOOXk4SU1LZzMwOUxOYUJFSFpUWnhtOTM4bG1wOUhGd214WFdVbFJQS2s3TVBCa2NlaUxYYl9jY0prRG1tRi1mQjdUcjRWN3RFMWtic1FUNzcwOFFzc0QtaWFRX0s2QlRaQlQ1SHpROFlUcFlJWjdzZTNCV3lja3FxbzBCRHp6VWhFMm9xY3NubmRRbUFwYW5nb1c4WWk2c1RLam92Rnc5WFh6R2pjUmt2NW4zMFfSAboBQVVfeXFMTTA5ak1STU8weTJYRExkcm00WTM2STh3VzZ6RGNqUUlyTE5mZ1l2TGZvUzBkZTJhR0pySnlxcGt1YWtwMHRZYTMxbUxGeEdtaHBfRnQ0WG43RkgtRkJEZTlaV0lPc1Bxc1FUMFU5TVNmWm9FeFhRZllWdnFPci1jMHAxZ2NBdDhTSS1fVlJYNFFLTUM2NjRGOXhRMUEtNnhoWVB2cnRtNjVjbkV5SWJpTS11dFVkbVZTcG93?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -255,20 +255,6 @@
     },
     {
       "id": "live-19",
-      "category": "Peace",
-      "headline": "WATCH: Navi Pillay wins Nobel Peace Prize for efforts to uphold international justice - PBS",
-      "summary": "Latest report from PBS.",
-      "source_line": "LIVE • PBS • Thu, 08 Oct 2026 20:56:52 GMT",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNUkg4SWVYYzZsSXNBZmVkMmtFTWZuWEJOeGlZcWhEN25Xc3RzaGJ1dTFQYlNoOXVTSmoxR2E4UkpnaW9fc3hlQnpVekZfUTE2RVJqMDlHTEhYbklZSkdsN2MzYnJZOXEza0g5QU1Na19QLWg3N0gtN1FKcXpzSXZoQkx2T1l1Tmo4Z2VEbm1n0gGTAUFVX3lxTE44Nmtqb0hPLTFxeUxpYUNpdFhZS1FySktfNG5rYkJJeGhTWXl4LU5zaXZDT2UzRWRTWmk5YW43ZDNNRENqZUhxSHloaFhqNG1rU2tIRnJEb2pVTlVqUUY1czBkc2xwREdTZjltMEdfZTEwVnl1MS1HdG5uT0RrODJMSGZkdEhOd3FienN1dlJTUTFZaw?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-20",
       "category": "Peace",
       "headline": "Trump says Norway has 'indelible stain' for not awarding him Nobel Peace Prize - Reuters",
       "summary": "Latest report from Reuters.",
@@ -282,12 +268,26 @@
       }
     },
     {
+      "id": "live-20",
+      "category": "Peace",
+      "headline": "Trump says Nobel committee not awarding him Peace Prize leaves ‘indelible stain’ on Norway - NBC News",
+      "summary": "Latest report from NBC News.",
+      "source_line": "LIVE • NBC News • Sat, 10 Oct 2026 02:41:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQajc2YUZVcXhSY1ZuOWNYM2pkT1oyTGgybGJSWm9DT3A3bHVOYlh0ZkQ1Zk1tMkpQbUdBYXpxb01HMWNBLVF3TzgySFVBRFllTW8tWEpQdEswMUZLX3FpWWNfZEZESEhNNFlvTFVsVnY4VFZ6M3lqTkJ2NF9yMjlWdG1UbFM0cHIwVTJCcXJZclZlZF90RHVtNVMyOE52MW1VbjhxWmNPRzBKN3Nfc3Z2UW82R1VwRnhHaDdEOWRuTWxCdHZDOVE?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
       "id": "live-21",
       "category": "World News",
-      "headline": "World condemns deadly Houthi attack on Saudi Arabia’s Riyadh airport - Al Jazeera",
-      "summary": "Latest report from Al Jazeera.",
-      "source_line": "LIVE • Al Jazeera • Sun, 11 Oct 2026 05:15:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOLWVoSG40NmNyb1B5YkpTVUlpc1l3b1FaYTdlczcwUURLTkt2R2FUX2dfTGFsc2pJS2lfSDY0Tzd5RUpVWjFZdEw1R0o4UUhkdEJSSWpsd0hIRTU5eTZpRkRhV2IyazRnRVc4dzk4STlZWVpobkF1am84bGtHOXZFbk9Kdk5rMU9yR0pGajk1STBYTkdGZFhVbzM1MU1hdV9Rcm11d1ZrdFdCWG96VHfSAbMBQVVfeXFMTmpLZWNQZ1RyWXk2Q0VHMUs3cUpwUGtUQVRJdGgxd01rV1RsbWg0ZkdQTGtyNTlVRFRDcXVGWU5lQTd0VXZYV0FKSlQzWDh2MmZyeWFiNlVYRHBPcTJoTnRLQVRfWFVBb09UUDduNFBfdktFM1k2UDByaFFtNnV6c1l4SHg5bXkyYXQ0a0dDU3hFUFcyUDUtdzNNMHdYTnFCbkFYa2hIeWZfd1BCTjltNktXanc?oc=5",
+      "headline": "Pope Leo to have surgery to remove nodule on his lung - The Guardian",
+      "summary": "Latest report from The Guardian.",
+      "source_line": "LIVE • The Guardian • Sun, 11 Oct 2026 12:15:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOWXJhZDdLSEp6QkVPZDJZQlZDNGhxeDJvWmpJWjJnRUFEeWJXcXlvaWtQNGRKOHhHN2JscmVNNy1wYWd0bTNTbWNHNUZCc3VxRk5jalJDeURhNDlzNmphOFRTSmFqSG5DUVJ3cVNvd2pfRG94QjBXTm5pcVFWc0Q3NGQ4cHRRV1c3?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -298,10 +298,10 @@
     {
       "id": "live-22",
       "category": "World News",
-      "headline": "Hurricane Simon and Tropical Storm Rachel Target Mexico as Isaias Hits Gulf - The New York Times",
-      "summary": "Latest report from The New York Times.",
-      "source_line": "LIVE • The New York Times • Sun, 11 Oct 2026 04:43:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNOEFOV1VkS3piblBsYWFHRDdlX3RCbUZPLWZMU2dnMkczZW9Bc1ZpeGdTT29ZSnQteW5IMlNsaW5hckpPLTJIZzZ1d3h3ZXJDR2NNcXlabndULVZrX1FlMmE4RDVUSW9wTmdqSG1jNDI3akdxNUUzdmhJX0h4MU16MFdPc2lvOWxv?oc=5",
+      "headline": "World condemns deadly Houthi attack on Saudi Arabia’s Riyadh airport - Al Jazeera",
+      "summary": "Latest report from Al Jazeera.",
+      "source_line": "LIVE • Al Jazeera • Sun, 11 Oct 2026 11:00:05 GMT",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOLWVoSG40NmNyb1B5YkpTVUlpc1l3b1FaYTdlczcwUURLTkt2R2FUX2dfTGFsc2pJS2lfSDY0Tzd5RUpVWjFZdEw1R0o4UUhkdEJSSWpsd0hIRTU5eTZpRkRhV2IyazRnRVc4dzk4STlZWVpobkF1am84bGtHOXZFbk9Kdk5rMU9yR0pGajk1STBYTkdGZFhVbzM1MU1hdV9Rcm11d1ZrdFdCWG96VHfSAbMBQVVfeXFMTmpLZWNQZ1RyWXk2Q0VHMUs3cUpwUGtUQVRJdGgxd01rV1RsbWg0ZkdQTGtyNTlVRFRDcXVGWU5lQTd0VXZYV0FKSlQzWDh2MmZyeWFiNlVYRHBPcTJoTnRLQVRfWFVBb09UUDduNFBfdktFM1k2UDByaFFtNnV6c1l4SHg5bXkyYXQ0a0dDU3hFUFcyUDUtdzNNMHdYTnFCbkFYa2hIeWZfd1BCTjltNktXanc?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -312,10 +312,10 @@
     {
       "id": "live-23",
       "category": "World News",
-      "headline": "Man dies after tiger attack at wildlife park - BBC",
-      "summary": "Latest report from BBC.",
-      "source_line": "LIVE • BBC • Sun, 11 Oct 2026 01:05:37 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE1hNVE4NkdyTkFGQVVpeEh4aDBpQWRjT0FBN0xKRV9BdWtWbWg0NjNlV24zWndpRklocW45UllwTGZnZkozbi1sZWsxVDZtNmhqMUxyM3BPdmVpZjg?oc=5",
+      "headline": "India’s ‘Cockroach’ Leaders Released as New Delhi Braces for More Protests - The New York Times",
+      "summary": "Latest report from The New York Times.",
+      "source_line": "LIVE • The New York Times • Sun, 11 Oct 2026 10:59:34 GMT",
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNVFBPcERCT3JRang5VkNkblVWVHRQWHFJZXlIRXVCTlFMSEpmRXpXcFk2OUZzcXdHR2hncEJ0clN2MXJtWF9CZTY1RkN5Q2hUQnc2bHBTQ0VZR1JPSTdBSXE1SjczYXB5N3NPRk1FaDhzUVdPeElHM2VYOUMtb2JkZThGWW11ek94Ukc3NkJKRnU0ZVE3WlE?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -326,10 +326,10 @@
     {
       "id": "live-24",
       "category": "World News",
-      "headline": "India cracks down on youth protests as anger grows against Modi and election chief - AP News",
+      "headline": "A ferocious Hurricane Simon nears Mexico with 155 mph winds and flooding fears - AP News",
       "summary": "Latest report from AP News.",
-      "source_line": "LIVE • AP News • Sat, 10 Oct 2026 19:47:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxORzNwb1JXWi1EZ0xtdW51XzdfWDl5MU1EdFZocFhZdVJRTExudUFESUpLV3lNUXpVY3BrT3dmUWlZclBZRmlCdUV1b2FoSndKSDFhWjFNcFM5TExFV3lVWHhad2s2Sy1peERNdWZnazVpU2ZycXFXWG1DRkEtVGFxSXZESklaYi1qQkhwTGlZSTY4WTNxc1Z5TlR4azBWYTFuYUtua213eVJRRmFrZURxMDIxYkY5VnM?oc=5",
+      "source_line": "LIVE • AP News • Sun, 11 Oct 2026 09:27:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPM1JYNEFiNHpwMTFGZFVETFU1SG9OMXEzTzIzbWh1ZmxoVWY4bTNwTzlxZ1A1VWhmaFJ1bWNIbFEtc0VYVmJZZ0FIQ1JBdTkyU21wamtWdXh1azZUMnpWZ0JOVHc3emE3WVNmTlFBVXdjQ2xiX1FldkExelhnbFRJM1NBY0J6ZVJ4LUE?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -340,10 +340,10 @@
     {
       "id": "live-25",
       "category": "World News",
-      "headline": "Why is the US sanctioning the International Criminal Court? - Al Jazeera",
-      "summary": "Latest report from Al Jazeera.",
-      "source_line": "LIVE • Al Jazeera • Sat, 10 Oct 2026 15:46:05 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPT29SMHVPVGc5OUxjT2plSDN3ZkNLVTF6c25wSDZlZW5TcE5reTJTU0ZIUS1RTEdnTld6YjU1c2pnNE5NTTV2R1VVZ2R3VFdDWjVDVnJ5dTJTdHJyRC1XaWphTWtUdk01V2s5NUdrV04xdzJrVG52bkxKa2w1elJQcXdBcS1fRGlNSENIN2tTTFk2b2VNQ1o4bXFiaU5rRGJpOUHSAacBQVVfeXFMTmJPeDBjZjdYYklhY3VFYWQ1UmtjNGItczB3UVZaaEhfaEktY2VPbE5wcTA2UzlTRV9DZzNLb3c4ODM5Z2Mtc0lyVzkyNnhjYXVFQ0RwaWU2YUJHWmR3UmhNS3VQUE1ma29VS3kzSGJzd2t0RXZsVklOYV8yaWRjZXhONXRIcnR1aWdRMGF2WXBDeER6bGQzSFQ5VlYtZVlEMDZxMUlmVHM?oc=5",
+      "headline": "A Russian Spy’s Lone Regret: ‘I Got Caught’ - The New York Times",
+      "summary": "Latest report from The New York Times.",
+      "source_line": "LIVE • The New York Times • Sun, 11 Oct 2026 09:00:28 GMT",
+      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9qamdQb3Fmai1EYUV5dHZ5QXduZG5mSTJqbjViZDlSYUU0dVZWMDhWRzg0ZG9URkQ5bFhtZzRmMERLSnNnVzZhTjg0OURaTFFPc2JSSGRxOXh3c1p3akloM1NxYnFjdGZPbVRaUU15VmNyTEVnRDdrWU40bw?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -353,6 +353,76 @@
     },
     {
       "id": "live-26",
+      "category": "World News",
+      "headline": "‘No place to breathe’: AISA’s Neha Bora detained again, alleges police brutality - The Times of India",
+      "summary": "Latest report from The Times of India.",
+      "source_line": "LIVE • The Times of India • Sun, 11 Oct 2026 11:50:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQWkNXR0dFcWVJNDlVaVNuMDNUY2hMakhiN1cyeF9Wd0hvWHBkTHhTZElra0s3Z0ZiTXpXX21XbmhvNzB5R3gtb09CcG91RHlQMDd0V1hPODBCVEh5UWpKU1p2QXB4UDBfSFFHSDcxOVNTMzY4N1BUZk5reG83SGx6VVhtb3RxSUtFR0M1YXltRmxxeTBfLWVnUHlyMHFPYTVyMld4c0l0MkJlbE02bW9GTVNiUExxM1hRbWZ1bnVfaDYzcmphQU10RnVNNER2Y0JqOVItaVFKbjM5dEU?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-27",
+      "category": "World News",
+      "headline": "Yandex: Ukraine strikes Russian data centre again despite Trump warning - BBC",
+      "summary": "Latest report from BBC.",
+      "source_line": "LIVE • BBC • Sun, 11 Oct 2026 12:50:46 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBMdlFFWjVjSEJEdjVmcnVQWGZxa1J6N3RRaEdVN3loOUItWkE1MTFvQkJlTUE3MTA4MFNSbU1xb25uUU9wdEVhSXhhXzRYdXRsanR0YTh0MFlaNTg?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-28",
+      "category": "World News",
+      "headline": "Man dies after entering tiger enclosure at UK wildlife park, police say - CNN",
+      "summary": "Latest report from CNN.",
+      "source_line": "LIVE • CNN • Sat, 10 Oct 2026 15:39:13 GMT",
+      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5Wb3o1MFdzU20zVTRyaDM2OXRmMnNXd2xLZXZfQVNHQ2NQcUw1dHREdVJ0YjMzNnIyc3lJVEl6aEVoTHViX1FmVDNubXV4ZnlmdFdBVnMwWEk3RzJCd0ljZE5uc0JsUThBNmQ4TXlwZ0ZScUlMWHJYU0E4OFlXa0E?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-29",
+      "category": "World News",
+      "headline": "Middle East war, high debt levels to dominate IMF-World Bank meetings in Bangkok - Reuters",
+      "summary": "Latest report from Reuters.",
+      "source_line": "LIVE • Reuters • Sun, 11 Oct 2026 04:03:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQWlZqTVZkYlUxR2xKODRtSHFhLUI5ZVk4MWlwUURPZTRJSy1UYjdKak1ZbzdGMG80dmNOTVlVbUtvbW1zUU9hWE5QeU9xc19wWE50TnR4M05sQ0c0aFI0ZmYtTGN6Q0hwanJUajNzSlRfaVBQNXdPMUlfQlpfb1JHTGlQWkg5aVdOTE5SZ29NRXZLSW85enZHa2dCOVFSWmFpUEptcWMxa1JxVW15ZGhLLTRRcDEyeXBEWkw0RnJR?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-30",
+      "category": "World News",
+      "headline": "Djibouti boat capsize: Children among 109 dead with 116 still missing, UN says - BBC",
+      "summary": "Latest report from BBC.",
+      "source_line": "LIVE • BBC • Sun, 11 Oct 2026 12:06:21 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9jMVZWeHN5VjRNUTVZUnlwS0pLMzhsYlJOUHVzY05LTGVycnVSa3AyVGlTOW1FYVhwMmF5bWtPU3N2Q05oaUsySGN0R1ZXMV9ObmpZSXcwZ2xiWTg?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-31",
       "category": "World News",
       "headline": "Earthquake strikes Panama at magnitude 7.7, tsunami threat issued - USA Today",
       "summary": "Latest report from USA Today.",
@@ -366,49 +436,7 @@
       }
     },
     {
-      "id": "live-27",
-      "category": "World News",
-      "headline": "Strikes killing 17 are Russia’s ‘thanks’ for US diesel sanctions lift, Zelenskyy says - POLITICO.eu",
-      "summary": "Latest report from POLITICO.eu.",
-      "source_line": "LIVE • POLITICO.eu • Sat, 10 Oct 2026 12:56:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOYy14RmRiYTY1M3ltamVNcmh4UmNFam01WFBsUk5JNDNzVmx1UG16bUhIdUZuTEhfMEx5YW1xbTVCWDNwVDJFa3FsZWwzLThSMGkzWmlZcS1KNDJMMjlURWZvUHZoZ0JmT1FOcUNzd0RLVWRnNG9NellHeGJvYllyV1hHc2lxbGt1V0Z5T3RJVFltcTNwdU1uY1R4RGE1eGM?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-28",
-      "category": "World News",
-      "headline": "3 Men Are Found Guilty in Murders of Tourists on Surfing Trip to Mexico - The New York Times",
-      "summary": "Latest report from The New York Times.",
-      "source_line": "LIVE • The New York Times • Sat, 10 Oct 2026 18:25:54 GMT",
-      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNMV9oeW9rOGdYVFI2ZkN1czhFT0JYLTdLSXc4V1UwMGtsNHRBeXpxWGVub0hYa2xFQWJVVEQ1UW84ZThFY0VsZXV3TzJrX2tXSDRSb05DaUp6TndEeW5SY28zTk13MTRPOElZbnh6eENzUnVyQm0xZWVITGIzWUZVQS1kaWlWbGZWTDloNndxbUdDbUFQYmJIeng4TmlvN1hiWUVLeTJVRWppX2NsT2c?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-29",
-      "category": "World News",
-      "headline": "China, EU strike deal to halve Chinese hybrid exports - Reuters",
-      "summary": "Latest report from Reuters.",
-      "source_line": "LIVE • Reuters • Fri, 09 Oct 2026 12:41:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxPTHg5eDd4SHlldjU0OVlpTEVOaHB0QVpIOGhaTm9CSVN2WmE2RUtobThWUkpGM1NrMFVxeVFKMnctbEF4aV9JQnZIT0RjaXlWVHBhb3Noam5HemZnd0ZRTy1TSEJjUFljMl9md29ESGFUeVFha29xaWd0a050VjVjV2pFRS1qUWVJVm04SDJJUjRGcXBQUzE3TzhDaV9SWHR6TndZaGhMRUlib0NSekZFenBpUUtuTnZZSy1JekRHaDZoLTA?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-30",
+      "id": "live-32",
       "category": "World News",
       "headline": "France is devouring itself as school riots reveal a crisis far bigger than broken classrooms - Fox News",
       "summary": "Latest report from Fox News.",
@@ -422,40 +450,12 @@
       }
     },
     {
-      "id": "live-31",
-      "category": "World News",
-      "headline": "Alleged Flydubai hijacker said 9/11 attacks spurred him to become a pilot, early investigation finds - CNN",
-      "summary": "Latest report from CNN.",
-      "source_line": "LIVE • CNN • Fri, 09 Oct 2026 16:48:40 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNanhPRXVxbldTeVlJZWxrb1FVR3lYZTIwWTFjajFDN0RrbFNHUXNNMWFJcDhLM0hqelQ0d3RvRHJ1OHhGVlc2LU5TN2tkR25PMG9yZmxrVVNDdTBoNkJ1UmdkSzhHa2treVpWbmZLRzlwRVJ6YjUtcEdmcWJMWmZIT2hKWEROaGdPMnBaazg4cG45WWxGVFVaMktYT212TWxLWWxLZXR4YVlMUQ?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-32",
-      "category": "World News",
-      "headline": "Drone strike by Sudan paramilitary kills 41 near Ethiopian border, rights group says - BBC",
-      "summary": "Latest report from BBC.",
-      "source_line": "LIVE • BBC • Sat, 10 Oct 2026 14:49:32 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE43WG51QTk5R3R0d2d3VjNYUE8za0FEZkdUTVdKS1ZVcWVJbk5fQkptYnNWU0JZN1daTkhZVkh2UUROWHpONGZTeEI5ZFRiMXNoaFNIS05iSnZPMVk?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
       "id": "live-33",
       "category": "World News",
-      "headline": "Palestinian Authority president postpones legislative elections another year, marking 20 years without a vote - CBS News",
-      "summary": "Latest report from CBS News.",
-      "source_line": "LIVE • CBS News • Sat, 10 Oct 2026 14:08:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOVDlQaFVTdEV6TXhYd1VZMjJXMHZCdllxUjl2akVnb1pmb01aMFdDa2lkZWxxZGdzUGgtazdILUVUMHJqbmswYUJzdmlveFVfbDlDcDhoRnNVdnI1OVRncjdDeUNOcEl3cTBFdmwzS1g1dUFWd3hRVl9EdURGWkxDX0NLWDYtUmktcnlzMGJhdi0?oc=5",
+      "headline": "Homes and bridges swept away as fresh floods hit Nepal - BBC",
+      "summary": "Latest report from BBC.",
+      "source_line": "LIVE • BBC • Sun, 11 Oct 2026 12:03:52 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE53TWZ3b2FfbEg2VEIyOHVhNlNCODFZbEtGVzhsaXJtWnFEdm42S1F3X1pZZ2Q4eUl0cm5WUzRWZGRoRXd4ZHl0UnJ0MC1JQnlxTUpOaEJmTUhNemc?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -466,10 +466,10 @@
     {
       "id": "live-34",
       "category": "World News",
-      "headline": "Starving Ukrainians Are Risking Death to Escape Their Front-Line Town - WSJ",
-      "summary": "Latest report from WSJ.",
-      "source_line": "LIVE • WSJ • Sun, 11 Oct 2026 02:00:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOUnBDVkpnZ0tLNE1lVnNQV2dJMVMyMjBfV09kZEdLN1VqTHk2TDZYQXJQZUxycENwNUROUGp0UXdBdm1XUkRyY1FNYzJ3QXMweWV4dWxqTkUxM0c3X3RpTHJyUjRIVERUQ2x2WVVtdExRTGpDNE10Q3c0NzBucjlJUFVJMFdTMVBDLVRsMnNjQXNUZ2NmUEZQaFNuZ1BSdXN5bjhxaW9sMA?oc=5",
+      "headline": "Why is the US sanctioning the International Criminal Court? - Al Jazeera",
+      "summary": "Latest report from Al Jazeera.",
+      "source_line": "LIVE • Al Jazeera • Sat, 10 Oct 2026 15:46:05 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPT29SMHVPVGc5OUxjT2plSDN3ZkNLVTF6c25wSDZlZW5TcE5reTJTU0ZIUS1RTEdnTld6YjU1c2pnNE5NTTV2R1VVZ2R3VFdDWjVDVnJ5dTJTdHJyRC1XaWphTWtUdk01V2s5NUdrV04xdzJrVG52bkxKa2w1elJQcXdBcS1fRGlNSENIN2tTTFk2b2VNQ1o4bXFiaU5rRGJpOUHSAacBQVVfeXFMTmJPeDBjZjdYYklhY3VFYWQ1UmtjNGItczB3UVZaaEhfaEktY2VPbE5wcTA2UzlTRV9DZzNLb3c4ODM5Z2Mtc0lyVzkyNnhjYXVFQ0RwaWU2YUJHWmR3UmhNS3VQUE1ma29VS3kzSGJzd2t0RXZsVklOYV8yaWRjZXhONXRIcnR1aWdRMGF2WXBDeER6bGQzSFQ5VlYtZVlEMDZxMUlmVHM?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -480,10 +480,10 @@
     {
       "id": "live-35",
       "category": "World News",
-      "headline": "Pope Leo XIV rejects death penalty as attack on dignity of human person - Vatican News",
-      "summary": "Latest report from Vatican News.",
-      "source_line": "LIVE • Vatican News • Sat, 10 Oct 2026 11:31:27 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQbWcxT3dTZGJmeThXc2pTUDRfcENVU29HM2d3OEVkSUx1N3NTV3ZiWWtMeTFyc0IxVTZ1a3BzeW1sdTJCbkVDZVM2eXd6NFNCY3d6VHdSX1pGNVBCTnVnakhDYnVHQlF4LTFyRkphYWUxY1E1aTVHZDZtaEllVEZXNFJJM0R0S2NSTkRrM3hLZWVuZWtldDI3NlUwYVN3S0tIMU5RMUhFS1djc04yeklWOUMzaw?oc=5",
+      "headline": "Mahmoud Abbas postpones Palestinian legislative elections another year - AP News",
+      "summary": "Latest report from AP News.",
+      "source_line": "LIVE • AP News • Sat, 10 Oct 2026 18:19:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNV2M3dUc4WTQ4Q3IyNDY2bVg2ejJuZkR3NTlGdWluNzBpZmRtbFpPMlBFckpoVkZRMnViT2taZWp3UXl4MnhzSXkwY0t3UzhkckowUEN3NkRKWXlwbmYtN1RjUFZNTURROEVJc24xckxqb2VLVFktcG9ZcDNIRlJuVzhaWDJpeEMtaU9SdUh0UlVad29N?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -494,10 +494,10 @@
     {
       "id": "live-36",
       "category": "World News",
-      "headline": "Merz 'outraged' that German former Chancellor Schroeder attended Putin's birthday - Reuters",
+      "headline": "Polish security services meet after 'serious' threat to PM and defence minister - Reuters",
       "summary": "Latest report from Reuters.",
-      "source_line": "LIVE • Reuters • Fri, 09 Oct 2026 11:15:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNSkJPNm5tX2RPWlNIejIwMzFiSC1IVUY2RFNwNDNLS0QtbHI1TTY2UUU2U3g0V2I2LWx1RzZNUnJPS1RBaHg5b09tWTNXckNXOVo1MzRleVZrRGFmbFdSZE01NmxiS0dtWHVQOS14bHlaNktkOXNLOHNjREFXTzVCWmtQdkVTQWYyVkpMMHl0aDFkSXM5cmFHb0gxeGFGRXFJY3cyUW9mMWNqT1V3Szhzd3V1d25UNlA0R1R1Xw?oc=5",
+      "source_line": "LIVE • Reuters • Sun, 11 Oct 2026 12:05:11 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiwwFBVV95cUxQM3Zhb3YxM0h0Nm9Cd1E0Q3NNempnci1DZG9CMXNxdUx4TFJvSkwxRnAtZEdJT3BTTnZrMlROOE1JdjdlbXI2OGtGRlhlQXNLY0hKNnVIUHpQal9zcXF0cjd6TUFLUklFM0g5cUs5T3hWNHhPWlQ2Ni1fVkZJc1VBZ0JGX251MkV0Ty1SOTBRcl9ZeE5qOU5vbDhUUHhTMHVBVkJRZGNSMkZlVXNtSkJYMVpYX3JwRHpVRnp4VXBjanVlWFk?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -508,10 +508,10 @@
     {
       "id": "live-37",
       "category": "World News",
-      "headline": "Young men live in fear of being snatched off the streets and sold to Myanmar's army - BBC",
-      "summary": "Latest report from BBC.",
-      "source_line": "LIVE • BBC • Sat, 10 Oct 2026 22:13:08 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFB4MmxYWm1FelRja3I5ekpiODdGWHpEMW9La3YxYURFeVJjZk9vdGt1Ql8xU2lZRXFpRUwteVdZdHRIMDNjZWREbWltcUFNamJfY1AySjNoaVJMaUE?oc=5",
+      "headline": "Attacker in FlyDubai Flight Meant to Crash Into Israeli Airport, Emiratis Say - The New York Times",
+      "summary": "Latest report from The New York Times.",
+      "source_line": "LIVE • The New York Times • Fri, 09 Oct 2026 19:40:54 GMT",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQa2JORC1BeFNGdm9fZ01sVW4tM2t4c1FzMGlSZ2p2RnB0UHVsQURsc1J4dFRIZmZUeEJ0RWl5bDN3cDhkeWVSVldmc2phVzN1ZjNqbXloWGIzZFJqaGhpTG9oZFRJS01lSDVLVDY3d0JraXFwcGFGUnNtNThLVlowY0Rud2E?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -522,10 +522,10 @@
     {
       "id": "live-38",
       "category": "World News",
-      "headline": "Arrested German spy chief lashed out at his old agency over allegations he spied for Russia - POLITICO.eu",
-      "summary": "Latest report from POLITICO.eu.",
-      "source_line": "LIVE • POLITICO.eu • Fri, 09 Oct 2026 15:01:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQWEp3RG8xdGFwN1VfaWM2QVZiNVhuQTBCcW5WU2pqLS12V3dYSW1xWWpmY2paczVjQnJOT29hMWFNRjhWcHRoc3VJRE1vaE1kSDl4RTEyMXJBVHFMMWc5cUlNRlp5RS1heFh3TGlDNW1UdDVFY19qUVpselpBUEUzRFd3YUtTZWJGSmd3aGk3ajkxTm1OdUprLVBwVVRaSFg1dVdr?oc=5",
+      "headline": "Taiz hospitals near collapse as Houthis tighten siege: Yemen government - Al Jazeera",
+      "summary": "Latest report from Al Jazeera.",
+      "source_line": "LIVE • Al Jazeera • Sun, 11 Oct 2026 03:45:21 GMT",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNZlBOYUJoWnQtMXl0c0NPbG5yTUdJWFh1QjlQTkxMV3hCamcwUGczVUk1ZGhZNHFqMVFZVnAwTzJkWjhmSlFhY2pDRjN6OUdFamhKNmhVQWRMYnVSNjhPejdvX0pxR1M4VEtNc0p0QXJENy1IVUhMVzFNSzFfZHpQRGFaMDdVWHBvUHZXS0ZXUjVRYmo1U0lsUDRJVUhJMWZfdGtjYVBQdi05MW9WNUJCWHl30gG3AUFVX3lxTE5nSXZ0MmVOUm9BckpXNzJsb24yM0I1Z2xiOWwtQjRkNlptakNUR1E4T19Xc1FubFZjRjYzczJZd2E2Vm5UNTlkTFVhNVVNd0lxUDdxaEQtZFVlaEpOU0piaEVoNXJ2RW9ObXRfTlN4NTdBb1dGTHNOVWxSZTU3R2FuUTZzRVJOdkdVRjBPeHFkOC1LT0ZoekQ2ajhaWElxVTB5VkdaaFExR0FBVU1ZellRZUR0dmc5QQ?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -536,10 +536,10 @@
     {
       "id": "live-39",
       "category": "New York",
-      "headline": "Eyewitness News at 11pm - October 10, 2026 - ABC7 New York",
-      "summary": "Latest report from ABC7 New York.",
-      "source_line": "LIVE • ABC7 New York • Sun, 11 Oct 2026 04:46:51 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiT0FVX3lxTFBnRURWVFU0eDJ4MXVuSVNkNUIzNngtSVItVTRKX2tfbHpNWFR1Wk9CRHdwM1pWdzNYbGNXLTVhbjIwOTZRZGNOMC13REtUM2vSAVRBVV95cUxQTGU3Q3JYRzFBTU9BV09JN2xXSEw5alBEako4LWZodlc5SmxILTRzYVVjaVF1cWVRQ0hGdzN2SjY1UVIzbWI2cHlRaThkczc3OWZUV2M?oc=5",
+      "headline": "Renderings Revealed for Chrysler Building Renovations in Midtown East, Manhattan - New York YIMBY",
+      "summary": "Latest report from New York YIMBY.",
+      "source_line": "LIVE • New York YIMBY • Sun, 11 Oct 2026 12:00:07 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNUHY4ZFJwVHNjMndvWUlvUmEtTVpSR1Q1TVlWREFyYzlkWkxjRldaMHF5R1gzTWp6dkQ1QUo0ektialdmU2p5ejd5eWdzcF9Ubm9WNHZ0QW1KNXhhUjIyRGx5ZndEdEplR19tOEFpQXQ4cUhJMEFhN0FHZmZsOG1lajh2ZWJxQmJidWVBUDY5UkJ3LVVjZFY3QUJ1OVZZRFZlMUY0WUdxMnk2anhaTjZySGVxYlNaQ0gx?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -550,10 +550,10 @@
     {
       "id": "live-40",
       "category": "New York",
-      "headline": "New York proposes meters for pedicabs after probe finds hidden rates, unlicensed drivers - Yahoo",
-      "summary": "Latest report from Yahoo.",
-      "source_line": "LIVE • Yahoo • Sun, 11 Oct 2026 04:05:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPWFB3N1BLRUhOT09ZN2RLTEtKYmRkdHdRbGZHdWRzMzlLYzhZYXFCeTZnZExFNUEwUlVzbHhYODFTUnk0MFVUa2dYbHc1bTd4SUltQnNWY2NOcS1TMklBeGFiOWZKSWtLVEJPaDYtNzdiQ0R4dExfNlJIdTNHTHNkallnVEF3SG81T3JKcERMOVJLWHM?oc=5",
+      "headline": "Opinion | The Sex Scandal That Wasn’t - The New York Times",
+      "summary": "Latest report from The New York Times.",
+      "source_line": "LIVE • The New York Times • Sun, 11 Oct 2026 11:00:15 GMT",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxPRVQ5ZVNtMFNmZjJSaTJROUZlLTZTYTU5X0wzd1pCVzY4RENQWEpJbmxBenhDQUVyOUxsMHF1MklTbExKS1d3eXZ1eXl3d3p4dEVSYjhFbDJPRWloR214Q0Y2OFZFYjlrbE1EOHNQcFp5U1dlak4yb2Q2YXE4N3VNNkxnYw?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -563,6 +563,20 @@
     },
     {
       "id": "live-41",
+      "category": "New York",
+      "headline": "Families of 9/11 victims await key ruling in New York as truther conference is held nearby - The Guardian",
+      "summary": "Latest report from The Guardian.",
+      "source_line": "LIVE • The Guardian • Sun, 11 Oct 2026 12:00:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQMmRKdGNmVlA5d2pPYlZicDZwWVFwVWVZVTV6XzlUNS01c1FtXzNoSHRUeHN4NnZFMXkzMFpkVzNzTFZuaDAzRXo2d2xzaXVRVkNPT080b0lneWZseUVQMkFJSnd4V0lDdDBjUm03UFVIZW9RZnVBYzBzQTA3ZGFkRE5HVHNhY3BHYWc?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-42",
       "category": "New York",
       "headline": "Judge blocks deportation of Oscar Belgal after ICE shooting - ABC7 New York",
       "summary": "Latest report from ABC7 New York.",
@@ -576,7 +590,119 @@
       }
     },
     {
-      "id": "live-42",
+      "id": "live-43",
+      "category": "New York",
+      "headline": "Giants ‘didn’t flinch’ after emotional injury wounds that threatened to upend season - New York Post",
+      "summary": "Latest report from New York Post.",
+      "source_line": "LIVE • New York Post • Sat, 10 Oct 2026 20:42:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxPd0UwVU1UVWM3NENUZnZKTkpDTGtBZURYVHFqMG0tWHBDV1NoT3BnRm41VFFwdjRBd1FyUmxVTUNLckpmS0drc2JZMWdyVXVKQk5aek8tRnhSbU5yT3UxOU9nZEZmcDdIZGcwa0ozRnZhZmR3RkdHTlpiTnpaNEJHNnZtdzYzUzJIYldybU5lM2k?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-44",
+      "category": "New York",
+      "headline": "New York Giants scouted Penn State-USC, Florida-South Carolina - Yahoo Sports",
+      "summary": "Latest report from Yahoo Sports.",
+      "source_line": "LIVE • Yahoo Sports • Sun, 11 Oct 2026 11:55:34 GMT",
+      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQdm5KTk00YU5YREhLUl9qaW43a0VscUJ3Q2NSc1pjT2FQd1ozeTZEb0VjandMdGZqSFJtcURTQ05QMjduY0lWZ1RzZ196Q3ZHWXVhSXVJaHJzbDdELURqSDUwN0JqNF83RkJIUnE1RDBwSV9IR3BXUk9Zb0pzRnFNTWxDQkhMdw?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-45",
+      "category": "New York",
+      "headline": "Roster moves: NY Giants put Chauncey Golston on IR, elevate two from the practice squad - Big Blue View",
+      "summary": "Latest report from Big Blue View.",
+      "source_line": "LIVE • Big Blue View • Sat, 10 Oct 2026 21:09:25 GMT",
+      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPLTFFR0NpcXhBUmVXSTBwaWgxdGphQ3RRTzNkdzdIOVBPV0JWNXdFS3dFQ0FJTnVwakw5NUJxSHNvWlNZUFdVdnpyenR3Y0ZGLXRjNnVzTzhoNV8xaXdfUUxUeFdHRjRZNk9jc3FkOVdpcTFMOGdCVWlld1lVWWJsTUJ1U3R4MzVCNVp5STJuMU55MGxvSjVpUnVxRHlIUEE5alB4YzY4MG5qQktxTFQzSmMzRkRocDBqNnRFa3J1X1E4cjhoYjh1ZVVzTnkyZmVfWXlrNlRYSTBfMUE?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-46",
+      "category": "New York",
+      "headline": "Mamdani snubs Brooklyn Columbus Day Parade, ghosts Queens organizers: ‘slap in the face’ - New York Post",
+      "summary": "Latest report from New York Post.",
+      "source_line": "LIVE • New York Post • Sat, 10 Oct 2026 20:44:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPYUEwVlNURl9CNnVRajB6djFaSU5pRTFnQlBJa0p2Y0hBUjhNMmN3RzBTX2dWdDF0QXYzcFhKcnByS1hiVXNCbk9lNWpqM3ZUbGlYMVFzaE1mRkpDUTRaX2xfVnVCcWNSZXBNV0c2bmZIUWJmRk1QVkF3WDg5d0pZbnVtQ1A5dHhnWHJuZEF3UGhMZ0ZDUDFtSEhaREo3dVVGMGdqN1g4UU1Sdw?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-47",
+      "category": "New York",
+      "headline": "Mayor Mamdani Launches NYC Mental Health Connect, Helping New Yorkers Find and Access Local Mental Health Services - NYC.gov",
+      "summary": "Latest report from NYC.gov.",
+      "source_line": "LIVE • NYC.gov • Fri, 09 Oct 2026 17:10:25 GMT",
+      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPelR4RE1FeERkcDA5ZzNHY1VDUW84SzJIWEw3R3RhVHRGZHRuck9rUWNkV2U2bk5IOWpiOEN2T2JHZ2JiRmVFOU9qbTZqeFF4UF9oM2NwY3ljMmpfTklGOUV2dnRzcXM0UkhQT2s1bGUxX0tKOER1Y0dhM3dVcTVoV215UFFhOW5mWFJTalBuVjVjQ2h0OGROUDVkYUU1SEdSVGk1Tm1weWdqNVBoN0JLMw?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-48",
+      "category": "New York",
+      "headline": "Opinion | Zohran Mamdani’s Moral Obscenity - The New York Times",
+      "summary": "Latest report from The New York Times.",
+      "source_line": "LIVE • The New York Times • Fri, 09 Oct 2026 18:07:42 GMT",
+      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBmVEw4Nmc5T0d5M2RUcWk3cEs4VEpPRnZScjRaay0weDkzNUhnd3VOMS0xeGdSa2FXWk9XSkwyVlJCVnRQcEV6Y2tTZUUycjQ5Y0hHVmFSZkNNWVo1QkhTbmtKbmFtN1hwUFJHTmJaOE8yOFBkYjFaZXl2bC1MQjQ?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-49",
+      "category": "New York",
+      "headline": "NY Rangers Need To Keep up Stellar Performance in Key Area Without Igor Shesterkin - Sports Illustrated",
+      "summary": "Latest report from Sports Illustrated.",
+      "source_line": "LIVE • Sports Illustrated • Sun, 11 Oct 2026 10:00:01 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxOOFNaNkVDbThpWUlKN1FJN0g3UGVmb1FjUFdJYnlqMkQyZHVMV1dnV09NZEdVRF9mYUN0MjQ2MDZkRnhWNHRGRjRvTEctb1I1b05yd2V1NVR0M2ZMU29RWmU5Xy1SWUVaZHFYZmpxd0FxU1dZUUJoSG5nWnFEU18wdXV1ckNwc2lLWEFwMXJNTzZMeWlhdTEzVGdrVElidmpxR1JGckhJOGRJOFJZVlp0c2FaaEpxa2dWMFQ4dlRzZzE?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-50",
+      "category": "New York",
+      "headline": "New York’s miserable 2026 injury bug inflicts the Rangers at the cruelest time - New York Post",
+      "summary": "Latest report from New York Post.",
+      "source_line": "LIVE • New York Post • Sat, 10 Oct 2026 21:51:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOSG9TT21RZ1U3ZjMxazRqbmZXclNLU1Iwc0l4eUNVTE5wRExxMkktenIzNmhCRXZULUNHNUJxZmVHS2ZHTnptbEJKMlplUzBZTy1TZWo2QkFQUC1NVlhHNWtpRGg3NVFkR0pUT3l0YzNNSDFLSmFxajd4ZlRrZ2hab1k3dmdFZ2lyaFoyYjhhcnh6aWtWcEpMYVRLUkFxMEp4ZnEzUXBB?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-51",
       "category": "New York",
       "headline": "New York Rangers goalie Igor Shesterkin out for season with lower-body injury - The New York Times",
       "summary": "Latest report from The New York Times.",
@@ -590,138 +716,12 @@
       }
     },
     {
-      "id": "live-43",
-      "category": "New York",
-      "headline": "NY Rangers’ New Trade Target Emerges After Brutal Igor Shesterkin News - Yahoo Sports",
-      "summary": "Latest report from Yahoo Sports.",
-      "source_line": "LIVE • Yahoo Sports • Sun, 11 Oct 2026 00:42:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxPby1MT1o3LUg4YkR3a2o3amtKV3l3amFLUEVfS05wdVUtVnBzRkZQOUVfanotWVlaaURfbHZDRERMTTJyZDZYS2VjLVZHVmxZRFRvZi1HMmhOVUVSUy0wenVyMGxOejktZzhsYzlFcDQyQUZZcGdiRWxYYnI1Rk5mU0NYMVc1Tmc?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-44",
-      "category": "New York",
-      "headline": "An NYC Curse: Rangers top goalie dragged off ice as New York sports nightmare deepens - Fox News",
-      "summary": "Latest report from Fox News.",
-      "source_line": "LIVE • Fox News • Sat, 10 Oct 2026 02:15:42 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQNkhxeFhZQjNQYUktbThfRGlkWTdkSGxZMm1mRzZkNEJxSGhNNUUxU21YN3A1Tzh6TTZDcHZudFh1NnFtS3c1YjY3UWo2OURyVk5JSy1HVmluT2tKUEtWVWJvUFFqRFU3dnFOa0lJNVlXdFYwYUJTTHRmbWM0UkF6Q05XWU5HWmFiTlNQaFYxZkVqNXNHVk1VaFVnYmNSNWNnUjVORHBMdWFRdDhCRkR3OEF4ZHZ5TVhE?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-45",
-      "category": "New York",
-      "headline": "2nd accused Cornell student wants New York AG removed from Jane Doe case - ABC News - Breaking News, Latest News and Videos",
-      "summary": "Latest report from ABC News - Breaking News, Latest News and Videos.",
-      "source_line": "LIVE • ABC News - Breaking News, Latest News and Videos • Fri, 09 Oct 2026 19:05:23 GMT",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQRWVLNHZOWEZlZE9JUzhXRy1PaG9BdFNVMVIxU3ozOWM2UmNwcXdvRnd3d0ZMaW9VUi1Rai1YS3oyLUFvY2kyUl84WXZuQ0xBUmdkN1l2VlVncGdtcGVrMGhwaExKTnpROVdYaGF6QUVwbkZvN2pyQTk4UFowZzhkbE02X09xRS1ZREpPSnJLbnpQM0nSAZgBQVVfeXFMT2htNHVZMVRMQ0RnZ2JLc2JkN0VXZWtWSEM0MktKSU82blNmdktrb1BVanR2QVcxeGdhRGRMRTI2dnNlaFFveEdqdlp2TzNDTHBEc3NsQ2NNVjB4bEtjVEpaQnlIZHI2Nno1bVZ2NXk2MlA0NGVkUU5wUnpJbEh2NDRUbEJJVWl2Yk1Qd2xXcTlDNDh0SzhwdDQ?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-46",
-      "category": "New York",
-      "headline": "How Cornell University Chi Phi Fraternity Members Responded After Rape Accusation - The New York Times",
-      "summary": "Latest report from The New York Times.",
-      "source_line": "LIVE • The New York Times • Sat, 10 Oct 2026 18:39:23 GMT",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNUVRNMTJmQVYwZGhxN083Sk90empIVkMwM09BNFpTQXhDbnJWUDFsbHRINzVFY2pRRXV6ZVZnY0R5S21pcDdoM3puZVN1MWYyOFNqUmhlRVNBeVpsVmkyQV83N05tOEpNMm9PZFBRcDBacnBGMlcyQ252X1lNQ25UMDVlbGlEVUFYeVEzNjFMbW9GQ2c?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-47",
-      "category": "New York",
-      "headline": "At Cornell, a Sorority Finds Itself Sued by One of Its Own - The New York Times",
-      "summary": "Latest report from The New York Times.",
-      "source_line": "LIVE • The New York Times • Sat, 10 Oct 2026 07:00:13 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxOOXQ1eW53TzZ3QzlOb2tFSUpDUmk0ampWY0tYc2cyNG9YTzd1TFRBZjZiRWpEQ3NtaUZnektUU0JOWXdWV1FOSFZmd1A2d1dxbHlXQ2tURVRWaWhFSEdKTHk2aXR3eGFrZTkzR2paSDltd3cyN2xzVXZta0xHVDZUX203VW1DeWtBa05NN2hKY3Fsa2tGMy1INDB6dVRKdmJ2VDAzc0lGdEo4dw?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-48",
-      "category": "New York",
-      "headline": "New York Giants mailbag: Roster help, Tae Banks, J.J. McCarthy, Bryan Hudson, more - Big Blue View",
-      "summary": "Latest report from Big Blue View.",
-      "source_line": "LIVE • Big Blue View • Sat, 10 Oct 2026 12:00:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxOUG5RMFJ5M0tqa0hPdVozc2VtS2hFdGlMOVVjR1ZTemtLbHB0cGlmbDZhVDBVNHhLWnNNVjRTeVR3R240OHJuREFabVR2SlQ1SHlvbnVPajJjdWdoT3ZqeVIxRUdsc1dNZnN2ZUN5aXFRME8tLUJPR241UkJCRUpkRVFXRlQyaTFYTEFaZ1N4c1N1NERNNTh0T21VWmVjOHd6U3hCM003a0tJb3o0c0kyMlduMFVSQlRzb0xDOG1NckpFbGlLemkzQm9ZdUtfdjlQUEpJMQ?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-49",
-      "category": "New York",
-      "headline": "Mike Ditka, Fiery Coach of the Chicago Bears, Has Died - The New York Times",
-      "summary": "Latest report from The New York Times.",
-      "source_line": "LIVE • The New York Times • Fri, 09 Oct 2026 15:27:55 GMT",
-      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1SZkdiUWNBbkY1MnJOOGpEVFdkTFkxQ1ZFY2ZCdzNEQTZ4a2pKR2tnRFNIdF9iWXRmYmJTbTcxYzM3ekdTLTA4MUhuV3pnMVJaU0pUaG9Kd2szdkJUTGRQWmE5bWRoVUtQQUdxU015QQ?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-50",
-      "category": "New York",
-      "headline": "Three Things I’m Looking at in the Jets vs Browns Game - Gang Green Nation",
-      "summary": "Latest report from Gang Green Nation.",
-      "source_line": "LIVE • Gang Green Nation • Sat, 10 Oct 2026 18:51:34 GMT",
-      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxONUVZM1JKZWJsQi03elBBS3VDRFNCMEFmUVhFcnNzbEJzZGl2cWVCdGtKRVZCNmdWZFZoVTVBcUh1dFRxV29VWGw1ei1acGw5a080UV9hTVlQVDJxNmo2ZHZXblJ2SW5rWHVZc0h6NGpnMGFqNXp0WDJUM3lWdGdrQUgxdnQwcnB0UTJJek84eDE1RF9kTm0tVmQzQy1PRkJ2MHBfLUJYNTRDNHc0YkRqS1BwV1U?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
-      "id": "live-51",
-      "category": "New York",
-      "headline": "New York Liberty's search for answers, identity ends in WNBA semifinals as team faces uncertain future, coaching questions - Yahoo Sports",
-      "summary": "Latest report from Yahoo Sports.",
-      "source_line": "LIVE • Yahoo Sports • Sat, 10 Oct 2026 06:29:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxQVDN0VlN6VF9ueU5TTzJkc1VlenB3ejdiQUk2alFNYmJ1ZDlpNnlHLUE0d1JyT1pwNmNoNm1EQ0hBd25OMHNrMzlNNm8xNWh1REl4bE55dFN2N3g4WTRwZ2NxZ0pLd2xZUFNja0RhOHBKbmpscGJyWGFqOEpjMmNpT1h0VXVQMHFhX3hxblcta09FWGZKWWd2Z3FwdG5hZ2ktMDVpdmF1R3ZlMDVaMEltVUVscE4zMjBZbk5iZVRSa2lELTd4ZHlXQ1JHUkhlaHo4WS1hSjZWTVRUOHV6MWNDZFRIZ2pTS3lMSkxodjB5LTlaRTBXRGFZX1pyZGY3aXdHN3c?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
       "id": "live-52",
       "category": "New York",
-      "headline": "Angel Reese powers Atlanta past New York into first WNBA finals since 2013 - The Guardian",
-      "summary": "Latest report from The Guardian.",
-      "source_line": "LIVE • The Guardian • Sat, 10 Oct 2026 02:10:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPTi1VWGp0UjZwQjZaam5uMG9VMFJuOFR3WFh1SFRmclljY043UVF3UEFjR0MxRFRmQzJNR3ppdVFGZ0ltWmY2cFdINVNwdzlqNmsxWnFhd0dSNmNkeS1LMUJWTjl0UXhod0ZBMG1TS0ZvblU5dUl6M0ZxeUlzY2lvMG40c0JSN0lIVmNMZE5LSEpCamd5eElCMFBCVmd5THpxQkhMbV9wQ0NRS1RYWXVzdw?oc=5",
+      "headline": "NYCC 2026: All the Star Wars News and Reveals from New York Comic Con - StarWars.com",
+      "summary": "Latest report from StarWars.com.",
+      "source_line": "LIVE • StarWars.com • Sun, 11 Oct 2026 02:28:56 GMT",
+      "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE1kLVd3Vi1KN1FwdjBuaFowOGlYRkl6N21FR1dQVTU3UTFrY0FzQ2Q2MlhDdVpNa3RqTEV1TkxIWkdoUzZqdGZkaldBeVNHZnVzVGpzeE9qNVNqNWNUTEpfZkRNMA?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -732,10 +732,10 @@
     {
       "id": "live-53",
       "category": "New York",
-      "headline": "Atlanta Dream headed to first WNBA Finals since 2013, eliminate New York Liberty - The New York Times",
-      "summary": "Latest report from The New York Times.",
-      "source_line": "LIVE • The New York Times • Sat, 10 Oct 2026 06:58:49 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQRGdZR1lMUjU5VnR5Q3BaMzhOMjJfZzNvWXE1aDJVMW4wRGlvcVlldnZBOEFzQk5SbkZ6cmE1ZDZsQnJid2Z1ZTBTSGtXdmVhY2VSbldfT0NJSHRDYlhvMzd4clpuZ3BTb09YbFJzS2kwbENvT0hleWJ1TGdPVzM1NzZQT3ZOMmhkbVE?oc=5",
+      "headline": "Tom Welling Joins 'Smallville' Co-Stars at New York Comic Con After Accidentally Posting Racy Photo - Just Jared",
+      "summary": "Latest report from Just Jared.",
+      "source_line": "LIVE • Just Jared • Sun, 11 Oct 2026 03:24:04 GMT",
+      "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxPWnB5M0Y4QmI4WDN6TU5BNVF2SDBnenlva3p6X1lYTkxJbVVPNjdPMlpLcFViZ3RjQ09nRk1naUJXQzlFdzlOUEQtZnhaal9xYzUxbEtLeVo1aHpncVJHbHRmMmk1eHNsNmNWTHk1ZGJPWG8zcktNcUNxcjFTd3B4amhDdUxXa29GRVVZU0JhVFFBNFlhQi1FUDlJMVBFTFY5bGkxLWpQd3dzd3czTTMxbVoxamJGYlE1Q28yeVZ0WEl3SXVfVW1Ya1B5RGJ3VWVo?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -746,10 +746,10 @@
     {
       "id": "live-54",
       "category": "New York",
-      "headline": "What We Know About the Man Shot by ICE - The New York Times",
-      "summary": "Latest report from The New York Times.",
-      "source_line": "LIVE • The New York Times • Fri, 09 Oct 2026 23:58:42 GMT",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQVkdkbDZ3WXowMkFNTzlSWHlvaGFUa2VweE9WLV9KMkQ5bm1sc1BOZkFSV2tpeklhd2VPZ01Oc2NjaC1FeC14VXU5RjBBS0Nfakk0a29IcXZlV0gzUWNlOWlwaUFVUm9sVzgwTC10eC1ocFhiZU1aY0RabVNHSTZ4ZEwxeFE?oc=5",
+      "headline": "All the Spider-Man Comic Books Announced at New York Comic Con 2026 - Marvel.com",
+      "summary": "Latest report from Marvel.com.",
+      "source_line": "LIVE • Marvel.com • Sat, 10 Oct 2026 20:47:16 GMT",
+      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxORnpySmZ0NVpOMkpIM0g4VXF5NWx3VVhGRlBPeEZrTXhxb2YzVVphb3pqRE1PVHF6bnQyYlM5b3V3TDlDRkh2aUlydi1TNmdVUXNEWVppRmQ2eUxwd0ppbi1qRDRpZTBKa0lOUHRfVjlkZXVOVHMtZlZFSUxVSks1S2VtNDNzQUgwYWE0YUFRTjNFaGY0YWVpN25JSWhVajBtYzkyYWo4Q0ZSNEFrZjFjQ2lnbUFKTlBHbEFUMmJiRThGVGozNE9B?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -759,6 +759,20 @@
     },
     {
       "id": "live-55",
+      "category": "New York",
+      "headline": "New York City man shot in car with child present by ICE agents, mayor says - Reuters",
+      "summary": "Latest report from Reuters.",
+      "source_line": "LIVE • Reuters • Sat, 10 Oct 2026 01:08:07 GMT",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPTGstcXViclZRYnU5UEVHU3NzRzNILVJDTERtQXVyNHpwalQ1WXlTdVNjREJIYmxtNTdPSXJrSDdRNzBnUDB5am5WcEtsSjh1dXI2Zk1LQVNGOXEtUEdDaU9SWllISkNSdE5PQWoxOVRlazI1UDk0bld3V3MzOXV5d0dQMHE4bjFMczVQRTNDUVJpd2o3NjJRUTRIVDUxWUJuWlVnaUZUSEotRE5BRmkwazluS3VlMUZUSUFKWEVwUQ?oc=5",
+      "image": "",
+      "reflection": {
+        "verse_text": "Seek peace and pursue it.",
+        "verse_reference": "Psalm 34:14",
+        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
+      }
+    },
+    {
+      "id": "live-56",
       "category": "New York",
       "headline": "'Criminal illegal' migrant shot by ICE terrorized NYC apartment building with machete: 'Menace to society' - New York Post",
       "summary": "Latest report from New York Post.",
@@ -772,26 +786,12 @@
       }
     },
     {
-      "id": "live-56",
-      "category": "New York",
-      "headline": "Mamdani Demands Trump End ICE Operations in New York After Shooting - Time Magazine",
-      "summary": "Latest report from Time Magazine.",
-      "source_line": "LIVE • Time Magazine • Fri, 09 Oct 2026 14:29:42 GMT",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxONGF1bFlsNVczaU1rX2VEazhtTEFTMWVNQ3ZvdXVzT1RNMUd1VGdvLXNpNmNlTTVhQUVsQUNGWm5ZYmRlOVk0WlNSZXdtZ0hPYWxCS0NTcmFBbi1wQXZUcFlVTmlaSEhjbC1KLUpHazZlNnRGcUl0VFFuc3ItNWVCZ3E5Z2cyTDZ2VG9wX21OX203S2c?oc=5",
-      "image": "",
-      "reflection": {
-        "verse_text": "Seek peace and pursue it.",
-        "verse_reference": "Psalm 34:14",
-        "message": "Even when the news is difficult, we can answer the world with truth, compassion, responsibility, and a commitment to peace."
-      }
-    },
-    {
       "id": "live-57",
       "category": "New York",
-      "headline": "5 people spotted climbing out of manhole in New York City; no arrests - ABC News - Breaking News, Latest News and Videos",
-      "summary": "Latest report from ABC News - Breaking News, Latest News and Videos.",
-      "source_line": "LIVE • ABC News - Breaking News, Latest News and Videos • Fri, 09 Oct 2026 14:31:59 GMT",
-      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxPT3JJTUUzVVg0R1JmdmVxb0FzTGRKWTlsQV94Vl81RlBSOHgzdG9zSFI4ZGxtM2FaZHpXbXdOZ2RqY1ZZbi1uREk5N24tdHJNNE9wdEo1OHNlWDJxRXQ5RlBQRFBGMjlHdHF1dUZVQXNnMEFhMm5DS1RkYzR5dDlnT3JXTFl6ZWNhemo1V252R3RsUGFP0gGaAUFVX3lxTE1zSnhyekRnS1hBNERZWHl1UGlVS3RvVWJtczgwV3F2Yk5jaEhmNVJkVFMyWEtjNkxialJRMmJTYUxTYUs2SWJOMGlzMDFyNzZVcXZhSmlnTHFBVXBidlhXMDMycGRRekYzT3VFTTExTGdfM0JDNGU3MlMxZ2gzMjdlbEdhREF0YXhqNWlCNjJhcmYwQ3VKbUZ6WVE?oc=5",
+      "headline": "Man dies as fire tears through Staten Island apartment building - New York Daily News",
+      "summary": "Latest report from New York Daily News.",
+      "source_line": "LIVE • New York Daily News • Sun, 11 Oct 2026 13:26:34 GMT",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPWkZJaVdicDdxMlNUUk10X0lMTkJucUZSdlFDekExZ3kzNkkyU04ySGJwZzNYNUlJZk1IODJXbHdoOEVJNkpDV0tNSTEtVmhHdjdQTHJPbE9PYVd5VGJIdS14czRQZXdtQTI2SlZVNEIyMGpxMTh2T0NkbmxxUnhYOXRETXZVT0pQUVlRS3dJT1pyaUFmbkhEU012dTd2WDhBOEJ6UWd3?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
@@ -802,10 +802,10 @@
     {
       "id": "live-58",
       "category": "New York",
-      "headline": "I moved my family from Australia to New York City 12 years ago. It's led to some very expensive regrets. - Business Insider",
-      "summary": "Latest report from Business Insider.",
-      "source_line": "LIVE • Business Insider • Sat, 10 Oct 2026 18:13:00 GMT",
-      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPbi1nNjdZTEZCUHBwZzZ1MVlLWlByenEtdldSYlhTNF9MYmI5QU9sd2JJbHlXenNqbmo1MmdwTGxMZ1JqTU40X3pXcVl3cVNCYzhaeFBwa0gwdEFCNVJyb0FpdnEzZmYxMEJsbG9sX25RZWZRWkRCM3BBVjhHZTR5WThpNVRESVowV0czb1BGaGE5UEt2OExaMU1NRUpOdlM2QjlN?oc=5",
+      "headline": "Kelly Clarkson Blasts New York Store Over 'Pretty Woman Moment' - Yahoo",
+      "summary": "Latest report from Yahoo.",
+      "source_line": "LIVE • Yahoo • Sun, 11 Oct 2026 08:50:00 GMT",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNMWFra2NtMVg2ZnZya0N1SkY5bndUWjdKVXMyZGNtS3huaUw5RVJSOTZwQzNlUDlxUlY2bWFZeGpCUzV0MVl4SFhxT1FxU0I5TDZLQVRGME1DSDZiRVEyY2hoSm9vdUFpUnUzbTZyM3dXbU4xT1p2MXF2STR3OXlMVTIxWTJyMmhzdDJoSnpySVJsNjdk?oc=5",
       "image": "",
       "reflection": {
         "verse_text": "Seek peace and pursue it.",
